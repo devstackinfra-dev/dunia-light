@@ -1,0 +1,670 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { listProducts, saveProduct, deleteProduct } from "@/lib/db/products"
+import { createHeroSlide, listHeroSlides } from "@/lib/db/hero"
+import { getSetting, setSetting } from "@/lib/db/settings"
+import { Product } from "@/types/product"
+import { Lead } from "@/types/lead"
+import { ProductCard } from "./ProductCard"
+import { ProductForm } from "./ProductForm"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Plus, Car, Briefcase, Package, Layers, RefreshCw, Flame, TrendingUp, DollarSign, Target, Clock, Sparkles } from "lucide-react"
+import { motion } from "framer-motion"
+import { THEME_TOKENS } from "@/theme/design-system"
+import { MetricCard } from "@/components/ui/card-variants"
+import { useToast } from "@/components/ui/toast-simple"
+import { BRAND, termo } from "@/config/brand"
+
+interface ProductManagerProps {
+  leads: Lead[]
+  setActiveTab?: (tab: any) => void
+}
+
+export function ProductManager({ leads, setActiveTab }: ProductManagerProps) {
+  const { success, error: showError, warning } = useToast()
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const [view, setView] = useState<"list" | "form">("list")
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null)
+  const [viewingProduct, setViewingProduct] = useState<Product | null>(null)
+  const [suggestedProduct, setSuggestedProduct] = useState<Product | null>(null)
+
+  const itemLabel = termo("catalogo")
+  const itemSingle = termo("item")
+  const itemPlural = termo("itemPlural")
+  const IconComponent =
+    BRAND.vertical === "juridico"
+      ? Briefcase
+      : BRAND.vertical === "catalogo"
+      ? Package
+      : Layers
+
+
+  // Load products from Supabase
+  const fetchProducts = async () => {
+    try {
+      setLoading(true)
+      const list = await listProducts()
+      setProducts(list)
+    } catch (e) {
+      console.error("Erro ao carregar veículos:", e)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts()
+  }, [])
+
+  // Calculate dynamic analytics per product
+  const getProductInterestStats = (name: string) => {
+    const matchedLeads = leads.filter(lead => 
+      lead.itemInterest?.toLowerCase().includes(name.split(" ")[0].toLowerCase()) ||
+      name.toLowerCase().includes(lead.itemInterest?.toLowerCase() || "")
+    )
+    const convertedCount = matchedLeads.filter(l => l.status === "converted").length
+    const conversionRate = matchedLeads.length > 0 
+      ? Math.round((convertedCount / matchedLeads.length) * 100) 
+      : 0
+
+    return {
+      leadCount: matchedLeads.length,
+      convertedCount,
+      conversionRate
+    }
+  }
+
+  // Find Top Performing Products & dynamic leads growth
+  let topProductName = ""
+  let maxLeads = 0
+  let topConvRate = 0
+  let topConvProductName = ""
+  let maxMonthlyValue = 0
+  let maxMonthlyProduct = ""
+
+  products.forEach((car) => {
+    const stats = getProductInterestStats(car.name)
+    if (stats.leadCount > maxLeads) {
+      maxLeads = stats.leadCount
+      topProductName = car.name
+    }
+    if (stats.conversionRate > topConvRate && stats.leadCount > 0) {
+      topConvRate = stats.conversionRate
+      topConvProductName = car.name
+    }
+    const val = car.monthlyPrice || 0
+    if (val > maxMonthlyValue) {
+      maxMonthlyValue = val
+      maxMonthlyProduct = car.name
+    }
+  })
+
+  // Calculate real monthly growth rate of leads
+  let monthlyGrowth = 0
+  let growthDescription = "Captação de leads inativa"
+  
+  if (leads.length > 0) {
+    const now = new Date()
+    const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1005)
+    const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1005)
+
+    const currentMonthLeads = leads.filter(lead => {
+      const date = (lead.createdAt as any)?.toDate ? (lead.createdAt as any).toDate() : new Date(lead.createdAt as any)
+      return date >= thirtyDaysAgo && date <= now
+    }).length
+
+    const lastMonthLeads = leads.filter(lead => {
+      const date = (lead.createdAt as any)?.toDate ? (lead.createdAt as any).toDate() : new Date(lead.createdAt as any)
+      return date >= sixtyDaysAgo && date < thirtyDaysAgo
+    }).length
+
+    if (lastMonthLeads > 0) {
+      monthlyGrowth = Math.round(((currentMonthLeads - lastMonthLeads) / lastMonthLeads) * 100)
+    } else if (currentMonthLeads > 0) {
+      monthlyGrowth = 100
+    }
+    
+    if (monthlyGrowth > 0) {
+      growthDescription = "Crescimento positivo de leads"
+    } else if (monthlyGrowth < 0) {
+      growthDescription = "Queda no volume de captação"
+    } else {
+      growthDescription = "Volume de captação estável"
+    }
+  }
+
+  // Open Form for Creation
+  const handleAddNew = () => {
+    setEditingProduct(null)
+    setView("form")
+  }
+
+  // Open Form for Editing
+  const handleEdit = (product: Product) => {
+    setEditingProduct(product)
+    setView("form")
+  }
+
+  // Delete product doc
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Tem certeza que deseja excluir este veículo do catalog?")) return
+    try {
+      await deleteProduct(id)
+      success("Veículo excluído!", "O veículo foi removido do catalog.")
+      fetchProducts()
+    } catch (e: any) {
+      console.error("Erro ao excluir veículo:", e)
+      showError("Erro ao excluir veículo", e?.message || "Tente novamente.")
+    }
+  }
+
+  // Save product data
+  const handleSave = async (productData: Partial<Product>) => {
+    try {
+      const slug = productData.slug?.trim()
+      if (!slug) {
+        showError("Erro ao salvar", "O slug do veículo é obrigatório.")
+        return
+      }
+
+      await saveProduct(productData, editingProduct?.id)
+      success("Veículo salvo!", `"${productData.name}" foi salvo com sucesso.`)
+
+      if (productData.featured === true) {
+        setSuggestedProduct({
+          id: slug,
+          slug: slug,
+          ...productData
+        } as Product)
+      }
+      setView("list")
+      fetchProducts()
+    } catch (e: any) {
+      console.error("Erro ao salvar veículo:", e)
+      showError("Erro ao salvar veículo", e?.message || "Tente novamente.")
+    }
+  }
+
+  const handleCreateHeroSlide = async (product: Product) => {
+    try {
+      const slides = await listHeroSlides()
+      const order = slides.length + 1
+      
+      const newSlide = {
+        active: true,
+        order,
+        title: product.name,
+        glowTitle: "DESTAQUE",
+        subtitle: product.shortDescription || product.fullDescription || "Conheça as condições especiais de locação.",
+        ctaText: "Conhecer Catalog",
+        ctaUrl: `/cadastro?itemInterest=${encodeURIComponent(product.name)}`,
+        image: product.thumbnail || (product.images && product.images[0]) || "",
+        views: 0,
+        clicks: 0
+      }
+      await createHeroSlide(newSlide)
+      success("Slide Hero criado!", `O slide para "${product.name}" foi adicionado com sucesso.`)
+      setSuggestedProduct(null)
+    } catch (e: any) {
+      console.error(e)
+      showError("Erro ao criar slide", e.message || "Tente novamente.")
+    }
+  }
+
+  const handleConfigCampaignBanner = async (product: Product) => {
+    try {
+      const currentSettings = await getSetting("landing_settings", {})
+      
+      const payload = {
+        ...currentSettings,
+        showCampaignBanner: true,
+        campaignText: `Destaque: ${product.name}`,
+        campaignSubtitle: product.shortDescription || product.fullDescription || "Aproveite a diária promocional.",
+        campaignBtnText: "Quero Alugar",
+        campaignBtnUrl: `/cadastro?itemInterest=${encodeURIComponent(product.name)}`,
+        campaignImageUrl: product.thumbnail || (product.images && product.images[0]) || "",
+        campaignTemplateId: 1,
+        campaignImagePosition: "right",
+        campaignImageSize: "md",
+        campaignImageAspectRatio: "video",
+        updatedAt: new Date().toISOString()
+      }
+      
+      await setSetting("landing_settings", payload)
+      success("Banner configurado!", `O banner principal agora destaca "${product.name}".`)
+      setSuggestedProduct(null)
+    } catch (e: any) {
+      console.error(e)
+      showError("Erro ao configurar banner", e.message || "Tente novamente.")
+    }
+  }
+
+  const handleGoToCampaignsExport = (product: Product) => {
+    if (setActiveTab) {
+      setActiveTab("campanhas")
+      setSuggestedProduct(null)
+    } else {
+      warning("Ação não disponível", "Navegador de abas não configurado.")
+    }
+  }
+
+  const handleScheduleCalendar = async (product: Product) => {
+    try {
+      const calendarEvents = await getSetting("calendar_events", [])
+      
+      const todayStr = new Date().toISOString().split("T")[0]
+      const newEvent = {
+        id: Date.now().toString(),
+        title: `Campanha Destaque: ${product.name}`,
+        date: todayStr,
+        category: "Veículo em destaque",
+        color: "violet"
+      }
+      
+      const updatedEvents = [...(Array.isArray(calendarEvents) ? calendarEvents : []), newEvent].sort((a: any, b: any) => a.date.localeCompare(b.date))
+      await setSetting("calendar_events", updatedEvents)
+      success("Agendado no Calendário!", `A campanha do veículo foi registrada para hoje.`)
+      setSuggestedProduct(null)
+    } catch (e: any) {
+      console.error(e)
+      showError("Erro ao agendar no calendário", e.message || "Tente novamente.")
+    }
+  }
+
+  return (
+    <div className="space-y-8 select-none">
+      
+      {view === "list" ? (
+        <div className="space-y-8">
+          
+          {/* Header */}
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+                <IconComponent className="h-5 w-5 text-sky-600" />
+                {itemLabel}
+              </h2>
+              <p className="text-xs text-slate-500 mt-0.5 font-semibold">
+                Gerencie {itemPlural.toLowerCase()}, detalhes e acompanhe o interesse dos leads.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Button 
+                variant="outline" 
+                onClick={fetchProducts} 
+                className="border-slate-200 hover:border-slate-300 bg-white text-slate-500 hover:text-slate-700 h-10 w-10 p-0 shadow-sm"
+              >
+                <RefreshCw className="h-4.5 w-4.5" />
+              </Button>
+
+              <Button 
+                onClick={handleAddNew}
+                className="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs h-10 px-4 flex items-center gap-2 rounded-lg shadow-md"
+              >
+                <Plus className="h-4 w-4" /> Novo {itemSingle}
+              </Button>
+            </div>
+          </div>
+
+          {/* Product Performance Dashboard Overview */}
+          {!loading && products.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <MetricCard 
+                title="Mais Procurado"
+                value={maxLeads > 0 ? topProductName.split(" ")[0] : "-"}
+                description={maxLeads > 0 ? `${maxLeads} leads interessados` : "Sem dados de procura"}
+                icon={<Flame className="h-4 w-4 text-slate-400" />}
+              />
+              <MetricCard 
+                title="Maior Taxa Conversão"
+                value={topConvRate > 0 ? `${topConvRate}%` : "-"}
+                description={topConvRate > 0 ? `Modelo: ${topConvProductName.split(" ")[0]}` : "Sem conversões registradas"}
+                icon={<Target className="h-4 w-4 text-slate-400" />}
+              />
+              <MetricCard 
+                title="Crescimento Mensal"
+                value={leads.length > 0 ? (monthlyGrowth >= 0 ? `+${monthlyGrowth}%` : `${monthlyGrowth}%`) : "-"}
+                description={leads.length > 0 ? growthDescription : "Sem leads cadastrados"}
+                icon={<TrendingUp className="h-4 w-4 text-slate-400" />}
+              />
+              <MetricCard 
+                title="Destaque Faturamento"
+                value={maxMonthlyValue > 0 ? maxMonthlyProduct.split(" ")[0] : "-"}
+                description={maxMonthlyValue > 0 ? `Valor: R$ ${maxMonthlyValue}` : `Nenhum ${itemSingle.toLowerCase()} ativo`}
+                icon={<DollarSign className="h-4 w-4 text-slate-400" />}
+              />
+            </div>
+          )}
+
+          {/* Product Grid */}
+          {loading ? (
+            <div className="h-64 border border-slate-200 rounded-2xl flex flex-col gap-3 items-center justify-center text-slate-400 font-semibold">
+              <span className="animate-spin h-5 w-5 border-2 border-sky-500 border-t-transparent rounded-full"></span>
+              <p className="text-xs">Carregando {itemLabel.toLowerCase()}...</p>
+            </div>
+          ) : products.length === 0 ? (
+            <div className="h-32 border border-dashed border-slate-200 rounded-xl flex items-center justify-center text-xs text-slate-500 font-semibold">
+              Nenhum {itemSingle.toLowerCase()} cadastrado.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {products.map((car) => {
+                const stats = getProductInterestStats(car.name)
+                return (
+                  <div key={car.id} className="relative group">
+                    <ProductCard 
+                      product={car} 
+                      onView={setViewingProduct}
+                      onEdit={handleEdit} 
+                      onDelete={handleDelete} 
+                    />
+                    
+                    {/* Small overlay badge indicating leads count */}
+                    <div className="absolute top-2.5 right-24 bg-white/90 backdrop-blur-sm border border-slate-200 text-[9px] font-bold text-slate-600 px-2 py-0.5 rounded-full select-none shadow-sm">
+                      {stats.leadCount} leads
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
+      ) : (
+        <ProductForm 
+          product={editingProduct} 
+          onSave={handleSave} 
+          onCancel={() => setView("list")} 
+        />
+      )}
+
+      {/* Read-only details dialog */}
+      <Dialog open={viewingProduct !== null} onOpenChange={(open) => !open && setViewingProduct(null)}>
+        <DialogContent className="bg-white border border-slate-200 text-slate-800 w-full sm:max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-xl p-0">
+          {viewingProduct && (
+            <div className="flex flex-col">
+              
+              {/* Cover Banner */}
+              <div className="relative h-64 bg-slate-900 overflow-hidden flex items-center justify-center">
+                {/* Gradient Ambient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent z-10" />
+                {viewingProduct.thumbnail ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img 
+                    src={viewingProduct.thumbnail} 
+                    alt={viewingProduct.name} 
+                    className="w-full h-full object-cover opacity-90"
+                  />
+                ) : (
+                  <span className="text-slate-400 text-sm font-bold uppercase z-10">Sem Capa Comercial</span>
+                )}
+                
+                {/* Floating tags */}
+                <div className="absolute bottom-4 left-6 z-20 space-y-1 text-left">
+                  <span className="text-[10px] text-sky-400 font-extrabold uppercase tracking-widest block">{viewingProduct.brand} • Ano {viewingProduct.year}</span>
+                  <h2 className="text-2xl font-black text-white">{viewingProduct.name}</h2>
+                </div>
+
+                <div className="absolute top-4 left-4 z-20 flex flex-wrap gap-2 max-w-[80%]">
+                  {BRAND.vertical === "catalogo" && (
+                    <>
+                      {viewingProduct.isAccessible && (
+                        <Badge className="bg-violet-600 text-white border-0 text-[9px] font-black uppercase py-0.5 px-2.5 shadow-md rounded-md">
+                          ♿ Acessível
+                        </Badge>
+                      )}
+                      {viewingProduct.isAtendeApproved && (
+                        <Badge className="bg-purple-600 text-white border-0 text-[9px] font-black uppercase py-0.5 px-2.5 shadow-md rounded-md">
+                          ♿ ATENDE
+                        </Badge>
+                      )}
+                      {viewingProduct.isDTaxiApproved && (
+                        <Badge className="bg-sky-500 text-white border-0 text-[9px] font-black uppercase py-0.5 px-2.5 shadow-md rounded-md">
+                          ✈️ D-TAXI
+                        </Badge>
+                      )}
+                      {viewingProduct.isHybrid && (
+                        <Badge className="bg-emerald-500 text-white border-0 text-[9px] font-black uppercase py-0.5 px-2.5 shadow-md rounded-md">
+                          🔋 Híbrido
+                        </Badge>
+                      )}
+                      {viewingProduct.hasGNV && (
+                        <Badge className="bg-orange-500 text-white border-0 text-[9px] font-black uppercase py-0.5 px-2.5 shadow-md rounded-md">
+                          ⛽ Kit GNV
+                        </Badge>
+                      )}
+                      {viewingProduct.isDTPApproved && (
+                        <Badge className="bg-blue-600 text-white border-0 text-[9px] font-black uppercase py-0.5 px-2.5 shadow-md rounded-md">
+                          🏢 Credenciado DTP
+                        </Badge>
+                      )}
+                      {viewingProduct.hasDTPCourseSupport && (
+                        <Badge className="bg-indigo-600 text-white border-0 text-[9px] font-black uppercase py-0.5 px-2.5 shadow-md rounded-md">
+                          🎓 Curso Mobilidade
+                        </Badge>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Grid content */}
+              <div className="p-6 md:p-8 space-y-6">
+                
+                {/* Planos de Precificação */}
+                <div className="space-y-2">
+                  <h4 className="text-[10px] font-black tracking-widest text-slate-400 uppercase text-left">Tabela Comercial de Planos</h4>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="bg-slate-50 border border-slate-200/70 p-4 rounded-xl text-center">
+                      <span className="text-[9px] text-slate-400 font-black uppercase tracking-wider block mb-1">Por Diária</span>
+                      <span className="text-base font-black text-slate-800">R$ {viewingProduct.dailyPrice || 0}</span>
+                      <span className="text-[8px] text-slate-500 font-semibold block mt-1">Faturamento diário</span>
+                    </div>
+                    <div className="bg-slate-50 border border-slate-200/70 p-4 rounded-xl text-center">
+                      <span className="text-[9px] text-slate-400 font-black uppercase tracking-wider block mb-1">Semanal</span>
+                      <span className="text-base font-black text-slate-800">R$ {viewingProduct.weeklyPrice || Math.round((viewingProduct.monthlyPrice || 0) / 4)}</span>
+                      <span className="text-[8px] text-slate-500 font-semibold block mt-1">Ajuste de 6 diárias</span>
+                    </div>
+                    <div className="bg-sky-50 border border-sky-100 p-4 rounded-xl text-center relative overflow-hidden">
+                      <span className="text-[9px] text-sky-700 font-black uppercase tracking-wider block mb-1">Mensal Premium</span>
+                      <span className="text-base font-black text-emerald-600">R$ {viewingProduct.monthlyPrice || 0}</span>
+                      <span className="text-[8px] text-sky-600 font-semibold block mt-1">Contrato corporativo</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Descrição */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 text-left">
+                  <div className="space-y-1.5">
+                    <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest block">Resumo do Catalog</span>
+                    <p className="text-xs text-slate-600 font-semibold leading-relaxed bg-slate-50 p-3.5 border border-slate-200/60 rounded-xl text-justify">
+                      {viewingProduct.shortDescription || "Nenhum resumo comercial preenchido."}
+                    </p>
+                  </div>
+                  <div className="space-y-1.5">
+                    <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest block">Ficha Técnica Completa</span>
+                    <p className="text-xs text-slate-600 font-semibold leading-relaxed bg-slate-50 p-3.5 border border-slate-200/60 rounded-xl text-justify">
+                      {viewingProduct.fullDescription || "Nenhuma descrição detalhada preenchida."}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Diferenciais e Pontos Fortes */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 text-left">
+                  
+                  {/* Pontos Positivos */}
+                  <div className="space-y-2">
+                    <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest block">Pontos Positivos (Vantagens)</span>
+                    {viewingProduct.positivePoints && viewingProduct.positivePoints.length > 0 ? (
+                      <ul className="space-y-1.5">
+                        {viewingProduct.positivePoints.map((pt, idx) => (
+                          <li key={idx} className="text-xs font-bold text-slate-700 flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                            {pt}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-xs text-slate-400 italic">Nenhum ponto registrado.</p>
+                    )}
+                  </div>
+
+                  {/* Highlights Premium */}
+                  <div className="space-y-2">
+                    <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest block">Diferenciais Premium</span>
+                    {viewingProduct.highlights && viewingProduct.highlights.length > 0 ? (
+                      <ul className="space-y-1.5">
+                        {viewingProduct.highlights.map((h, idx) => (
+                          <li key={idx} className="text-xs font-bold text-slate-700 flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-sky-500 shrink-0" />
+                            {h}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-xs text-slate-400 italic">Nenhum diferencial registrado.</p>
+                    )}
+                  </div>
+
+                </div>
+
+                {/* Tags, Specs & SEO */}
+                <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3 pt-4 text-left">
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Metadados e SEO</span>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-semibold text-slate-700">
+                    <div className="space-y-1">
+                      <span className="text-[9px] text-slate-400 font-bold uppercase block">Tags do Catalog</span>
+                      <p className="truncate">{viewingProduct.tags?.join(", ") || "—"}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-[9px] text-slate-400 font-bold uppercase block">Especificações Rápidas</span>
+                      <p className="truncate">{viewingProduct.specs?.join(", ") || "—"}</p>
+                    </div>
+                    <div className="space-y-1 md:col-span-2 border-t border-slate-100 pt-2">
+                      <span className="text-[9px] text-slate-400 font-bold uppercase block">Google Meta Title (SEO)</span>
+                      <p className="text-slate-800 font-extrabold">{viewingProduct.seoTitle || "—"}</p>
+                    </div>
+                    <div className="space-y-1 md:col-span-2">
+                      <span className="text-[9px] text-slate-400 font-bold uppercase block">Google Meta Description</span>
+                      <p className="text-slate-500 font-medium text-justify">{viewingProduct.seoDescription || "—"}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Actions Footer */}
+                <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={() => setViewingProduct(null)}
+                    className="border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-bold shadow-sm"
+                  >
+                    Fechar
+                  </Button>
+                  <Button 
+                    type="button" 
+                    onClick={() => {
+                      const temp = viewingProduct
+                      setViewingProduct(null)
+                      handleEdit(temp)
+                    }}
+                    className="bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold shadow-sm"
+                  >
+                    Editar Veículo
+                  </Button>
+                </div>
+
+              </div>
+
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!suggestedProduct} onOpenChange={(open) => !open && setSuggestedProduct(null)}>
+        <DialogContent className="sm:max-w-[500px] bg-white rounded-2xl shadow-xl border border-slate-100 p-6">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-black text-slate-900 flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-violet-600 animate-pulse" />
+              Sugestões Inteligentes de Marketing
+            </DialogTitle>
+            <DialogDescription className="text-xs text-slate-500 font-semibold mt-1">
+              O veículo <strong>{suggestedProduct?.name}</strong> foi salvo como Destaque!
+              O que você deseja fazer para impulsionar a campanha deste veículo?
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid grid-cols-1 gap-3.5 my-4">
+            <button
+              onClick={() => suggestedProduct && handleCreateHeroSlide(suggestedProduct as Product)}
+              className="group flex items-start gap-3.5 p-3.5 bg-slate-50 hover:bg-violet-50/50 border border-slate-200 hover:border-violet-300 rounded-xl transition-all text-left"
+            >
+              <div className="p-2 bg-violet-100 text-violet-600 rounded-lg group-hover:bg-violet-200 transition-colors">
+                <Flame className="h-4 w-4" />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-xs font-black text-slate-800">Criar Slide Hero</h4>
+                <p className="text-[10px] text-slate-500 font-semibold mt-0.5">Adiciona automaticamente um banner carrossel de alta prioridade na página principal.</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => suggestedProduct && handleConfigCampaignBanner(suggestedProduct as Product)}
+              className="group flex items-start gap-3.5 p-3.5 bg-slate-50 hover:bg-sky-50/50 border border-slate-200 hover:border-sky-300 rounded-xl transition-all text-left"
+            >
+              <div className="p-2 bg-sky-100 text-sky-600 rounded-lg group-hover:bg-sky-200 transition-colors">
+                <Target className="h-4 w-4" />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-xs font-black text-slate-800">Configurar como Banner Secundário</h4>
+                <p className="text-[10px] text-slate-500 font-semibold mt-0.5">Ativa e atualiza o banner principal de campanhas da home com a foto e links do veículo.</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => suggestedProduct && handleGoToCampaignsExport(suggestedProduct as Product)}
+              className="group flex items-start gap-3.5 p-3.5 bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-xl transition-all text-left"
+            >
+              <div className="p-2 bg-emerald-100 text-emerald-600 rounded-lg group-hover:bg-emerald-200 transition-colors">
+                <TrendingUp className="h-4 w-4" />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-xs font-black text-slate-800">Exportar Material / Flyer</h4>
+                <p className="text-[10px] text-slate-500 font-semibold mt-0.5">Abre o exportador de campanhas para gerar imagens e textos prontos para WhatsApp e redes sociais.</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => suggestedProduct && handleScheduleCalendar(suggestedProduct as Product)}
+              className="group flex items-start gap-3.5 p-3.5 bg-slate-50 hover:bg-amber-50/50 border border-slate-200 hover:border-amber-300 rounded-xl transition-all text-left"
+            >
+              <div className="p-2 bg-amber-100 text-amber-600 rounded-lg group-hover:bg-amber-200 transition-colors">
+                <Clock className="h-4 w-4" />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-xs font-black text-slate-800">Agendar no Calendário</h4>
+                <p className="text-[10px] text-slate-500 font-semibold mt-0.5">Cria uma entrada no calendário de planejamento de marketing com a campanha do veículo.</p>
+              </div>
+            </button>
+          </div>
+
+          <DialogFooter className="border-t border-slate-100 pt-4 flex gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setSuggestedProduct(null)}
+              className="text-xs font-bold text-slate-500 hover:text-slate-700 w-full sm:w-auto"
+            >
+              Agora Não
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+    </div>
+  )
+}

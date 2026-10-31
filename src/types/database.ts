@@ -1,0 +1,383 @@
+/**
+ * Tipos das tabelas do Supabase (Postgres).
+ *
+ * Escritos à mão a partir de supabase/migrations/*.sql. Se o schema mudar,
+ * atualize aqui junto — é este arquivo que dá tipagem ao cliente e impede que um
+ * `select` peça coluna inexistente.
+ *
+ * Convenção: o banco é snake_case, a aplicação é camelCase. A tradução acontece
+ * nos repositórios em src/lib/db/, nunca espalhada pelos componentes.
+ */
+
+export type UserRole = "super_admin" | "supervisor" | "gerente" | "vendedor" | "marketing"
+export type LeadStatus =
+  | "new" | "analysis" | "qualified" | "contacted" | "negotiating" | "scheduled"
+  | "converted" | "lost" | "discarded"
+export type DataSubjectRequest = "none" | "access" | "correction" | "deletion"
+export type ApprovalStatus = "pending" | "approved" | "rejected"
+export type CreditStatus = "pending" | "approved" | "rejected" | "needs_authorization"
+export type RegistrationStatus = "complete" | "incomplete" | "pending_contact"
+export type CampaignStatusDb = "draft" | "active" | "paused" | "ended"
+export type AppointmentTypeDb = "visit" | "pickup" | "docs" | "callback"
+export type DocCategoryDb =
+  | "cnh" | "condutax" | "documento" | "identidade" | "residencia" | "foto"
+  | "consulta_cpf" | "contrato" | "outros"
+export type InteractionTypeDb =
+  | "whatsapp" | "note" | "status_change" | "credit_check" | "authorization"
+  | "document_upload" | "appointment" | "decision" | "archive" | "score_update"
+
+export type AdminUserRow = {
+  id: string
+  email: string
+  display_name: string
+  phone: string | null
+  role: UserRole
+  active: boolean
+  avatar_url: string | null
+  created_by: string | null
+  last_login: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type LeadRow = {
+  id: string
+
+  full_name: string
+  phone: string
+  whatsapp: string | null
+  email: string | null
+  cpf: string | null
+  rg: string | null
+  protocol: string | null
+
+  cep: string | null
+  address: string | null
+  address_street: string | null
+  address_number: string | null
+  address_complement: string | null
+  address_neighborhood: string | null
+  address_city: string | null
+  address_state: string | null
+  address_notes: string | null
+  message_name_1: string | null
+  message_phone_1: string | null
+  message_name_2: string | null
+  message_phone_2: string | null
+
+  source: string
+  item_interest: string | null
+  campaign_id: string | null
+  campaign_name: string | null
+  utm: Record<string, unknown>
+
+  status: LeadStatus
+  contacted: boolean
+  whatsapp_sent: boolean
+  archived: boolean
+  assigned_to: string | null
+  notes: string | null
+
+  /** Respostas das perguntas da vertical — ver src/config/lead-fields.ts */
+  custom_fields: Record<string, unknown>
+  lead_score: number | null
+
+  registration_status: RegistrationStatus | null
+  needs_more_data: boolean
+  contacted_for_data: boolean
+  credit_analysis_status: CreditStatus
+  credit_check: Record<string, unknown> | null
+  approval_status: ApprovalStatus
+  approved_by: string | null
+  approval_date: string | null
+  authorized_by: string | null
+  authorization_recorded_by: string | null
+  authorization_date: string | null
+
+  // Atendimento jurídico (0008)
+  area_slug: string | null
+  area_name: string | null
+  /** Relato original do titular — imutável no banco */
+  client_message: string | null
+  tags: string[]
+  next_contact_at: string | null
+  first_contact_at: string | null
+  consent_at: string | null
+  consent_version: string | null
+  consent_source: string | null
+  retention_review_at: string | null
+  data_subject_request: DataSubjectRequest
+  landing_page: string | null
+  referrer: string | null
+
+  created_at: string
+  updated_at: string
+}
+
+export type AreaRow = {
+  id: string
+  slug: string
+  nome: string
+  resumo: string
+  contexto: string | null
+  icone: string
+  imagem: string | null
+  situacoes: string[]
+  servicos: { item: string; detalhe?: string }[]
+  ordem: number
+  ativo: boolean
+  destaque: boolean
+  created_at: string
+  updated_at: string
+}
+
+export type PostRow = {
+  id: string
+  slug: string
+  titulo: string
+  resumo: string
+  conteudo: string
+  capa: string | null
+  area_slug: string | null
+  autor: string | null
+  status: "rascunho" | "publicado"
+  publicado_em: string | null
+  destaque: boolean
+  seo_titulo: string | null
+  seo_descricao: string | null
+  created_at: string
+  updated_at: string
+}
+
+/** Trilha de auditoria (0009): só leitura, e só para o super admin */
+export type AuditLogRow = {
+  id: number
+  created_at: string
+  entidade: string
+  registro_id: string
+  acao: "criar" | "alterar" | "excluir"
+  campos_alterados: string[]
+  autor_id: string | null
+  autor_nome: string
+}
+
+export type LeadInteractionRow = {
+  id: string
+  lead_id: string
+  type: InteractionTypeDb
+  agent_name: string
+  content: string
+  created_at: string
+}
+
+export type LeadDocumentRow = {
+  id: string
+  lead_id: string
+  name: string
+  url: string
+  storage_path: string | null
+  category: DocCategoryDb
+  uploaded_by: string | null
+  created_at: string
+}
+
+export type CampaignRow = {
+  id: string
+  slug: string
+  name: string
+  status: CampaignStatusDb
+  headline: string
+  subheadline: string | null
+  description: string | null
+  image_url: string | null
+  highlights: string[]
+  cta_text: string
+  item_interest: string | null
+  theme: string
+  sections?: Record<string, unknown>[]
+  utm_stats?: Record<string, unknown>
+  start_date: string | null
+  end_date: string | null
+  views: number
+  clicks: number
+  created_by: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type ProductRow = {
+  id: string
+  name: string
+  slug: string | null
+  category: string | null
+  brand: string | null
+  year: string | null
+  transmission: string | null
+  fuel_type: string | null
+  is_hybrid: boolean
+  has_gnv: boolean
+  is_dtaxi_approved: boolean
+  is_accessible: boolean
+  is_atende_approved: boolean
+  has_radio_association: boolean
+  is_dtp_approved: boolean
+  has_dtp_course_support: boolean
+  short_description: string | null
+  full_description: string | null
+  positive_points: string[]
+  highlights: string[]
+  specs: string[]
+  tags: string[]
+  monthly_price: number | null
+  weekly_price: number | null
+  daily_price: number | null
+  status: string
+  available: boolean
+  featured: boolean
+  catalog_featured: boolean
+  catalog_order: number | null
+  lead_count: number
+  views_count: number
+  clicks_count: number
+  thumbnail: string | null
+  images: string[]
+  seo_title: string | null
+  seo_description: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type ProductPricingRow = {
+  id: string
+  product_id: string
+  daily_rate: number
+  weekly_rate: number
+  monthly_rate: number
+  weekend_exempt: boolean
+  accepted_payments: string[]
+  active: boolean
+  promo_campaign: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type HeroSlideRow = {
+  id: string
+  order: number
+  active: boolean
+  title: string | null
+  glow_title: string | null
+  subtitle: string | null
+  cta_text: string | null
+  cta_url: string | null
+  image: string | null
+  mobile_image: string | null
+  video: string | null
+  badge: string | null
+  overlay: string | null
+  theme: string | null
+  /** Campos visuais de forma livre (alinhamento, opacidade, altura...) */
+  config: Record<string, unknown>
+  views: number
+  clicks: number
+  created_at: string
+  updated_at: string
+}
+
+export type AppSettingRow = {
+  key: string
+  value: Record<string, unknown>
+  updated_at: string
+}
+
+export type AppointmentRow = {
+  id: string
+  lead_id: string | null
+  lead_name: string
+  lead_phone: string | null
+  type: AppointmentTypeDb
+  date: string
+  notes: string | null
+  completed: boolean
+  created_by: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type TestimonialRow = {
+  id: string
+  name: string
+  time: string | null
+  testimony: string
+  rating: number
+  approved: boolean
+  created_at: string
+  updated_at: string
+}
+
+export type DriverRow = {
+  id: string
+  full_name: string | null
+  phone: string | null
+  whatsapp: string | null
+  cpf: string | null
+  car_model: string | null
+  city_neighborhood: string | null
+  status: string
+  created_at: string
+}
+
+/**
+ * Mapa consumido pelo cliente tipado do Supabase.
+ * `Insert` e `Update` derivam de `Row` porque quase toda coluna tem default.
+ */
+export interface Database {
+  public: {
+    Tables: {
+      admin_users:        TableDef<AdminUserRow, "id" | "email">
+      leads:              TableDef<LeadRow, "full_name" | "phone">
+      lead_interactions:  TableDef<LeadInteractionRow, "lead_id" | "type" | "agent_name" | "content">
+      lead_documents:     TableDef<LeadDocumentRow, "lead_id" | "name" | "url">
+      campaigns:          TableDef<CampaignRow, "slug" | "name" | "headline">
+      products:           TableDef<ProductRow, "name">
+      product_pricing:    TableDef<ProductPricingRow, "product_id">
+      hero_slides:        TableDef<HeroSlideRow, never>
+      app_settings:       TableDef<AppSettingRow, "key">
+      appointments:       TableDef<AppointmentRow, "lead_name" | "date">
+      testimonials:       TableDef<TestimonialRow, "name" | "testimony">
+      drivers:            TableDef<DriverRow, never>
+      areas:              TableDef<AreaRow, "slug" | "nome">
+      audit_log:          TableDef<AuditLogRow, never>
+      posts:              TableDef<PostRow, "slug" | "titulo">
+    }
+    Views: { [_ in never]: never }
+    Functions: {
+      registrar_metrica_campanha: {
+        Args: { p_campaign_id: string; p_metrica: "view" | "click" }
+        Returns: void
+      }
+      e_admin: { Args: Record<string, never>; Returns: boolean }
+      e_super_admin: { Args: Record<string, never>; Returns: boolean }
+    }
+    Enums: {
+      user_role: UserRole
+      lead_status: LeadStatus
+      approval_status: ApprovalStatus
+      credit_status: CreditStatus
+      registration_status: RegistrationStatus
+      campaign_status: CampaignStatusDb
+      appointment_type: AppointmentTypeDb
+      doc_category: DocCategoryDb
+      interaction_type: InteractionTypeDb
+    }
+    CompositeTypes: { [_ in never]: never }
+  }
+}
+
+/** Row/Insert/Update a partir de uma linha e das colunas realmente obrigatórias. */
+type TableDef<Row, Required extends keyof Row> = {
+  Row: Row
+  Insert: Pick<Row, Required extends never ? never : Required> & Partial<Row>
+  Update: Partial<Row>
+  Relationships: []
+}

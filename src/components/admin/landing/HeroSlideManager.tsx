@@ -1,0 +1,376 @@
+"use client"
+
+import { useState } from "react"
+import { updateHeroSlide, deleteHeroSlide } from "@/lib/db/hero"
+import { HeroSlideType } from "@/types/hero-slide"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { HeroSlideDialog } from "./HeroSlideDialog"
+import { useToast } from "@/components/ui/toast-simple"
+import {
+  Plus, Edit3, Trash2, Eye, EyeOff, ArrowUp, ArrowDown,
+  Film, Image as ImageIcon, Layers, RefreshCw
+} from "lucide-react"
+
+const THEME_STYLES: Record<string, { badge: string; dot: string }> = {
+  navy:    { badge: "bg-sky-50 text-sky-700 border-sky-200",     dot: "bg-sky-600" },
+  amber:   { badge: "bg-amber-50 text-amber-700 border-amber-200", dot: "bg-amber-500" },
+  emerald: { badge: "bg-emerald-50 text-emerald-700 border-emerald-200", dot: "bg-emerald-500" },
+}
+
+interface HeroSlideManagerProps {
+  slides: HeroSlideType[]
+  loading: boolean
+  onRefresh: () => void
+}
+
+export function HeroSlideManager({ slides, loading, onRefresh }: HeroSlideManagerProps) {
+  const { success, error: showError } = useToast()
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [selectedSlide, setSelectedSlide] = useState<HeroSlideType | null>(null)
+  const [togglingId, setTogglingId] = useState<string | null>(null)
+
+  const openCreate = () => {
+    setSelectedSlide(null)
+    setDialogOpen(true)
+  }
+
+  const openEdit = (slide: HeroSlideType) => {
+    setSelectedSlide(slide)
+    setDialogOpen(true)
+  }
+
+  const handleToggleActive = async (slide: HeroSlideType) => {
+    if (!slide.id) return
+
+    // Validação: máximo 5 slides ativos
+    if (!slide.active && activeCount >= 5) {
+      showError("Limite atingido", "Você já tem 5 slides ativos no carrossel. Desative outro slide antes de ativar este.")
+      return
+    }
+
+    try {
+      setTogglingId(slide.id)
+      await updateHeroSlide(slide.id, { active: !slide.active })
+      success(
+        slide.active ? "Slide ocultado" : "Slide publicado",
+        `"${slide.title || 'Slide'}" foi ${slide.active ? "removido da Home" : "publicado na Home"}.`
+      )
+      onRefresh()
+    } catch (e: any) {
+      console.error("Erro ao publicar/ocultar slide:", e)
+      showError("Erro", e?.message || "Tente novamente.")
+    } finally {
+      setTogglingId(null)
+    }
+  }
+
+  const handleDelete = async (slide: HeroSlideType) => {
+    if (!slide.id) return
+    if (!window.confirm(`Excluir o slide "${slide.title || 'Slide'}"? Esta ação não pode ser desfeita.`)) return
+    try {
+      await deleteHeroSlide(slide.id)
+      success("Slide excluído!", "O slide foi removido do carrossel.")
+      onRefresh()
+    } catch (e: any) {
+      showError("Erro ao excluir", e?.message || "Tente novamente.")
+    }
+  }
+
+  const handleMoveUp = async (index: number) => {
+    if (index === 0) return
+    const currentSlide = slides[index]
+    const prevSlide = slides[index - 1]
+    
+    try {
+      const currentOrder = currentSlide.order ?? index
+      const prevOrder = prevSlide.order ?? (index - 1)
+      
+      const newCurrentOrder = prevOrder
+      const newPrevOrder = currentOrder === prevOrder ? currentOrder + 1 : currentOrder
+      
+      await updateHeroSlide(currentSlide.id!, { order: newCurrentOrder })
+      await updateHeroSlide(prevSlide.id!, { order: newPrevOrder })
+      
+      success("Ordem atualizada", `O slide "${currentSlide.title || 'Slide'}" foi movido para cima.`)
+      onRefresh()
+    } catch (e: any) {
+      console.error(e)
+      showError("Erro ao reordenar", e?.message || "Tente novamente.")
+    }
+  }
+
+  const handleMoveDown = async (index: number) => {
+    if (index === slides.length - 1) return
+    const currentSlide = slides[index]
+    const nextSlide = slides[index + 1]
+    
+    try {
+      const currentOrder = currentSlide.order ?? index
+      const nextOrder = nextSlide.order ?? (index + 1)
+      
+      const newCurrentOrder = nextOrder
+      const newNextOrder = currentOrder === nextOrder ? currentOrder - 1 : currentOrder
+      
+      await updateHeroSlide(currentSlide.id!, { order: newCurrentOrder })
+      await updateHeroSlide(nextSlide.id!, { order: newNextOrder })
+      
+      success("Ordem atualizada", `O slide "${currentSlide.title || 'Slide'}" foi movido para baixo.`)
+      onRefresh()
+    } catch (e: any) {
+      console.error(e)
+      showError("Erro ao reordenar", e?.message || "Tente novamente.")
+    }
+  }
+
+  const activeCount = slides.filter((s) => s.active).length
+
+  return (
+    <div className="space-y-4">
+      {/* Sub-Header */}
+      <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div>
+          <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+            <Layers className="h-3.5 w-3.5 text-sky-600" />
+            Estrutura de Exibição
+          </h4>
+          <p className="text-[10px] text-slate-400 mt-0.5 font-bold">
+            {slides.length === 0
+              ? "Nenhum slide — exibindo slide padrão."
+              : `${slides.length} slide${slides.length > 1 ? "s" : ""} cadastrado${slides.length > 1 ? "s" : ""} · ${activeCount} ativo${activeCount !== 1 ? "s" : ""}`}
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={onRefresh}
+            disabled={loading}
+            className="text-slate-500 hover:text-slate-700 hover:bg-slate-100 h-8 w-8 p-0"
+            title="Recarregar slides"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+          </Button>
+          <Button
+            type="button"
+            onClick={openCreate}
+            className="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs h-8 px-3 flex items-center gap-1.5 rounded-lg shadow-sm"
+          >
+            <Plus className="h-3.5 w-3.5" /> Novo Slide
+          </Button>
+        </div>
+      </div>
+
+      {/* Slides grid */}
+      {loading ? (
+        <div className="h-40 flex flex-col items-center justify-center gap-2 text-slate-400">
+          <span className="animate-spin h-5 w-5 border-2 border-sky-500 border-t-transparent rounded-full" />
+          <span className="text-xs font-semibold">Carregando slides...</span>
+        </div>
+      ) : slides.length === 0 ? (
+        <div
+          onClick={openCreate}
+          className="h-28 border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center gap-2 text-slate-400 bg-slate-50/50 hover:bg-slate-50 hover:border-sky-300 hover:text-sky-500 cursor-pointer transition-all group"
+        >
+          <Plus className="h-5 w-5 group-hover:scale-110 transition-transform" />
+          <p className="text-xs font-semibold">Criar primeiro slide</p>
+          <p className="text-[10px] text-center max-w-[280px]">
+            O carrossel ficará vazio no site e usará os textos padrões configurados na aba ao lado.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {slides.map((slide, idx) => {
+            const themeStyle = THEME_STYLES[slide.theme || "navy"] || THEME_STYLES.navy
+            const isToggling = togglingId === slide.id
+            return (
+              <Card
+                key={slide.id}
+                className={`bg-white border-slate-200 shadow-sm rounded-xl flex flex-col overflow-hidden transition-all duration-300 relative border-2 ${
+                  slide.active ? "border-slate-200" : "border-slate-200/40 opacity-70"
+                }`}
+              >
+                {/* Theme indicator stripe */}
+                <div className={`h-1 w-full ${
+                  slide.theme === "navy" ? "bg-sky-600" :
+                  slide.theme === "amber" ? "bg-amber-500" : "bg-emerald-500"
+                }`} />
+
+                {/* Visual order indicator badge */}
+                <div className="absolute top-2.5 right-2.5 z-20">
+                  <span className="text-[9px] bg-slate-900/80 text-white font-extrabold px-2 py-0.5 rounded-full border border-white/10 shadow-sm">
+                    {idx + 1}º Slide
+                  </span>
+                </div>
+
+                {/* Slide Thumbnail */}
+                <div className="relative aspect-[16/7] w-full bg-slate-950 overflow-hidden border-b border-slate-100 flex items-center justify-center shrink-0">
+                  {slide.video ? (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/80 text-sky-400 gap-1 z-10">
+                      <Film className="h-5 w-5 animate-pulse" />
+                      <span className="text-[8px] font-black uppercase tracking-widest text-sky-400">Vídeo</span>
+                    </div>
+                  ) : null}
+                  
+                  {slide.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={slide.image}
+                      alt={slide.title || "Preview"}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=400&q=80"
+                      }}
+                    />
+                  ) : (
+                    <div className="text-slate-400 text-xs flex flex-col items-center gap-1">
+                      <ImageIcon className="h-6 w-6 text-slate-300" />
+                      <span>Sem imagem</span>
+                    </div>
+                  )}
+
+                  {/* Status Overlay Badge */}
+                  <div className="absolute top-2.5 left-2.5 z-10 flex gap-1 flex-wrap">
+                    <span className={`text-[8px] font-black px-2 py-0.5 rounded shadow-sm uppercase tracking-wider ${
+                      slide.active 
+                        ? "bg-emerald-600 text-white" 
+                        : "bg-slate-500 text-white"
+                    }`}>
+                      {slide.active ? "Publicado" : "Rascunho"}
+                    </span>
+                  </div>
+                </div>
+
+                <CardHeader className="p-4 pb-2 flex flex-row items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-1.5 mb-1">
+                      <Badge
+                        variant="outline"
+                        className={`text-[8px] font-black uppercase tracking-wider px-1.5 py-0 h-4 ${themeStyle.badge}`}
+                      >
+                        <span className={`mr-1 h-1.5 w-1.5 rounded-full inline-block ${themeStyle.dot}`} />
+                        Tema: {slide.theme === "navy" ? "Navy" : slide.theme === "amber" ? "Amber" : "Emerald"}
+                      </Badge>
+                      {slide.displayPriority ? (
+                        <span className="text-[8px] bg-indigo-50 text-indigo-700 border border-indigo-200 px-1.5 py-0 rounded font-black uppercase tracking-wider">
+                          Prioridade: {slide.displayPriority}
+                        </span>
+                      ) : null}
+                    </div>
+                    <CardTitle className="text-sm font-bold text-slate-800 leading-snug line-clamp-1">
+                      {slide.title || "— Sem Título —"}
+                    </CardTitle>
+                    <CardDescription className="text-[10px] text-slate-500 mt-0.5 line-clamp-2">
+                      {slide.subtitle || "Sem descrição."}
+                    </CardDescription>
+                  </div>
+
+                  {/* EXPLICIT REORDERING BUTTONS */}
+                  <div className="flex flex-col gap-1 shrink-0 bg-slate-50 p-1 border border-slate-200/60 rounded-lg shadow-2xs">
+                    <button
+                      type="button"
+                      disabled={idx === 0 || loading}
+                      onClick={() => handleMoveUp(idx)}
+                      className={`text-slate-400 hover:text-sky-600 hover:bg-white rounded p-1 transition-all ${
+                        idx === 0 ? "opacity-30 cursor-not-allowed" : "cursor-pointer"
+                      }`}
+                      title="Mover slide para cima (anterior)"
+                    >
+                      <ArrowUp className="h-3.5 w-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      disabled={idx === slides.length - 1 || loading}
+                      onClick={() => handleMoveDown(idx)}
+                      className={`text-slate-400 hover:text-sky-600 hover:bg-white rounded p-1 transition-all ${
+                        idx === slides.length - 1 ? "opacity-30 cursor-not-allowed" : "cursor-pointer"
+                      }`}
+                      title="Mover slide para baixo (seguinte)"
+                    >
+                      <ArrowDown className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </CardHeader>
+
+                <CardContent className="px-4 pb-3 pt-1">
+                  <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-100 text-center">
+                    <div>
+                      <p className="text-[8px] text-slate-400 font-black uppercase">Views</p>
+                      <p className="text-xs font-bold text-slate-700">{slide.views ?? 0}</p>
+                    </div>
+                    <div>
+                      <p className="text-[8px] text-slate-400 font-black uppercase">Clicks</p>
+                      <p className="text-xs font-bold text-slate-700">{slide.clicks ?? 0}</p>
+                    </div>
+                    <div>
+                      <p className="text-[8px] text-slate-400 font-black uppercase">CTR</p>
+                      <p className="text-xs font-black text-sky-600">
+                        {slide.views ? `${((slide.clicks ?? 0) / slide.views * 100).toFixed(1)}%` : "0.0%"}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+
+                <CardFooter className="p-3 bg-slate-50/70 border-t border-slate-100 flex items-center justify-between gap-2 shrink-0">
+                  {/* Visibilidade toggle */}
+                  <button
+                    type="button"
+                    onClick={() => handleToggleActive(slide)}
+                    disabled={isToggling}
+                    className={`flex items-center gap-1.5 text-[9px] font-bold rounded-full px-2.5 py-1 border transition-all ${
+                      slide.active
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+                        : "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200"
+                    }`}
+                    title={slide.active ? "Ocultar slide" : "Publicar slide"}
+                  >
+                    {isToggling ? (
+                      <span className="h-3 w-3 border border-current border-t-transparent rounded-full animate-spin" />
+                    ) : slide.active ? (
+                      <Eye className="h-3 w-3" />
+                    ) : (
+                      <EyeOff className="h-3 w-3" />
+                    )}
+                    {slide.active ? "Publicado" : "Oculto"}
+                  </button>
+
+                  <div className="flex gap-1">
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => openEdit(slide)}
+                      className="text-sky-600 hover:text-sky-700 hover:bg-sky-50 h-7 px-2 text-[10px] font-bold flex items-center gap-1"
+                    >
+                      <Edit3 className="h-3 w-3" /> Editar
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => handleDelete(slide)}
+                      className="text-red-500 hover:text-red-600 hover:bg-red-50 h-7 px-2 text-[10px] font-bold flex items-center gap-1"
+                    >
+                      <Trash2 className="h-3 w-3" /> Excluir
+                    </Button>
+                  </div>
+                </CardFooter>
+              </Card>
+            )
+          })}
+        </div>
+      )}
+
+      {/* Dialog */}
+      <HeroSlideDialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        onSaved={onRefresh}
+        slide={selectedSlide}
+        slidesCount={slides.length}
+      />
+    </div>
+  )
+}

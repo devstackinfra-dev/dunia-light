@@ -1,0 +1,201 @@
+"use client"
+
+import { Lead } from "@/types/lead"
+import { Badge } from "@/components/ui/badge"
+import { Calendar, MessageSquare, Flame, Sparkles, Snowflake, Star } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { calculateLeadScore } from "@/lib/lead-score"
+import { BRAND, termo } from "@/config/brand"
+
+interface LeadCardProps {
+  lead: Lead
+  onClick: (lead: Lead) => void
+}
+
+export function LeadCard({ lead, onClick }: LeadCardProps) {
+  const scoreInfo = calculateLeadScore(lead)
+  
+  // Format date
+  const dateString = lead.createdAt?.toDate
+    ? lead.createdAt.toDate().toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })
+    : typeof lead.createdAt === "string" 
+      ? new Date(lead.createdAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })
+      : "Recém criado"
+
+  const elapsed = getElapsedTime(lead.createdAt)
+
+  // Source badges styling
+  const sourceColor = cn(
+    lead.source === "Google" && "bg-blue-50 text-blue-700 border-blue-200",
+    lead.source === "Facebook" && "bg-indigo-50 text-indigo-700 border-indigo-200",
+    lead.source === "Instagram" && "bg-pink-50 text-pink-700 border-pink-200",
+    lead.source === "WhatsApp" && "bg-emerald-50 text-emerald-700 border-emerald-200",
+    (lead.source === "Site" || lead.source === "Organic" || lead.source === "Cadastro Site" || lead.source === "Cadastro Site (Legado)") && "bg-slate-50 text-slate-500 border-slate-200"
+  )
+
+  // WhatsApp link construction
+  const cleanPhone = lead.phone.replace(/\D/g, "")
+  const waPhone = cleanPhone.startsWith("55") ? cleanPhone : `55${cleanPhone}`
+  const waGreeting = BRAND.vertical === "juridico"
+    ? `Olá ${lead.fullName.split(" ")[0]}, tudo bem? Sou da equipe de atendimento do escritório ${BRAND.name}. Recebemos seu contato com interesse em ${lead.itemInterest || "nossos serviços jurídicos"}. Como podemos te orientar hoje?`
+    : `Olá ${lead.fullName.split(" ")[0]}, tudo bem? Sou da equipe de atendimento da ${BRAND.name}. Recebemos seu interesse em ${lead.itemInterest || termo("item")}. Como posso te ajudar hoje?`
+  const waText = encodeURIComponent(waGreeting)
+  const waUrl = `https://wa.me/${waPhone}?text=${waText}`
+
+  // HTML5 Drag handlers
+  const handleDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.setData("text/plain", lead.id)
+    e.dataTransfer.effectAllowed = "move"
+  };
+
+  // Level-based left border and hover styling
+  const levelStyles = {
+    priority: "hover:border-purple-300 hover:shadow-md",
+    hot: "hover:border-red-300 hover:shadow-md",
+    warm: "hover:border-amber-300 hover:shadow-md",
+    cold: "hover:border-sky-300 hover:shadow-md",
+  }
+
+  const levelStripe = {
+    priority: "bg-purple-500",
+    hot: "bg-red-500",
+    warm: "bg-amber-500",
+    cold: "bg-sky-500",
+  }
+
+  return (
+    <div 
+      draggable
+      onDragStart={handleDragStart}
+      onClick={() => onClick(lead)}
+      className={cn(
+        "cursor-grab active:cursor-grabbing p-4 rounded-xl flex flex-col justify-between space-y-3 relative overflow-hidden select-none border border-slate-200 bg-white hover:bg-slate-50/50 transition-all duration-300 hover:scale-[1.015] hover:-translate-y-0.5 active:scale-[0.985] shadow-sm",
+        levelStyles[scoreInfo.level]
+      )}
+    >
+      {/* Left temperature indicator stripe */}
+      <span className={cn(
+        "absolute left-0 top-0 bottom-0 w-1",
+        levelStripe[scoreInfo.level],
+        scoreInfo.level === "priority" && "animate-pulse"
+      )} />
+
+      <div className="space-y-2.5">
+        <div className="flex justify-between items-center pl-1">
+          <Badge className={cn("text-[9px] font-black uppercase tracking-wider px-2 py-0.5 border", sourceColor)}>
+            {lead.source}
+          </Badge>
+
+          {/* Lead score & temperature */}
+          <div className="flex items-center gap-1.5">
+            <span className={cn("text-[10px] font-bold px-1.5 py-0.5 rounded border flex items-center gap-1", scoreInfo.color)}>
+              {scoreInfo.level === "priority" && <Star className="h-3 w-3 text-purple-500 fill-purple-500" />}
+              {scoreInfo.level === "hot" && <Flame className="h-3 w-3 animate-pulse text-red-500" />}
+              {scoreInfo.level === "warm" && <Sparkles className="h-2.5 w-2.5 text-amber-500" />}
+              {scoreInfo.level === "cold" && <Snowflake className="h-2.5 w-2.5 text-blue-500" />}
+              {scoreInfo.score} pts
+            </span>
+          </div>
+        </div>
+
+        <div className="pl-1">
+          <h4 className="text-sm font-extrabold text-slate-800 truncate">
+            {lead.fullName}
+          </h4>
+          <p className="text-xs text-slate-500 mt-1 font-semibold">
+            {lead.areaName ? "Área" : "Interesse"}:{" "}
+            <span className="text-slate-700 font-bold">{lead.areaName || lead.itemInterest || "—"}</span>
+          </p>
+          {lead.nextContactAt && (
+            <p className={cn(
+              "mt-1 text-[11px] font-bold",
+              new Date(lead.nextContactAt) < new Date() ? "text-red-600" : "text-slate-500"
+            )}>
+              Próximo contato: {new Date(lead.nextContactAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+            </p>
+          )}
+          {lead.tags && lead.tags.length > 0 && (
+            <div className="mt-1.5 flex flex-wrap gap-1">
+              {lead.tags.slice(0, 3).map((t) => (
+                <span key={t} className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-semibold text-slate-600">{t}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 mt-1 pl-1">
+        <span className="text-[10px] text-slate-400 font-bold flex items-center gap-1">
+          <Calendar className="h-3 w-3" />
+          {dateString} {elapsed && <span className="text-slate-400 font-medium">{elapsed}</span>}
+        </span>
+
+        <div className="flex items-center gap-2">
+          {/* Priority badge */}
+          {scoreInfo.level === "priority" && (
+            <Badge className="bg-purple-50 text-purple-700 border-purple-200 text-[9px] font-bold animate-pulse">
+              PRIORITÁRIO
+            </Badge>
+          )}
+
+          {lead.approvalStatus && lead.approvalStatus !== "pending" && scoreInfo.level !== "priority" && (
+            <Badge className={cn(
+              "text-[9px] font-bold px-1.5 py-0.2",
+              lead.approvalStatus === "approved" 
+                ? "bg-emerald-50 text-emerald-700 border-emerald-200" 
+                : "bg-red-50 text-red-700 border-red-200"
+            )}>
+              {lead.approvalStatus === "approved" ? "APROVADO" : "REJEITADO"}
+            </Badge>
+          )}
+
+          {lead.whatsappSent && (
+            <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 text-[9px] font-bold">
+              WA
+            </Badge>
+          )}
+          
+          <a 
+            href={waUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()} 
+            className="p-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white border border-emerald-200 transition-all duration-300 flex items-center justify-center"
+            title="Chamar no WhatsApp"
+          >
+            <MessageSquare className="h-3.5 w-3.5" />
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export function getElapsedTime(createdAt: any): string {
+  if (!createdAt) return ""
+  
+  let date: Date
+  if (typeof createdAt?.toDate === 'function') {
+    date = createdAt.toDate()
+  } else if (createdAt instanceof Date) {
+    date = createdAt
+  } else if (typeof createdAt === 'string' || typeof createdAt === 'number') {
+    date = new Date(createdAt)
+  } else {
+    return ""
+  }
+  
+  if (isNaN(date.getTime())) return ""
+  
+  const diffMs = Date.now() - date.getTime()
+  const diffMins = Math.floor(diffMs / 60000)
+  
+  if (diffMins < 1) return "(há menos de 1 min)"
+  if (diffMins < 60) return `(há ${diffMins} min)`
+  
+  const diffHours = Math.floor(diffMins / 60)
+  if (diffHours < 24) return `(há ${diffHours}h)`
+  
+  const diffDays = Math.floor(diffHours / 24)
+  return `(há ${diffDays}d)`
+}

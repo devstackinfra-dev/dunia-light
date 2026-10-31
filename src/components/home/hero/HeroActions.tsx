@@ -1,0 +1,60 @@
+"use client"
+
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { ArrowRight, Phone } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { BRAND, whatsappLink } from "@/config/brand"
+import { cn } from "@/lib/utils"
+
+interface HeroActionsProps {
+  ctaText: string
+  ctaUrl: string
+  theme?: string
+  alignment?: "left" | "center" | "right"
+  onClick?: () => void
+}
+
+export function HeroActions({ ctaText, ctaUrl, theme = "navy", alignment = "center", onClick }: HeroActionsProps) {
+  // Sem número configurado não há para onde mandar: o botão some.
+  const temWhatsapp = Boolean(BRAND.contact.whatsapp)
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 25 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.6 }}
+      className={cn(
+        "flex flex-col sm:flex-row items-center gap-5 mb-20",
+        alignment === "left" && "justify-start text-left sm:items-start",
+        alignment === "right" && "justify-end text-right sm:items-end",
+        alignment === "center" && "justify-center text-center sm:items-center"
+      )}
+    >
+      {ctaText && ctaUrl && (
+        <Link href={ctaUrl} onClick={onClick} className="w-full sm:w-auto">
+          <Button
+            className={cn(
+              "w-full sm:w-auto h-15 px-8 text-base font-extrabold rounded-lg shadow-md hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-2",
+              theme === "amber" && "bg-amber-500 hover:bg-amber-400 text-slate-950",
+              theme === "emerald" && "bg-emerald-600 hover:bg-emerald-500 text-white",
+              theme === "navy" && "bg-sky-600 hover:bg-sky-500 text-white"
+            )}
+          >
+            {ctaText} <ArrowRight className="h-5 w-5" />
+          </Button>
+        </Link>
+      )}
+      {temWhatsapp && (
+        <Link href={whatsappLink()} target="_blank" onClick={onClick} className="w-full sm:w-auto">
+          <Button
+            variant="outline"
+            className="w-full sm:w-auto h-15 px-8 text-base rounded-lg border-slate-200 hover:border-sky-500 bg-white hover:bg-slate-50 text-slate-700 transition-all duration-300 flex items-center justify-center gap-2"
+          >
+            Chamar no WhatsApp <Phone className="h-4 w-4 text-sky-600" />
+          </Button>
+        </Link>
+      )}
+    </motion.div>
+  )
+}

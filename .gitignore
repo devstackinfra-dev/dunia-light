@@ -1,0 +1,43 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files — o .env.example precisa ser versionado
+.env*
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# service worker gerado pelo next-pwa (dest: "public")
+/public/sw.js
+/public/sw.js.map
+/public/workbox-*.js
+/public/workbox-*.js.map
+/public/worker-*.js
+/public/swe-worker-*.js
+/public/fallback-*.js
+# Conteúdo de cada cliente (textos, contatos): vai para o banco dele pelo
+# scripts/importar-conteudo.mjs, nunca para o repositório compartilhado
+/clientes/
+# Prévia local da marca de um cliente; em produção o logo vai para o
+# bucket "logos" do Supabase dele
+/public/clientes/
