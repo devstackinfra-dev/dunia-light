@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/icons/admin-apple-180.png", sizes: "180x180", type: "image/png" }],
   },
+  other: {
+    "mobile-web-app-capable": "yes",
+  },
   // O painel é privado: nunca deve ser indexado.
   robots: { index: false, follow: false },
 }

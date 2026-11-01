@@ -1721,6 +1721,290 @@ export default function AdminExperienciasPage() {
           )}
 
           {/* ========================================================= */}
+          {/* ========================================================= */}
+          {/* TAB: REVISTA DÚNIA (EDITORIAL & PUBLICAÇÕES) */}
+          {/* ========================================================= */}
+          {activeTab === "revista" && (
+            <div className="space-y-8 animate-fadeIn">
+              {/* Header do Módulo Editorial */}
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 rounded-3xl border border-[#D3B47C]/30 bg-gradient-to-r from-[#1A1715] via-[#161311] to-[#12100E] p-8 shadow-2xl">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="rounded-full bg-[#D3B47C] px-3.5 py-1 text-[0.65rem] font-bold uppercase tracking-widest text-[#100E0D]">
+                      EDITORIAL DÚNIA
+                    </span>
+                    <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-[0.65rem] font-bold text-emerald-400">
+                      ● Revista Digital Ativa
+                    </span>
+                  </div>
+                  <h3 className="mt-3 font-serif text-3xl text-white">Revista Dúnia — Gestão Editorial & Publicações</h3>
+                  <p className="mt-2 text-xs text-[#ABA29A] max-w-2xl leading-relaxed">
+                    Crie, edite e publique reportagens exclusivas, coberturas de casamentos reais, inspirações cenográficas e lançamentos da alta gastronomia. As matérias com status &quot;Publicado&quot; são exibidas instantaneamente na seção editorial da página inicial do Dúnia City Hall.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={handleOpenNewArticleModal}
+                    className="flex items-center gap-2 rounded-xl bg-[#D3B47C] px-5 py-3 text-xs font-bold uppercase tracking-wider text-[#100E0D] shadow-lg transition hover:opacity-90"
+                  >
+                    <PlusCircle className="h-4 w-4" />
+                    <span>Nova Publicação</span>
+                  </button>
+                  <a
+                    href="/#journal"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-xs font-semibold text-white transition hover:border-[#D3B47C] hover:text-[#D3B47C]"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    <span>Ver no Hotsite</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Métricas Rápidas do Editorial */}
+              <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+                <div className="rounded-2xl border border-white/10 bg-[#161311] p-5 shadow-sm">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-[#ABA29A] block">
+                    TOTAL DE ARTIGOS
+                  </span>
+                  <div className="mt-2 flex items-baseline gap-2">
+                    <strong className="font-serif text-3xl text-white">{articles.length}</strong>
+                    <span className="text-xs text-[#ABA29A]">matérias</span>
+                  </div>
+                  <span className="mt-2 block text-[0.68rem] text-white/50">Acervo cadastrado</span>
+                </div>
+
+                <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5 shadow-sm">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-emerald-400 block">
+                    AO VIVO NO HOTSITE
+                  </span>
+                  <div className="mt-2 flex items-baseline gap-2">
+                    <strong className="font-serif text-3xl text-emerald-400">
+                      {articles.filter((a) => a.status === "publicado").length}
+                    </strong>
+                    <span className="text-xs text-emerald-300">publicados</span>
+                  </div>
+                  <span className="mt-2 block text-[0.68rem] text-emerald-400/70">Visíveis aos noivos</span>
+                </div>
+
+                <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-5 shadow-sm">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-amber-400 block">
+                    RASCUNHOS INTERNOS
+                  </span>
+                  <div className="mt-2 flex items-baseline gap-2">
+                    <strong className="font-serif text-3xl text-amber-300">
+                      {articles.filter((a) => a.status === "rascunho").length}
+                    </strong>
+                    <span className="text-xs text-amber-200">em edição</span>
+                  </div>
+                  <span className="mt-2 block text-[0.68rem] text-amber-300/70">Não aparecem no site</span>
+                </div>
+
+                <div className="rounded-2xl border border-white/10 bg-[#161311] p-5 shadow-sm">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-[#D3B47C] block">
+                    LEITORES ESTIMADOS
+                  </span>
+                  <div className="mt-2 flex items-baseline gap-2">
+                    <strong className="font-serif text-3xl text-[#D3B47C]">~4.8k</strong>
+                    <span className="text-xs text-[#ABA29A]">leitores/mês</span>
+                  </div>
+                  <span className="mt-2 block text-[0.68rem] text-white/50">Tráfego de conversão</span>
+                </div>
+              </div>
+
+              {/* Barra de Filtros e Busca */}
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 rounded-2xl border border-white/10 bg-[#161311] p-4">
+                {/* Categorias */}
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { key: "all", label: "Todas as Matérias" },
+                    { key: "casamento", label: "Casamentos" },
+                    { key: "inspiracao", label: "Inspiração" },
+                    { key: "eventos", label: "Eventos" },
+                    { key: "gastronomia", label: "Alta Gastronomia" },
+                  ].map(({ key, label }) => (
+                    <button
+                      key={key}
+                      onClick={() => setArticleCategoryFilter(key)}
+                      className={`rounded-full px-3.5 py-1.5 text-xs font-semibold tracking-wider transition ${
+                        articleCategoryFilter === key
+                          ? "bg-[#D3B47C] text-[#100E0D] shadow"
+                          : "border border-white/10 bg-white/5 text-[#ABA29A] hover:bg-white/10 hover:text-white"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Filtro de Status e Busca */}
+                <div className="flex items-center gap-3">
+                  <div className="flex rounded-xl border border-white/10 bg-black/40 p-1">
+                    <button
+                      onClick={() => setArticleStatusFilter("all")}
+                      className={`rounded-lg px-2.5 py-1 text-[0.68rem] font-bold uppercase transition ${
+                        articleStatusFilter === "all" ? "bg-[#D3B47C] text-[#100E0D]" : "text-[#ABA29A]"
+                      }`}
+                    >
+                      Todos
+                    </button>
+                    <button
+                      onClick={() => setArticleStatusFilter("publicado")}
+                      className={`rounded-lg px-2.5 py-1 text-[0.68rem] font-bold uppercase transition ${
+                        articleStatusFilter === "publicado" ? "bg-emerald-500 text-black" : "text-[#ABA29A]"
+                      }`}
+                    >
+                      Publicados
+                    </button>
+                    <button
+                      onClick={() => setArticleStatusFilter("rascunho")}
+                      className={`rounded-lg px-2.5 py-1 text-[0.68rem] font-bold uppercase transition ${
+                        articleStatusFilter === "rascunho" ? "bg-amber-500 text-black" : "text-[#ABA29A]"
+                      }`}
+                    >
+                      Rascunhos
+                    </button>
+                  </div>
+
+                  <div className="relative min-w-[200px]">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[#ABA29A]" />
+                    <input
+                      type="text"
+                      value={articleSearchQuery}
+                      onChange={(e) => setArticleSearchQuery(e.target.value)}
+                      placeholder="Buscar matéria..."
+                      className="w-full rounded-xl border border-white/10 bg-black/40 pl-9 pr-3 py-1.5 text-xs text-white placeholder-white/30 focus:border-[#D3B47C] focus:outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Grid de Artigos */}
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {filteredArticles.map((art) => (
+                  <div
+                    key={art.id}
+                    className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-[#161311] shadow-lg transition duration-300 hover:border-[#D3B47C]/50 hover:shadow-2xl"
+                  >
+                    <div>
+                      {/* Imagem de Capa com Badges */}
+                      <div className="relative aspect-[16/10] w-full overflow-hidden bg-black">
+                        <img
+                          src={art.image}
+                          alt={art.title}
+                          className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#161311] via-transparent to-transparent" />
+
+                        {/* Badges superiores */}
+                        <div className="absolute left-3 top-3 flex items-center gap-2">
+                          <span className="rounded-full bg-black/70 px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-[#D3B47C] backdrop-blur-md border border-[#D3B47C]/30">
+                            {art.category}
+                          </span>
+                          {art.featured && (
+                            <span className="rounded-full bg-[#D3B47C] px-2 py-0.5 text-[0.55rem] font-bold uppercase tracking-widest text-[#100E0D]">
+                              Destaque
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Status no canto direito */}
+                        <div className="absolute right-3 top-3">
+                          {art.status === "publicado" ? (
+                            <span className="flex items-center gap-1.5 rounded-full bg-emerald-500/90 px-2.5 py-1 text-[0.6rem] font-bold uppercase text-black shadow-md backdrop-blur-md">
+                              <span className="h-1.5 w-1.5 rounded-full bg-black animate-pulse" />
+                              No Ar
+                            </span>
+                          ) : (
+                            <span className="rounded-full bg-amber-500/90 px-2.5 py-1 text-[0.6rem] font-bold uppercase text-black shadow-md backdrop-blur-md">
+                              Rascunho
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Conteúdo Textual */}
+                      <div className="p-6">
+                        <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#D3B47C]">
+                          {art.label}
+                        </span>
+                        <h4 className="mt-2 font-serif text-xl font-normal text-white line-clamp-2 leading-snug group-hover:text-[#D3B47C] transition">
+                          {art.title}
+                        </h4>
+                        <p className="mt-2 text-xs text-[#ABA29A] line-clamp-2 leading-relaxed">
+                          {art.text}
+                        </p>
+
+                        <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-[0.68rem] text-white/50">
+                          <span>{art.author || "Redação Dúnia"}</span>
+                          <span>{art.readTime || "4 min"} · {art.date || "2026"}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Barra de Ações Rápidas */}
+                    <div className="border-t border-white/10 bg-black/40 p-4 flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleOpenEditArticleModal(art)}
+                          className="flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white hover:border-[#D3B47C] hover:text-[#D3B47C] transition"
+                        >
+                          <Edit3 className="h-3.5 w-3.5" />
+                          <span>Editar</span>
+                        </button>
+                        <button
+                          onClick={() => setPreviewArticle(art)}
+                          className="flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/80 hover:text-white transition"
+                        >
+                          <Eye className="h-3.5 w-3.5" />
+                          <span>Prévia</span>
+                        </button>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleToggleArticleStatus(art)}
+                          title={art.status === "publicado" ? "Mudar para Rascunho" : "Publicar no Hotsite"}
+                          className={`rounded-xl px-2.5 py-1.5 text-xs font-semibold transition ${
+                            art.status === "publicado"
+                              ? "bg-amber-500/10 text-amber-300 hover:bg-amber-500/20"
+                              : "bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20"
+                          }`}
+                        >
+                          {art.status === "publicado" ? "Despublicar" : "Publicar"}
+                        </button>
+                        <button
+                          onClick={() => handleDeleteArticle(art.id, art.title)}
+                          title="Excluir Matéria"
+                          className="rounded-xl border border-red-500/20 bg-red-500/10 p-2 text-red-400 hover:bg-red-500/20 transition"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {filteredArticles.length === 0 && (
+                <div className="rounded-3xl border border-dashed border-white/15 p-12 text-center bg-[#161311]">
+                  <BookOpen className="mx-auto h-12 w-12 text-[#D3B47C]/40" />
+                  <h4 className="mt-4 font-serif text-xl text-white">Nenhuma matéria encontrada</h4>
+                  <p className="mt-1 text-xs text-[#ABA29A]">Tente alterar os filtros ou crie uma nova publicação para a revista.</p>
+                  <button
+                    onClick={handleOpenNewArticleModal}
+                    className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#D3B47C] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#100E0D]"
+                  >
+                    <PlusCircle className="h-4 w-4" />
+                    <span>Criar Publicação</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* TAB: CATÁLOGO & SIMULADOR */}
           {/* ========================================================= */}
           {activeTab === "catalog" && (
