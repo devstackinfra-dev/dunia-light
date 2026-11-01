@@ -224,7 +224,7 @@ export default function LiveTelaoPage() {
         return "animate-zoomIn transition-transform duration-1000"
       case "kenburns":
       default:
-        return "animate-kenburns transition-transform duration-[7000ms] ease-out scale-105"
+        return "animate-kenburns transition-transform [transition-duration:7000ms] ease-out scale-105"
     }
   }
 

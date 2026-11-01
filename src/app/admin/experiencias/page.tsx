@@ -1926,7 +1926,7 @@ export default function AdminExperienciasPage() {
               {editingArticle ? "Editar Publicação Editorial" : "Nova Publicação na Revista Dúnia"}
             </h3>
             <p className="mt-1 text-xs text-[#ABA29A]">
-              Edite as informações abaixo. As matérias com status "Publicado" aparecem automaticamente na seção editorial do hotsite.
+              Edite as informações abaixo. As matérias com status &quot;Publicado&quot; aparecem automaticamente na seção editorial do hotsite.
             </p>
 
             <form onSubmit={handleSaveArticle} className="mt-6 space-y-5">
