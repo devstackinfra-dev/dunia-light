@@ -647,7 +647,7 @@ export default function PainelCasalPage() {
               { key: "editor", label: "Editor do Mini-site", icon: Edit3, enabled: true },
               { key: "checkin", label: "Controle de Entrada", icon: CheckCircle, enabled: event.modules?.receptionCheckin !== false },
               { key: "album", label: "Dúnia Memories", icon: Camera, enabled: event.modules?.guestAlbum !== false || event.modules?.liveTelao !== false },
-              { key: "business", label: "Serviços & Upgrades", icon: DollarSign, enabled: true },
+              { key: "business", label: "Módulos & Upgrades", icon: Sparkles, enabled: true },
             ].map(({ key, label, icon: Icon, enabled }) => (
               <button
                 key={key}
@@ -762,7 +762,7 @@ export default function PainelCasalPage() {
               {activeTab === "editor" && "Editor do Mini-site"}
               {activeTab === "checkin" && "Controle de Entrada & Recepção"}
               {activeTab === "album" && "Dúnia Memories (Álbum de Fotos)"}
-              {activeTab === "business" && "Serviços Adicionais & Upgrades"}
+              {activeTab === "business" && "Módulos Contratados & Upgrades da Celebração"}
             </h1>
           </div>
 
@@ -1758,7 +1758,7 @@ export default function PainelCasalPage() {
 
                     {/* Moldura do QR Code */}
                     <div className="mx-auto my-3 w-40 h-40 rounded-xl border-2 border-[#D3B47C]/60 bg-white p-2.5 shadow-md flex items-center justify-center">
-                      <Image
+                      <img
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=4&color=120F0D&bgcolor=FFFFFF&data=${encodeURIComponent(
                           typeof window !== "undefined"
                             ? `${window.location.origin}/evento/fotos`
@@ -1947,93 +1947,398 @@ export default function PainelCasalPage() {
             </div>
           )}
 
-          {/* TAB 6: SERVIÇOS ADICIONAIS & SIMULADOR */}
+          {/* TAB 6: MÓDULOS ATIVOS & UPGRADES PARA O CASAL */}
           {activeTab === "business" && (
-            <div className="space-y-8">
-              <div className="grid gap-6 lg:grid-cols-2">
-                <div className="rounded-2xl border border-white/10 bg-[#161311] p-8">
-                  <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#D3B47C]">
-                    MODELO DE NEGÓCIO
-                  </span>
-                  <h3 className="font-serif text-3xl text-white">Simulador de Receita Adicional</h3>
-                  <p className="mt-2 text-xs text-[#ABA29A]">
-                    Calcule o potencial de rentabilidade dos pacotes digitais e serviços extras por evento.
-                  </p>
-
-                  <div className="mt-8 space-y-6">
-                    <div>
-                      <div className="flex justify-between text-xs font-semibold text-white">
-                        <span>Eventos realizados / mês</span>
-                        <span className="text-[#D3B47C]">{simMonth} eventos</span>
-                      </div>
-                      <input
-                        type="range"
-                        min={1}
-                        max={30}
-                        value={simMonth}
-                        onChange={(e) => setSimMonth(Number(e.target.value))}
-                        className="mt-2 w-full accent-[#D3B47C]"
-                      />
+            <div className="space-y-8 animate-fadeIn">
+              {/* Banner do Plano Contratado */}
+              <div className="rounded-3xl border border-[#D3B47C]/30 bg-gradient-to-r from-[#1A1715] via-[#161311] to-[#12100E] p-6 sm:p-8 shadow-xl">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="rounded-full bg-[#D3B47C] px-3 py-1 text-[0.65rem] font-bold uppercase tracking-widest text-[#100E0D]">
+                        PLANO CONTRATADO
+                      </span>
+                      <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-[0.65rem] font-bold text-emerald-400">
+                        ✓ Ativo no Dúnia City Hall
+                      </span>
                     </div>
+                    <h3 className="font-serif text-3xl text-white mt-3">{event.plan || "Dúnia Guest OS + Memories"}</h3>
+                    <p className="text-xs text-[#ABA29A] mt-1 max-w-xl leading-relaxed">
+                      Celebração de <strong>{event.name}</strong> · {formatEventDate(event.date)} no {event.operational?.espaco || event.venue}.
+                    </p>
+                  </div>
 
+                  <div className="grid grid-cols-3 gap-3 rounded-2xl bg-black/50 p-4 border border-white/10 text-center min-w-[300px]">
                     <div>
-                      <div className="flex justify-between text-xs font-semibold text-white">
-                        <span>Taxa de contratação do pacote digital</span>
-                        <span className="text-[#D3B47C]">{simRate}%</span>
-                      </div>
-                      <input
-                        type="range"
-                        min={5}
-                        max={100}
-                        step={5}
-                        value={simRate}
-                        onChange={(e) => setSimRate(Number(e.target.value))}
-                        className="mt-2 w-full accent-[#D3B47C]"
-                      />
+                      <span className="text-[0.65rem] uppercase text-[#ABA29A] block">Código VIP</span>
+                      <strong className="text-sm font-mono text-[#D3B47C]">{event.hostAccessCode || "DUNIA26"}</strong>
                     </div>
-
                     <div>
-                      <div className="flex justify-between text-xs font-semibold text-white">
-                        <span>Ticket médio do pacote (R$)</span>
-                        <span className="text-[#D3B47C]">
-                          {simTicket.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      <span className="text-[0.65rem] uppercase text-[#ABA29A] block">Cota WhatsApp</span>
+                      <strong className="text-sm font-mono text-emerald-400">{event.whatsappQuota || 350} msgs</strong>
+                    </div>
+                    <div>
+                      <span className="text-[0.65rem] uppercase text-[#ABA29A] block">Vagas Máximas</span>
+                      <strong className="text-sm font-mono text-white">{event.maxGuests || 300} pax</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* SEÇÃO 1: MÓDULOS JÁ ATIVOS E LIBERADOS */}
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <span className="text-[0.65rem] font-bold uppercase tracking-widest text-emerald-400">
+                      RECURSOS DO SEU EVENTO
+                    </span>
+                    <h4 className="font-serif text-2xl text-white mt-0.5">Módulos Já Ativos & Inclusos</h4>
+                  </div>
+                  <span className="text-xs text-[#ABA29A]">Tudo funcionando em tempo real</span>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {/* Mini-site */}
+                  <div className="rounded-2xl border border-emerald-500/30 bg-[#161311] p-5 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-[0.6rem] font-bold text-emerald-300">
+                          ✓ ATIVO
                         </span>
+                        <ExternalLink className="h-4 w-4 text-[#D3B47C]" />
                       </div>
-                      <input
-                        type="range"
-                        min={800}
-                        max={5000}
-                        step={100}
-                        value={simTicket}
-                        onChange={(e) => setSimTicket(Number(e.target.value))}
-                        className="mt-2 w-full accent-[#D3B47C]"
-                      />
+                      <h5 className="font-serif text-lg text-white mt-2">Mini-site Oficial dos Noivos</h5>
+                      <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
+                        Página nobre na internet com contagem regressiva, traje recomendado, localização no Lago Sul e confirmação de presença VIP.
+                      </p>
                     </div>
+                    <Link
+                      href="/evento"
+                      target="_blank"
+                      className="mt-4 inline-flex items-center gap-1.5 text-xs text-[#D3B47C] font-semibold hover:underline"
+                    >
+                      <span>Visualizar Mini-site</span>
+                      <ExternalLink className="h-3 w-3" />
+                    </Link>
                   </div>
+
+                  {/* RSVP & Convites */}
+                  <div className="rounded-2xl border border-emerald-500/30 bg-[#161311] p-5 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-[0.6rem] font-bold text-emerald-300">
+                          ✓ ATIVO
+                        </span>
+                        <MessageSquare className="h-4 w-4 text-emerald-400" />
+                      </div>
+                      <h5 className="font-serif text-lg text-white mt-2">RSVP & Disparo WhatsApp</h5>
+                      <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
+                        Código individual de confirmação por convidado com link de auto-preenchimento e bloqueio de penetras.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setActiveTab("guests")}
+                      className="mt-4 text-left text-xs text-[#D3B47C] font-semibold hover:underline"
+                    >
+                      Gerenciar Convidados →
+                    </button>
+                  </div>
+
+                  {/* Telão Interativo */}
+                  <div className="rounded-2xl border border-emerald-500/30 bg-[#161311] p-5 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-[0.6rem] font-bold text-emerald-300">
+                          ✓ ATIVO
+                        </span>
+                        <Tv className="h-4 w-4 text-[#D3B47C]" />
+                      </div>
+                      <h5 className="font-serif text-lg text-white mt-2">Telão Interativo Memories</h5>
+                      <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
+                        Fotos tiradas pelos convidados aparecem no telão ao vivo durante a festa com transição Ken Burns e música.
+                      </p>
+                    </div>
+                    <Link
+                      href="/evento/telao"
+                      target="_blank"
+                      className="mt-4 inline-flex items-center gap-1.5 text-xs text-[#D3B47C] font-semibold hover:underline"
+                    >
+                      <span>Abrir Telão do Salão</span>
+                      <ExternalLink className="h-3 w-3" />
+                    </Link>
+                  </div>
+
+                  {/* Portaria Check-in */}
+                  <div className="rounded-2xl border border-emerald-500/30 bg-[#161311] p-5 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-[0.6rem] font-bold text-emerald-300">
+                          ✓ ATIVO
+                        </span>
+                        <ShieldCheck className="h-4 w-4 text-sky-400" />
+                      </div>
+                      <h5 className="font-serif text-lg text-white mt-2">Controle de Portaria QR Code</h5>
+                      <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
+                        Recepção do Dúnia valida a entrada dos convidados por leitor de QR Code com trava anti-duplicidade.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setActiveTab("checkin")}
+                      className="mt-4 text-left text-xs text-[#D3B47C] font-semibold hover:underline"
+                    >
+                      Acessar Portaria →
+                    </button>
+                  </div>
+
+                  {/* Álbum Colaborativo */}
+                  <div className="rounded-2xl border border-emerald-500/30 bg-[#161311] p-5 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-[0.6rem] font-bold text-emerald-300">
+                          ✓ ATIVO
+                        </span>
+                        <Camera className="h-4 w-4 text-purple-400" />
+                      </div>
+                      <h5 className="font-serif text-lg text-white mt-2">Álbum Colaborativo de Memórias</h5>
+                      <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
+                        Espaço para os convidados enviarem votos de felicidade e fotos espontâneas que ficam salvas para o casal.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setActiveTab("album")}
+                      className="mt-4 text-left text-xs text-[#D3B47C] font-semibold hover:underline"
+                    >
+                      Ver Fotos Recebidas →
+                    </button>
+                  </div>
+
+                  {/* Editor em Tempo Real */}
+                  <div className="rounded-2xl border border-emerald-500/30 bg-[#161311] p-5 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-[0.6rem] font-bold text-emerald-300">
+                          ✓ ATIVO
+                        </span>
+                        <Edit3 className="h-4 w-4 text-amber-400" />
+                      </div>
+                      <h5 className="font-serif text-lg text-white mt-2">Editor em Tempo Real</h5>
+                      <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
+                        Personalize textos, horários, mensagem aos convidados e tema cromático (Ouro Champagne, Rosé ou Oliva).
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setActiveTab("editor")}
+                      className="mt-4 text-left text-xs text-[#D3B47C] font-semibold hover:underline"
+                    >
+                      Editar Informações →
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* SEÇÃO 2: UPGRADES & SERVIÇOS ADICIONAIS QUE O CASAL PODE ADQUIRIR */}
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
+                      SERVIÇOS EXCLUSIVOS DO SALÃO
+                    </span>
+                    <h4 className="font-serif text-2xl text-white mt-0.5">Upgrades Disponíveis para Adquirir</h4>
+                  </div>
+                  <span className="text-xs text-[#ABA29A]">Contratados diretamente com o Dúnia</span>
                 </div>
 
-                <div className="flex flex-col justify-center rounded-2xl border border-[#D3B47C]/30 bg-gradient-to-br from-[#1A1715] to-[#100E0D] p-8 text-center shadow-xl">
-                  <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[#D3B47C]">
-                    RECEITA ADICIONAL MENSAL ESTIMADA
-                  </span>
-                  <div className="mt-4 font-serif text-5xl font-normal text-white sm:text-6xl">
-                    {((simMonth * simRate) / 100 * simTicket).toLocaleString("pt-BR", {
-                      style: "currency",
-                      currency: "BRL",
-                      maximumFractionDigits: 0,
-                    })}
+                <div className="grid gap-6 lg:grid-cols-3">
+                  {/* UPGRADE 1: TOTENS DE MESA EM ACRÍLICO */}
+                  <div className="rounded-3xl border border-white/10 bg-[#161311] p-6 flex flex-col justify-between transition hover:border-[#D3B47C]/50 shadow-xl">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="rounded-full bg-[#D3B47C]/20 border border-[#D3B47C]/40 px-2.5 py-0.5 text-[0.65rem] font-bold text-[#D3B47C]">
+                          EXPERIÊNCIA FÍSICA
+                        </span>
+                        <strong className="text-sm font-mono text-white">R$ 490</strong>
+                      </div>
+                      <h5 className="font-serif text-xl text-white mt-3">Totens de Mesa em Acrílico Dourado</h5>
+                      <p className="text-xs text-[#ABA29A] mt-2 leading-relaxed">
+                        <strong>O que é:</strong> O Dúnia confecciona placas nobres em acrílico com a identidade visual dourada do seu casamento e o QR Code exclusivo da sua celebração, já distribuídas em todas as mesas.
+                      </p>
+                      <div className="mt-3 rounded-xl bg-black/40 p-3 text-[0.7rem] text-[#DFD5CA] border border-white/5">
+                        💡 <em>Seus convidados sentam na mesa, apontam a câmera e sobem fotos instantâneas direto para o telão!</em>
+                      </div>
+                    </div>
+
+                    <a
+                      href={`https://api.whatsapp.com/send?phone=5561999999999&text=${encodeURIComponent(
+                        `Olá equipe Dúnia! Somos o casal ${event.name} (${formatEventDate(event.date)}). Gostaríamos de contratar o upgrade dos Totens de Mesa em Acrílico!`
+                      )}`}
+                      target="_blank"
+                      className="mt-5 flex items-center justify-center gap-2 rounded-xl bg-[#D3B47C] py-2.5 text-xs font-bold text-[#100E0D] hover:bg-[#D3B47C]/90 transition"
+                    >
+                      <Sparkles className="h-3.5 w-3.5" />
+                      <span>Solicitar com Consultor</span>
+                    </a>
                   </div>
-                  <p className="mt-3 text-xs text-[#ABA29A]">
-                    Potencial anual estimado:{" "}
-                    <strong className="text-[#D3B47C]">
-                      {(((simMonth * simRate) / 100 * simTicket) * 12).toLocaleString("pt-BR", {
-                        style: "currency",
-                        currency: "BRL",
-                        maximumFractionDigits: 0,
-                      })}
-                    </strong>
-                  </p>
+
+                  {/* UPGRADE 2: DISPAROS AUTOMÁTICOS DE LEMBRETE DE RSVP */}
+                  <div className="rounded-3xl border border-white/10 bg-[#161311] p-6 flex flex-col justify-between transition hover:border-[#D3B47C]/50 shadow-xl">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="rounded-full bg-emerald-500/20 border border-emerald-500/40 px-2.5 py-0.5 text-[0.65rem] font-bold text-emerald-300">
+                          COMODIDADE MÁXIMA
+                        </span>
+                        <strong className="text-sm font-mono text-white">R$ 390</strong>
+                      </div>
+                      <h5 className="font-serif text-xl text-white mt-3">Lembretes Automáticos de RSVP (15 Dias Antes)</h5>
+                      <p className="text-xs text-[#ABA29A] mt-2 leading-relaxed">
+                        <strong>O que é:</strong> A equipe do salão programa e dispara mensagens amigáveis pelo WhatsApp para todos os convidados que ainda não responderam a confirmação de presença.
+                      </p>
+                      <div className="mt-3 rounded-xl bg-black/40 p-3 text-[0.7rem] text-[#DFD5CA] border border-white/5">
+                        💡 <em>Garante a lista exata fechada para o buffet Dúnia sem que os noivos precisem ligar ou cobrar ninguém.</em>
+                      </div>
+                    </div>
+
+                    <a
+                      href={`https://api.whatsapp.com/send?phone=5561999999999&text=${encodeURIComponent(
+                        `Olá equipe Dúnia! Somos o casal ${event.name} (${formatEventDate(event.date)}). Gostaríamos de contratar o serviço de Lembretes Automáticos de RSVP!`
+                      )}`}
+                      target="_blank"
+                      className="mt-5 flex items-center justify-center gap-2 rounded-xl bg-white/10 border border-white/20 py-2.5 text-xs font-bold text-white hover:bg-white/20 transition"
+                    >
+                      <MessageSquare className="h-3.5 w-3.5 text-emerald-400" />
+                      <span>Contratar Lembretes</span>
+                    </a>
+                  </div>
+
+                  {/* UPGRADE 3: GOOGLE DRIVE VIP COM FOTOS TRATADAS */}
+                  <div className="rounded-3xl border border-white/10 bg-[#161311] p-6 flex flex-col justify-between transition hover:border-[#D3B47C]/50 shadow-xl">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="rounded-full bg-purple-500/20 border border-purple-500/40 px-2.5 py-0.5 text-[0.65rem] font-bold text-purple-300">
+                          MEMÓRIAS ETERNAS
+                        </span>
+                        <strong className="text-sm font-mono text-white">R$ 490</strong>
+                      </div>
+                      <h5 className="font-serif text-xl text-white mt-3">Acervo Completo no Google Drive VIP</h5>
+                      <p className="text-xs text-[#ABA29A] mt-2 leading-relaxed">
+                        <strong>O que é:</strong> No dia seguinte à festa, a equipe técnica do Dúnia organiza todas as fotos e mensagens enviadas pelos convidados em uma pasta privativa no Google Drive com link vitalício.
+                      </p>
+                      <div className="mt-3 rounded-xl bg-black/40 p-3 text-[0.7rem] text-[#DFD5CA] border border-white/5">
+                        💡 <em>Download com 1 clique em alta definição e facilidade para compartilhar com pais, padrinhos e família no celular.</em>
+                      </div>
+                    </div>
+
+                    <a
+                      href={`https://api.whatsapp.com/send?phone=5561999999999&text=${encodeURIComponent(
+                        `Olá equipe Dúnia! Somos o casal ${event.name} (${formatEventDate(event.date)}). Gostaríamos de contratar a entrega do Acervo no Google Drive VIP!`
+                      )}`}
+                      target="_blank"
+                      className="mt-5 flex items-center justify-center gap-2 rounded-xl bg-white/10 border border-white/20 py-2.5 text-xs font-bold text-white hover:bg-white/20 transition"
+                    >
+                      <Camera className="h-3.5 w-3.5 text-purple-400" />
+                      <span>Solicitar Drive VIP</span>
+                    </a>
+                  </div>
+
+                  {/* UPGRADE 4: CONCIERGE DIGITAL DÚNIA */}
+                  <div className="rounded-3xl border border-white/10 bg-[#161311] p-6 flex flex-col justify-between transition hover:border-[#D3B47C]/50 shadow-xl">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="rounded-full bg-sky-500/20 border border-sky-500/40 px-2.5 py-0.5 text-[0.65rem] font-bold text-sky-300">
+                          ATENDIMENTO VIP
+                        </span>
+                        <strong className="text-sm font-mono text-white">R$ 690</strong>
+                      </div>
+                      <h5 className="font-serif text-xl text-white mt-3">Concierge Digital para Convidados</h5>
+                      <p className="text-xs text-[#ABA29A] mt-2 leading-relaxed">
+                        <strong>O que é:</strong> Um canal no WhatsApp do Dúnia dedicado a atender seus convidados tirando dúvidas sobre trajes (Passeio Completo/Black Tie), rotas no Lago Sul, horários e lista de presentes.
+                      </p>
+                      <div className="mt-3 rounded-xl bg-black/40 p-3 text-[0.7rem] text-[#DFD5CA] border border-white/5">
+                        💡 <em>Seus convidados são recebidos com a hospitalidade de um hotel 5 estrelas desde antes de chegarem ao salão.</em>
+                      </div>
+                    </div>
+
+                    <a
+                      href={`https://api.whatsapp.com/send?phone=5561999999999&text=${encodeURIComponent(
+                        `Olá equipe Dúnia! Somos o casal ${event.name} (${formatEventDate(event.date)}). Gostaríamos de saber mais sobre o Concierge Digital!`
+                      )}`}
+                      target="_blank"
+                      className="mt-5 flex items-center justify-center gap-2 rounded-xl bg-white/10 border border-white/20 py-2.5 text-xs font-bold text-white hover:bg-white/20 transition"
+                    >
+                      <Phone className="h-3.5 w-3.5 text-sky-400" />
+                      <span>Falar com Concierge</span>
+                    </a>
+                  </div>
+
+                  {/* UPGRADE 5: HORA EXTRA DE PISTA DE DANÇA */}
+                  <div className="rounded-3xl border border-white/10 bg-[#161311] p-6 flex flex-col justify-between transition hover:border-[#D3B47C]/50 shadow-xl">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="rounded-full bg-amber-500/20 border border-amber-500/40 px-2.5 py-0.5 text-[0.65rem] font-bold text-amber-300">
+                          CELEBRAÇÃO ATÉ O AMANHECER
+                        </span>
+                        <strong className="text-xs text-[#D3B47C] font-bold">Sob Consulta</strong>
+                      </div>
+                      <h5 className="font-serif text-xl text-white mt-3">Hora Extra de Balada (Até 06:00h)</h5>
+                      <p className="text-xs text-[#ABA29A] mt-2 leading-relaxed">
+                        <strong>O que é:</strong> Prorrogação da pista de dança com iluminação cênica de ponta, equipe de apoio, gerador e climatização ativados até o amanhecer do Lago Sul.
+                      </p>
+                      <div className="mt-3 rounded-xl bg-black/40 p-3 text-[0.7rem] text-[#DFD5CA] border border-white/5">
+                        💡 <em>Para festas animadas que merecem viver a noite inteira sem interrupção.</em>
+                      </div>
+                    </div>
+
+                    <a
+                      href={`https://api.whatsapp.com/send?phone=5561999999999&text=${encodeURIComponent(
+                        `Olá equipe Dúnia! Somos o casal ${event.name} (${formatEventDate(event.date)}). Gostaríamos de consultar disponibilidade de hora extra para nossa festa!`
+                      )}`}
+                      target="_blank"
+                      className="mt-5 flex items-center justify-center gap-2 rounded-xl bg-white/10 border border-white/20 py-2.5 text-xs font-bold text-white hover:bg-white/20 transition"
+                    >
+                      <Clock className="h-3.5 w-3.5 text-amber-300" />
+                      <span>Consultar com Gerência</span>
+                    </a>
+                  </div>
+
+                  {/* UPGRADE 6: PACOTE COMPLETO EXPERIÊNCIA IMPERIAL */}
+                  <div className="rounded-3xl border-2 border-[#D3B47C] bg-gradient-to-b from-[#1C1816] to-[#12100E] p-6 flex flex-col justify-between shadow-2xl relative">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="rounded-full bg-[#D3B47C] px-2.5 py-0.5 text-[0.65rem] font-bold text-[#100E0D]">
+                          PACOTE TUDO INCLUSO
+                        </span>
+                        <strong className="text-sm font-mono text-[#D3B47C]">R$ 1.290</strong>
+                      </div>
+                      <h5 className="font-serif text-xl text-white mt-3">Combo Experiência Imperial</h5>
+                      <p className="text-xs text-[#ABA29A] mt-2 leading-relaxed">
+                        <strong>O que é:</strong> Todos os adicionais digitais combinados: Totens de Mesa Acrílicos + Lembretes Automáticos WhatsApp + Entrega no Google Drive VIP + Suporte Técnico no Telão.
+                      </p>
+                      <div className="mt-3 rounded-xl bg-[#D3B47C]/10 p-3 text-[0.7rem] text-[#D3B47C] border border-[#D3B47C]/20">
+                        ⭐ <em>Economia de R$ 480 contratando o combo completo para o casamento!</em>
+                      </div>
+                    </div>
+
+                    <a
+                      href={`https://api.whatsapp.com/send?phone=5561999999999&text=${encodeURIComponent(
+                        `Olá equipe Dúnia! Somos o casal ${event.name} (${formatEventDate(event.date)}). Gostaríamos de contratar o Combo Experiência Imperial completo para o nosso casamento!`
+                      )}`}
+                      target="_blank"
+                      className="mt-5 flex items-center justify-center gap-2 rounded-xl bg-[#D3B47C] py-2.5 text-xs font-bold text-[#100E0D] hover:bg-[#D3B47C]/90 shadow transition"
+                    >
+                      <Sparkles className="h-3.5 w-3.5" />
+                      <span>Contratar Combo Imperial</span>
+                    </a>
+                  </div>
                 </div>
+              </div>
+
+              {/* BANNER DE SUPORTE PRESENCIAL NO LAGO SUL */}
+              <div className="rounded-2xl border border-white/10 bg-[#161311] p-6 text-center">
+                <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
+                  ATENDIMENTO EXCLUSIVO DÚNIA CITY HALL
+                </span>
+                <p className="mt-1 text-xs text-[#ABA29A] max-w-xl mx-auto leading-relaxed">
+                  Todos os módulos e upgrades são homologados, faturados e acompanhados diretamente pela equipe do salão. Dúvidas sobre seu contrato? Fale com sua cerimonialista ou com a gerência do Dúnia pelo WhatsApp oficial.
+                </p>
               </div>
             </div>
           )}

@@ -42,6 +42,11 @@ import {
   Utensils,
   Wine,
   Phone,
+  BookOpen,
+  Newspaper,
+  FileText,
+  EyeOff,
+  Search,
 } from "lucide-react"
 import {
   getStoredEvents,
@@ -61,9 +66,16 @@ import {
   getCommercialMode,
   setCommercialMode,
   type DuniaCommercialMode,
+  getStoredArticles,
+  saveStoredArticles,
+  createNewArticle,
+  updateArticle,
+  deleteArticle,
+  type DuniaArticle,
+  DEFAULT_DUNIA_ARTICLES,
 } from "@/lib/dunia-store"
 
-type AdminTab = "overview" | "calendar" | "modules" | "events" | "create" | "catalog" | "operations"
+type AdminTab = "overview" | "calendar" | "modules" | "events" | "create" | "revista" | "catalog" | "operations"
 
 export default function AdminExperienciasPage() {
   const [mounted, setMounted] = useState(false)
@@ -94,6 +106,27 @@ export default function AdminExperienciasPage() {
   const [newGuestsExpected, setNewGuestsExpected] = useState(280)
   const [newCerimonial, setNewCerimonial] = useState("Cerimonial Dúnia Excellence")
 
+  // Gestão da Revista Dúnia & Editorial
+  const [articles, setArticles] = useState<DuniaArticle[]>([])
+  const [articleCategoryFilter, setArticleCategoryFilter] = useState<string>("all")
+  const [articleStatusFilter, setArticleStatusFilter] = useState<"all" | "publicado" | "rascunho">("all")
+  const [articleSearchQuery, setArticleSearchQuery] = useState<string>("")
+  const [isArticleModalOpen, setIsArticleModalOpen] = useState(false)
+  const [editingArticle, setEditingArticle] = useState<DuniaArticle | null>(null)
+  const [previewArticle, setPreviewArticle] = useState<DuniaArticle | null>(null)
+
+  // Campos do formulário da Revista
+  const [formArtTitle, setFormArtTitle] = useState("")
+  const [formArtSubtitle, setFormArtSubtitle] = useState("")
+  const [formArtCategory, setFormArtCategory] = useState<"casamento" | "inspiracao" | "eventos" | "gastronomia">("casamento")
+  const [formArtLabel, setFormArtLabel] = useState("CASAMENTOS • PLANEJAMENTO")
+  const [formArtImage, setFormArtImage] = useState("/assets/casal.jpg")
+  const [formArtContent, setFormArtContent] = useState("")
+  const [formArtAuthor, setFormArtAuthor] = useState("Redação Dúnia")
+  const [formArtReadTime, setFormArtReadTime] = useState("4 min")
+  const [formArtStatus, setFormArtStatus] = useState<"publicado" | "rascunho">("publicado")
+  const [formArtFeatured, setFormArtFeatured] = useState(false)
+
   // Simulador de receita
   const [calcEvents, setCalcEvents] = useState(12)
   const [calcRate, setCalcRate] = useState(40)
@@ -104,6 +137,7 @@ export default function AdminExperienciasPage() {
     const stored = getStoredEvents()
     setEvents(stored)
     setCommercialModeState(getCommercialMode())
+    setArticles(getStoredArticles())
     if (stored.length > 0) {
       setSelectedEventId(stored[0].id)
     }
@@ -144,6 +178,108 @@ export default function AdminExperienciasPage() {
     setSelectedEventId(id)
     setActiveTab("modules")
   }
+
+
+  // Handlers da Revista Dúnia
+  const handleOpenNewArticleModal = () => {
+    setEditingArticle(null)
+    setFormArtTitle("")
+    setFormArtSubtitle("")
+    setFormArtCategory("casamento")
+    setFormArtLabel("CASAMENTOS • HISTÓRIAS")
+    setFormArtImage("/assets/casal.jpg")
+    setFormArtContent("")
+    setFormArtAuthor("Redação Dúnia")
+    setFormArtReadTime("4 min")
+    setFormArtStatus("publicado")
+    setFormArtFeatured(false)
+    setIsArticleModalOpen(true)
+  }
+
+  const handleOpenEditArticleModal = (art: DuniaArticle) => {
+    setEditingArticle(art)
+    setFormArtTitle(art.title)
+    setFormArtSubtitle(art.text)
+    setFormArtCategory(art.category)
+    setFormArtLabel(art.label)
+    setFormArtImage(art.image)
+    setFormArtContent(art.article)
+    setFormArtAuthor(art.author || "Redação Dúnia")
+    setFormArtReadTime(art.readTime || "4 min")
+    setFormArtStatus(art.status)
+    setFormArtFeatured(!!art.featured)
+    setIsArticleModalOpen(true)
+  }
+
+  const handleSaveArticle = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!formArtTitle.trim() || !formArtContent.trim()) {
+      notify("Preencha o título e o conteúdo da matéria.")
+      return
+    }
+
+    if (editingArticle) {
+      updateArticle(editingArticle.id, {
+        title: formArtTitle.trim(),
+        text: formArtSubtitle.trim() || formArtTitle.trim(),
+        category: formArtCategory,
+        label: formArtLabel.trim().toUpperCase(),
+        image: formArtImage.trim(),
+        article: formArtContent.trim(),
+        author: formArtAuthor.trim(),
+        readTime: formArtReadTime.trim(),
+        status: formArtStatus,
+        featured: formArtFeatured,
+      })
+      notify("Matéria '" + formArtTitle.trim() + "' atualizada com sucesso!")
+    } else {
+      createNewArticle({
+        title: formArtTitle.trim(),
+        text: formArtSubtitle.trim() || formArtTitle.trim(),
+        category: formArtCategory,
+        label: formArtLabel.trim().toUpperCase(),
+        image: formArtImage.trim(),
+        article: formArtContent.trim(),
+        author: formArtAuthor.trim(),
+        readTime: formArtReadTime.trim(),
+        status: formArtStatus,
+        featured: formArtFeatured,
+      })
+      notify("Nova matéria publicada na Revista Dúnia!")
+    }
+
+    setArticles(getStoredArticles())
+    setIsArticleModalOpen(false)
+  }
+
+  const handleToggleArticleStatus = (art: DuniaArticle) => {
+    const nextStatus = art.status === "publicado" ? "rascunho" : "publicado"
+    updateArticle(art.id, { status: nextStatus })
+    setArticles(getStoredArticles())
+    notify("Status da matéria alterado para: " + nextStatus.toUpperCase())
+  }
+
+  const handleDeleteArticle = (id: string | number, title: string) => {
+    if (typeof window !== "undefined" && window.confirm("Deseja realmente excluir a publicação '" + title + "' da Revista Dúnia?")) {
+      deleteArticle(id)
+      setArticles(getStoredArticles())
+      notify("Publicação excluída com sucesso.")
+    }
+  }
+
+  const filteredArticles = useMemo(() => {
+    return articles.filter((art) => {
+      const matchCategory = articleCategoryFilter === "all" || art.category === articleCategoryFilter
+      const matchStatus = articleStatusFilter === "all" || art.status === articleStatusFilter
+      const matchSearch =
+        !articleSearchQuery.trim() ||
+        art.title.toLowerCase().includes(articleSearchQuery.toLowerCase()) ||
+        art.text.toLowerCase().includes(articleSearchQuery.toLowerCase()) ||
+        art.article.toLowerCase().includes(articleSearchQuery.toLowerCase()) ||
+        (art.author && art.author.toLowerCase().includes(articleSearchQuery.toLowerCase()))
+      return matchCategory && matchStatus && matchSearch
+    })
+  }, [articles, articleCategoryFilter, articleStatusFilter, articleSearchQuery])
 
   // Toggle individual de módulo
   const handleToggleModule = (moduleKey: keyof DuniaEventModules) => {
@@ -353,6 +489,10 @@ export default function AdminExperienciasPage() {
             </span>
             <h2 className="mt-1 font-serif text-lg text-white">Dúnia Experience OS</h2>
             <p className="text-xs text-[#ABA29A]">Plataforma Digital de Eventos</p>
+            <div className="mt-2.5 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[0.65rem] font-bold text-emerald-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Plataforma .env: {commercialMode === "full" ? "Experience OS Completo" : "Modo Light (Hotsite)"}</span>
+            </div>
           </div>
 
           <nav className="space-y-1.5">
@@ -362,6 +502,7 @@ export default function AdminExperienciasPage() {
               { key: "modules", label: "Módulos do Casal", icon: SlidersHorizontal, highlight: true },
               { key: "events", label: "Eventos & Mini-sites", icon: Layers },
               { key: "create", label: "Criar Mini-site", icon: PlusCircle },
+              { key: "revista", label: "Revista & Editorial", icon: BookOpen, badge: `${articles.filter((a) => a.status === "publicado").length}` },
               { key: "catalog", label: "Catálogo & Receita", icon: Sparkles },
               { key: "operations", label: "Operações & LGPD", icon: ShieldCheck },
             ].map(({ key, label, icon: Icon, badge, highlight }) => (
@@ -377,31 +518,6 @@ export default function AdminExperienciasPage() {
                 }`}
               >
                 <div className="flex items-center gap-3">
-            {/* Seletor do Modelo Comercial: Full vs Light */}
-            <div className="flex items-center gap-1 rounded-xl border border-white/15 bg-black/60 p-1">
-              <button
-                onClick={() => handleToggleCommercialMode("full")}
-                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                  commercialMode === "full"
-                    ? "bg-[#D3B47C] text-[#100E0D] font-bold shadow"
-                    : "text-[#ABA29A] hover:text-white"
-                }`}
-                title="Hotsite + Mini-sites + Painel do Casal + Telão Interativo"
-              >
-                ● Experience OS (Completo)
-              </button>
-              <button
-                onClick={() => handleToggleCommercialMode("light")}
-                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                  commercialMode === "light"
-                    ? "bg-amber-400 text-[#100E0D] font-bold shadow"
-                    : "text-[#ABA29A] hover:text-white"
-                }`}
-                title="Apenas Hotsite Institucional. Mini-sites e Painéis Desativados."
-              >
-                ○ Modo Light (Apenas Hotsite)
-              </button>
-            </div>
                   <Icon className="h-4 w-4 shrink-0" />
                   <span>{label}</span>
                 </div>
@@ -450,6 +566,7 @@ export default function AdminExperienciasPage() {
               {activeTab === "modules" && "Configurador de Módulos & Recursos do Anfitrião"}
               {activeTab === "events" && "Inventário de Experiências & Mini-sites"}
               {activeTab === "create" && "Provisionar Novo Mini-site & Experiência"}
+              {activeTab === "revista" && "Revista Dúnia — Gestão Editorial & Publicações"}
               {activeTab === "catalog" && "Catálogo de Produtos Digitais & Simulador"}
               {activeTab === "operations" && "Arquitetura Operacional, Segurança & LGPD"}
             </h1>
@@ -1782,6 +1899,284 @@ export default function AdminExperienciasPage() {
             </div>
           )}
         </main>
+
+      {/* ========================================================= */}
+      {/* MODAL DE CRIAÇÃO / EDIÇÃO DE MATÉRIA DA REVISTA */}
+      {/* ========================================================= */}
+      {isArticleModalOpen && (
+        <div
+          onClick={() => setIsArticleModalOpen(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md overflow-y-auto"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-3xl my-8 rounded-3xl border border-[#D3B47C]/30 bg-[#161311] p-6 sm:p-8 shadow-2xl text-[#F3EEE6]"
+          >
+            <button
+              onClick={() => setIsArticleModalOpen(false)}
+              className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition"
+            >
+              <X className="h-4 w-4" />
+            </button>
+
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#D3B47C]">
+              REVISTA DÚNIA • EDIÇÃO DIGITAL
+            </span>
+            <h3 className="mt-1 font-serif text-2xl sm:text-3xl text-white">
+              {editingArticle ? "Editar Publicação Editorial" : "Nova Publicação na Revista Dúnia"}
+            </h3>
+            <p className="mt-1 text-xs text-[#ABA29A]">
+              Edite as informações abaixo. As matérias com status "Publicado" aparecem automaticamente na seção editorial do hotsite.
+            </p>
+
+            <form onSubmit={handleSaveArticle} className="mt-6 space-y-5">
+              {/* Título & Chapéu */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#ABA29A]">
+                    Título Principal da Matéria *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formArtTitle}
+                    onChange={(e) => setFormArtTitle(e.target.value)}
+                    placeholder="Ex: Antes do sim: os detalhes que fazem uma história única"
+                    className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm text-white focus:border-[#D3B47C] focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#ABA29A]">
+                    Chapéu Editorial *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formArtLabel}
+                    onChange={(e) => setFormArtLabel(e.target.value)}
+                    placeholder="Ex: CASAMENTOS • PLANEJAMENTO"
+                    className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm text-white focus:border-[#D3B47C] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Categoria, Autor e Tempo */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#ABA29A]">
+                    Categoria
+                  </label>
+                  <select
+                    value={formArtCategory}
+                    onChange={(e) => setFormArtCategory(e.target.value as any)}
+                    className="mt-1.5 w-full rounded-xl border border-white/15 bg-[#1C1816] px-4 py-2.5 text-sm text-white focus:border-[#D3B47C] focus:outline-none"
+                  >
+                    <option value="casamento">Casamentos</option>
+                    <option value="inspiracao">Inspiração & Cenografia</option>
+                    <option value="eventos">Eventos & Experiência</option>
+                    <option value="gastronomia">Alta Gastronomia</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#ABA29A]">
+                    Autor / Assinatura
+                  </label>
+                  <input
+                    type="text"
+                    value={formArtAuthor}
+                    onChange={(e) => setFormArtAuthor(e.target.value)}
+                    placeholder="Ex: Redação Dúnia ou Chef Executivo"
+                    className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm text-white focus:border-[#D3B47C] focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#ABA29A]">
+                    Tempo Estimado
+                  </label>
+                  <input
+                    type="text"
+                    value={formArtReadTime}
+                    onChange={(e) => setFormArtReadTime(e.target.value)}
+                    placeholder="Ex: 4 min de leitura"
+                    className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm text-white focus:border-[#D3B47C] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Subtítulo / Lead */}
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#ABA29A]">
+                  Resumo / Lead de Chamada (Aparece no card)
+                </label>
+                <input
+                  type="text"
+                  value={formArtSubtitle}
+                  onChange={(e) => setFormArtSubtitle(e.target.value)}
+                  placeholder="Ex: Da escolha do cenário à última dança, tudo começa pelas emoções..."
+                  className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm text-white focus:border-[#D3B47C] focus:outline-none"
+                />
+              </div>
+
+              {/* Imagem de Capa e Seletor Rápido do Acervo */}
+              <div className="rounded-2xl border border-white/10 bg-black/30 p-4 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-[#D3B47C]">
+                    Imagem de Capa (URL ou Escolha no Acervo) *
+                  </label>
+                  <span className="text-[0.65rem] text-white/50">Clique em uma foto para selecionar:</span>
+                </div>
+
+                <input
+                  type="text"
+                  required
+                  value={formArtImage}
+                  onChange={(e) => setFormArtImage(e.target.value)}
+                  placeholder="URL da imagem (ex: /assets/casal.jpg)"
+                  className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2 text-xs text-white focus:border-[#D3B47C] focus:outline-none"
+                />
+
+                {/* Miniaturas do Acervo Dúnia */}
+                <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 pt-1">
+                  {[
+                    { label: "Casal / Noivos", path: "/assets/casal.jpg" },
+                    { label: "Mesa & Velas", path: "/assets/mesa.jpg" },
+                    { label: "Salão Nobre", path: "/assets/salao.jpg" },
+                    { label: "Debutante / 15A", path: "/assets/debutante.jpg" },
+                    { label: "Corporativo", path: "/assets/corporativo.jpg" },
+                    { label: "Brinde & Festa", path: "/assets/festa.jpg" },
+                  ].map((preset) => (
+                    <button
+                      type="button"
+                      key={preset.path}
+                      onClick={() => setFormArtImage(preset.path)}
+                      className={`relative aspect-[4/3] rounded-lg overflow-hidden border-2 transition ${
+                        formArtImage === preset.path ? "border-[#D3B47C] ring-2 ring-[#D3B47C]/40" : "border-white/10 hover:border-white/40"
+                      }`}
+                    >
+                      <img src={preset.path} alt={preset.label} className="h-full w-full object-cover" />
+                      <span className="absolute bottom-0 inset-x-0 bg-black/70 py-0.5 text-[0.55rem] text-center text-white truncate px-1">
+                        {preset.label}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Conteúdo Completo do Artigo */}
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#ABA29A]">
+                  Texto Completo da Matéria Editorial *
+                </label>
+                <textarea
+                  rows={6}
+                  required
+                  value={formArtContent}
+                  onChange={(e) => setFormArtContent(e.target.value)}
+                  placeholder="Escreva a narrativa completa da matéria. Conte detalhes do evento, inspirações de iluminação, depoimentos ou segredos do menu..."
+                  className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-3 text-sm text-white focus:border-[#D3B47C] focus:outline-none leading-relaxed"
+                />
+              </div>
+
+              {/* Status e Destaque */}
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-white/10">
+                <div className="flex items-center gap-6">
+                  <div>
+                    <label className="block text-[0.68rem] font-semibold uppercase tracking-wider text-[#ABA29A] mb-1">
+                      Status de Publicação
+                    </label>
+                    <select
+                      value={formArtStatus}
+                      onChange={(e) => setFormArtStatus(e.target.value as any)}
+                      className="rounded-xl border border-white/15 bg-[#1C1816] px-3 py-1.5 text-xs text-white focus:border-[#D3B47C] focus:outline-none"
+                    >
+                      <option value="publicado">● Publicado (Visível na Home)</option>
+                      <option value="rascunho">○ Rascunho (Apenas no Painel)</option>
+                    </select>
+                  </div>
+
+                  <label className="flex items-center gap-2 cursor-pointer mt-3">
+                    <input
+                      type="checkbox"
+                      checked={formArtFeatured}
+                      onChange={(e) => setFormArtFeatured(e.target.checked)}
+                      className="rounded border-white/20 bg-black text-[#D3B47C] focus:ring-[#D3B47C]"
+                    />
+                    <span className="text-xs text-white">Destacar no carrossel superior</span>
+                  </label>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsArticleModalOpen(false)}
+                    className="rounded-xl border border-white/20 px-5 py-2.5 text-xs font-semibold text-white/80 hover:bg-white/5 transition"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    className="rounded-xl bg-[#D3B47C] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-[#100E0D] shadow transition hover:opacity-90"
+                  >
+                    {editingArticle ? "Atualizar Matéria" : "Salvar & Publicar"}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* MODAL LEITOR DE PRÉVIA DA MATÉRIA */}
+      {/* ========================================================= */}
+      {previewArticle && (
+        <div
+          onClick={() => setPreviewArticle(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md overflow-y-auto"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-2xl my-8 overflow-hidden rounded-3xl border border-white/20 bg-[#161311] shadow-2xl"
+          >
+            <button
+              onClick={() => setPreviewArticle(null)}
+              className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black transition"
+            >
+              <X className="h-4 w-4" />
+            </button>
+
+            <div className="relative aspect-[16/9] w-full bg-black">
+              <img src={previewArticle.image} alt={previewArticle.title} className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#161311] via-transparent to-transparent" />
+            </div>
+
+            <div className="p-8">
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#D3B47C]">
+                  {previewArticle.label}
+                </span>
+                <span className="text-[0.65rem] text-[#ABA29A]">
+                  {previewArticle.author || "Redação Dúnia"} · {previewArticle.readTime || "4 min"}
+                </span>
+              </div>
+              <h3 className="mt-2 font-serif text-2xl font-normal text-white sm:text-3xl">
+                {previewArticle.title}
+              </h3>
+              <div className="mt-4 space-y-4 text-xs leading-relaxed text-[#ABA29A] sm:text-sm">
+                <p className="font-medium text-white/90 italic border-l-2 border-[#D3B47C] pl-3">
+                  {previewArticle.text}
+                </p>
+                <p className="whitespace-pre-line leading-relaxed">{previewArticle.article}</p>
+                <div className="border-t border-white/10 pt-4 flex items-center justify-between text-[0.7rem] italic text-white/50">
+                  <span>Dúnia City Hall — Lago Sul, Brasília / DF</span>
+                  <span>{previewArticle.date || "Novembro, 2026"}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       </div>
     </div>
   )

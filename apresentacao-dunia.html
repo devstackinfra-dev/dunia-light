@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dúnia City Hall — Apresentação Executiva para o Proprietário</title>
+  <title>Dúnia City Hall — Proposta Comercial Executiva & Roadmap</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -64,7 +64,7 @@
       max-width: 1050px;
       margin: auto;
       text-align: center;
-      padding: 2.5rem 0;
+      padding: 2rem 0;
       width: 100%;
     }
     .slide-tag {
@@ -78,17 +78,17 @@
     }
     .slide-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem;
+      font-size: 2.75rem;
       font-weight: 300;
       line-height: 1.15;
       color: #FFFFFF;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
     }
     .slide-sub {
       font-size: 0.95rem;
       color: #ABA29A;
-      max-width: 680px;
-      margin: 0 auto 2rem auto;
+      max-width: 720px;
+      margin: 0 auto 1.5rem auto;
       line-height: 1.6;
     }
     .grid-3 {
@@ -121,7 +121,7 @@
       margin-top: 0.5rem;
     }
     .card p {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: #ABA29A;
       margin-top: 0.5rem;
       line-height: 1.5;
@@ -129,11 +129,28 @@
     .card ul {
       list-style: none;
       margin-top: 1rem;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
     }
     .card ul li {
       padding: 0.35rem 0;
       color: #DFD5CA;
+    }
+    .price-box {
+      margin-top: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .price-main {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.25rem;
+      color: #FFFFFF;
+    }
+    .price-sub {
+      font-family: monospace;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #D3B47C;
+      margin-top: 0.25rem;
     }
     .btn {
       display: inline-flex;
@@ -172,7 +189,6 @@
       font-size: 0.85rem;
       color: #ABA29A;
     }
-    .hide { display: none; }
   </style>
 </head>
 <body>
@@ -185,7 +201,7 @@
   <main id="slideContent"></main>
 
   <footer>
-    <div>Use as setas <kbd>←</kbd> <kbd>→</kbd> ou os botões para navegar na apresentação</div>
+    <div>Use as setas <kbd>←</kbd> <kbd>→</kbd> ou os botões para navegar na proposta</div>
     <div style="display:flex; gap:0.75rem;">
       <button class="btn btn-outline" id="prevBtn">← Anterior</button>
       <button class="btn btn-gold" id="nextBtn">Próximo →</button>
@@ -195,240 +211,203 @@
   <script>
     const slides = [
       {
-        tag: "APRESENTAÇÃO EXECUTIVA · DIRETORIA DÚNIA CITY HALL",
-        title: "A Nova Era Digital do Dúnia City Hall",
-        sub: "Estratégia de Posicionamento, Hotsite Institucional de Alta Costura e Modelos de Negócio Digitais para o Lago Sul de Brasília.",
+        tag: "PROPOSTA COMERCIAL EXECUTIVA · DIRETORIA DÚNIA CITY HALL",
+        title: "Estratégia Digital & Modelos de Negócio",
+        sub: "Proposta de Implantação, Manutenção Mensal, SLA e Roadmap para a Diretoria do Dúnia City Hall.",
         html: `
           <div class="grid-3" style="margin-top:2rem;">
             <div class="card" style="border-color:rgba(211,180,124,0.35);">
-              <span style="font-size:0.65rem; font-weight:700; color:#D3B47C; text-transform:uppercase;">01 · MARCA & VITRINE</span>
+              <span style="font-size:0.65rem; font-weight:700; color:#D3B47C; text-transform:uppercase;">MODELO 1 · LIGHT</span>
               <h4>Hotsite Institucional Nobre</h4>
-              <p>Design clássico contemporâneo, Acervo 35mm com 340+ fotos reais dos salões e gastronomia para captação contínua de noivas e galas.</p>
+              <p>Setup: <strong>R$ 2.800</strong> · Mensalidade: <strong style="color:#D3B47C;">R$ 300/mês</strong>. Vitrine aristocrática, Acervo 35mm com 340+ fotos e captação contínua de visitas VIP no Lago Sul.</p>
+            </div>
+            <div class="card" style="border-color:rgba(52,211,153,0.35);">
+              <span style="font-size:0.65rem; font-weight:700; color:#34D399; text-transform:uppercase;">MODELO 2 · EXPERIENCE OS</span>
+              <h4>Plataforma Completa + Telão</h4>
+              <p>Setup: <strong>R$ 4.800</strong> · Manutenção: <strong style="color:#34D399;">R$ 650/mês</strong>. Mini-sites de noivos, WhatsApp RSVP, Telão ao vivo, Portaria QR e Agenda de Eventos.</p>
             </div>
             <div class="card">
-              <span style="font-size:0.65rem; font-weight:700; color:#FBBF24; text-transform:uppercase;">02 · FLEXIBILIDADE TOTAL</span>
-              <h4>2 Modelos Comerciais</h4>
-              <p>O salão pode optar pelo <strong>Modo Light</strong> (apenas Hotsite vitrine com zero operação) ou ativar o <strong>Experience OS</strong> para monetizar pacotes digitais.</p>
-            </div>
-            <div class="card">
-              <span style="font-size:0.65rem; font-weight:700; color:#34D399; text-transform:uppercase;">03 · RENTABILIDADE</span>
-              <h4>+R$ 15.000 a 40.000/Mês</h4>
-              <p>Potencial de faturamento adicional em vendas de mini-sites, telão interativo e WhatsApp com 98% de margem líquida.</p>
+              <span style="font-size:0.65rem; font-weight:700; color:#FBBF24; text-transform:uppercase;">BUSINESS CASE</span>
+              <h4>+R$ 80.000 a 100.000/Ano</h4>
+              <p>O Dúnia revende os pacotes aos noivos (R$ 1.200 a R$ 2.400). Com 3 a 4 eventos/mês, paga a manutenção e gera lucro com 95%+ de margem.</p>
             </div>
           </div>
         `
       },
       {
-        tag: "FLEXIBILIDADE ESTRATÉGICA · 2 MODELOS DE NEGÓCIO",
-        title: "Qual Modelo o Dúnia Quer Adotar?",
-        sub: "A plataforma foi construída para se adaptar à decisão do proprietário: foco 100% no espaço físico ou agregação de valor com tecnologia.",
+        tag: "TABELA COMERCIAL · VALORES, SETUP & MANUTENÇÃO",
+        title: "Investimento Claro & O Que Está Incluso",
+        sub: "Dois modelos desenhados sob medida para a decisão do proprietário na reunião.",
         html: `
-          <div class="grid-2" style="margin-top:2rem;">
+          <div class="grid-2" style="margin-top:1.5rem;">
             <div class="card">
-              <span style="background:rgba(255,255,255,0.1); padding:0.25rem 0.65rem; border-radius:9999px; font-size:0.65rem; font-weight:700; color:#FFF;">OPÇÃO 1 · LIGHT / ESSENCIAL</span>
-              <h3 style="font-family:'Cormorant Garamond', serif; font-size:1.75rem; color:#FFF; margin-top:1rem;">Apenas Hotsite Institucional</h3>
-              <p>O Dúnia utiliza o site apenas como vitrine nobre para atrair noivos e empresas. Mini-sites e painéis de convidados ficam <strong>100% desativados</strong>.</p>
+              <span style="background:rgba(255,255,255,0.1); padding:0.25rem 0.65rem; border-radius:9999px; font-size:0.65rem; font-weight:700; color:#FFF;">OPÇÃO 1 · MODO LIGHT (HOTSITE PURO)</span>
+              <h3 style="font-family:'Cormorant Garamond', serif; font-size:1.75rem; color:#FFF; margin-top:0.75rem;">Hotsite Institucional Nobre</h3>
+              <div class="price-box">
+                <div class="price-main">R$ 2.800 <span style="font-size:0.85rem; color:#ABA29A; font-family:'Inter';">implantação única</span></div>
+                <div class="price-sub">+ R$ 300 / mês <span style="font-size:0.8rem; font-weight:400; color:#ABA29A; font-family:'Inter';">(hospedagem, CDN & suporte)</span></div>
+              </div>
               <ul>
-                <li>✓ Hotsite de alta conversão no ar 24h</li>
-                <li>✓ Galeria com 340+ fotos do salão real</li>
-                <li>✓ Formulário de agendamento de visitas VIP</li>
-                <li style="color:#ABA29A;">✕ Sem gestão de convites de noivos</li>
-                <li style="color:#ABA29A;">✕ Sem telão interativo no evento</li>
+                <li>✓ Hotsite de alta conversão no ar 24h com design de gala</li>
+                <li>✓ Acervo fotográfico 35mm com 340+ fotos catalogadas</li>
+                <li>✓ Formulário VIP de agendamento de visitas no Lago Sul</li>
+                <li>✓ Otimização SEO para buscas de casamento em Brasília</li>
+                <li>✓ Hospedagem dedicada na Hostinger KVM4 com SSL e CDN</li>
+                <li>✓ <strong>SLA 99.8%</strong> e suporte técnico com atendimento em 24h úteis</li>
               </ul>
-              <div style="margin-top:1.5rem; padding:0.75rem; background:rgba(255,255,255,0.03); text-align:center; border-radius:0.75rem; font-size:0.8rem; color:#D3B47C;">
-                Custo adicional para o salão: R$ 0,00
+              <div style="margin-top:1rem; padding:0.5rem; background:rgba(255,255,255,0.03); text-align:center; border-radius:0.5rem; font-size:0.75rem; color:#ABA29A;">
+                Configurado por flag de ambiente (.env)
               </div>
             </div>
+
             <div class="card highlight">
-              <span style="background:#D3B47C; padding:0.25rem 0.65rem; border-radius:9999px; font-size:0.65rem; font-weight:700; color:#100E0D;">OPÇÃO 2 · EXPERIENCE OS (RECOMENDADO)</span>
-              <h3 style="font-family:'Cormorant Garamond', serif; font-size:1.75rem; color:#FFF; margin-top:1rem;">Plataforma Digital de Eventos</h3>
-              <p>O salão vende o ecossistema digital para os casais (R$ 800 a R$ 2.400). Transforma o casamento em um espetáculo multimídia interativo.</p>
+              <span style="background:#D3B47C; padding:0.25rem 0.65rem; border-radius:9999px; font-size:0.65rem; font-weight:700; color:#100E0D;">OPÇÃO 2 · DÚNIA EXPERIENCE OS (RECOMENDADO)</span>
+              <h3 style="font-family:'Cormorant Garamond', serif; font-size:1.75rem; color:#FFF; margin-top:0.75rem;">Ecossistema Digital de Eventos</h3>
+              <div class="price-box">
+                <div class="price-main">R$ 4.800 <span style="font-size:0.85rem; color:#ABA29A; font-family:'Inter';">implantação em até 2x</span></div>
+                <div class="price-sub" style="color:#34D399;">+ R$ 650 / mês <span style="font-size:0.8rem; font-weight:400; color:#ABA29A; font-family:'Inter';">(infra, plantão e suporte de eventos)</span></div>
+              </div>
               <ul>
-                <li>✓ Tudo do Hotsite Institucional</li>
-                <li>✓ Mini-site com RSVP e QR Code individual</li>
-                <li>✓ Disparos automáticos WhatsApp de convite</li>
-                <li>✓ Telão interativo transmitindo fotos ao vivo</li>
-                <li>✓ Portaria digital anti-duplicidade</li>
+                <li>✓ <strong>Tudo do Modo Light</strong> e mais:</li>
+                <li>✓ Gerador de Mini-sites para Noivos com contagem regressiva</li>
+                <li>✓ Painel do Casal com disparos WhatsApp e lista Pix sem taxas</li>
+                <li>✓ Telão Interativo Memories 4K ao vivo com controle remoto</li>
+                <li>✓ Portaria digital anti-duplicidade com leitor de QR Code</li>
+                <li>✓ Central do Salão com Agenda de Eventos dos 3 espaços</li>
+                <li>✓ Entrega automatizada do acervo em pasta Google Drive VIP</li>
+                <li>✓ <strong>SLA 99.9%</strong> com <strong>Plantão Prioritário nos dias de evento</strong></li>
               </ul>
-              <div style="margin-top:1.5rem; padding:0.75rem; background:rgba(211,180,124,0.15); text-align:center; border-radius:0.75rem; font-size:0.8rem; color:#D3B47C; font-weight:700;">
-                Lucro estimado: R$ 15.000 a R$ 35.000 / mês
+              <div style="margin-top:1rem; padding:0.5rem; background:rgba(211,180,124,0.15); text-align:center; border-radius:0.5rem; font-size:0.75rem; color:#D3B47C; font-weight:700;">
+                O Dúnia revende por R$ 1.800/casal (Retorno no 1º mês!)
               </div>
             </div>
           </div>
         `
       },
       {
-        tag: "O SITE INSTITUCIONAL · VITRINE DE ALTA COSTURA",
-        title: "Um Hotsite que Honra a Tradição do Lago Sul",
-        sub: "Substituímos sites genéricos por uma experiência imersiva inspirada na nobreza e arquitetura monumental de Brasília.",
+        tag: "RETORNO SOBRE O INVESTIMENTO · ROI DO PROPRIETÁRIO",
+        title: "Como a Plataforma se Paga no Primeiro Mês",
+        sub: "O salão cobra diretamente dos anfitriões no contrato de locação, criando uma fonte recorrente de alta margem.",
         html: `
-          <div class="grid-3" style="margin-top:2rem;">
+          <div class="grid-2" style="margin-top:1.5rem; align-items:center;">
             <div class="card">
-              <h4 style="color:#D3B47C;">Acervo Real 35mm</h4>
-              <p>Mais de <strong>340 fotografias em alta resolução</strong> organizadas em rolo cinematográfico: Casamentos, 15 Anos, Gastronomia, Lustres e Salões.</p>
-            </div>
-            <div class="card">
-              <h4 style="color:#D3B47C;">Identidade Aristocrática</h4>
-              <p>Tipografia editorial Cormorant Garamond, tons Dourado Champagne (#D3B47C) e Preto Ébano, criando contraste e distinção no mercado de eventos.</p>
-            </div>
-            <div class="card">
-              <h4 style="color:#D3B47C;">Conversão Máxima</h4>
-              <p>Formulário simplificado de agendamento de visita no Lago Sul, integração direta com WhatsApp comercial e mapa interativo.</p>
-            </div>
-          </div>
-          <div style="margin-top:2.5rem;">
-            <a href="http://localhost:3000" target="_blank" class="btn btn-gold">Abrir Hotsite Institucional Dúnia ↗</a>
-          </div>
-        `
-      },
-      {
-        tag: "O ECOSSISTEMA DO CASAL · DIFERENCIAL COMPETITIVO",
-        title: "Mini-site, Painel e WhatsApp dos Noivos",
-        sub: "Em vez de pagar plataformas terceiras como iCasei e Casar.com, os casais usam o sistema oficial com a marca do Dúnia City Hall.",
-        html: `
-          <div class="grid-3" style="margin-top:2rem;">
-            <div class="card">
-              <span style="font-size:0.65rem; color:#D3B47C; font-weight:700;">01 · MINI-SITE</span>
-              <h4>Mini-site do Casal</h4>
-              <p>Contagem regressiva, história dos noivos, horologia em tempo real, traje, mapa e confirmação VIP de presença.</p>
-            </div>
-            <div class="card">
-              <span style="font-size:0.65rem; color:#34D399; font-weight:700;">02 · WHATSAPP</span>
-              <h4>Disparos de Convite</h4>
-              <p>Envio personalizado 1-clique com link direto de confirmação ({nome}, {codigo}, {vagas}) e disparador em lote.</p>
-            </div>
-            <div class="card">
-              <span style="font-size:0.65rem; color:#38BDF8; font-weight:700;">03 · PORTARIA</span>
-              <h4>Controle de Entrada</h4>
-              <p>Validação por QR Code na portaria, bloqueando penetras e tentativas de duplicidade de convite.</p>
-            </div>
-          </div>
-          <div style="margin-top:2.5rem; display:flex; gap:1rem; justify-content:center;">
-            <a href="http://localhost:3000/evento" target="_blank" class="btn btn-outline">Ver Mini-site Demo ↗</a>
-            <a href="http://localhost:3000/painel" target="_blank" class="btn btn-gold">Ver Painel dos Noivos ↗</a>
-          </div>
-        `
-      },
-      {
-        tag: "EXPERIÊNCIA AO VIVO NO SALÃO · DÚNIA MEMORIES",
-        title: "O Telão Interativo Sincronizado",
-        sub: "Convidados tiram fotos na festa pelo celular e elas aparecem instantaneamente nos telões do Dúnia City Hall com efeitos e música.",
-        html: `
-          <div class="grid-2" style="margin-top:2rem; align-items:center;">
-            <div style="text-align:left;">
-              <div class="card" style="margin-bottom:1rem;">
-                <h4>Controle Remoto Pelo Painel do Casal</h4>
-                <p>Os noivos controlam a velocidade das transições, o efeito Ken Burns, a moderação de fotos e a trilha sonora sem sair da mesa.</p>
-              </div>
-              <div class="card">
-                <h4>Transmissão em Tempo Real sem Latência</h4>
-                <p>Tecnologia BroadcastChannel em tela cheia para painéis de LED e projetores do Dúnia.</p>
-              </div>
-              <div style="margin-top:1.5rem;">
-                <a href="http://localhost:3000/evento/telao" target="_blank" class="btn btn-gold">Abrir Telão Interativo ↗</a>
-              </div>
-            </div>
-            <div class="card highlight" style="text-align:center;">
-              <span style="font-size:0.7rem; color:#D3B47C; font-weight:700; text-transform:uppercase;">Engajamento Emocional</span>
-              <div style="font-family:'Cormorant Garamond', serif; font-size:3rem; color:#FFF; margin:1rem 0;">300 a 600 fotos</div>
-              <p>Média capturada pelos próprios convidados por festa. Um acervo espontâneo que encanta os noivos.</p>
-            </div>
-          </div>
-        `
-      },
-      {
-        tag: "GESTÃO DO SALÃO · CONTROLE OPERACIONAL",
-        title: "Central de Operações & Agenda de Eventos",
-        sub: "O salão ganha uma agenda operacional completa para gerenciar o Salão Imperial, Espaço Cristal e Jardim Imperial.",
-        html: `
-          <div class="grid-3" style="margin-top:2rem;">
-            <div class="card">
-              <h4 style="color:#D3B47C;">Agenda Operacional</h4>
-              <p>Visualização por mês ou timeline com horários de montagem, cerimônia, término e desmontagem (limite 07:30h).</p>
-            </div>
-            <div class="card">
-              <h4 style="color:#D3B47C;">Configurador de Módulos</h4>
-              <p>O administrador liga ou desliga módulos específicos com 1 clique dependendo do que o cliente contratou.</p>
-            </div>
-            <div class="card">
-              <h4 style="color:#D3B47C;">Governança & Cotas</h4>
-              <p>Trava de capacidade máxima de convidados e cotas de disparos WhatsApp para resguardar a infraestrutura.</p>
-            </div>
-          </div>
-          <div style="margin-top:2.5rem;">
-            <a href="http://localhost:3000/admin/experiencias" target="_blank" class="btn btn-gold">Abrir Agenda & Admin do Dúnia ↗</a>
-          </div>
-        `
-      },
-      {
-        tag: "MODELAGEM COMERCIAL · RETORNO FINANCEIRO",
-        title: "Projeção de Lucro Adicional para o Dúnia",
-        sub: "Toda a cobrança é realizada fisicamente pelo time comercial fora da plataforma. Lucro puro com infraestrutura já paga.",
-        html: `
-          <div class="grid-2" style="margin-top:2rem; align-items:center;">
-            <div class="card">
-              <h4>Pacotes Sugeridos de Venda:</h4>
+              <h4>Simulação Conservadora de Vendas:</h4>
               <ul style="margin-top:1rem;">
                 <li style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.08);">
-                  <span>Dúnia Invite (Mini-site + Contagem + Mapa)</span>
-                  <strong style="color:#FFF;">R$ 800</strong>
+                  <span>Eventos realizados por mês no Dúnia:</span>
+                  <strong style="color:#FFF;">12 festas</strong>
                 </li>
                 <li style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.08);">
-                  <span>Guest OS (Invite + WhatsApp RSVP + Portaria QR)</span>
-                  <strong style="color:#D3B47C;">R$ 1.800</strong>
+                  <span>Adesão estimada de noivos ao pacote digital:</span>
+                  <strong style="color:#D3B47C;">35% (apenas 4 casais)</strong>
+                </li>
+                <li style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.08);">
+                  <span>Valor cobrado pelo salão por pacote:</span>
+                  <strong style="color:#FFF;">R$ 1.800 / evento</strong>
+                </li>
+                <li style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.08);">
+                  <span style="color:#FFF; font-weight:700;">Receita Bruta Gerada para o Dúnia:</span>
+                  <strong style="color:#34D399; font-size:1.1rem;">+ R$ 7.200 / mês</strong>
                 </li>
                 <li style="display:flex; justify-content:space-between; padding:0.5rem 0;">
-                  <span>Guest OS + Memories (Tudo + Telão + Álbum Drive)</span>
-                  <strong style="color:#34D399;">R$ 2.400</strong>
+                  <span style="color:#ABA29A;">Custo da Manutenção e Suporte:</span>
+                  <strong style="color:#F87171;">- R$ 650 / mês</strong>
                 </li>
               </ul>
+              <div style="margin-top:1.5rem; padding:0.75rem; background:rgba(52,211,153,0.15); border-radius:0.75rem; font-weight:700; color:#34D399; text-align:center;">
+                Lucro Líquido Mensal: + R$ 6.550 / mês no bolso do salão!
+              </div>
             </div>
+
             <div class="card highlight" style="text-align:center;">
-              <span style="font-size:0.7rem; color:#D3B47C; font-weight:700; text-transform:uppercase;">Lucro Líquido Estimado</span>
-              <div style="font-family:'Cormorant Garamond', serif; font-size:3.5rem; color:#FFF; margin:0.75rem 0;">R$ 22.000 <span style="font-size:1.5rem;">/mês</span></div>
-              <p>Considerando 12 festas/mês e adesão de 40% a 50% dos casais.</p>
-              <div style="margin-top:1.5rem; padding:0.75rem; background:rgba(211,180,124,0.2); border-radius:0.75rem; font-weight:700; color:#D3B47C;">
-                Potencial Anual: R$ 264.000 / ano de lucro limpo
+              <span style="font-size:0.7rem; color:#D3B47C; font-weight:700; text-transform:uppercase;">Lucro Líquido Anual para o Dúnia</span>
+              <div style="font-family:'Cormorant Garamond', serif; font-size:3.5rem; color:#FFF; margin:0.75rem 0;">+ R$ 78.600 <span style="font-size:1.2rem;">/ano</span></div>
+              <p>O investimento inicial de setup (R$ 4.800) se paga inteiramente nas primeiras 3 vendas! A partir do segundo mês, é receita 95%+ líquida.</p>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-top:1.5rem;">
+                <div style="background:rgba(255,255,255,0.05); padding:0.75rem; border-radius:0.75rem; font-size:0.75rem;">
+                  <span style="color:#ABA29A; display:block;">Custo Operacional</span>
+                  <strong style="color:#FFF;">Quase Zero</strong>
+                </div>
+                <div style="background:rgba(255,255,255,0.05); padding:0.75rem; border-radius:0.75rem; font-size:0.75rem;">
+                  <span style="color:#ABA29A; display:block;">Cobrança</span>
+                  <strong style="color:#34D399;">100% Fora da Plataforma</strong>
+                </div>
               </div>
             </div>
           </div>
         `
       },
       {
-        tag: "LGPD & SEGURANÇA · ENTREGA DAS MEMÓRIAS",
-        title: "Privacidade dos Convidados & Entrega VIP",
-        sub: "Segurança de dados blindada e entrega elegante das fotos como presente de casamento do Dúnia City Hall.",
+        tag: "ROADMAP DE DESENVOLVIMENTO & ENTREGAS",
+        title: "Cronograma de Evolução & O Que Já Foi Entregue",
+        sub: "Tudo o que foi planejado já está 100% desenvolvido, testado e pronto para homologação imediata.",
         html: `
-          <div class="grid-3" style="margin-top:2rem;">
-            <div class="card">
-              <h4 style="color:#D3B47C;">Isolamento Atômico</h4>
-              <p>Cada celebração possui isolamento criptográfico no banco de dados. Convidados de uma festa jamais acessam fotos de outra.</p>
+          <div class="grid-3" style="margin-top:1.5rem;">
+            <div class="card" style="border-color:rgba(52,211,153,0.35);">
+              <span style="background:rgba(52,211,153,0.2); padding:0.2rem 0.5rem; border-radius:0.25rem; font-size:0.65rem; font-weight:700; color:#34D399;">FASE 1 · 100% ENTREGUE</span>
+              <h4>Hotsite & Acervo 35mm</h4>
+              <p>Arquitetura clássica contemporânea em ouro champagne e preto ébano. 340+ fotos reais catalogadas. Formulário VIP de agendamento no Lago Sul e Revista Dúnia Editorial (CMS para publicações de casamentos reais e alta gastronomia).</p>
             </div>
-            <div class="card">
-              <h4 style="color:#D3B47C;">Conformidade LGPD</h4>
-              <p>Termos de consentimento claros e prazo de retenção de 45 dias para download, resguardando o salão juridicamente.</p>
+            <div class="card" style="border-color:rgba(52,211,153,0.35);">
+              <span style="background:rgba(52,211,153,0.2); padding:0.2rem 0.5rem; border-radius:0.25rem; font-size:0.65rem; font-weight:700; color:#34D399;">FASE 2 · 100% ENTREGUE</span>
+              <h4>Ecossistema do Casal</h4>
+              <p>Mini-site dos noivos, importador de listas Excel, disparador de convites 1-clique pelo WhatsApp, QR Code individual e lista Pix sem taxas.</p>
             </div>
-            <div class="card">
-              <h4 style="color:#D3B47C;">Presente no Google Drive</h4>
-              <p>As fotos são sincronizadas na pasta do casal no Google Drive em alta resolução, para que compartilhem com pais e padrinhos.</p>
+            <div class="card" style="border-color:rgba(52,211,153,0.35);">
+              <span style="background:rgba(52,211,153,0.2); padding:0.2rem 0.5rem; border-radius:0.25rem; font-size:0.65rem; font-weight:700; color:#34D399;">FASE 3 · 100% ENTREGUE</span>
+              <h4>Telão & Central do Salão</h4>
+              <p>Transmissão ao vivo de fotos no telão com sincronização em tempo real. Agenda dos 3 salões e controle de módulos por contrato.</p>
+            </div>
+          </div>
+          <div class="card" style="margin-top:1.25rem; border-color:rgba(211,180,124,0.35); text-align:left;">
+            <span style="background:rgba(211,180,124,0.2); padding:0.2rem 0.5rem; border-radius:0.25rem; font-size:0.65rem; font-weight:700; color:#D3B47C;">FASE 4 · ROADMAP DE EXPANSÕES FUTURAS (OPCIONAL)</span>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:1rem; margin-top:0.75rem; font-size:0.8rem; color:#ABA29A;">
+              <div><strong style="color:#FFF; display:block;">Totens Físicos em Acrílico:</strong> Produção das placas físicas com a marca Dúnia e corte a laser para as mesas.</div>
+              <div><strong style="color:#FFF; display:block;">API Direta WhatsApp:</strong> Disparo via container Docker Evolution API na VPS Hostinger para automações sem QR code manual.</div>
+              <div><strong style="color:#FFF; display:block;">Concierge Digital com IA:</strong> Tira-dúvidas automatizado sobre trajes, horários de vallet e rotas no Lago Sul.</div>
             </div>
           </div>
         `
       },
       {
-        tag: "DEMONSTRAÇÃO AO VIVO · PRÓXIMOS PASSOS",
-        title: "Pronto para Apresentação ao Proprietário",
-        sub: "O sistema está 100% implementado, responsivo, com código limpo e pronto para homologação da diretoria.",
+        tag: "INFRAESTRUTURA & GOVERNANÇA · SLA DE ALTO NÍVEL",
+        title: "Estabilidade, Escala & Segurança dos Dados",
+        sub: "Toda a infraestrutura foi projetada para garantir zero falhas nos dias de festa e conformidade total com a LGPD.",
         html: `
-          <div style="max-width:700px; margin:2rem auto; font-size:0.95rem; color:#DFD5CA; line-height:1.7;">
-            Seja para adotar o <strong>Modo Light</strong> (apenas Hotsite vitrine) ou o <strong>Experience OS</strong> (plataforma digital completa), o Dúnia City Hall agora possui a solução mais sofisticada de eventos da capital federal.
+          <div class="grid-2" style="margin-top:1.5rem;">
+            <div class="card">
+              <h4>Hospedagem Dedicada Hostinger KVM4</h4>
+              <p>Servidor dedicado de alto desempenho no Brasil com baixa latência, certificado SSL Cloudflare e cache CDN global para alta performance.</p>
+            </div>
+            <div class="card">
+              <h4>SLA de 99.9% com Plantão de Eventos</h4>
+              <p>Disponibilidade ininterrupta com plantão técnico prioritário nos horários nobres de evento (sextas, sábados e domingos).</p>
+            </div>
+            <div class="card">
+              <h4>Segurança & Conformidade LGPD</h4>
+              <p>Isolamento atômico entre celebrações. Fotos e convidados de um casamento não são acessíveis por outras festas.</p>
+            </div>
+            <div class="card">
+              <h4>Alta Escala de Check-in</h4>
+              <p>Leitura instantânea de QR Code na portaria, suportando centenas de convidados chegando simultaneamente sem filas.</p>
+            </div>
           </div>
-          <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:2rem;">
-            <a href="http://localhost:3000" target="_blank" class="btn btn-outline">1. Hotsite Institucional ↗</a>
+        `
+      },
+      {
+        tag: "HOMOLOGAÇÃO AO VIVO · EXPERIMENTE AGORA",
+        title: "Pronto para a Reunião com a Diretoria",
+        sub: "Todos os módulos estão no ar e sincronizados. Clique abaixo para abrir e demonstrar cada tela em tempo real.",
+        html: `
+          <div style="max-width:700px; margin:1.5rem auto; font-size:0.95rem; color:#DFD5CA; line-height:1.7;">
+            A decisão entre o <strong>Modo Light</strong> (R$ 2.800 setup + R$ 300/mês) ou o <strong>Experience OS Completo</strong> (R$ 4.800 setup + R$ 650/mês) é 100% configurável via arquivo de ambiente (.env), sem retrabalho ou custo extra.
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:1.5rem;">
+            <a href="http://localhost:3000" target="_blank" class="btn btn-outline">1. Hotsite Institucional Dúnia ↗</a>
             <a href="http://localhost:3000/admin/experiencias" target="_blank" class="btn btn-gold">2. Agenda & Admin do Salão ↗</a>
-            <a href="http://localhost:3000/painel" target="_blank" class="btn btn-outline">3. Painel dos Noivos ↗</a>
-            <a href="http://localhost:3000/evento" target="_blank" class="btn btn-outline">4. Mini-site do Casal ↗</a>
-            <a href="http://localhost:3000/evento/telao" target="_blank" class="btn btn-outline">5. Telão Interativo ↗</a>
+            <a href="http://localhost:3000/painel" target="_blank" class="btn btn-outline">3. Painel do Casal & Módulos ↗</a>
+            <a href="http://localhost:3000/evento" target="_blank" class="btn btn-outline">4. Mini-site da Celebração ↗</a>
+            <a href="http://localhost:3000/evento/telao" target="_blank" class="btn btn-outline">5. Telão Interativo 4K ao Vivo ↗</a>
           </div>
         `
       }

@@ -23,6 +23,11 @@ import {
   Lock,
   ArrowRight,
   SlidersHorizontal,
+  Check,
+  Server,
+  Zap,
+  Clock,
+  Award,
 } from "lucide-react"
 
 export default function ApresentacaoProprietarioPage() {
@@ -31,357 +36,320 @@ export default function ApresentacaoProprietarioPage() {
   const slides = [
     {
       id: "capa",
-      tag: "APRESENTAÇÃO EXECUTIVA · DIRETORIA DÚNIA CITY HALL",
-      title: "A Nova Era Digital do Dúnia City Hall",
+      tag: "APRESENTAÇÃO EXECUTIVA COMERCIAL · DIRETORIA DÚNIA CITY HALL",
+      title: "Transformação Digital & Modelos de Negócio",
       subtitle:
-        "Estratégia de Posicionamento, Hotsite Institucional de Alta Costura e Modelos de Negócio Digitais para o Lago Sul de Brasília.",
+        "Proposta de Implantação, Manutenção, SLA e Roadmap Comercial para o Salão Mais Elegante de Brasília.",
       content: (
         <div className="mt-8 grid gap-6 sm:grid-cols-3">
           <div className="rounded-2xl border border-[#D3B47C]/30 bg-[#161311] p-6 text-left shadow-xl">
-            <span className="text-[0.65rem] font-bold uppercase tracking-wider text-[#D3B47C]">01 · MARCA & VITRINE</span>
+            <span className="text-[0.65rem] font-bold uppercase tracking-wider text-[#D3B47C]">MODELO 1 · LIGHT</span>
             <h4 className="font-serif text-lg text-white mt-1">Hotsite Institucional Nobre</h4>
-            <p className="text-xs text-[#ABA29A] mt-2 leading-relaxed">
-              Design clássico contemporâneo, Acervo 35mm com 340+ fotos reais dos salões e gastronomia para captação contínua de noivas e galas.
-            </p>
+            <div className="mt-2 text-xs text-[#ABA29A] leading-relaxed">
+              Setup: <strong className="text-white">R$ 2.800</strong> · Mensalidade: <strong className="text-[#D3B47C]">R$ 300/mês</strong>. Vitrine aristocrática, Acervo 35mm com 340+ fotos e captação contínua de visitas VIP no Lago Sul.
+            </div>
+          </div>
+          <div className="rounded-2xl border border-emerald-500/30 bg-[#161311] p-6 text-left shadow-xl">
+            <span className="text-[0.65rem] font-bold uppercase tracking-wider text-emerald-400">MODELO 2 · EXPERIENCE OS</span>
+            <h4 className="font-serif text-lg text-white mt-1">Plataforma Completa + Telão</h4>
+            <div className="mt-2 text-xs text-[#ABA29A] leading-relaxed">
+              Setup: <strong className="text-white">R$ 4.800</strong> · Manutenção: <strong className="text-emerald-400">R$ 650/mês</strong>. Mini-sites de noivos, WhatsApp RSVP, Telão ao vivo, Portaria QR e Agenda de Eventos.
+            </div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-[#161311] p-6 text-left shadow-xl">
-            <span className="text-[0.65rem] font-bold uppercase tracking-wider text-amber-300">02 · FLEXIBILIDADE</span>
-            <h4 className="font-serif text-lg text-white mt-1">2 Modelos Comerciais</h4>
-            <p className="text-xs text-[#ABA29A] mt-2 leading-relaxed">
-              O salão pode optar pelo <strong>Modo Light</strong> (apenas Hotsite vitrine com zero operação) ou ativar o <strong>Experience OS</strong> para monetizar pacotes digitais.
-            </p>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-6 text-left shadow-xl">
-            <span className="text-[0.65rem] font-bold uppercase tracking-wider text-emerald-400">03 · RENTABILIDADE</span>
-            <h4 className="font-serif text-lg text-white mt-1">+R$ 15.000 a 40.000/Mês</h4>
-            <p className="text-xs text-[#ABA29A] mt-2 leading-relaxed">
-              Potencial de faturamento adicional em vendas de mini-sites, telão interativo e WhatsApp com 98% de margem líquida.
-            </p>
+            <span className="text-[0.65rem] font-bold uppercase tracking-wider text-amber-300">BUSINESS CASE</span>
+            <h4 className="font-serif text-lg text-white mt-1">+R$ 80.000 a 100.000/Ano</h4>
+            <div className="mt-2 text-xs text-[#ABA29A] leading-relaxed">
+              O Dúnia revende os pacotes digitais aos noivos (R$ 1.200 a R$ 2.400/evento). Com 3 a 4 eventos/mês, paga a manutenção e gera lucro puro com margem de 95%+.
+            </div>
           </div>
         </div>
       ),
     },
     {
-      id: "modelos",
-      tag: "FLEXIBILIDADE ESTRATÉGICA · 2 MODELOS DE NEGÓCIO",
-      title: "Qual Modelo o Dúnia Quer Adotar?",
+      id: "proposta-precos",
+      tag: "PROPOSTA COMERCIAL · INVESTIMENTO & MANUTENÇÃO",
+      title: "Tabela de Valores & O Que Está Incluso",
       subtitle:
-        "A plataforma foi construída para se adaptar à decisão do proprietário: foco 100% no espaço físico ou agregação de valor com tecnologia.",
+        "Dois formatos desenhados sob medida para a decisão estratégica do proprietário.",
       content: (
-        <div className="mt-8 grid gap-8 lg:grid-cols-2">
-          {/* MODELO LIGHT */}
-          <div className="rounded-3xl border border-white/15 bg-black/40 p-8 text-left transition hover:border-[#D3B47C]/40">
-            <div className="flex items-center justify-between">
-              <span className="rounded-full bg-white/10 px-3 py-1 text-[0.65rem] font-bold uppercase text-white/80">
-                OPÇÃO 1 · LIGHT / ESSENCIAL
-              </span>
-              <span className="text-xs text-[#ABA29A]">Zero Esforço Operacional</span>
+        <div className="mt-8 grid gap-8 lg:grid-cols-2 text-left">
+          {/* PACOTE 1: LIGHT */}
+          <div className="rounded-3xl border border-white/15 bg-black/40 p-8 shadow-xl flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="rounded-full bg-white/10 px-3 py-1 text-[0.65rem] font-bold uppercase text-white/80">
+                  MODO LIGHT (HOTSITE PURO)
+                </span>
+                <span className="text-xs text-[#ABA29A]">Foco em Captação</span>
+              </div>
+              <h3 className="mt-3 font-serif text-3xl text-white">Hotsite Institucional Nobre</h3>
+              
+              <div className="mt-4 flex items-baseline gap-2">
+                <span className="font-serif text-3xl font-light text-white">R$ 2.800</span>
+                <span className="text-xs text-[#ABA29A]">(setup / implantação única)</span>
+              </div>
+              <div className="mt-1 flex items-baseline gap-2">
+                <span className="font-mono text-xl font-bold text-[#D3B47C]">+ R$ 300</span>
+                <span className="text-xs text-[#ABA29A]">/ mês (hospedagem & manutenção)</span>
+              </div>
+
+              <div className="mt-6 border-t border-white/10 pt-4">
+                <span className="text-[0.65rem] font-bold uppercase tracking-wider text-[#D3B47C] block mb-2">
+                  ITENS INCLUSOS:
+                </span>
+                <ul className="space-y-2 text-xs text-[#DFD5CA]">
+                  <li className="flex items-center gap-2">✓ Hotsite responsivo institucional de altíssimo padrão</li>
+                  <li className="flex items-center gap-2">✓ Acervo fotográfico 35mm com 340+ fotos catalogadas</li>
+                  <li className="flex items-center gap-2">✓ Apresentação dos 3 espaços: Salão Imperial, Cristal e Jardim</li>
+                  <li className="flex items-center gap-2">✓ Formulário VIP de agendamento de visita no Lago Sul</li>
+                  <li className="flex items-center gap-2">✓ Otimização SEO para buscas de casamentos em Brasília</li>
+                  <li className="flex items-center gap-2">✓ Hospedagem dedicada na Hostinger KVM4 com SSL e CDN</li>
+                  <li className="flex items-center gap-2">✓ <strong>SLA 99.8%</strong> e suporte técnico com resposta em até 24h</li>
+                </ul>
+              </div>
             </div>
-            <h3 className="mt-4 font-serif text-2xl text-white">Apenas Hotsite Institucional</h3>
-            <p className="mt-2 text-xs leading-relaxed text-[#ABA29A]">
-              O Dúnia utiliza o site apenas como vitrine nobre para atrair noivos e empresas. Mini-sites e painéis de convidados ficam <strong>100% desativados</strong>.
-            </p>
-            <ul className="mt-6 space-y-2.5 text-xs text-[#ABA29A]">
-              <li className="flex items-center gap-2 text-white">✓ Hotsite de alta conversão no ar 24h</li>
-              <li className="flex items-center gap-2 text-white">✓ Galeria com 340+ fotos do salão real</li>
-              <li className="flex items-center gap-2 text-white">✓ Formulário de agendamento de visitas VIP</li>
-              <li className="flex items-center gap-2 text-white/60">✕ Sem gestão de convites de noivos</li>
-              <li className="flex items-center gap-2 text-white/60">✕ Sem telão interativo no evento</li>
-            </ul>
+
             <div className="mt-6 rounded-xl bg-white/[0.03] p-3 text-center border border-white/5">
-              <span className="text-xs text-[#D3B47C] font-semibold">Custo adicional para o salão: R$ 0,00</span>
+              <span className="text-[0.7rem] text-[#ABA29A]">Configuração com 1 chave no .env (`NEXT_PUBLIC_DUNIA_MODE=light`)</span>
             </div>
           </div>
 
-          {/* MODELO EXPERIENCE OS */}
-          <div className="rounded-3xl border-2 border-[#D3B47C] bg-gradient-to-b from-[#1C1816] to-[#12100E] p-8 text-left shadow-2xl relative">
-            <div className="flex items-center justify-between">
-              <span className="rounded-full bg-[#D3B47C] px-3 py-1 text-[0.65rem] font-bold uppercase text-[#100E0D]">
-                OPÇÃO 2 · EXPERIENCE OS (RECOMENDADO)
-              </span>
-              <span className="text-xs text-[#D3B47C] font-bold">Novo Centro de Lucro</span>
+          {/* PACOTE 2: FULL EXPERIENCE OS */}
+          <div className="rounded-3xl border-2 border-[#D3B47C] bg-gradient-to-b from-[#1C1816] to-[#12100E] p-8 shadow-2xl relative flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="rounded-full bg-[#D3B47C] px-3 py-1 text-[0.65rem] font-bold uppercase text-[#100E0D]">
+                  EXPERIENCE OS (PLATAFORMA COMPLETA)
+                </span>
+                <span className="text-xs text-[#D3B47C] font-bold">Mais Vendido & Mais Lucrativo</span>
+              </div>
+              <h3 className="mt-3 font-serif text-3xl text-white">Ecossistema Digital de Eventos</h3>
+
+              <div className="mt-4 flex items-baseline gap-2">
+                <span className="font-serif text-3xl font-light text-white">R$ 4.800</span>
+                <span className="text-xs text-[#ABA29A]">(setup / implantação em até 2x)</span>
+              </div>
+              <div className="mt-1 flex items-baseline gap-2">
+                <span className="font-mono text-xl font-bold text-emerald-400">+ R$ 650</span>
+                <span className="text-xs text-[#ABA29A]">/ mês (infraestrutura, plantão e suporte)</span>
+              </div>
+
+              <div className="mt-6 border-t border-white/10 pt-4">
+                <span className="text-[0.65rem] font-bold uppercase tracking-wider text-emerald-400 block mb-2">
+                  TUDO DO MODO LIGHT E MAIS:
+                </span>
+                <ul className="space-y-2 text-xs text-[#DFD5CA]">
+                  <li className="flex items-center gap-2">✓ Gerador ilimitado de Mini-sites para noivos e debutantes</li>
+                  <li className="flex items-center gap-2">✓ Painel dos Anfitriões com disparos WhatsApp e lista Pix</li>
+                  <li className="flex items-center gap-2">✓ Telão Interativo Memories 4K ao vivo com controle remoto</li>
+                  <li className="flex items-center gap-2">✓ Portaria digital anti-duplicidade com leitor de QR Code</li>
+                  <li className="flex items-center gap-2">✓ Central Administrativa com Agenda de Eventos dos 3 salões</li>
+                  <li className="flex items-center gap-2">✓ Entrega automatizada do acervo em pasta Google Drive VIP</li>
+                  <li className="flex items-center gap-2">✓ <strong>SLA 99.9%</strong> com <strong>Plantão Prioritário nos dias de evento</strong></li>
+                  <li className="flex items-center gap-2">✓ Backup diário automático e isolamento total LGPD</li>
+                </ul>
+              </div>
             </div>
-            <h3 className="mt-4 font-serif text-2xl text-white">Plataforma Digital de Eventos</h3>
-            <p className="mt-2 text-xs leading-relaxed text-[#ABA29A]">
-              O salão vende o ecossistema digital para os casais (R$ 800 a R$ 2.400). Transforma o casamento em um espetáculo multimídia interativo.
-            </p>
-            <ul className="mt-6 space-y-2.5 text-xs text-[#ABA29A]">
-              <li className="flex items-center gap-2 text-white">✓ Tudo do Hotsite Institucional</li>
-              <li className="flex items-center gap-2 text-white">✓ Mini-site com RSVP e QR Code individual</li>
-              <li className="flex items-center gap-2 text-white">✓ Disparos automáticos WhatsApp de convite</li>
-              <li className="flex items-center gap-2 text-white">✓ Telão interativo transmitindo fotos ao vivo</li>
-              <li className="flex items-center gap-2 text-white">✓ Portaria digital anti-duplicidade</li>
-            </ul>
+
             <div className="mt-6 rounded-xl bg-[#D3B47C]/10 p-3 text-center border border-[#D3B47C]/30">
-              <span className="text-xs text-[#D3B47C] font-bold">Lucro estimado: R$ 15.000 a R$ 35.000 / mês</span>
+              <span className="text-xs text-[#D3B47C] font-bold">O salão revende por R$ 1.800/casamento (Lucro Limpo!)</span>
             </div>
           </div>
         </div>
       ),
     },
     {
-      id: "hotsite",
-      tag: "O SITE INSTITUCIONAL · VITRINE DE ALTA COSTURA",
-      title: "Um Hotsite que Honra a Tradição do Lago Sul",
+      id: "business-case",
+      tag: "RETORNO SOBRE O INVESTIMENTO · ROI DO PROPRIETÁRIO",
+      title: "Como a Plataforma se Paga no Primeiro Mês",
       subtitle:
-        "Substituímos sites genéricos por uma experiência imersiva inspirada na nobreza e arquitetura monumental de Brasília.",
-      content: (
-        <div className="mt-8 grid gap-6 lg:grid-cols-3 text-left">
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-6">
-            <Camera className="h-6 w-6 text-[#D3B47C]" />
-            <h4 className="font-serif text-lg text-white mt-3">Acervo Real 35mm</h4>
-            <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
-              Mais de <strong>340 fotografias em alta resolução</strong> organizadas em rolo cinematográfico: Casamentos, 15 Anos, Gastronomia, Lustres e Salões.
-            </p>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-6">
-            <Sparkles className="h-6 w-6 text-[#D3B47C]" />
-            <h4 className="font-serif text-lg text-white mt-3">Identidade Visual Calibrada</h4>
-            <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
-              Tipografia editorial Cormorant Garamond, tons Dourado Champagne (`#D3B47C`) e Preto Ébano, criando contraste e distinção aristocrática.
-            </p>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-6">
-            <TrendingUp className="h-6 w-6 text-[#D3B47C]" />
-            <h4 className="font-serif text-lg text-white mt-3">Conversão Máxima de Leads</h4>
-            <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
-              Formulário simplificado de agendamento de visita no Lago Sul, integração direta com WhatsApp comercial e mapa interativo.
-            </p>
-          </div>
-          <div className="lg:col-span-3 text-center pt-4">
-            <Link
-              href="/"
-              target="_blank"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#D3B47C] px-6 py-3 text-xs font-bold text-[#100E0D] hover:bg-[#D3B47C]/90 shadow-xl transition"
-            >
-              <span>Abrir Hotsite Institucional em Nova Aba</span>
-              <ExternalLink className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "anfitriao",
-      tag: "O ECOSSISTEMA DO CASAL · DIFERENCIAL COMPETITIVO",
-      title: "Mini-site, Painel e WhatsApp dos Noivos",
-      subtitle:
-        "Em vez de pagar plataformas terceiras como iCasei e Casar.com, os casais usam o sistema oficial com a marca do Dúnia City Hall.",
-      content: (
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-left">
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-5">
-            <span className="text-[0.65rem] text-[#D3B47C] font-bold uppercase">01 · MINI-SITE</span>
-            <h4 className="font-serif text-base text-white mt-1">Mini-site do Evento</h4>
-            <p className="text-xs text-[#ABA29A] mt-1">
-              Contagem regressiva, história do casal, horologia em tempo real, traje e mapa.
-            </p>
-            <Link href="/evento" target="_blank" className="mt-4 block text-xs text-[#D3B47C] font-semibold hover:underline">
-              Testar Mini-site →
-            </Link>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-5">
-            <span className="text-[0.65rem] text-emerald-400 font-bold uppercase">02 · WHATSAPP</span>
-            <h4 className="font-serif text-base text-white mt-1">Disparos de Convite</h4>
-            <p className="text-xs text-[#ABA29A] mt-1">
-              Envio personalizado 1-clique com link direto de confirmação ({`{nome}`}, {`{codigo}`}).
-            </p>
-            <Link href="/painel" target="_blank" className="mt-4 block text-xs text-emerald-400 font-semibold hover:underline">
-              Ver Painel →
-            </Link>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-5">
-            <span className="text-[0.65rem] text-sky-400 font-bold uppercase">03 · PORTARIA</span>
-            <h4 className="font-serif text-base text-white mt-1">Check-in Anti-Duplicidade</h4>
-            <p className="text-xs text-[#ABA29A] mt-1">
-              Validação por QR Code na entrada, bloqueando penetras e tentativas de duplicidade.
-            </p>
-            <span className="mt-4 block text-xs text-white/40">Segurança Total</span>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-5">
-            <span className="text-[0.65rem] text-amber-300 font-bold uppercase">04 · TOTEM MESA</span>
-            <h4 className="font-serif text-base text-white mt-1">Displays para Impressão</h4>
-            <p className="text-xs text-[#ABA29A] mt-1">
-              Placas para impressão em acrílico para mesas, com QR code para fotos da festa.
-            </p>
-            <span className="mt-4 block text-xs text-white/40">Acervo Colaborativo</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "telao",
-      tag: "EXPERIÊNCIA AO VIVO NO SALÃO · DÚNIA MEMORIES",
-      title: "O Telão Interativo Sincronizado",
-      subtitle:
-        "Convidados tiram fotos na festa pelo celular e elas aparecem instantaneamente nos telões do Dúnia City Hall com efeitos e música.",
-      content: (
-        <div className="mt-8 grid gap-8 lg:grid-cols-2 text-left items-center">
-          <div className="space-y-4">
-            <div className="rounded-2xl border border-white/10 bg-[#161311] p-5">
-              <h4 className="font-serif text-lg text-white">Controle Remoto Pelo Painel do Casal</h4>
-              <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
-                Os noivos controlam a velocidade das transições, o efeito Ken Burns, a aprovação de fotos e a trilha sonora de fundo sem sair da mesa.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-[#161311] p-5">
-              <h4 className="font-serif text-lg text-white">Sincronização Instantânea com Zero Atraso</h4>
-              <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
-                Utiliza a tecnologia de ponta <strong>BroadcastChannel</strong> e eventos em tempo real, transmitindo em 4K e Full HD para qualquer painel de LED ou projetor.
-              </p>
-            </div>
-            <Link
-              href="/evento/telao"
-              target="_blank"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#D3B47C] px-5 py-3 text-xs font-bold text-[#100E0D] hover:bg-[#D3B47C]/90 shadow transition"
-            >
-              <span>Abrir Telão Interativo em Tela Cheia</span>
-              <Tv className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <div className="rounded-3xl border border-[#D3B47C]/40 bg-black/60 p-6 text-center shadow-2xl">
-            <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
-              SIMULADOR DE IMPACTO NO SALÃO
-            </span>
-            <div className="mt-4 font-serif text-4xl text-white">94% de Engajamento</div>
-            <p className="mt-2 text-xs text-[#ABA29A] leading-relaxed">
-              Média de <strong>300 a 600 fotos enviadas</strong> pelos convidados por festa, criando um arquivo emocional inesquecível que nenhum fotógrafo sozinho consegue registrar.
-            </p>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "admin",
-      tag: "GESTÃO DO SALÃO · CONTROLE OPERACIONAL",
-      title: "Central de Operações & Agenda de Eventos",
-      subtitle:
-        "O salão ganha uma agenda operacional completa para gerenciar o Salão Imperial, Espaço Cristal e Jardim Imperial.",
-      content: (
-        <div className="mt-8 grid gap-6 lg:grid-cols-3 text-left">
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-6">
-            <Calendar className="h-6 w-6 text-[#D3B47C]" />
-            <h4 className="font-serif text-lg text-white mt-3">Agenda Operacional</h4>
-            <p className="text-xs text-[#ABA29A] mt-1">
-              Visualização por mês ou timeline com horários de montagem, cerimônia, término e desmontagem (limite 07:30h).
-            </p>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-6">
-            <SlidersHorizontal className="h-6 w-6 text-[#D3B47C]" />
-            <h4 className="font-serif text-lg text-white mt-3">Configurador de Módulos</h4>
-            <p className="text-xs text-[#ABA29A] mt-1">
-              O administrador liga ou desliga módulos específicos com 1 clique dependendo do que o cliente contratou.
-            </p>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-6">
-            <Lock className="h-6 w-6 text-[#D3B47C]" />
-            <h4 className="font-serif text-lg text-white mt-3">Governança & Cotas</h4>
-            <p className="text-xs text-[#ABA29A] mt-1">
-              Trava de capacidade máxima de convidados e cotas de disparos WhatsApp para resguardar a infraestrutura.
-            </p>
-          </div>
-          <div className="lg:col-span-3 text-center pt-2">
-            <Link
-              href="/admin/experiencias"
-              target="_blank"
-              className="inline-flex items-center gap-2 rounded-xl border border-[#D3B47C]/40 bg-[#D3B47C]/10 px-6 py-3 text-xs font-bold text-[#D3B47C] hover:bg-[#D3B47C] hover:text-[#100E0D] shadow transition"
-            >
-              <span>Abrir Central de Operações & Agenda (`/admin/experiencias`)</span>
-              <ExternalLink className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "financeiro",
-      tag: "MODELAGEM COMERCIAL · RETORNO FINANCEIRO",
-      title: "Projeção de Lucro Adicional para o Dúnia",
-      subtitle:
-        "Toda a cobrança é realizada fisicamente pelo time comercial fora da plataforma. Lucro puro com infraestrutura já paga.",
+        "O salão cobra diretamente dos anfitriões no contrato de locação, criando uma fonte recorrente de alta margem.",
       content: (
         <div className="mt-8 grid gap-8 lg:grid-cols-2 text-left items-center">
           <div className="rounded-3xl border border-white/10 bg-[#161311] p-6 space-y-4">
-            <h4 className="font-serif text-xl text-white">Pacotes Sugeridos de Venda:</h4>
+            <h4 className="font-serif text-xl text-white">Simulação Conservadora de Vendas:</h4>
             <div className="divide-y divide-white/10 text-xs">
               <div className="py-2.5 flex justify-between items-center">
-                <span>Dúnia Invite (Mini-site + Contagem + Mapa)</span>
-                <strong className="text-white font-mono">R$ 800</strong>
+                <span>Eventos realizados por mês no Dúnia:</span>
+                <strong className="text-white font-mono">12 festas</strong>
               </div>
               <div className="py-2.5 flex justify-between items-center">
-                <span>Guest OS (Invite + WhatsApp RSVP + Portaria QR)</span>
-                <strong className="text-[#D3B47C] font-mono">R$ 1.800</strong>
+                <span>Adesão estimada de noivos ao pacote digital:</span>
+                <strong className="text-[#D3B47C] font-mono">35% (apenas 4 casais)</strong>
               </div>
               <div className="py-2.5 flex justify-between items-center">
-                <span>Guest OS + Memories (Tudo + Telão + Álbum Drive)</span>
-                <strong className="text-emerald-400 font-mono">R$ 2.400</strong>
+                <span>Valor cobrado pelo salão por pacote:</span>
+                <strong className="text-white font-mono">R$ 1.800 / evento</strong>
+              </div>
+              <div className="py-2.5 flex justify-between items-center">
+                <span className="font-semibold text-white">Receita Bruta Gerada para o Dúnia:</span>
+                <strong className="text-emerald-400 font-mono text-sm">+ R$ 7.200 / mês</strong>
+              </div>
+              <div className="py-2.5 flex justify-between items-center">
+                <span className="text-[#ABA29A]">Custo da Manutenção e Suporte:</span>
+                <strong className="text-rose-400 font-mono">- R$ 650 / mês</strong>
               </div>
             </div>
-            <p className="text-[0.7rem] text-[#ABA29A] pt-2">
-              * O cliente pode pagar parcelado junto ao contrato principal de locação do salão.
-            </p>
+            <div className="mt-4 rounded-xl bg-emerald-500/10 p-3 border border-emerald-500/30 text-xs text-emerald-300 text-center font-semibold">
+              Lucro Líquido Mensal: + R$ 6.550 / mês no bolso do salão!
+            </div>
           </div>
 
           <div className="rounded-3xl border-2 border-[#D3B47C] bg-black/60 p-8 text-center shadow-2xl">
             <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
-              RECEITA LÍQUIDA ESTIMADA (MENSAL)
+              LUCRO LÍQUIDO ANUAL PARA O DÚNIA
             </span>
-            <div className="mt-3 font-serif text-5xl text-white">R$ 22.000 / mês</div>
-            <span className="mt-2 block text-xs text-[#ABA29A]">
-              Considerando 12 festas/mês e adesão conservadora de 40% a 50%
-            </span>
-            <div className="mt-6 rounded-2xl bg-[#D3B47C]/15 p-4 border border-[#D3B47C]/30 text-xs text-white">
-              Potencial Anual: <strong className="text-[#D3B47C] text-lg font-mono">R$ 264.000 / ano</strong> de lucro limpo para os sócios do Dúnia.
+            <div className="mt-3 font-serif text-5xl text-white font-normal">
+              + R$ 78.600 <span className="text-lg font-sans text-[#ABA29A]">a</span> R$ 110.000
+            </div>
+            <p className="mt-2 text-xs text-[#ABA29A] leading-relaxed">
+              O investimento inicial de setup (R$ 4.800) se paga inteiramente nas primeiras 3 vendas! A partir do segundo mês, é receita 95%+ líquida.
+            </p>
+            <div className="mt-6 grid grid-cols-2 gap-3 text-center text-xs">
+              <div className="rounded-xl bg-white/5 p-3 border border-white/10">
+                <span className="text-[#ABA29A] block text-[0.65rem]">Custo Operacional</span>
+                <strong className="text-white font-mono">Quase Zero</strong>
+              </div>
+              <div className="rounded-xl bg-white/5 p-3 border border-white/10">
+                <span className="text-[#ABA29A] block text-[0.65rem]">Cobrança</span>
+                <strong className="text-emerald-400 font-mono">100% Fora da Plataforma</strong>
+              </div>
             </div>
           </div>
         </div>
       ),
     },
     {
-      id: "seguranca",
-      tag: "LGPD & SEGURANÇA · ENTREGA DAS MEMÓRIAS",
-      title: "Privacidade dos Convidados & Entrega VIP",
+      id: "roadmap",
+      tag: "ROADMAP DE DESENVOLVIMENTO & ENTREGAS",
+      title: "Cronograma de Evolução & O Que Já Foi Entregue",
       subtitle:
-        "Segurança de dados blindada e entrega elegante das fotos como presente de casamento do Dúnia City Hall.",
+        "Tudo o que foi planejado já está 100% desenvolvido, testado e pronto para homologação imediata.",
       content: (
-        <div className="mt-8 grid gap-6 sm:grid-cols-3 text-left">
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-6">
-            <ShieldCheck className="h-6 w-6 text-[#D3B47C]" />
-            <h4 className="font-serif text-lg text-white mt-3">Isolamento Atômico</h4>
+        <div className="mt-8 space-y-4 text-left">
+          <div className="grid gap-4 md:grid-cols-3">
+            {/* FASE 1 */}
+            <div className="rounded-2xl border border-emerald-500/40 bg-[#161311] p-5 shadow-lg">
+              <div className="flex items-center justify-between">
+                <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-[0.65rem] font-bold text-emerald-300">
+                  FASE 1 · 100% ENTREGUE
+                </span>
+                <Check className="h-4 w-4 text-emerald-400" />
+              </div>
+              <h4 className="font-serif text-lg text-white mt-2">Hotsite Nobre & Acervo 35mm</h4>
+              <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
+                Arquitetura clássica contemporânea em ouro champagne e preto ébano. 340+ fotos reais catalogadas. Formulário VIP de agendamento no Lago Sul e Revista Dúnia Editorial (CMS para publicações de casamentos reais e alta gastronomia).
+              </p>
+            </div>
+
+            {/* FASE 2 */}
+            <div className="rounded-2xl border border-emerald-500/40 bg-[#161311] p-5 shadow-lg">
+              <div className="flex items-center justify-between">
+                <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-[0.65rem] font-bold text-emerald-300">
+                  FASE 2 · 100% ENTREGUE
+                </span>
+                <Check className="h-4 w-4 text-emerald-400" />
+              </div>
+              <h4 className="font-serif text-lg text-white mt-2">Ecossistema do Casal & WhatsApp</h4>
+              <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
+                Mini-site dos noivos, importador de listas Excel, disparador de convites 1-clique pelo WhatsApp, QR Code individual e lista Pix sem taxas.
+              </p>
+            </div>
+
+            {/* FASE 3 */}
+            <div className="rounded-2xl border border-emerald-500/40 bg-[#161311] p-5 shadow-lg">
+              <div className="flex items-center justify-between">
+                <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-[0.65rem] font-bold text-emerald-300">
+                  FASE 3 · 100% ENTREGUE
+                </span>
+                <Check className="h-4 w-4 text-emerald-400" />
+              </div>
+              <h4 className="font-serif text-lg text-white mt-2">Telão Memories & Agenda do Salão</h4>
+              <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
+                Transmissão ao vivo de fotos no telão com sincronização em tempo real. Agenda dos 3 salões e controle de módulos por contrato.
+              </p>
+            </div>
+          </div>
+
+          {/* FASE 4 FUTURA */}
+          <div className="rounded-2xl border border-[#D3B47C]/30 bg-black/40 p-5 shadow-lg">
+            <div className="flex items-center justify-between">
+              <span className="rounded bg-[#D3B47C]/20 px-2 py-0.5 text-[0.65rem] font-bold text-[#D3B47C]">
+                FASE 4 · ROADMAP DE EXPANSÕES FUTURAS (OPCIONAL)
+              </span>
+              <Sparkles className="h-4 w-4 text-[#D3B47C]" />
+            </div>
+            <div className="mt-2 grid gap-4 sm:grid-cols-3 text-xs text-[#ABA29A]">
+              <div>
+                <strong className="text-white block font-serif text-sm">Totens Físicos em Acrílico</strong>
+                Produção das placas físicas com a marca Dúnia e corte a laser para as mesas de convidados.
+              </div>
+              <div>
+                <strong className="text-white block font-serif text-sm">API Direta com WhatsApp Business</strong>
+                Disparo via container Docker Evolution API na VPS Hostinger para automações sem QR code manual.
+              </div>
+              <div>
+                <strong className="text-white block font-serif text-sm">Concierge Digital com IA</strong>
+                Tira-dúvidas automatizado sobre trajes, horários de vallet e rotas no Lago Sul.
+              </div>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: "sla-seguranca",
+      tag: "INFRAESTRUTURA & GOVERNANÇA · SLA DE ALTO NÍVEL",
+      title: "Estabilidade, Escala & Segurança dos Dados",
+      subtitle:
+        "Toda a infraestrutura foi projetada para garantir zero falhas nos dias de festa e conformidade total com a LGPD.",
+      content: (
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-left">
+          <div className="rounded-2xl border border-white/10 bg-[#161311] p-5">
+            <Server className="h-5 w-5 text-[#D3B47C]" />
+            <h5 className="font-serif text-base text-white mt-2">Hospedagem Hostinger KVM4</h5>
             <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
-              Cada celebração possui isolamento criptográfico no banco de dados. Convidados de uma festa jamais acessam fotos de outra.
+              Servidor dedicado de alto desempenho no Brasil com baixa latência, certificado SSL Cloudflare e cache CDN global.
             </p>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-6">
-            <Lock className="h-6 w-6 text-[#D3B47C]" />
-            <h4 className="font-serif text-lg text-white mt-3">Conformidade LGPD</h4>
+
+          <div className="rounded-2xl border border-white/10 bg-[#161311] p-5">
+            <Clock className="h-5 w-5 text-emerald-400" />
+            <h5 className="font-serif text-base text-white mt-2">SLA de 99.9% + Plantão</h5>
             <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
-              Termos de consentimento claros e prazo de retenção de 45 dias para download, resguardando o salão juridicamente.
+              Disponibilidade ininterrupta com plantão técnico prioritário nos horários nobres de evento (sextas, sábados e domingos).
             </p>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-[#161311] p-6">
-            <Camera className="h-6 w-6 text-[#D3B47C]" />
-            <h4 className="font-serif text-lg text-white mt-3">Presente no Google Drive</h4>
+
+          <div className="rounded-2xl border border-white/10 bg-[#161311] p-5">
+            <Lock className="h-5 w-5 text-sky-400" />
+            <h5 className="font-serif text-base text-white mt-2">Segurança & LGPD</h5>
             <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
-              As fotos são sincronizadas na pasta do casal no Google Drive em alta resolução, para que compartilhem com pais e padrinhos.
+              Isolamento atômico entre celebrações. Fotos e convidados de um casamento não são acessíveis por outras festas.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-[#161311] p-5">
+            <Zap className="h-5 w-5 text-amber-300" />
+            <h5 className="font-serif text-base text-white mt-2">Alta Escala de Check-in</h5>
+            <p className="text-xs text-[#ABA29A] mt-1 leading-relaxed">
+              Leitura instantânea de QR Code na portaria, suportando centenas de convidados chegando simultaneamente sem filas.
             </p>
           </div>
         </div>
       ),
     },
     {
-      id: "conclusao",
-      tag: "DEMONSTRAÇÃO AO VIVO · PRÓXIMOS PASSOS",
-      title: "Pronto para Apresentação ao Proprietário",
+      id: "demonstracao",
+      tag: "HOMOLOGAÇÃO AO VIVO · EXPERIMENTE AGORA",
+      title: "Pronto para a Reunião com a Diretoria",
       subtitle:
-        "O sistema está 100% implementado, responsivo, com código limpo e pronto para homologação da diretoria.",
+        "Todos os módulos estão no ar e sincronizados. Clique abaixo para abrir e demonstrar cada tela em tempo real.",
       content: (
         <div className="mt-8 space-y-6">
           <p className="text-sm text-[#DFD5CA] max-w-2xl mx-auto leading-relaxed">
-            Seja para adotar o <strong>Modo Light</strong> (apenas Hotsite vitrine) ou o <strong>Experience OS</strong> (plataforma digital completa), o Dúnia City Hall agora possui a solução mais sofisticada de eventos da capital federal.
+            A decisão entre o <strong>Modo Light</strong> (R$ 2.800 setup + R$ 300/mês) ou o <strong>Experience OS Completo</strong> (R$ 4.800 setup + R$ 650/mês) é 100% configurável via arquivo de ambiente (`.env`), sem retrabalho ou custo extra.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
@@ -390,7 +358,7 @@ export default function ApresentacaoProprietarioPage() {
               target="_blank"
               className="rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-xs font-semibold text-white hover:bg-white/10 transition"
             >
-              1. Hotsite Institucional ↗
+              1. Hotsite Institucional Dúnia ↗
             </Link>
             <Link
               href="/admin/experiencias"
@@ -404,21 +372,21 @@ export default function ApresentacaoProprietarioPage() {
               target="_blank"
               className="rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-xs font-semibold text-white hover:bg-white/10 transition"
             >
-              3. Painel dos Noivos ↗
+              3. Painel do Casal & Módulos ↗
             </Link>
             <Link
               href="/evento"
               target="_blank"
               className="rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-xs font-semibold text-white hover:bg-white/10 transition"
             >
-              4. Mini-site do Casal ↗
+              4. Mini-site da Celebração ↗
             </Link>
             <Link
               href="/evento/telao"
               target="_blank"
               className="rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-xs font-semibold text-white hover:bg-white/10 transition"
             >
-              5. Telão Interativo ↗
+              5. Telão Interativo 4K ao Vivo ↗
             </Link>
           </div>
         </div>
@@ -474,14 +442,14 @@ export default function ApresentacaoProprietarioPage() {
       </header>
 
       {/* Main Slide Content */}
-      <main className="my-auto py-10 max-w-5xl mx-auto w-full text-center animate-fadeIn">
+      <main className="my-auto py-8 max-w-5xl mx-auto w-full text-center animate-fadeIn">
         <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#D3B47C] block mb-2">
           {slide.tag}
         </span>
         <h2 className="font-serif text-3xl sm:text-5xl font-light text-white leading-tight">
           {slide.title}
         </h2>
-        <p className="mt-3 text-xs sm:text-sm text-[#ABA29A] max-w-2xl mx-auto leading-relaxed">
+        <p className="mt-2 text-xs sm:text-sm text-[#ABA29A] max-w-2xl mx-auto leading-relaxed">
           {slide.subtitle}
         </p>
 
@@ -491,8 +459,8 @@ export default function ApresentacaoProprietarioPage() {
       {/* Bottom Controls */}
       <footer className="flex items-center justify-between border-t border-white/10 pt-6">
         <div className="text-xs text-[#ABA29A]">
-          Use as setas do teclado <kbd className="rounded bg-white/10 px-2 py-0.5 font-mono text-white">←</kbd>{" "}
-          <kbd className="rounded bg-white/10 px-2 py-0.5 font-mono text-white">→</kbd> para navegar
+          Navegação: <kbd className="rounded bg-white/10 px-2 py-0.5 font-mono text-white">←</kbd>{" "}
+          <kbd className="rounded bg-white/10 px-2 py-0.5 font-mono text-white">→</kbd> ou botões ao lado
         </div>
 
         <div className="flex items-center gap-3">

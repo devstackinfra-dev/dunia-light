@@ -866,6 +866,12 @@ const STORE_MODE_KEY = "dunia-commercial-mode"
 export type DuniaCommercialMode = "full" | "light"
 
 export function getCommercialMode(): DuniaCommercialMode {
+  // 1. Prioriza a configuração fixa do .env / .env.local
+  const envMode = process.env.NEXT_PUBLIC_DUNIA_MODE
+  if (envMode === "light") return "light"
+  if (envMode === "full") return "full"
+
+  // 2. Fallback para localStorage ou padrão 'full'
   if (typeof window === "undefined") return "full"
   try {
     const val = localStorage.getItem(STORE_MODE_KEY)
@@ -883,4 +889,189 @@ export function setCommercialMode(mode: DuniaCommercialMode): void {
   } catch (e) {
     console.warn("Erro ao salvar modo comercial:", e)
   }
+}
+
+
+// ==========================================
+// MÓDULO REVISTA DÚNIA (EDITORIAL & ARTIGOS)
+// ==========================================
+
+export interface DuniaArticle {
+  id: number | string
+  category: "casamento" | "inspiracao" | "eventos" | "gastronomia"
+  label: string
+  title: string
+  subtitle?: string
+  text: string
+  image: string
+  article: string
+  author?: string
+  date?: string
+  readTime?: string
+  featured?: boolean
+  status: "publicado" | "rascunho"
+}
+
+export const DEFAULT_DUNIA_ARTICLES: DuniaArticle[] = [
+  {
+    id: 1,
+    category: "casamento",
+    label: "CASAMENTOS • PLANEJAMENTO",
+    title: "Antes do sim: os detalhes que fazem uma história única",
+    text: "Da escolha do cenário à última dança, tudo começa pelas emoções que vocês querem viver.",
+    image: "/assets/casal.jpg",
+    author: "Redação Dúnia",
+    date: "Novembro, 2026",
+    readTime: "4 min",
+    status: "publicado",
+    featured: true,
+    article:
+      "Um grande casamento não se mede apenas pela decoração ou pelo número de convidados. Ele se revela nas escolhas que dizem algo sobre o casal: uma música, uma memória, uma mesa preparada para alguém especial. No Dúnia City Hall, o planejamento ganha vida com nossa cenografia monumental e o Espaço da Noiva exclusivo para preparar esse momento com serenidade.",
+  },
+  {
+    id: 2,
+    category: "inspiracao",
+    label: "INSPIRAÇÃO • CENOGRAFIA",
+    title: "A luz certa transforma um espaço em memória",
+    text: "Velas, flores e atmosferas que fazem cada convidado sentir que chegou a um lugar especial.",
+    image: "/assets/mesa.jpg",
+    author: "Equipe de Iluminação Cenográfica",
+    date: "Outubro, 2026",
+    readTime: "3 min",
+    status: "publicado",
+    featured: false,
+    article:
+      "Iluminação não serve apenas para deixar o ambiente bonito. Ela define ritmo, intimidade e sensação. Nossos lustres clássicos de cristal combinados a pontos de destaque cenográficos valorizam as mesas e criam profundidade cinematográfica em cada fotografia.",
+  },
+  {
+    id: 3,
+    category: "eventos",
+    label: "EVENTOS • EXPERIÊNCIA",
+    title: "Receber bem começa muito antes das portas se abrirem",
+    text: "Convites digitais, informações claras e uma jornada de convidados pensada com cuidado.",
+    image: "/assets/salao.jpg",
+    author: "Diretoria de Operações",
+    date: "Setembro, 2026",
+    readTime: "5 min",
+    status: "publicado",
+    featured: true,
+    article:
+      "O evento começa quando o convidado recebe o primeiro convite. Com o Dúnia Experience OS, oferecemos mini-sites personalizados, mapa interativo, RSVP instantâneo por código e QR Code de entrada, trazendo sofisticação digital desde o primeiro instante.",
+  },
+  {
+    id: 4,
+    category: "inspiracao",
+    label: "INSPIRAÇÃO • 15 ANOS",
+    title: "Uma festa de quinze anos que tem a sua assinatura",
+    text: "O que faz uma celebração parecer única é a personalidade de quem está no centro dela.",
+    image: "/assets/debutante.jpg",
+    author: "Curadoria Jovem",
+    date: "Agosto, 2026",
+    readTime: "4 min",
+    status: "publicado",
+    featured: false,
+    article:
+      "Uma celebração marcante combina elementos que representam quem está vivendo o momento. No Dúnia, nossa pista de dança de última geração com tecnologia de ponta e ambientes instagramáveis transformam o baile de 15 anos em uma noite lendária.",
+  },
+  {
+    id: 5,
+    category: "eventos",
+    label: "EVENTOS • CORPORATIVO",
+    title: "Conexões que continuam depois do evento",
+    text: "Quando um encontro corporativo é pensado para aproximar pessoas e criar significado.",
+    image: "/assets/corporativo.jpg",
+    author: "Comitê de Relações Corporativas",
+    date: "Julho, 2026",
+    readTime: "3 min",
+    status: "publicado",
+    featured: false,
+    article:
+      "Os grandes encontros corporativos exigem distinção, acústica perfeita e segurança. Já recebemos autoridades dos Três Poderes, representantes de embaixadas e líderes globais, sempre com gastronomia impecável e estrutura modular para até 1.200 participantes.",
+  },
+  {
+    id: 6,
+    category: "casamento",
+    label: "CASAMENTOS • CONVIDADOS",
+    title: "Como organizar a confirmação de presença sem complicação",
+    text: "Um RSVP simples é um gesto de cuidado com os convidados e com a organização.",
+    image: "/assets/festa.jpg",
+    author: "Cerimonial & Recepção",
+    date: "Junho, 2026",
+    readTime: "4 min",
+    status: "publicado",
+    featured: false,
+    article:
+      "Uma confirmação de presença clara facilita decisões sobre equipe, mesas e buffet. O Dúnia Experience OS entrega ao casal um painel em tempo real onde cada confirmação é atualizada instantaneamente e a portaria valida os acessos por QR Code com bloqueio de duplicidade.",
+  },
+  {
+    id: 7,
+    category: "gastronomia",
+    label: "GASTRONOMIA • ALTA COZINHA",
+    title: "A arte de encantar pelo paladar em grandes banquetes",
+    text: "Menus autorais e harmonizações desenhadas para emocionar os convidados mais exigentes.",
+    image: "/assets/mesa.jpg",
+    author: "Chef Executivo Dúnia",
+    date: "Novembro, 2026",
+    readTime: "5 min",
+    status: "publicado",
+    featured: true,
+    article:
+      "A alta gastronomia do Dúnia City Hall une a precisão da culinária clássica internacional com toques contemporâneos da rica identidade brasileira. Desde as ilhas de antepastos refinadas até os pratos principais empratados à francesa, cada detalhe é desenhado para transformar o jantar em uma experiência multissensorial inesquecível.",
+  },
+]
+
+const STORE_ARTICLES_KEY = "dunia-editorial-articles"
+
+export function getStoredArticles(): DuniaArticle[] {
+  if (typeof window === "undefined") return DEFAULT_DUNIA_ARTICLES
+  try {
+    const raw = localStorage.getItem(STORE_ARTICLES_KEY)
+    if (!raw) {
+      localStorage.setItem(STORE_ARTICLES_KEY, JSON.stringify(DEFAULT_DUNIA_ARTICLES))
+      return DEFAULT_DUNIA_ARTICLES
+    }
+    const parsed = JSON.parse(raw)
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_DUNIA_ARTICLES
+  } catch {
+    return DEFAULT_DUNIA_ARTICLES
+  }
+}
+
+export function saveStoredArticles(articles: DuniaArticle[]): void {
+  if (typeof window === "undefined") return
+  try {
+    localStorage.setItem(STORE_ARTICLES_KEY, JSON.stringify(articles))
+    window.dispatchEvent(new CustomEvent("dunia-articles-change", { detail: articles }))
+  } catch (e) {
+    console.warn("Erro ao salvar artigos da revista:", e)
+  }
+}
+
+export function createNewArticle(data: Omit<DuniaArticle, "id">): DuniaArticle {
+  const articles = getStoredArticles()
+  const newArticle: DuniaArticle = {
+    ...data,
+    id: `art-${Date.now()}`,
+    date: data.date || new Date().toLocaleDateString("pt-BR", { month: "long", year: "numeric" }),
+    status: data.status || "publicado",
+  }
+  const updated = [newArticle, ...articles]
+  saveStoredArticles(updated)
+  return newArticle
+}
+
+export function updateArticle(id: number | string, updates: Partial<DuniaArticle>): DuniaArticle | null {
+  const articles = getStoredArticles()
+  const idx = articles.findIndex((a) => String(a.id) === String(id))
+  if (idx === -1) return null
+  const updated = { ...articles[idx], ...updates }
+  articles[idx] = updated
+  saveStoredArticles(articles)
+  return updated
+}
+
+export function deleteArticle(id: number | string): void {
+  const articles = getStoredArticles()
+  const filtered = articles.filter((a) => String(a.id) !== String(id))
+  saveStoredArticles(filtered)
 }

@@ -1,5 +1,6 @@
 "use client"
 
+import { getStoredArticles, DEFAULT_DUNIA_ARTICLES, type DuniaArticle } from "@/lib/dunia-store"
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
@@ -147,7 +148,19 @@ export default function Home() {
   const [isStoryHovered, setIsStoryHovered] = useState(false)
   const [journalFilter, setJournalFilter] = useState<string>("all")
   const [showAllArticles, setShowAllArticles] = useState(false)
-  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null)
+  const [articlesList, setArticlesList] = useState<DuniaArticle[]>(DEFAULT_DUNIA_ARTICLES)
+  const [selectedArticle, setSelectedArticle] = useState<DuniaArticle | null>(null)
+
+  useEffect(() => {
+    const load = () => {
+      const stored = getStoredArticles()
+      const publicOnly = stored.filter((a) => a.status !== "rascunho")
+      setArticlesList(publicOnly.length > 0 ? publicOnly : DEFAULT_DUNIA_ARTICLES)
+    }
+    load()
+    window.addEventListener("dunia-articles-change", load)
+    return () => window.removeEventListener("dunia-articles-change", load)
+  }, [])
   const [scrollProgress, setScrollProgress] = useState(0)
   const [headerScrolled, setHeaderScrolled] = useState(false)
 
@@ -212,7 +225,7 @@ export default function Home() {
     })
   }
 
-  const filteredArticles = ARTICLES.filter(
+  const filteredArticles = articlesList.filter(
     (a) => journalFilter === "all" || a.category === journalFilter
   )
   const visibleArticles = showAllArticles ? filteredArticles : filteredArticles.slice(0, 3)
@@ -787,6 +800,7 @@ export default function Home() {
                 { key: "casamento", label: "CASAMENTOS" },
                 { key: "inspiracao", label: "INSPIRAÇÃO" },
                 { key: "eventos", label: "EVENTOS" },
+                { key: "gastronomia", label: "GASTRONOMIA" },
               ].map(({ key, label }) => (
                 <button
                   key={key}
