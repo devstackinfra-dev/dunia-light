@@ -214,9 +214,6 @@ export default function AdminExperienciasPage() {
       modules: { ...DEFAULT_EVENT_MODULES },
       operational: {
         ...DEFAULT_OPERATIONAL_INFO,
-  getCommercialMode,
-  setCommercialMode,
-  type DuniaCommercialMode,
         espaco: newVenue as any,
         tipoEvento: newCategory as any,
         horarioInicio: newTime,
