@@ -1,5 +1,6 @@
 import type React from "react"
 import "@/app/globals.css"
+import "@/styles/dunia-experience.css"
 import type { Metadata, Viewport } from "next"
 import { Cormorant_Garamond, DM_Sans, Libre_Caslon_Text, Open_Sans, Playfair_Display, Public_Sans } from "next/font/google"
 import WhatsAppNotification from "@/components/whatsapp-notification"
@@ -141,7 +142,7 @@ export default async function RootLayout({
       <body className="font-corpo antialiased selection:bg-marca-latao/30 selection:text-marca-tinta">
         <ConteudoProvider conteudo={conteudo}>
           {children}
-          <WhatsAppNotification />
+          {/* <WhatsAppNotification /> */}
         </ConteudoProvider>
       </body>
     </html>

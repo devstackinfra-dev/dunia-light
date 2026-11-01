@@ -83,9 +83,16 @@ export interface ConteudoResolvido {
 }
 
 export function resolverConteudo(bruto?: ConteudoSite | null): ConteudoResolvido {
+  const ehDeOutraMarca =
+    Boolean(bruto?.perfil?.nome?.toLowerCase().includes('louzeiro')) ||
+    (BRAND.vertical === 'eventos' &&
+      Boolean((bruto?.home?.hero as any)?.badge?.toLowerCase().includes('advocacia')))
+
+  const dadosValidos = ehDeOutraMarca ? null : bruto
+
   return {
-    home: mesclarHome(HOME, bruto?.home),
-    perfil: perfilCompleto(bruto?.perfil),
+    home: mesclarHome(HOME, dadosValidos?.home),
+    perfil: perfilCompleto(dadosValidos?.perfil),
   }
 }
 

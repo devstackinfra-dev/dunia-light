@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation"
 import { BRAND, whatsappLink } from "@/config/brand"
 
 export default function WhatsAppNotification() {
+  return null // Desativado temporariamente
+
   const pathname = usePathname()
   const [isVisible, setIsVisible] = useState(false)
   const [isExpanded, setIsExpanded] = useState(true)

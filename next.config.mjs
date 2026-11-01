@@ -93,6 +93,9 @@ const nextConfig = {
         ? [{ protocol: "https", hostname: supabaseHost, pathname: "/storage/v1/object/public/**" }]
         : []),
       { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
+      { protocol: "https", hostname: "duniacityhall.com.br", pathname: "/**" },
+      { protocol: "https", hostname: "www.duniacityhall.com.br", pathname: "/**" },
+      { protocol: "https", hostname: "api.qrserver.com", pathname: "/**" },
     ],
     // Formatos modernos para melhor performance
     formats: ["image/avif", "image/webp"],

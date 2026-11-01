@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dúnia City Hall — Apresentação Executiva para o Proprietário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: #0C0A09;
+      color: #F3EEE6;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2.5rem;
+      user-select: none;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 1.5rem;
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      letter-spacing: 0.2em;
+      color: #D3B47C;
+      font-weight: 400;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .logo span {
+      display: block;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      color: #ABA29A;
+      font-family: 'Inter', sans-serif;
+    }
+    .indicators {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .dot {
+      height: 8px;
+      width: 8px;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .dot.active {
+      width: 32px;
+      background: #D3B47C;
+    }
+    main {
+      max-width: 1050px;
+      margin: auto;
+      text-align: center;
+      padding: 2.5rem 0;
+      width: 100%;
+    }
+    .slide-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      color: #D3B47C;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .slide-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      line-height: 1.15;
+      color: #FFFFFF;
+      margin-bottom: 0.75rem;
+    }
+    .slide-sub {
+      font-size: 0.95rem;
+      color: #ABA29A;
+      max-width: 680px;
+      margin: 0 auto 2rem auto;
+      line-height: 1.6;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      text-align: left;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 2rem;
+      text-align: left;
+    }
+    .card {
+      background: #161311;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1.25rem;
+      padding: 1.75rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .card.highlight {
+      border: 2px solid #D3B47C;
+      background: linear-gradient(180deg, #1C1816 0%, #12100E 100%);
+    }
+    .card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      color: #FFFFFF;
+      margin-top: 0.5rem;
+    }
+    .card p {
+      font-size: 0.85rem;
+      color: #ABA29A;
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+    .card ul {
+      list-style: none;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+    .card ul li {
+      padding: 0.35rem 0;
+      color: #DFD5CA;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-gold {
+      background: #D3B47C;
+      color: #100E0D;
+      border: none;
+    }
+    .btn-gold:hover {
+      background: #e4c293;
+    }
+    .btn-outline {
+      background: rgba(255,255,255,0.05);
+      color: #FFFFFF;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #ABA29A;
+    }
+    .hide { display: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="logo">Dúnia<span>CITY HALL · LAGO SUL</span></a>
+    <div class="indicators" id="dotsContainer"></div>
+  </header>
+
+  <main id="slideContent"></main>
+
+  <footer>
+    <div>Use as setas <kbd>←</kbd> <kbd>→</kbd> ou os botões para navegar na apresentação</div>
+    <div style="display:flex; gap:0.75rem;">
+      <button class="btn btn-outline" id="prevBtn">← Anterior</button>
+      <button class="btn btn-gold" id="nextBtn">Próximo →</button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = [
+      {
+        tag: "APRESENTAÇÃO EXECUTIVA · DIRETORIA DÚNIA CITY HALL",
+        title: "A Nova Era Digital do Dúnia City Hall",
+        sub: "Estratégia de Posicionamento, Hotsite Institucional de Alta Costura e Modelos de Negócio Digitais para o Lago Sul de Brasília.",
+        html: `
+          <div class="grid-3" style="margin-top:2rem;">
+            <div class="card" style="border-color:rgba(211,180,124,0.35);">
+              <span style="font-size:0.65rem; font-weight:700; color:#D3B47C; text-transform:uppercase;">01 · MARCA & VITRINE</span>
+              <h4>Hotsite Institucional Nobre</h4>
+              <p>Design clássico contemporâneo, Acervo 35mm com 340+ fotos reais dos salões e gastronomia para captação contínua de noivas e galas.</p>
+            </div>
+            <div class="card">
+              <span style="font-size:0.65rem; font-weight:700; color:#FBBF24; text-transform:uppercase;">02 · FLEXIBILIDADE TOTAL</span>
+              <h4>2 Modelos Comerciais</h4>
+              <p>O salão pode optar pelo <strong>Modo Light</strong> (apenas Hotsite vitrine com zero operação) ou ativar o <strong>Experience OS</strong> para monetizar pacotes digitais.</p>
+            </div>
+            <div class="card">
+              <span style="font-size:0.65rem; font-weight:700; color:#34D399; text-transform:uppercase;">03 · RENTABILIDADE</span>
+              <h4>+R$ 15.000 a 40.000/Mês</h4>
+              <p>Potencial de faturamento adicional em vendas de mini-sites, telão interativo e WhatsApp com 98% de margem líquida.</p>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "FLEXIBILIDADE ESTRATÉGICA · 2 MODELOS DE NEGÓCIO",
+        title: "Qual Modelo o Dúnia Quer Adotar?",
+        sub: "A plataforma foi construída para se adaptar à decisão do proprietário: foco 100% no espaço físico ou agregação de valor com tecnologia.",
+        html: `
+          <div class="grid-2" style="margin-top:2rem;">
+            <div class="card">
+              <span style="background:rgba(255,255,255,0.1); padding:0.25rem 0.65rem; border-radius:9999px; font-size:0.65rem; font-weight:700; color:#FFF;">OPÇÃO 1 · LIGHT / ESSENCIAL</span>
+              <h3 style="font-family:'Cormorant Garamond', serif; font-size:1.75rem; color:#FFF; margin-top:1rem;">Apenas Hotsite Institucional</h3>
+              <p>O Dúnia utiliza o site apenas como vitrine nobre para atrair noivos e empresas. Mini-sites e painéis de convidados ficam <strong>100% desativados</strong>.</p>
+              <ul>
+                <li>✓ Hotsite de alta conversão no ar 24h</li>
+                <li>✓ Galeria com 340+ fotos do salão real</li>
+                <li>✓ Formulário de agendamento de visitas VIP</li>
+                <li style="color:#ABA29A;">✕ Sem gestão de convites de noivos</li>
+                <li style="color:#ABA29A;">✕ Sem telão interativo no evento</li>
+              </ul>
+              <div style="margin-top:1.5rem; padding:0.75rem; background:rgba(255,255,255,0.03); text-align:center; border-radius:0.75rem; font-size:0.8rem; color:#D3B47C;">
+                Custo adicional para o salão: R$ 0,00
+              </div>
+            </div>
+            <div class="card highlight">
+              <span style="background:#D3B47C; padding:0.25rem 0.65rem; border-radius:9999px; font-size:0.65rem; font-weight:700; color:#100E0D;">OPÇÃO 2 · EXPERIENCE OS (RECOMENDADO)</span>
+              <h3 style="font-family:'Cormorant Garamond', serif; font-size:1.75rem; color:#FFF; margin-top:1rem;">Plataforma Digital de Eventos</h3>
+              <p>O salão vende o ecossistema digital para os casais (R$ 800 a R$ 2.400). Transforma o casamento em um espetáculo multimídia interativo.</p>
+              <ul>
+                <li>✓ Tudo do Hotsite Institucional</li>
+                <li>✓ Mini-site com RSVP e QR Code individual</li>
+                <li>✓ Disparos automáticos WhatsApp de convite</li>
+                <li>✓ Telão interativo transmitindo fotos ao vivo</li>
+                <li>✓ Portaria digital anti-duplicidade</li>
+              </ul>
+              <div style="margin-top:1.5rem; padding:0.75rem; background:rgba(211,180,124,0.15); text-align:center; border-radius:0.75rem; font-size:0.8rem; color:#D3B47C; font-weight:700;">
+                Lucro estimado: R$ 15.000 a R$ 35.000 / mês
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "O SITE INSTITUCIONAL · VITRINE DE ALTA COSTURA",
+        title: "Um Hotsite que Honra a Tradição do Lago Sul",
+        sub: "Substituímos sites genéricos por uma experiência imersiva inspirada na nobreza e arquitetura monumental de Brasília.",
+        html: `
+          <div class="grid-3" style="margin-top:2rem;">
+            <div class="card">
+              <h4 style="color:#D3B47C;">Acervo Real 35mm</h4>
+              <p>Mais de <strong>340 fotografias em alta resolução</strong> organizadas em rolo cinematográfico: Casamentos, 15 Anos, Gastronomia, Lustres e Salões.</p>
+            </div>
+            <div class="card">
+              <h4 style="color:#D3B47C;">Identidade Aristocrática</h4>
+              <p>Tipografia editorial Cormorant Garamond, tons Dourado Champagne (#D3B47C) e Preto Ébano, criando contraste e distinção no mercado de eventos.</p>
+            </div>
+            <div class="card">
+              <h4 style="color:#D3B47C;">Conversão Máxima</h4>
+              <p>Formulário simplificado de agendamento de visita no Lago Sul, integração direta com WhatsApp comercial e mapa interativo.</p>
+            </div>
+          </div>
+          <div style="margin-top:2.5rem;">
+            <a href="http://localhost:3000" target="_blank" class="btn btn-gold">Abrir Hotsite Institucional Dúnia ↗</a>
+          </div>
+        `
+      },
+      {
+        tag: "O ECOSSISTEMA DO CASAL · DIFERENCIAL COMPETITIVO",
+        title: "Mini-site, Painel e WhatsApp dos Noivos",
+        sub: "Em vez de pagar plataformas terceiras como iCasei e Casar.com, os casais usam o sistema oficial com a marca do Dúnia City Hall.",
+        html: `
+          <div class="grid-3" style="margin-top:2rem;">
+            <div class="card">
+              <span style="font-size:0.65rem; color:#D3B47C; font-weight:700;">01 · MINI-SITE</span>
+              <h4>Mini-site do Casal</h4>
+              <p>Contagem regressiva, história dos noivos, horologia em tempo real, traje, mapa e confirmação VIP de presença.</p>
+            </div>
+            <div class="card">
+              <span style="font-size:0.65rem; color:#34D399; font-weight:700;">02 · WHATSAPP</span>
+              <h4>Disparos de Convite</h4>
+              <p>Envio personalizado 1-clique com link direto de confirmação ({nome}, {codigo}, {vagas}) e disparador em lote.</p>
+            </div>
+            <div class="card">
+              <span style="font-size:0.65rem; color:#38BDF8; font-weight:700;">03 · PORTARIA</span>
+              <h4>Controle de Entrada</h4>
+              <p>Validação por QR Code na portaria, bloqueando penetras e tentativas de duplicidade de convite.</p>
+            </div>
+          </div>
+          <div style="margin-top:2.5rem; display:flex; gap:1rem; justify-content:center;">
+            <a href="http://localhost:3000/evento" target="_blank" class="btn btn-outline">Ver Mini-site Demo ↗</a>
+            <a href="http://localhost:3000/painel" target="_blank" class="btn btn-gold">Ver Painel dos Noivos ↗</a>
+          </div>
+        `
+      },
+      {
+        tag: "EXPERIÊNCIA AO VIVO NO SALÃO · DÚNIA MEMORIES",
+        title: "O Telão Interativo Sincronizado",
+        sub: "Convidados tiram fotos na festa pelo celular e elas aparecem instantaneamente nos telões do Dúnia City Hall com efeitos e música.",
+        html: `
+          <div class="grid-2" style="margin-top:2rem; align-items:center;">
+            <div style="text-align:left;">
+              <div class="card" style="margin-bottom:1rem;">
+                <h4>Controle Remoto Pelo Painel do Casal</h4>
+                <p>Os noivos controlam a velocidade das transições, o efeito Ken Burns, a moderação de fotos e a trilha sonora sem sair da mesa.</p>
+              </div>
+              <div class="card">
+                <h4>Transmissão em Tempo Real sem Latência</h4>
+                <p>Tecnologia BroadcastChannel em tela cheia para painéis de LED e projetores do Dúnia.</p>
+              </div>
+              <div style="margin-top:1.5rem;">
+                <a href="http://localhost:3000/evento/telao" target="_blank" class="btn btn-gold">Abrir Telão Interativo ↗</a>
+              </div>
+            </div>
+            <div class="card highlight" style="text-align:center;">
+              <span style="font-size:0.7rem; color:#D3B47C; font-weight:700; text-transform:uppercase;">Engajamento Emocional</span>
+              <div style="font-family:'Cormorant Garamond', serif; font-size:3rem; color:#FFF; margin:1rem 0;">300 a 600 fotos</div>
+              <p>Média capturada pelos próprios convidados por festa. Um acervo espontâneo que encanta os noivos.</p>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "GESTÃO DO SALÃO · CONTROLE OPERACIONAL",
+        title: "Central de Operações & Agenda de Eventos",
+        sub: "O salão ganha uma agenda operacional completa para gerenciar o Salão Imperial, Espaço Cristal e Jardim Imperial.",
+        html: `
+          <div class="grid-3" style="margin-top:2rem;">
+            <div class="card">
+              <h4 style="color:#D3B47C;">Agenda Operacional</h4>
+              <p>Visualização por mês ou timeline com horários de montagem, cerimônia, término e desmontagem (limite 07:30h).</p>
+            </div>
+            <div class="card">
+              <h4 style="color:#D3B47C;">Configurador de Módulos</h4>
+              <p>O administrador liga ou desliga módulos específicos com 1 clique dependendo do que o cliente contratou.</p>
+            </div>
+            <div class="card">
+              <h4 style="color:#D3B47C;">Governança & Cotas</h4>
+              <p>Trava de capacidade máxima de convidados e cotas de disparos WhatsApp para resguardar a infraestrutura.</p>
+            </div>
+          </div>
+          <div style="margin-top:2.5rem;">
+            <a href="http://localhost:3000/admin/experiencias" target="_blank" class="btn btn-gold">Abrir Agenda & Admin do Dúnia ↗</a>
+          </div>
+        `
+      },
+      {
+        tag: "MODELAGEM COMERCIAL · RETORNO FINANCEIRO",
+        title: "Projeção de Lucro Adicional para o Dúnia",
+        sub: "Toda a cobrança é realizada fisicamente pelo time comercial fora da plataforma. Lucro puro com infraestrutura já paga.",
+        html: `
+          <div class="grid-2" style="margin-top:2rem; align-items:center;">
+            <div class="card">
+              <h4>Pacotes Sugeridos de Venda:</h4>
+              <ul style="margin-top:1rem;">
+                <li style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.08);">
+                  <span>Dúnia Invite (Mini-site + Contagem + Mapa)</span>
+                  <strong style="color:#FFF;">R$ 800</strong>
+                </li>
+                <li style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.08);">
+                  <span>Guest OS (Invite + WhatsApp RSVP + Portaria QR)</span>
+                  <strong style="color:#D3B47C;">R$ 1.800</strong>
+                </li>
+                <li style="display:flex; justify-content:space-between; padding:0.5rem 0;">
+                  <span>Guest OS + Memories (Tudo + Telão + Álbum Drive)</span>
+                  <strong style="color:#34D399;">R$ 2.400</strong>
+                </li>
+              </ul>
+            </div>
+            <div class="card highlight" style="text-align:center;">
+              <span style="font-size:0.7rem; color:#D3B47C; font-weight:700; text-transform:uppercase;">Lucro Líquido Estimado</span>
+              <div style="font-family:'Cormorant Garamond', serif; font-size:3.5rem; color:#FFF; margin:0.75rem 0;">R$ 22.000 <span style="font-size:1.5rem;">/mês</span></div>
+              <p>Considerando 12 festas/mês e adesão de 40% a 50% dos casais.</p>
+              <div style="margin-top:1.5rem; padding:0.75rem; background:rgba(211,180,124,0.2); border-radius:0.75rem; font-weight:700; color:#D3B47C;">
+                Potencial Anual: R$ 264.000 / ano de lucro limpo
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "LGPD & SEGURANÇA · ENTREGA DAS MEMÓRIAS",
+        title: "Privacidade dos Convidados & Entrega VIP",
+        sub: "Segurança de dados blindada e entrega elegante das fotos como presente de casamento do Dúnia City Hall.",
+        html: `
+          <div class="grid-3" style="margin-top:2rem;">
+            <div class="card">
+              <h4 style="color:#D3B47C;">Isolamento Atômico</h4>
+              <p>Cada celebração possui isolamento criptográfico no banco de dados. Convidados de uma festa jamais acessam fotos de outra.</p>
+            </div>
+            <div class="card">
+              <h4 style="color:#D3B47C;">Conformidade LGPD</h4>
+              <p>Termos de consentimento claros e prazo de retenção de 45 dias para download, resguardando o salão juridicamente.</p>
+            </div>
+            <div class="card">
+              <h4 style="color:#D3B47C;">Presente no Google Drive</h4>
+              <p>As fotos são sincronizadas na pasta do casal no Google Drive em alta resolução, para que compartilhem com pais e padrinhos.</p>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "DEMONSTRAÇÃO AO VIVO · PRÓXIMOS PASSOS",
+        title: "Pronto para Apresentação ao Proprietário",
+        sub: "O sistema está 100% implementado, responsivo, com código limpo e pronto para homologação da diretoria.",
+        html: `
+          <div style="max-width:700px; margin:2rem auto; font-size:0.95rem; color:#DFD5CA; line-height:1.7;">
+            Seja para adotar o <strong>Modo Light</strong> (apenas Hotsite vitrine) ou o <strong>Experience OS</strong> (plataforma digital completa), o Dúnia City Hall agora possui a solução mais sofisticada de eventos da capital federal.
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:2rem;">
+            <a href="http://localhost:3000" target="_blank" class="btn btn-outline">1. Hotsite Institucional ↗</a>
+            <a href="http://localhost:3000/admin/experiencias" target="_blank" class="btn btn-gold">2. Agenda & Admin do Salão ↗</a>
+            <a href="http://localhost:3000/painel" target="_blank" class="btn btn-outline">3. Painel dos Noivos ↗</a>
+            <a href="http://localhost:3000/evento" target="_blank" class="btn btn-outline">4. Mini-site do Casal ↗</a>
+            <a href="http://localhost:3000/evento/telao" target="_blank" class="btn btn-outline">5. Telão Interativo ↗</a>
+          </div>
+        `
+      }
+    ];
+
+    let current = 0;
+    const content = document.getElementById("slideContent");
+    const dotsContainer = document.getElementById("dotsContainer");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    function renderDots() {
+      dotsContainer.innerHTML = "";
+      slides.forEach((_, idx) => {
+        const dot = document.createElement("div");
+        dot.className = "dot " + (current === idx ? "active" : "");
+        dot.onclick = () => { current = idx; renderSlide(); };
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    function renderSlide() {
+      const s = slides[current];
+      content.innerHTML = `
+        <span class="slide-tag">${s.tag}</span>
+        <h2 class="slide-title">${s.title}</h2>
+        <p class="slide-sub">${s.sub}</p>
+        ${s.html}
+      `;
+      renderDots();
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === slides.length - 1;
+      prevBtn.style.opacity = current === 0 ? "0.3" : "1";
+      nextBtn.style.opacity = current === slides.length - 1 ? "0.3" : "1";
+    }
+
+    prevBtn.onclick = () => { if (current > 0) { current--; renderSlide(); } };
+    nextBtn.onclick = () => { if (current < slides.length - 1) { current++; renderSlide(); } };
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " ") {
+        if (current < slides.length - 1) { current++; renderSlide(); }
+      } else if (e.key === "ArrowLeft") {
+        if (current > 0) { current--; renderSlide(); }
+      }
+    });
+
+    renderSlide();
+  </script>
+</body>
+</html>

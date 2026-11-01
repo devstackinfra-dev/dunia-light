@@ -17,6 +17,10 @@ const CHAVE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
  * redirecionar daqui viraria ping-pong com o /login.
  */
 export async function middleware(request: NextRequest) {
+  // Permite acesso direto ao Dúnia Experience OS (/admin/experiencias)
+  if (request.nextUrl.pathname.startsWith("/admin/experiencias")) {
+    return NextResponse.next()
+  }
   // Template recém-clonado, sem .env.local: deixa a página mostrar o erro de configuração.
   if (!URL_SUPABASE || !CHAVE_ANON) return NextResponse.next()
 
