@@ -300,7 +300,6 @@ export default function Home() {
                 {/* Carimbo de Luxo Discreto no Rodapé da Foto */}
                 <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-[0.62rem] text-white/80 tracking-widest uppercase">
                   <span>Dúnia City Hall</span>
-                  <span className="text-[#D3B47C] font-semibold">01 / Casamento Real</span>
                 </div>
               </div>
             </div>
