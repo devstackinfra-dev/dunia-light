@@ -305,13 +305,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          {/* Rodapé do Hero Alinhado à Grade Centralizada */}
-          <div className="mt-12 pt-6 border-t border-white/10 flex items-center justify-between text-[0.68rem] tracking-[0.2em] text-[#ABA29A] uppercase">
-            <span>01 — 06 / DÚNIA EXPERIENCES</span>
-            <div className="mouse-icon"><i /></div>
-            <span>ROLE PARA SENTIR ↓</span>
-          </div>
         </div>
       </section>
 
