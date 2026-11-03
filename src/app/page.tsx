@@ -6,6 +6,7 @@ import Link from "next/link"
 import Image from "next/image"
 import DuniaGalleryViewer from "@/components/dunia-gallery-viewer"
 import DuniaHeader from "@/components/dunia-header"
+import CenografiaSpacesInteractive from "@/components/home/cenografia-spaces-interactive"
 import {
   ArrowRight,
   Sparkles,
@@ -720,53 +721,21 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 7. ESTRUTURA & DIFERENCIAIS (MINIMALISMO ARQUITETÔNICO CENTRALIZADO) */}
-        <section id="diferenciais" className="my-12 rounded-2xl border border-white/10 bg-[#141210] p-6 sm:p-10 shadow-xl">
-          <div className="text-center max-w-xl mx-auto mb-8">
+        {/* 7. ESTRUTURA & DIFERENCIAIS (INTERATIVO COM FOTOS REAIS & MODAL) */}
+        <section id="diferenciais" className="my-12 rounded-3xl border border-white/10 bg-[#141210] p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+          <div className="text-center max-w-2xl mx-auto mb-8">
             <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#D3B47C]">
               ESTRUTURA & DISTINÇÃO
             </span>
-            <h2 className="mt-2 font-serif text-2xl font-normal text-white sm:text-3xl">
+            <h2 className="mt-2 font-serif text-2xl font-normal text-white sm:text-4xl">
               A Cenografia Onde Tudo é Pensado
             </h2>
-            <p className="mt-2 text-xs text-[#ABA29A] leading-relaxed">
-              2.500 m² de infraestrutura desenhados para acolhimento absoluto no Lago Sul.
+            <p className="mt-2 text-xs sm:text-sm text-[#ABA29A] leading-relaxed">
+              2.500 m² de infraestrutura desenhados para acolhimento absoluto no Lago Sul. Passe o mouse ou clique para explorar cada ambiente em alta resolução.
             </p>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="border-t border-white/10 pt-4 hover:border-[#D3B47C]/40 transition group">
-              <span className="font-serif text-xl font-light text-[#D3B47C] group-hover:translate-x-1 transition-transform inline-block">01</span>
-              <h3 className="mt-2 font-serif text-base text-white">Espaço da Noiva</h3>
-              <p className="mt-1 text-xs leading-relaxed text-[#ABA29A]">
-                Camarim privativo climatizado com conforto térmico e espelho cenográfico.
-              </p>
-            </div>
-
-            <div className="border-t border-white/10 pt-4 hover:border-[#D3B47C]/40 transition group">
-              <span className="font-serif text-xl font-light text-[#D3B47C] group-hover:translate-x-1 transition-transform inline-block">02</span>
-              <h3 className="mt-2 font-serif text-base text-white">Salões Modulares</h3>
-              <p className="mt-1 text-xs leading-relaxed text-[#ABA29A]">
-                Divisórias acústicas retráteis para receber de 100 até 1.200 convidados.
-              </p>
-            </div>
-
-            <div className="border-t border-white/10 pt-4 hover:border-[#D3B47C]/40 transition group">
-              <span className="font-serif text-xl font-light text-[#D3B47C] group-hover:translate-x-1 transition-transform inline-block">03</span>
-              <h3 className="mt-2 font-serif text-base text-white">Jardim Integrado</h3>
-              <p className="mt-1 text-xs leading-relaxed text-[#ABA29A]">
-                Área verde privativa para cerimônias ao pôr do sol e coquetéis ao ar livre.
-              </p>
-            </div>
-
-            <div className="border-t border-white/10 pt-4 hover:border-[#D3B47C]/40 transition group">
-              <span className="font-serif text-xl font-light text-[#D3B47C] group-hover:translate-x-1 transition-transform inline-block">04</span>
-              <h3 className="mt-2 font-serif text-base text-white">Guarita & Vallet</h3>
-              <p className="mt-1 text-xs leading-relaxed text-[#ABA29A]">
-                Acesso privativo com guarita, controle de segurança e estacionamento vallet.
-              </p>
-            </div>
-          </div>
+          <CenografiaSpacesInteractive />
         </section>
 
         {/* 8. REVISTA DÚNIA (EDITORIAL COM FILTRO & LEITOR MODAL) */}

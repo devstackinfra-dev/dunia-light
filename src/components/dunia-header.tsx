@@ -131,6 +131,15 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
         />
       )}
 
+      {/* BACKDROP DIMMER QUANDO CELEBRAÇÕES ESTÁ ABERTO (EVITA QUALQUER COLISÃO COM TEXTO DO HERO) */}
+      {celebrationsOpen && (
+        <div
+          className="fixed inset-0 z-[101] bg-black/75 backdrop-blur-sm transition-opacity duration-300 pointer-events-auto"
+          onClick={() => setCelebrationsOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
       <header
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => {
@@ -138,7 +147,7 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
             setIsHovered(false)
           }
         }}
-        className={`fixed inset-x-0 top-0 z-[100] transition-all duration-500 ease-out ${
+        className={`fixed inset-x-0 top-0 z-[105] transition-all duration-500 ease-out ${
           isHeaderVisible
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 -translate-y-full pointer-events-none"
@@ -149,15 +158,11 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
         }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          {/* 1. BRAND LOGO (AUMENTADO & FADE-IN NO SCROLL SE FOR HOME) */}
+          {/* 1. BRAND LOGO (SEMPRE VISÍVEL NO HEADER QUANDO ELE ESTIVER ATIVO) */}
           <div className="flex items-center shrink-0 min-w-[130px] sm:min-w-[190px]">
             <Link
               href="/"
-              className={`flex items-center gap-3 transition-all duration-500 ease-out hover:scale-[1.02] ${
-                isHome && !scrolled && !isHovered
-                  ? "opacity-0 -translate-y-3 pointer-events-none scale-95"
-                  : "opacity-100 translate-y-0 pointer-events-auto scale-100"
-              }`}
+              className="flex items-center gap-3 transition-all duration-300 ease-out hover:scale-[1.02]"
               aria-label="Dúnia City Hall — Início"
             >
               <Image
@@ -166,7 +171,7 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
                 width={260}
                 height={90}
                 priority
-                className="h-11 sm:h-13 lg:h-15 w-auto object-contain transition-all duration-300 drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
+                className="h-10 sm:h-12 lg:h-14 w-auto object-contain transition-all duration-300 drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
               />
             </Link>
           </div>
