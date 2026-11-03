@@ -866,7 +866,7 @@ export default function Home() {
                   </div>
                   <div className="border-l border-[#D3B47C]/40 pl-3">
                     <strong className="block text-xs font-serif text-white">03. Jardim & Pôr do Sol</strong>
-                    <span className="text-[0.68rem] text-[#ABA29A]">Área externa privativa com espelho d'água</span>
+                    <span className="text-[0.68rem] text-[#ABA29A]">Área externa privativa com espelho d&apos;água</span>
                   </div>
                   <div className="border-l border-[#D3B47C]/40 pl-3">
                     <strong className="block text-xs font-serif text-white">04. Espaço da Noiva</strong>
