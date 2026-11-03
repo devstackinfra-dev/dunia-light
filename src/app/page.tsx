@@ -231,30 +231,49 @@ export default function Home() {
   const visibleArticles = showAllArticles ? filteredArticles : filteredArticles.slice(0, 3)
 
   return (
-    <div className="relative min-h-screen bg-[#100E0D] text-[#F3EEE6] antialiased selection:bg-[#D3B47C]/30 selection:text-white overflow-x-hidden">
-      {/* Fundo Atmosférico de Iluminação Cênica que Interage com as Fotos */}
+    <div className="relative min-h-screen bg-[#0C0A09] text-[#F3EEE6] antialiased selection:bg-[#D3B47C]/30 selection:text-white overflow-x-hidden">
+      {/* Fundo Atmosférico de Iluminação Cênica Dúnia (Ultra Imersivo) */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        {/* Chandelier Glow Quente no Topo Direito */}
-        <div className="absolute -top-32 right-0 h-[600px] w-[600px] rounded-full bg-gradient-to-b from-[#D3B47C]/12 to-transparent blur-[140px]" />
-        {/* Aura Âmbar Central */}
-        <div className="absolute top-[38%] -left-32 h-[550px] w-[550px] rounded-full bg-[#AF8850]/8 blur-[130px]" />
-        {/* Iluminação Noturna Quente na Base */}
-        <div className="absolute bottom-20 right-10 h-[600px] w-[600px] rounded-full bg-[#D3B47C]/8 blur-[150px]" />
-        {/* Textura Editorial Sutil de Luz */}
-        <div className="absolute inset-0 bg-[radial-gradient(#d3b47c_0.75px,transparent_0.75px)] [background-size:48px_48px] opacity-[0.035]" />
+        {/* Lustre Monumental: Chandelier Glow Dourado no Topo */}
+        <div className="absolute -top-40 right-[-10%] h-[850px] w-[850px] rounded-full bg-gradient-to-br from-[#D3B47C]/22 via-[#B58A4A]/12 to-transparent blur-[160px]" />
+        {/* Halo Âmbar Cálido na Esquerda Atrás do Logo Hero */}
+        <div className="absolute top-10 -left-36 h-[750px] w-[750px] rounded-full bg-gradient-to-br from-[#D3B47C]/16 via-[#8C6D37]/10 to-transparent blur-[150px]" />
+        {/* Iluminação Noturna Quente e Aveludada */}
+        <div className="absolute top-[38%] right-[15%] h-[650px] w-[650px] rounded-full bg-[#AF8850]/10 blur-[150px]" />
+        <div className="absolute bottom-20 left-10 h-[750px] w-[750px] rounded-full bg-[#D3B47C]/10 blur-[170px]" />
+        {/* Vinheta Noturna Teatral: Foco e Profundidade nos Eixos Centrais */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,#070605_95%)] opacity-90" />
+        {/* Textura Editorial Sutil de Luz e Granulação Nobre */}
+        <div className="absolute inset-0 bg-[radial-gradient(#d3b47c_0.85px,transparent_0.85px)] [background-size:52px_52px] opacity-[0.035]" />
       </div>
-            {/* HEADER NAVEGACAO CENTRALIZADO DE ALTO LUXO */}
+      {/* HEADER NAVEGACAO CENTRALIZADO DE ALTO LUXO */}
       <DuniaHeader currentPage="/" />
 
-            {/* 1. HERO SECTION CINEMATOGRÁFICO EDITORIAL (CENTRALIZADO & HARMONIOSO) */}
-      <section className="relative pt-28 sm:pt-36 pb-12 sm:pb-16 overflow-hidden z-10" id="top">
-        {/* Glow de Luz Quente Atrás da Foto do Casal */}
-        <div className="pointer-events-none absolute top-1/2 right-[12%] -translate-y-1/2 w-[460px] h-[460px] bg-[#D3B47C]/15 rounded-full blur-[110px]" />
+      {/* 1. HERO SECTION CINEMATOGRÁFICO EDITORIAL (COM LOGO HERO & FOTO IMERSIVA SEM MOLDURA) */}
+      <section className="relative pt-32 sm:pt-40 pb-16 sm:pb-20 overflow-hidden z-10" id="top">
+        {/* Feixe Cênico de Luz Superior (Lustre Monumental do Dúnia) */}
+        <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[950px] h-[450px] bg-[radial-gradient(ellipse_at_top,rgba(211,180,124,0.20),transparent_70%)] blur-2xl" />
+        {/* Glow de Luz Quente Envolvendo os Noivos */}
+        <div className="pointer-events-none absolute top-1/2 right-[5%] -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[#D3B47C]/26 via-[#C49A61]/15 to-transparent rounded-full blur-[130px]" />
 
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Coluna de Texto: Próxima do Centro da Página */}
-            <div className="lg:col-span-7 space-y-5 text-left">
+            {/* Coluna de Texto: Com Logo Dúnia Monumental no Hero */}
+            <div className="lg:col-span-7 space-y-6 text-left">
+              {/* LOGO DÚNIA CITY HALL MAJESTOSA NO HERO */}
+              <div className="inline-block pb-1">
+                <Link href="/" className="inline-block group" aria-label="Dúnia City Hall">
+                  <Image
+                    src="/assets/logo.png"
+                    alt="Dúnia City Hall"
+                    width={380}
+                    height={130}
+                    priority
+                    className="w-56 sm:w-68 lg:w-80 h-auto object-contain filter drop-shadow-[0_12px_35px_rgba(211,180,124,0.32)] transition duration-500 group-hover:brightness-110 group-hover:scale-[1.01]"
+                  />
+                </Link>
+              </div>
+
               <p className="eyebrow hero-kicker">
                 <span className="ornament" /> O LUGAR ONDE AS HISTÓRIAS ACONTECEM
               </p>
@@ -276,7 +295,7 @@ export default function Home() {
                 <Link
                   href="/evento"
                   target="_blank"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-[0.7rem] font-semibold tracking-wider text-white/80 hover:text-white hover:border-[#D3B47C] transition backdrop-blur-sm"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-[0.72rem] font-semibold tracking-wider text-white/80 hover:text-white hover:border-[#D3B47C] transition backdrop-blur-sm"
                 >
                   <span>VER MINI-SITE DEMO</span>
                   <ExternalLink className="h-3 w-3 text-[#D3B47C]" />
@@ -284,23 +303,22 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Coluna da Foto: Enquadrada com Proporção de Alta-Costura e Glow de Fundo */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-[340px] sm:max-w-[370px] aspect-[4/5] overflow-hidden rounded-2xl border border-[#D3B47C]/35 bg-[#161311] shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_40px_rgba(211,180,124,0.12)] group transition duration-500 hover:border-[#D3B47C]/60 hover:shadow-[0_25px_60px_rgba(0,0,0,0.9),0_0_55px_rgba(211,180,124,0.22)]">
+            {/* Coluna da Foto: Sem Moldura, Flutuando Imersa na Iluminação Cênica */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end relative">
+              {/* Aura Dourada Exclusiva envolvendo os noivos */}
+              <div className="pointer-events-none absolute -inset-6 bg-gradient-to-tr from-[#D3B47C]/25 via-[#B58A4A]/14 to-transparent rounded-full blur-3xl opacity-80" />
+
+              <div className="relative w-full max-w-[360px] sm:max-w-[400px] aspect-[4/5] overflow-hidden rounded-3xl group shadow-[0_30px_90px_rgba(0,0,0,0.95)]">
                 <Image
                   src="/assets/casal.jpg"
                   alt="Casal celebrando no Dúnia City Hall"
                   fill
-                  className="object-cover object-[center_15%] filter brightness-[0.92] contrast-[1.04] transition duration-700 group-hover:scale-105"
+                  className="object-cover object-[center_15%] filter brightness-[0.96] contrast-[1.05] transition duration-700 group-hover:scale-105"
                   priority
                 />
-                {/* Degradê de fusão suave */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#100E0D]/85 via-transparent to-transparent pointer-events-none" />
-                
-                {/* Carimbo de Luxo Discreto no Rodapé da Foto */}
-                <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-[0.62rem] text-white/80 tracking-widest uppercase">
-                  <span>Dúnia City Hall</span>
-                </div>
+                {/* Fusão Suave: Sem borda ou moldura rígida; gradientes que se fundem ao salão */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0C0A09] via-transparent to-transparent opacity-55 pointer-events-none" />
+                <div className="absolute inset-0 shadow-[inset_0_0_60px_rgba(12,10,9,0.7)] pointer-events-none" />
               </div>
             </div>
           </div>

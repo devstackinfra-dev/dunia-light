@@ -35,7 +35,7 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
       const y = window.scrollY
       const max = document.documentElement.scrollHeight - window.innerHeight
       setScrollProgress(max > 0 ? (y / max) * 100 : 0)
-      setScrolled(y > 30)
+      setScrolled(y > 50)
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
@@ -119,33 +119,39 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
       <header
         className={`fixed inset-x-0 top-0 z-[100] transition-all duration-300 ${
           scrolled
-            ? "bg-[#0C0A09]/95 py-3 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.85)] border-b border-white/[0.08]"
-            : "bg-gradient-to-b from-[#0C0A09]/95 via-[#0C0A09]/75 to-transparent py-4.5 border-b border-white/[0.04]"
+            ? "bg-[#0C0A09]/95 py-3.5 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.88)] border-b border-white/[0.08]"
+            : "bg-gradient-to-b from-[#0C0A09]/95 via-[#0C0A09]/75 to-transparent py-5 sm:py-6 border-b border-white/[0.04]"
         }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          {/* 1. BRAND LOGO */}
-          <Link
-            href="/"
-            className="flex items-center gap-3 shrink-0 transition-transform duration-300 hover:scale-[1.02]"
-            aria-label="Dúnia City Hall — Início"
-          >
-            <Image
-              src="/assets/logo.png"
-              alt="Dúnia City Hall"
-              width={160}
-              height={55}
-              priority
-              className="h-10 w-auto object-contain sm:h-11"
-            />
-          </Link>
+          {/* 1. BRAND LOGO (AUMENTADO & FADE-IN NO SCROLL SE FOR HOME) */}
+          <div className="flex items-center shrink-0 min-w-[130px] sm:min-w-[190px]">
+            <Link
+              href="/"
+              className={`flex items-center gap-3 transition-all duration-500 ease-out hover:scale-[1.02] ${
+                isHome && !scrolled
+                  ? "opacity-0 -translate-y-3 pointer-events-none scale-95"
+                  : "opacity-100 translate-y-0 pointer-events-auto scale-100"
+              }`}
+              aria-label="Dúnia City Hall — Início"
+            >
+              <Image
+                src="/assets/logo.png"
+                alt="Dúnia City Hall"
+                width={260}
+                height={90}
+                priority
+                className="h-11 sm:h-13 lg:h-15 w-auto object-contain transition-all duration-300 drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
+              />
+            </Link>
+          </div>
 
-          {/* 2. MENU PRINCIPAL DESKTOP (CENTRALIZADO & REFINADO) */}
-          <nav className="hidden items-center gap-3.5 xl:gap-6 lg:flex" aria-label="Navegação Principal">
+          {/* 2. MENU PRINCIPAL DESKTOP (AUMENTADO, REFINADO & EQUILIBRADO) */}
+          <nav className="hidden items-center gap-4 xl:gap-7 lg:flex" aria-label="Navegação Principal">
             {/* A Experiência */}
             <Link
               href={isHome ? "#story" : "/#story"}
-              className="text-[0.68rem] xl:text-[0.72rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.2em] text-white/75 transition-colors hover:text-[#D3B47C] whitespace-nowrap"
+              className="text-[0.78rem] xl:text-[0.84rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.22em] text-white/85 transition-colors hover:text-[#D3B47C] whitespace-nowrap"
             >
               A EXPERIÊNCIA
             </Link>
@@ -159,14 +165,14 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
             >
               <button
                 type="button"
-                className="flex items-center gap-1.5 py-2 text-[0.68rem] xl:text-[0.72rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.2em] text-white/75 transition-colors hover:text-[#D3B47C] whitespace-nowrap cursor-pointer"
+                className="flex items-center gap-1.5 py-2 text-[0.78rem] xl:text-[0.84rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.22em] text-white/85 transition-colors hover:text-[#D3B47C] whitespace-nowrap cursor-pointer"
                 onClick={() => setCelebrationsOpen(!celebrationsOpen)}
                 aria-expanded={celebrationsOpen}
                 aria-haspopup="true"
               >
                 <span>CELEBRAÇÕES</span>
                 <ChevronDown
-                  className={`h-3.5 w-3.5 text-[#D3B47C] transition-transform duration-200 ${
+                  className={`h-4 w-4 text-[#D3B47C] transition-transform duration-200 ${
                     celebrationsOpen ? "rotate-180" : ""
                   }`}
                 />
@@ -250,7 +256,7 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
             {/* Galeria 35mm */}
             <Link
               href={isHome ? "#film" : "/#film"}
-              className="text-[0.68rem] xl:text-[0.72rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.2em] text-white/75 transition-colors hover:text-[#D3B47C] whitespace-nowrap"
+              className="text-[0.78rem] xl:text-[0.84rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.22em] text-white/85 transition-colors hover:text-[#D3B47C] whitespace-nowrap"
             >
               GALERIA 35MM
             </Link>
@@ -258,10 +264,10 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
             {/* O Salão */}
             <Link
               href="/sobre"
-              className={`text-[0.68rem] xl:text-[0.72rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.2em] transition-colors whitespace-nowrap ${
+              className={`text-[0.78rem] xl:text-[0.84rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.22em] transition-colors whitespace-nowrap ${
                 currentPage === "/sobre"
                   ? "text-[#D3B47C]"
-                  : "text-white/75 hover:text-[#D3B47C]"
+                  : "text-white/85 hover:text-[#D3B47C]"
               }`}
             >
               O SALÃO
@@ -270,35 +276,35 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
             {/* Revista Dúnia */}
             <Link
               href={isHome ? "#journal" : "/#journal"}
-              className="text-[0.68rem] xl:text-[0.72rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.2em] text-white/75 transition-colors hover:text-[#D3B47C] whitespace-nowrap"
+              className="text-[0.78rem] xl:text-[0.84rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.22em] text-white/85 transition-colors hover:text-[#D3B47C] whitespace-nowrap"
             >
               REVISTA DÚNIA
             </Link>
           </nav>
 
-          {/* 3. AÇÕES RÁPIDAS (DIREITA - SEM POLUIÇÃO, EQUILIBRADO) */}
-          <div className="hidden items-center gap-3 sm:flex">
+          {/* 3. AÇÕES RÁPIDAS (DIREITA - VISIVELMENTE MAIORES & PROPORCIONAIS) */}
+          <div className="hidden items-center gap-3.5 sm:flex">
             {/* Botão Mini-Site Convite */}
             <Link
               href="/evento"
               target="_blank"
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.03] px-3.5 py-1.5 text-[0.68rem] font-semibold uppercase tracking-wider text-white/80 backdrop-blur-sm transition hover:border-[#D3B47C]/50 hover:bg-white/[0.07] hover:text-white whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/[0.04] px-4 py-2 text-[0.72rem] xl:text-[0.76rem] font-semibold uppercase tracking-wider text-white/85 backdrop-blur-sm transition hover:border-[#D3B47C]/70 hover:bg-white/[0.08] hover:text-white whitespace-nowrap"
             >
               <span>MINI-SITE</span>
-              <ExternalLink className="h-3 w-3 text-[#D3B47C]" />
+              <ExternalLink className="h-3.5 w-3.5 text-[#D3B47C]" />
             </Link>
 
             {/* Separador fino */}
-            <div className="h-4 w-[1px] bg-white/15" />
+            <div className="h-5 w-[1px] bg-white/20" />
 
             {/* Botão Principal: Agendar Visita VIP */}
             <a
               href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#D3B47C] via-[#E2C799] to-[#C49A61] px-5 py-2 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-[#120F0D] shadow-[0_4px_20px_rgba(211,180,124,0.25)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_6px_25px_rgba(211,180,124,0.45)] whitespace-nowrap"
+              className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#D3B47C] via-[#E2C799] to-[#C49A61] px-5 sm:px-6 py-2.5 text-[0.74rem] sm:text-[0.78rem] font-bold uppercase tracking-[0.16em] text-[#120F0D] shadow-[0_4px_22px_rgba(211,180,124,0.3)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_6px_28px_rgba(211,180,124,0.5)] whitespace-nowrap"
             >
-              <Calendar className="h-3.5 w-3.5" />
+              <Calendar className="h-4 w-4" />
               <span>AGENDAR VISITA</span>
             </a>
           </div>
@@ -306,7 +312,7 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
           {/* 4. BOTÃO HAMBÚRGUER MOBILE */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/[0.04] text-white transition hover:border-[#D3B47C] lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/20 bg-white/[0.05] text-white transition hover:border-[#D3B47C] lg:hidden"
             aria-label="Abrir menu de navegação"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
