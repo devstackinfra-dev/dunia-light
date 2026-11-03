@@ -666,7 +666,7 @@ export default function PainelCasalPage() {
               { key: "mesas", label: "Mapa de Mesas & Totens", icon: QrCode, enabled: true },
               { key: "storytelling", label: "Storytelling & Livro", icon: BookOpen, enabled: true },
               { key: "corte", label: "Corte de Honra", icon: Crown, enabled: true },
-              { key: "estilo", label: "Estilo & Playlist", icon: Palette, enabled: true },
+              { key: "estilo", label: "Guia de Estilo & Traje", icon: Palette, enabled: true },
               { key: "editor", label: "Editor do Mini-site", icon: Edit3, enabled: true },
               { key: "checkin", label: "Controle de Entrada", icon: CheckCircle, enabled: event.modules?.receptionCheckin !== false },
               { key: "album", label: "Dúnia Memories", icon: Camera, enabled: event.modules?.guestAlbum !== false || event.modules?.liveTelao !== false },
@@ -744,7 +744,7 @@ export default function PainelCasalPage() {
                 { key: "mesas", label: "Mapa de Mesas", icon: QrCode },
                 { key: "storytelling", label: "Storytelling & Livro", icon: BookOpen },
                 { key: "corte", label: "Corte de Honra", icon: Crown },
-                { key: "estilo", label: "Estilo & Playlist", icon: Palette },
+                { key: "estilo", label: "Guia de Estilo & Traje", icon: Palette },
                 { key: "editor", label: "Editor do Mini-site", icon: Edit3 },
                 { key: "checkin", label: "Controle de Entrada", icon: CheckCircle },
                 { key: "album", label: "Dúnia Memories", icon: Camera },
@@ -789,7 +789,7 @@ export default function PainelCasalPage() {
               {activeTab === "mesas" && "Mapa de Mesas & Totens QR de Luxo"}
               {activeTab === "storytelling" && "Storytelling, Capítulos & Livro de Ouro"}
               {activeTab === "corte" && "Corte de Honra · Pais, Padrinhos & Damas"}
-              {activeTab === "estilo" && "Guia de Estilo, Paleta & Playlist Curada"}
+              {activeTab === "estilo" && "Guia de Estilo, Traje & Paleta Oficial"}
               {activeTab === "editor" && "Editor do Mini-site"}
               {activeTab === "checkin" && "Controle de Entrada & Recepção"}
               {activeTab === "album" && "Dúnia Memories (Álbum de Fotos)"}

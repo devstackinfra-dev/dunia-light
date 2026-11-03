@@ -3,15 +3,10 @@
 import { useState, useEffect } from "react"
 import {
   Palette,
-  Music,
   Plus,
   Trash2,
   CheckCircle,
-  Play,
-  Pause,
   Sparkles,
-  Volume2,
-  Sliders,
   Scissors,
   Save,
 } from "lucide-react"
@@ -19,9 +14,7 @@ import {
   getStorytellingForEvent,
   saveStorytellingForEvent,
   type EventStorytelling,
-  type PlaylistItem,
 } from "@/config/event-storytelling"
-
 interface PainelEstiloTabProps {
   eventId: string
   onNotify: (msg: string) => void
@@ -29,7 +22,6 @@ interface PainelEstiloTabProps {
 
 export default function PainelEstiloTab({ eventId, onNotify }: PainelEstiloTabProps) {
   const [story, setStory] = useState<EventStorytelling | null>(null)
-  const [playingTrack, setPlayingTrack] = useState<number | null>(null)
 
   // Dress code form
   const [styleName, setStyleName] = useState("")
@@ -126,10 +118,10 @@ export default function PainelEstiloTab({ eventId, onNotify }: PainelEstiloTabPr
         </span>
         <h2 className="font-serif text-2xl text-white mt-1 flex items-center gap-2">
           <Palette className="h-6 w-6 text-[#D3B47C]" />
-          <span>Guia de Estilo, Paleta de Cores & Trilha Sonora</span>
+          <span>Guia de Estilo, Traje & Paleta Oficial</span>
         </h2>
         <p className="text-xs text-[#ABA29A] mt-1">
-          Defina o dress code dos convidados, a paleta harmoniosa das madrinhas e a trilha musical de cada ato da celebração.
+          Defina o dress code oficial dos convidados, as orientações para mulheres e homens e a paleta harmoniosa recomendada para as madrinhas.
         </p>
       </div>
 
@@ -306,73 +298,6 @@ export default function PainelEstiloTab({ eventId, onNotify }: PainelEstiloTabPr
         </div>
       </div>
 
-      {/* BLOCO 2: TRILHA SONORA DOS NOIVOS */}
-      <div className="rounded-2xl border border-white/10 bg-[#14110F] p-6 shadow-xl space-y-4">
-        <div className="flex items-center justify-between border-b border-white/10 pb-3">
-          <div>
-            <h3 className="font-serif text-lg text-white font-normal flex items-center gap-2">
-              <Music className="h-4 w-4 text-[#D3B47C]" />
-              <span>Trilha Sonora & Momentos Musicais</span>
-            </h3>
-            <p className="text-xs text-[#ABA29A] mt-0.5">
-              As músicas que embalam os momentos mais marcantes da celebração no Dúnia.
-            </p>
-          </div>
-          <span className="rounded-full bg-[#D3B47C]/15 border border-[#D3B47C]/30 px-3 py-1 text-xs text-[#D3B47C] font-semibold">
-            {story.playlist.tracks.length} Músicas Oficiais
-          </span>
-        </div>
-
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {story.playlist.tracks.map((track, idx) => {
-            const isPlaying = playingTrack === idx
-            return (
-              <div
-                key={idx}
-                className={`rounded-2xl border p-4 transition flex flex-col justify-between space-y-3 ${
-                  isPlaying
-                    ? "border-[#D3B47C] bg-[#181512] shadow-[0_0_20px_rgba(211,180,124,0.2)]"
-                    : "border-white/10 bg-black/40 hover:border-white/20"
-                }`}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <span className="text-[0.62rem] font-bold uppercase tracking-wider text-[#D3B47C] block">
-                      {track.mood}
-                    </span>
-                    <h5 className="font-serif text-base text-white mt-1">{track.title}</h5>
-                    <span className="text-xs text-[#ABA29A]">{track.artist}</span>
-                  </div>
-
-                  <button
-                    onClick={() => {
-                      if (isPlaying) {
-                        setPlayingTrack(null)
-                        onNotify("Música pausada.")
-                      } else {
-                        setPlayingTrack(idx)
-                        onNotify(`Tocando prévia: ${track.title} (${track.artist})`)
-                      }
-                    }}
-                    className={`flex h-9 w-9 items-center justify-center rounded-full transition ${
-                      isPlaying
-                        ? "bg-[#D3B47C] text-[#120F0D]"
-                        : "bg-white/10 text-white hover:bg-white/20"
-                    }`}
-                  >
-                    {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
-                  </button>
-                </div>
-
-                <div className="border-t border-white/10 pt-2 flex items-center justify-between text-[0.65rem] text-[#ABA29A]">
-                  <span className="italic line-clamp-1">{track.note}</span>
-                  <span className="font-mono">{track.duration}</span>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
     </div>
   )
 }

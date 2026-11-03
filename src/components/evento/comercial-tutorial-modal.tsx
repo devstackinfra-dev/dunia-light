@@ -50,7 +50,7 @@ export default function CommercialTutorialModal({
       description:
         "Alterna instantaneamente a identidade do mini-site entre os 5 nichos mais lucrativos de Brasília: Casamento de Luxo (Juliana), 15 Anos & Debutante (Clarice), Bodas Íntimas (Sofia), Formaturas & Posses Diplomáticas (Dra.) e Galas Corporativas (Prêmio).",
       pitchTip:
-        "💡 Como apresentar: 'O Dúnia não entrega um modelo engessado; o sistema adapta cores, narrativa, playlist e dress code para cada anfitrião.'",
+        "💡 Como apresentar: 'O Dúnia não entrega um modelo engessado; o sistema adapta cores, narrativa, corte de honra e dress code para cada anfitrião.'",
       actionLabel: "Testar Juliana (Casamento)",
       actionEventId: "ev-jm",
       icon: Users,

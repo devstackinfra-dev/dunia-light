@@ -30,14 +30,9 @@ import {
   ChevronLeft,
   Check,
   Printer,
-  Volume2,
-  Play,
-  Pause,
-  Disc,
   ScrollText,
   Users,
   Shirt,
-  Music2,
   Quote,
   Send,
 } from "lucide-react"
@@ -85,7 +80,6 @@ export default function EventoPage() {
 
   // Storytelling interactive states
   const [wishesList, setWishesList] = useState<GuestWish[]>([])
-  const [playingTrack, setPlayingTrack] = useState<number | null>(null)
   const [newWishName, setNewWishName] = useState("")
   const [newWishRelation, setNewWishRelation] = useState("Amigo(a)")
   const [newWishText, setNewWishText] = useState("")
@@ -122,7 +116,6 @@ export default function EventoPage() {
     setRsvpMessage("")
     const nextStory = getStorytellingForEvent(eventId)
     setWishesList(nextStory.guestWishes)
-    setPlayingTrack(null)
     setWishSubmitted(false)
   }
 
@@ -569,10 +562,7 @@ END:VCALENDAR`
           <a href="#dress-code-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
             Dress Code
           </a>
-          <span className="text-white/20">•</span>
-          <a href="#playlist-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
-            Trilha Sonora
-          </a>
+
           <span className="text-white/20">•</span>
           <a href="#roteiro-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
             Roteiro da Noite
@@ -861,75 +851,7 @@ END:VCALENDAR`
         </div>
       </section>
 
-      {/* 7. A TRILHA SONORA DO NOSSO AMOR (PLAYLIST EMOCIONAL) */}
-      <section id="playlist-section" className="relative z-10 border-t border-white/10 bg-[#100E0D] py-24">
-        <div className="container mx-auto max-w-4xl px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#D3B47C]/40 bg-[#D3B47C]/10 px-3.5 py-1 text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#D3B47C]">
-              <Disc className="h-3.5 w-3.5" />
-              <span>MELODIAS DO NOSSO CORAÇÃO</span>
-            </div>
-            <h2 className="mt-3 font-serif text-3xl text-white sm:text-5xl">
-              {story.playlist.title}
-            </h2>
-            <p className="mt-2 text-xs sm:text-sm text-[#ABA29A]">
-              {story.playlist.subtitle}
-            </p>
-          </div>
-
-          <div className="rounded-3xl border border-white/15 bg-[#161311] p-6 sm:p-8 shadow-2xl">
-            <div className="divide-y divide-white/10">
-              {story.playlist.tracks.map((track, i) => {
-                const isPlaying = playingTrack === i
-                return (
-                  <div
-                    key={i}
-                    onClick={() => setPlayingTrack(isPlaying ? null : i)}
-                    className={`group flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-4 px-3 rounded-xl transition cursor-pointer ${
-                      isPlaying ? "bg-[#D3B47C]/10 border border-[#D3B47C]/30" : "hover:bg-white/5"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3.5">
-                      <button
-                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition ${
-                          isPlaying
-                            ? "bg-[#D3B47C] text-[#100E0D] shadow"
-                            : "bg-white/10 text-white group-hover:bg-[#D3B47C] group-hover:text-[#100E0D]"
-                        }`}
-                      >
-                        {isPlaying ? <Pause className="h-4 w-4 fill-current" /> : <Play className="h-4 w-4 fill-current ml-0.5" />}
-                      </button>
-
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-serif text-lg text-white font-medium">{track.title}</h4>
-                          <span className="rounded-full border border-[#D3B47C]/30 bg-[#D3B47C]/10 px-2 py-0.5 text-[0.6rem] font-bold uppercase text-[#D3B47C]">
-                            {track.mood}
-                          </span>
-                        </div>
-                        <p className="text-xs text-[#ABA29A]">{track.artist} • <span className="italic text-white/70">&ldquo;{track.note}&rdquo;</span></p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-4 self-end sm:self-center text-xs font-mono text-[#D3B47C]">
-                      {isPlaying && (
-                        <div className="flex items-end gap-0.5 h-3.5">
-                          <span className="w-1 bg-[#D3B47C] rounded-full animate-pulse h-full" />
-                          <span className="w-1 bg-[#D3B47C] rounded-full animate-pulse delay-75 h-2/3" />
-                          <span className="w-1 bg-[#D3B47C] rounded-full animate-pulse delay-150 h-full" />
-                        </div>
-                      )}
-                      <span>{track.duration}</span>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 8. PROGRAMAÇÃO & ROTEIRO DA CELEBRAÇÃO */}
+      {/* 7. PROGRAMAÇÃO & ROTEIRO DA CELEBRAÇÃO */}
       <section id="roteiro-section" className="relative z-10 border-t border-white/10 bg-[#0C0A09] py-24">
         <div className="container mx-auto max-w-5xl px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-14">
