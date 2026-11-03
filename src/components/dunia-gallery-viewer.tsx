@@ -22,6 +22,7 @@ interface DuniaGalleryViewerProps {
   showFilmReel?: boolean
   itemsPerPage?: number
   limit?: number
+  scrollSpeed?: number
 }
 
 export default function DuniaGalleryViewer({
@@ -31,6 +32,7 @@ export default function DuniaGalleryViewer({
   showFilmReel = true,
   itemsPerPage = 12,
   limit,
+  scrollSpeed = 13,
 }: DuniaGalleryViewerProps) {
   const [activeCategory, setActiveCategory] = useState<string>(initialCategory)
   const [viewMode, setViewMode] = useState<"reel" | "grid">(showFilmReel ? "reel" : "grid")
@@ -75,7 +77,7 @@ export default function DuniaGalleryViewer({
     if (!track) return
 
     let lastTime = performance.now()
-    const speed = 32 // 32 pixels por segundo (movimento suave e cinematográfico)
+    const speed = scrollSpeed // Movimento sereno, lento e cinematográfico (13 px/s)
 
     const step = (now: number) => {
       const delta = (now - lastTime) / 1000

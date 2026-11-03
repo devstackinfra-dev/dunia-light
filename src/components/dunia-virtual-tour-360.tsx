@@ -232,7 +232,7 @@ export default function DuniaVirtualTour360() {
     if (!isAutoRotating || isDragging || activeHotspot) return
 
     const interval = setInterval(() => {
-      setRotationAngle((prev) => (prev + 0.15) % 360)
+      setRotationAngle((prev) => (prev + 0.06) % 360)
     }, 30)
 
     return () => clearInterval(interval)
