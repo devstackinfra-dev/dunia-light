@@ -171,7 +171,7 @@ export default function Home() {
     window.addEventListener("dunia-mode-change", onModeChange)
 
     const loadArticles = () => {
-      const stored = getStoredArticles()
+      const stored = getStoredArticles() || []
       const publicOnly = stored.filter((a) => a.status !== "rascunho")
       setArticlesList(publicOnly.length > 0 ? publicOnly : DEFAULT_DUNIA_ARTICLES)
     }
@@ -255,7 +255,7 @@ export default function Home() {
     })
   }
 
-  const filteredArticles = articlesList.filter(
+  const filteredArticles = (articlesList || DEFAULT_DUNIA_ARTICLES || []).filter(
     (a) => journalFilter === "all" || a.category === journalFilter
   )
   const visibleArticles = showAllArticles ? filteredArticles : filteredArticles.slice(0, 3)
@@ -537,8 +537,8 @@ export default function Home() {
 
           {/* Grid Perfeitamente Simétrico com Proporções Fotográficas */}
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {celebrationCards
-              .filter((card) => card.active !== false)
+            {(celebrationCards || DEFAULT_CELEBRATION_CARDS || [])
+              .filter((card) => card && card.active !== false)
               .sort((a, b) => (a.order || 0) - (b.order || 0))
               .map((card) => (
                 <Link
