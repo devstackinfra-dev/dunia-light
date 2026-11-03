@@ -49,12 +49,100 @@ import {
   setCommercialMode,
   type DuniaCommercialMode,
 } from "@/lib/dunia-store"
-import CommercialTutorialModal from "@/components/evento/comercial-tutorial-modal"
 import {
   getStorytellingForEvent,
   type EventStorytelling,
   type GuestWish,
 } from "@/config/event-storytelling"
+
+
+interface EventDemoExplanation {
+  id: string
+  name: string
+  shortLabel: string
+  pillLabel: string
+  niche: string
+  badge: string
+  capacity: string
+  espaco: string
+  summary: string
+  whyOwnerCares: string
+}
+
+const EVENT_DEMO_EXPLANATIONS: Record<string, EventDemoExplanation> = {
+  "ev-jm": {
+    id: "ev-jm",
+    name: "Juliana & Matheus",
+    shortLabel: "Juliana",
+    pillLabel: "Juliana (Casamento)",
+    niche: "Casamento Clássico de Luxo",
+    badge: "CASAMENTO PRINCIPAL",
+    capacity: "280 Convidados",
+    espaco: "Salão Imperial + Espaço da Noiva",
+    summary: "Mini-site editorial exclusivo com carta poética dos noivos, história de amor em 4 atos, cortejo de honra (pais e padrinhos), dress code com paleta de cores e RSVP com controle de assentos.",
+    whyOwnerCares: "O casal do Lago Sul fecha com o Dúnia porque nenhum outro salão de Brasília entrega essa experiência digital de revista.",
+  },
+  "ev-clarice": {
+    id: "ev-clarice",
+    name: "Clarice & Gustavo",
+    shortLabel: "Clarice",
+    pillLabel: "Clarice (Jardim)",
+    niche: "Casamento ao Ar Livre & Pôr do Sol",
+    badge: "JARDIM INTEGRADO",
+    capacity: "320 Convidados",
+    espaco: "Jardim Imperial + Salão Nobre",
+    summary: "Demonstração para casamentos que aproveitam a área verde privativa e o espelho d'água de 2.500 m², integrando cerimônia ao entardecer e banquete no salão climatizado.",
+    whyOwnerCares: "Valoriza a área externa do Dúnia como o cenário mais exclusivo de Brasília para cerimônias ao ar livre.",
+  },
+  "ev-sb": {
+    id: "ev-sb",
+    name: "Sofia 15 Anos",
+    shortLabel: "Sofia",
+    pillLabel: "Sofia (15 Anos)",
+    niche: "Festa de 15 Anos & Debutante",
+    badge: "15 ANOS & BALADA",
+    capacity: "220 Convidados",
+    espaco: "Espaço Cristal + Pista de Dança",
+    summary: "Experiência interativa focada no público jovem: contagem regressiva, envio de fotos em tempo real direto para os telões de LED do salão e recados de amigos no Livro de Ouro.",
+    whyOwnerCares: "Garante a contratação de debutantes encantando pais e adolescentes com o telão interativo ao vivo durante a balada.",
+  },
+  "ev-bruno": {
+    id: "ev-bruno",
+    name: "Dra. Helena & Dr. Bruno",
+    shortLabel: "Dra.",
+    pillLabel: "Dra. (Black Tie)",
+    niche: "Solenidade Black Tie & Autoridades",
+    badge: "ALTO PROTOCOLO",
+    capacity: "380 Convidados",
+    espaco: "Salão Imperial Climatizado",
+    summary: "Protocolo oficial para casamentos e eventos de médicos, magistrados e diplomatas: QR Code nominal com trava de segurança na portaria e relatório dietético automático para o buffet.",
+    whyOwnerCares: "Segurança anti-penetra e organização impecável para receber autoridades dos Três Poderes e corpo diplomático.",
+  },
+  "ev-corp": {
+    id: "ev-corp",
+    name: "Prêmio Empresarial Apex 2026",
+    shortLabel: "Prêmio",
+    pillLabel: "Prêmio (Corporativo)",
+    niche: "Gala Corporativa & Premiação",
+    badge: "CORPORATIVO B2B",
+    capacity: "450 Convidados",
+    espaco: "Salão Modular Completo",
+    summary: "Credenciamento corporativo ágil por código de convite, auditório cenográfico com palco, exibição de patrocinadores e jantar executivo de alta gastronomia.",
+    whyOwnerCares: "Permite ao Dúnia ocupar a agenda de segunda a quinta-feira com grandes empresas, multinacionais e federações.",
+  },
+  "ev-reveillon": {
+    id: "ev-reveillon",
+    name: "Réveillon dos Embaixadores Dúnia",
+    shortLabel: "Réveillon",
+    pillLabel: "Réveillon (Mega Evento)",
+    niche: "Grande Evento & Réveillon de Luxo",
+    badge: "EVENTO PRÓPRIO DÚNIA",
+    capacity: "550 Convidados",
+    espaco: "Todos os Espaços Integrados",
+    summary: "Demonstração para grandes festas e eventos com venda de mesas: mapa de setores no salão, ceia de gala, controle de capacidade e transmissão ao vivo nos telões.",
+    whyOwnerCares: "Mostra que a plataforma escala para grandes produções proprietárias do salão com total controle de mesas e público.",
+  },
+}
 
 export default function EventoPage() {
   const [mounted, setMounted] = useState(false)
@@ -87,7 +175,7 @@ export default function EventoPage() {
 
   // Countdown State
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
-  const [commercialTutorialOpen, setCommercialTutorialOpen] = useState(false)
+  const [hoveredEventId, setHoveredEventId] = useState<string | null>(null)
 
   // Initialize
   useEffect(() => {
@@ -346,6 +434,9 @@ END:VCALENDAR`
     )
   }
 
+  const activeExplanationKey = hoveredEventId || selectedEventId
+  const currentExplanation = EVENT_DEMO_EXPLANATIONS[activeExplanationKey] || EVENT_DEMO_EXPLANATIONS["ev-jm"]
+
   return (
     <div className="relative min-h-screen bg-[#0C0A09] text-[#F3EEE6] antialiased selection:bg-[#D3B47C]/30 selection:text-white">
       {/* 0. AURA DE ILUMINAÇÃO DE FUNDO */}
@@ -355,84 +446,155 @@ END:VCALENDAR`
         <div className="absolute bottom-20 right-10 h-[600px] w-[600px] rounded-full bg-[#D3B47C]/10 blur-[160px]" />
       </div>
 
-      {/* 1. TOPO DE NAVEGAÇÃO VIP */}
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#100E0D]/95 backdrop-blur-md">
-        <div className="container mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2">
+      {/* 1. TOPO DE NAVEGAÇÃO VIP REVISADO (LOGO EXPANDIDO & SELETOR EXPLICATIVO) */}
+      <header className="sticky top-0 z-50 border-b border-[#D3B47C]/20 bg-[#0C0A09]/98 backdrop-blur-xl shadow-2xl">
+        <div className="container mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3.5 sm:px-8">
+          {/* LOGO DÚNIA MONUMENTAL & DESTACADO */}
+          <div className="flex items-center gap-5 shrink-0">
+            <Link href="/" className="flex items-center shrink-0 group py-1" aria-label="Dúnia City Hall — Início">
               <Image
                 src="/assets/logo.png"
                 alt="Dúnia City Hall"
-                width={150}
-                height={42}
-                className="h-8 w-auto object-contain sm:h-10"
+                width={260}
+                height={85}
+                className="h-12 w-auto object-contain sm:h-14 lg:h-16 filter drop-shadow-[0_4px_20px_rgba(211,180,124,0.45)] transition-transform duration-300 group-hover:scale-105"
                 priority
               />
             </Link>
 
-            <div className="hidden lg:block h-5 w-[1px] bg-white/15" />
+            <div className="hidden xl:block h-8 w-[1px] bg-white/15" />
 
-            {/* SELETOR DE EVENTO DE DEMONSTRAÇÃO */}
-            <div className="hidden md:flex items-center gap-1.5 rounded-full border border-[#D3B47C]/30 bg-black/40 p-1 text-xs">
-              {allEvents.map((ev) => (
-                <button
-                  key={ev.id}
-                  onClick={() => handleSwitchEvent(ev.id)}
-                  className={`rounded-full px-3 py-1 text-[0.65rem] font-bold tracking-wider transition ${
-                    selectedEventId === ev.id
-                      ? "bg-[#D3B47C] text-[#100E0D] shadow"
-                      : "text-white/60 hover:text-white"
-                  }`}
-                >
-                  {ev.name.split(" ")[0]}
-                </button>
-              ))}
+            {/* SELETOR DE EVENTOS INTERATIVO COM EXPLICAÇÃO NO HOVER */}
+            <div className="hidden lg:flex items-center gap-1.5 rounded-2xl border border-[#D3B47C]/30 bg-black/70 p-1.5 shadow-inner">
+              <span className="hidden 2xl:inline-block pl-2.5 pr-1.5 text-[0.62rem] font-bold uppercase tracking-widest text-[#D3B47C]/80">
+                Nichos:
+              </span>
+              {allEvents.map((ev) => {
+                const info = EVENT_DEMO_EXPLANATIONS[ev.id] || {
+                  shortLabel: ev.name.split(" ")[0],
+                  niche: ev.category,
+                }
+                const isSelected = selectedEventId === ev.id
+                const isHovered = hoveredEventId === ev.id
+
+                return (
+                  <button
+                    key={ev.id}
+                    onClick={() => handleSwitchEvent(ev.id)}
+                    onMouseEnter={() => setHoveredEventId(ev.id)}
+                    onMouseLeave={() => setHoveredEventId(null)}
+                    className={`relative rounded-xl px-3.5 py-2 text-xs font-bold tracking-wider transition-all duration-200 ${
+                      isSelected
+                        ? "bg-[#D3B47C] text-[#100E0D] shadow-[0_2px_14px_rgba(211,180,124,0.5)] scale-102"
+                        : isHovered
+                        ? "bg-white/15 text-white scale-102 border border-[#D3B47C]/40"
+                        : "text-white/70 hover:text-white hover:bg-white/5"
+                    }`}
+                  >
+                    <span>{info.shortLabel}</span>
+                  </button>
+                )
+              })}
             </div>
           </div>
 
-          {/* Links e Botão de Ação */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* BOTÃO GUIA COMERCIAL / TUTORIAL INTERATIVO */}
-            <button
-              onClick={() => setCommercialTutorialOpen(true)}
-              className="group relative inline-flex items-center gap-1.5 rounded-full border border-[#D3B47C] bg-gradient-to-r from-[#D3B47C]/25 via-[#D3B47C]/15 to-[#D3B47C]/25 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[#E2C799] shadow-[0_0_15px_rgba(211,180,124,0.3)] transition-all hover:scale-105 hover:bg-[#D3B47C] hover:text-[#120F0D]"
-              title="Abrir o tutorial comercial da plataforma e roteiro de apresentação"
-            >
-              <Sparkles className="h-3.5 w-3.5 text-[#D3B47C] group-hover:text-[#120F0D]" />
-              <span className="hidden lg:inline">Tutorial Comercial</span>
-              <span className="lg:hidden">Tutorial</span>
-              <span className="inline-block rounded bg-[#D3B47C] px-1 py-0.2 text-[0.58rem] font-extrabold text-[#120F0D] group-hover:bg-[#120F0D] group-hover:text-[#D3B47C]">
-                PITCH
-              </span>
-            </button>
-
+          {/* AÇÕES E BOTÕES REVISADOS */}
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
             <Link
               href="/evento/telao"
               target="_blank"
-              title="Abrir a projeção em tempo real que roda nos telões de LED do salão durante o evento"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/80 transition hover:border-[#D3B47C] hover:text-[#D3B47C]"
+              title="Abrir projeção ao vivo nos telões de LED do Dúnia"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-3.5 py-2 text-xs sm:text-sm font-semibold text-white/90 transition hover:border-[#D3B47C] hover:text-[#D3B47C] hover:bg-white/10"
             >
-              <Tv className="h-3.5 w-3.5 text-[#D3B47C]" />
+              <Tv className="h-4 w-4 text-[#D3B47C]" />
               <span className="hidden sm:inline">Telão ao Vivo</span>
             </Link>
 
             <a
               href="#qrcode-section"
-              title="Simular a experiência do convidado na mesa escaneando para enviar fotos e mensagens"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[#D3B47C]/40 bg-[#D3B47C]/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[#D3B47C] transition hover:bg-[#D3B47C]/20"
+              title="Simular a experiência do convidado na mesa com QR Code"
+              className="inline-flex items-center gap-2 rounded-xl border border-[#D3B47C]/40 bg-[#D3B47C]/10 px-3.5 py-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#D3B47C] transition hover:bg-[#D3B47C]/20"
             >
-              <QrCode className="h-3.5 w-3.5" />
+              <QrCode className="h-4 w-4" />
               <span className="hidden sm:inline">QR Code Mesa</span>
             </a>
 
             <a
               href="#rsvp-section"
-              className="rounded-lg bg-gradient-to-r from-[#D3B47C] via-[#E2C799] to-[#C49A61] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#100E0D] shadow transition hover:opacity-95"
+              className="rounded-xl bg-gradient-to-r from-[#D3B47C] via-[#E2C799] to-[#C49A61] px-5 py-2.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#100E0D] shadow-lg transition hover:opacity-95 hover:shadow-[0_0_20px_rgba(211,180,124,0.4)]"
             >
               Confirmar Presença
             </a>
           </div>
         </div>
+
+        {/* SELETOR MOBILE HORIZONTAL (PERMITE TESTAR TODOS OS NICHOS NO CELULAR) */}
+        <div className="flex lg:hidden items-center gap-1.5 overflow-x-auto no-scrollbar px-4 py-2 border-t border-white/10 bg-black/60">
+          <span className="text-[0.62rem] font-bold uppercase tracking-wider text-[#D3B47C] shrink-0">
+            Nichos:
+          </span>
+          {allEvents.map((ev) => {
+            const info = EVENT_DEMO_EXPLANATIONS[ev.id] || { shortLabel: ev.name.split(" ")[0] }
+            const isSelected = selectedEventId === ev.id
+            return (
+              <button
+                key={ev.id}
+                onClick={() => handleSwitchEvent(ev.id)}
+                className={`shrink-0 rounded-lg px-3 py-1.5 text-xs font-bold tracking-wider transition ${
+                  isSelected
+                    ? "bg-[#D3B47C] text-[#100E0D] shadow"
+                    : "border border-white/10 bg-white/5 text-white/80"
+                }`}
+              >
+                {info.shortLabel}
+              </button>
+            )
+          })}
+        </div>
+
+        {/* BANNER EXPLICATIVO INTERATIVO: DEMONSTRAÇÃO EXECUTIVA PARA O DONO DO DÚNIA */}
+        {currentExplanation && (
+          <div className="border-t border-[#D3B47C]/20 bg-gradient-to-r from-[#14110F] via-[#1C1713] to-[#14110F] px-4 py-3 sm:px-8 shadow-xl transition-all duration-300">
+            <div className="container mx-auto flex max-w-7xl flex-col lg:flex-row lg:items-center justify-between gap-3 text-left">
+              <div className="flex items-start sm:items-center gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#D3B47C]/20 text-[#D3B47C] border border-[#D3B47C]/40 font-serif text-sm font-bold shadow-inner">
+                  ⚜
+                </div>
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="rounded-full bg-[#D3B47C] px-2.5 py-0.5 text-[0.62rem] font-black uppercase tracking-widest text-[#100E0D]">
+                      {currentExplanation.badge}
+                    </span>
+                    <h3 className="font-serif text-base sm:text-lg font-normal text-white">
+                      {currentExplanation.name}{" "}
+                      <span className="text-[#D3B47C] font-sans text-xs font-semibold">
+                        • {currentExplanation.niche}
+                      </span>
+                    </h3>
+                    <span className="text-white/30 hidden sm:inline">•</span>
+                    <span className="text-xs text-[#ABA29A] hidden sm:inline">
+                      {currentExplanation.espaco} ({currentExplanation.capacity})
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-[0.82rem] text-[#DFD5CA] mt-1 leading-relaxed">
+                    {currentExplanation.summary}{" "}
+                    <span className="text-[#D3B47C] font-semibold block sm:inline">
+                      — Por que o Dúnia fecha esse contrato: {currentExplanation.whyOwnerCares}
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Guia Rápido de Demonstração */}
+              <div className="flex items-center gap-2 shrink-0 text-[0.7rem] text-[#ABA29A] bg-black/50 px-3.5 py-2 rounded-xl border border-white/10 self-start lg:self-center">
+                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="font-medium text-white/90">
+                  Passe o mouse ou clique nos botões acima para ver cada nicho do salão
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* 2. HERO EDITORIAL CINEMATOGRÁFICO */}
@@ -544,35 +706,34 @@ END:VCALENDAR`
         </div>
       </section>
 
-      {/* 2.5 MENU RÁPIDO DE NAVEGAÇÃO EDITORIAL (ANCHORS) */}
-      <nav className="sticky top-[61px] z-40 border-y border-white/10 bg-[#12100E]/95 py-2.5 backdrop-blur-md overflow-x-auto no-scrollbar">
-        <div className="container mx-auto flex max-w-6xl items-center justify-start sm:justify-center gap-2 px-4 text-xs font-medium text-white/70 whitespace-nowrap">
-          <a href="#carta-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
-            Carta dos Noivos
+      {/* 2.5 MENU RÁPIDO DE NAVEGAÇÃO EDITORIAL (ANCHORS REVISADO COM LABELS DINÂMICOS) */}
+      <nav className="border-b border-white/10 bg-[#100E0D]/95 py-3 backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm">
+        <div className="container mx-auto flex max-w-7xl items-center justify-start sm:justify-center gap-2.5 sm:gap-4 px-4 text-xs sm:text-sm font-semibold text-white/80 whitespace-nowrap">
+          <a href="#carta-section" className="rounded-full px-3.5 py-1.5 hover:bg-white/10 hover:text-[#D3B47C] transition">
+            {event.category === "15 Anos" ? "Mensagem da Debutante" : event.category?.includes("Corporativo") ? "Mensagem da Diretoria" : "Carta aos Convidados"}
           </a>
           <span className="text-white/20">•</span>
-          <a href="#historia-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
-            Linha do Tempo
+          <a href="#historia-section" className="rounded-full px-3.5 py-1.5 hover:bg-white/10 hover:text-[#D3B47C] transition">
+            {event.category === "15 Anos" ? "Minha Jornada" : event.category?.includes("Corporativo") ? "Trajetória & Marcos" : "Nossa História"}
           </a>
           <span className="text-white/20">•</span>
-          <a href="#corte-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
-            Pais & Padrinhos
+          <a href="#corte-section" className="rounded-full px-3.5 py-1.5 hover:bg-white/10 hover:text-[#D3B47C] transition">
+            {event.category === "15 Anos" ? "Família & Amigos" : event.category?.includes("Corporativo") ? "Comitê de Honra" : "Pais & Padrinhos"}
           </a>
           <span className="text-white/20">•</span>
-          <a href="#dress-code-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
-            Dress Code
+          <a href="#dress-code-section" className="rounded-full px-3.5 py-1.5 hover:bg-white/10 hover:text-[#D3B47C] transition">
+            Dress Code & Traje
           </a>
-
           <span className="text-white/20">•</span>
-          <a href="#roteiro-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
+          <a href="#roteiro-section" className="rounded-full px-3.5 py-1.5 hover:bg-white/10 hover:text-[#D3B47C] transition">
             Roteiro da Noite
           </a>
           <span className="text-white/20">•</span>
-          <a href="#qrcode-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
+          <a href="#qrcode-section" className="rounded-full px-3.5 py-1.5 hover:bg-white/10 hover:text-[#D3B47C] transition">
             Display & Telão
           </a>
           <span className="text-white/20">•</span>
-          <a href="#livro-ouro-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
+          <a href="#livro-ouro-section" className="rounded-full px-3.5 py-1.5 hover:bg-white/10 hover:text-[#D3B47C] transition">
             Livro de Ouro
           </a>
         </div>
@@ -1681,23 +1842,6 @@ END:VCALENDAR`
         </div>
       )}
 
-      {/* MODAL TUTORIAL & GUIA COMERCIAL */}
-      <CommercialTutorialModal
-        isOpen={commercialTutorialOpen}
-        onClose={() => setCommercialTutorialOpen(false)}
-        onSwitchEvent={handleSwitchEvent}
-      />
-
-      {/* PÍLULA FLUTUANTE DE APRESENTAÇÃO COMERCIAL */}
-      <div className="fixed bottom-5 right-5 z-40 hidden sm:flex items-center gap-2">
-        <button
-          onClick={() => setCommercialTutorialOpen(true)}
-          className="group flex items-center gap-2 rounded-full border border-[#D3B47C]/60 bg-[#14110F]/95 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[#D3B47C] shadow-[0_10px_30px_rgba(0,0,0,0.85),0_0_20px_rgba(211,180,124,0.3)] backdrop-blur-xl hover:scale-105 hover:border-[#D3B47C] hover:bg-[#D3B47C] hover:text-[#120F0D] transition-all"
-        >
-          <Sparkles className="h-4 w-4" />
-          <span>Tutorial & Pitch Comercial</span>
-        </button>
-      </div>
-    </div>
+          </div>
   )
 }
