@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { getCommercialMode, type DuniaCommercialMode } from "@/lib/dunia-store"
 import Link from "next/link"
 import Image from "next/image"
 import {
@@ -30,6 +31,16 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const [commercialMode, setCommercialMode] = useState<DuniaCommercialMode>("full")
+
+  useEffect(() => {
+    setCommercialMode(getCommercialMode())
+    const onModeChange = (e: any) => {
+      if (e.detail) setCommercialMode(e.detail)
+    }
+    window.addEventListener("dunia-mode-change", onModeChange)
+    return () => window.removeEventListener("dunia-mode-change", onModeChange)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -314,18 +325,22 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
 
           {/* 3. AÇÕES RÁPIDAS (DIREITA - VISIVELMENTE MAIORES & PROPORCIONAIS) */}
           <div className="hidden items-center gap-3.5 sm:flex">
-            {/* Botão Mini-Site Convite */}
-            <Link
-              href="/evento"
-              target="_blank"
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/[0.04] px-4 py-2 text-[0.72rem] xl:text-[0.76rem] font-semibold uppercase tracking-wider text-white/85 backdrop-blur-sm transition hover:border-[#D3B47C]/70 hover:bg-white/[0.08] hover:text-white whitespace-nowrap"
-            >
-              <span>MINI-SITE</span>
-              <ExternalLink className="h-3.5 w-3.5 text-[#D3B47C]" />
-            </Link>
+            {/* Botão Mini-Site Convite (Apenas no Modo Full) */}
+            {commercialMode !== "light" && (
+              <>
+                <Link
+                  href="/evento"
+                  target="_blank"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/[0.04] px-4 py-2 text-[0.72rem] xl:text-[0.76rem] font-semibold uppercase tracking-wider text-white/85 backdrop-blur-sm transition hover:border-[#D3B47C]/70 hover:bg-white/[0.08] hover:text-white whitespace-nowrap"
+                >
+                  <span>MINI-SITE</span>
+                  <ExternalLink className="h-3.5 w-3.5 text-[#D3B47C]" />
+                </Link>
 
-            {/* Separador fino */}
-            <div className="h-5 w-[1px] bg-white/20" />
+                {/* Separador fino */}
+                <div className="h-5 w-[1px] bg-white/20" />
+              </>
+            )}
 
             {/* Botão Principal: Agendar Visita VIP */}
             <a
@@ -430,15 +445,26 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
           </div>
 
           <div className="mt-8 flex flex-col gap-3">
-            <Link
-              href="/evento"
-              target="_blank"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 py-3 text-xs font-bold uppercase tracking-wider text-white"
-            >
-              <span>Ver Mini-Site Demo</span>
-              <ExternalLink className="h-3.5 w-3.5 text-[#D3B47C]" />
-            </Link>
+            {commercialMode !== "light" ? (
+              <Link
+                href="/evento"
+                target="_blank"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 py-3 text-xs font-bold uppercase tracking-wider text-white"
+              >
+                <span>Ver Mini-Site Demo</span>
+                <ExternalLink className="h-3.5 w-3.5 text-[#D3B47C]" />
+              </Link>
+            ) : (
+              <Link
+                href="/admin/experiencias"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 py-3 text-xs font-bold uppercase tracking-wider text-[#D3B47C]"
+              >
+                <span>Central do Salão Dúnia</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            )}
 
             <a
               href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."

@@ -899,19 +899,28 @@ const STORE_MODE_KEY = "dunia-commercial-mode"
 export type DuniaCommercialMode = "full" | "light"
 
 export function getCommercialMode(): DuniaCommercialMode {
-  // 1. Prioriza a configuração fixa do .env / .env.local
-  const envMode = process.env.NEXT_PUBLIC_DUNIA_MODE
+  // 1. No navegador, se foi passado ?modo=light ou ?modo=full na URL, prioridade para testes
+  if (typeof window !== "undefined") {
+    try {
+      const params = new URLSearchParams(window.location.search)
+      const qMode = params.get("modo")
+      if (qMode === "light" || qMode === "full") {
+        localStorage.setItem(STORE_MODE_KEY, qMode)
+        return qMode
+      }
+      const val = localStorage.getItem(STORE_MODE_KEY)
+      if (val === "light" || val === "full") return val
+    } catch {
+      // Fallback
+    }
+  }
+
+  // 2. Prioriza a configuração fixa do .env / Vercel (suporta NEXT_PUBLIC_COMMERCIAL_MODE e NEXT_PUBLIC_DUNIA_MODE)
+  const envMode = process.env.NEXT_PUBLIC_COMMERCIAL_MODE || process.env.NEXT_PUBLIC_DUNIA_MODE
   if (envMode === "light") return "light"
   if (envMode === "full") return "full"
 
-  // 2. Fallback para localStorage ou padrão 'full'
-  if (typeof window === "undefined") return "full"
-  try {
-    const val = localStorage.getItem(STORE_MODE_KEY)
-    return val === "light" ? "light" : "full"
-  } catch {
-    return "full"
-  }
+  return "full"
 }
 
 export function setCommercialMode(mode: DuniaCommercialMode): void {

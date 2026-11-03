@@ -501,7 +501,7 @@ export default function AdminExperienciasPage() {
               { key: "calendar", label: "Agenda de Eventos", icon: CalendarDays, badge: `${events.length}` },
               { key: "modules", label: "Módulos do Casal", icon: SlidersHorizontal, highlight: true },
               { key: "events", label: "Eventos & Mini-sites", icon: Layers },
-              { key: "create", label: "Criar Mini-site", icon: PlusCircle },
+              { key: "create", label: "Criador de Celebrações", icon: PlusCircle, badge: "Novo" },
               { key: "revista", label: "Revista & Editorial", icon: BookOpen, badge: `${articles.filter((a) => a.status === "publicado").length}` },
               { key: "catalog", label: "Catálogo & Receita", icon: Sparkles },
               { key: "operations", label: "Operações & LGPD", icon: ShieldCheck },
@@ -565,7 +565,7 @@ export default function AdminExperienciasPage() {
               {activeTab === "calendar" && "Agenda Operacional de Eventos — Dúnia City Hall"}
               {activeTab === "modules" && "Configurador de Módulos & Recursos do Anfitrião"}
               {activeTab === "events" && "Inventário de Experiências & Mini-sites"}
-              {activeTab === "create" && "Provisionar Novo Mini-site & Experiência"}
+              {activeTab === "create" && "Criador de Celebrações & Agendamento Operacional"}
               {activeTab === "revista" && "Revista Dúnia — Gestão Editorial & Publicações"}
               {activeTab === "catalog" && "Catálogo de Produtos Digitais & Simulador"}
               {activeTab === "operations" && "Arquitetura Operacional, Segurança & LGPD"}
@@ -579,7 +579,7 @@ export default function AdminExperienciasPage() {
                 className="flex items-center gap-2 rounded-xl bg-[#D3B47C] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#100E0D] shadow transition hover:opacity-90"
               >
                 <PlusCircle className="h-4 w-4" />
-                <span>Novo Evento</span>
+                <span>Criar Celebração</span>
               </button>
             )}
           </div>
@@ -1570,9 +1570,9 @@ export default function AdminExperienciasPage() {
               <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#D3B47C]">
                 PROVISIONAMENTO INSTANTÂNEO & AGENDAMENTO
               </span>
-              <h3 className="mt-1 font-serif text-3xl text-white">Criar Novo Mini-site & Experiência</h3>
+              <h3 className="mt-1 font-serif text-3xl text-white">Criador de Celebrações — Dúnia City Hall</h3>
               <p className="mt-2 text-xs text-[#ABA29A]">
-                Provisione uma nova experiência digital para o anfitrião com endereço exclusivo, controle de convidados, módulos contratados e agenda operacional integrada.
+                Cadastre novas celebrações (Casamentos, 15 Anos, Corporativo, Bodas) diretamente na agenda oficial do Dúnia, configurando espaço, buffet, horário e estimativa de convidados.
               </p>
 
               <form onSubmit={handleCreateSubmit} className="mt-8 space-y-5">
@@ -1714,7 +1714,7 @@ export default function AdminExperienciasPage() {
                   type="submit"
                   className="w-full rounded-xl bg-[#D3B47C] py-4 text-xs font-bold uppercase tracking-widest text-[#100E0D] shadow transition hover:opacity-90"
                 >
-                  PROVISIONAR MINI-SITE & AGENDAR NO CALENDÁRIO
+                  CADASTRAR CELEBRAÇÃO & AGENDAR NO CALENDÁRIO
                 </button>
               </form>
             </div>

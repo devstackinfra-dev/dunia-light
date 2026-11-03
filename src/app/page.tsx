@@ -1,6 +1,6 @@
 "use client"
 
-import { getStoredArticles, DEFAULT_DUNIA_ARTICLES, type DuniaArticle } from "@/lib/dunia-store"
+import { getStoredArticles, DEFAULT_DUNIA_ARTICLES, type DuniaArticle, getCommercialMode, type DuniaCommercialMode } from "@/lib/dunia-store"
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
@@ -144,6 +144,7 @@ const FILM_FRAMES = [
 ]
 
 export default function Home() {
+  const [commercialMode, setCommercialMode] = useState<DuniaCommercialMode>("full")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeStoryAct, setActiveStoryAct] = useState(0)
   const [isStoryHovered, setIsStoryHovered] = useState(false)
@@ -153,6 +154,12 @@ export default function Home() {
   const [selectedArticle, setSelectedArticle] = useState<DuniaArticle | null>(null)
 
   useEffect(() => {
+    setCommercialMode(getCommercialMode())
+    const onModeChange = (e: any) => {
+      if (e.detail) setCommercialMode(e.detail)
+    }
+    window.addEventListener("dunia-mode-change", onModeChange)
+
     const load = () => {
       const stored = getStoredArticles()
       const publicOnly = stored.filter((a) => a.status !== "rascunho")
@@ -160,7 +167,10 @@ export default function Home() {
     }
     load()
     window.addEventListener("dunia-articles-change", load)
-    return () => window.removeEventListener("dunia-articles-change", load)
+    return () => {
+      window.removeEventListener("dunia-mode-change", onModeChange)
+      window.removeEventListener("dunia-articles-change", load)
+    }
   }, [])
   const [scrollProgress, setScrollProgress] = useState(0)
   const [headerScrolled, setHeaderScrolled] = useState(false)
@@ -828,8 +838,90 @@ export default function Home() {
           )}
         </section>
 
-        {/* 9. DÚNIA EXPERIENCE OS (O PRODUTO DIGITAL CENTRALIZADO & REFINADO) */}
-        <section id="experience" className="my-12 overflow-hidden rounded-2xl border border-white/10 bg-[#141210] p-6 sm:p-10 shadow-xl">
+        
+        {/* 9. CENOGRAFIA & EXPERIÊNCIAS DE LUXO (LIGHT) vs EXPERIENCE OS (FULL) */}
+        {commercialMode === "light" ? (
+          <section id="experience" className="my-12 overflow-hidden rounded-2xl border border-[#D3B47C]/30 bg-[#141210] p-6 sm:p-10 shadow-xl">
+            <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
+              <div className="space-y-3.5 lg:col-span-7">
+                <p className="eyebrow hero-kicker">
+                  <span className="ornament" /> ESTRUTURA MONUMENTAL • LAGO SUL
+                </p>
+                <h2 className="font-serif text-2xl text-white sm:text-4xl font-normal">
+                  Experiências & Celebrações Dúnia
+                </h2>
+                <p className="text-xs sm:text-sm leading-relaxed text-[#ABA29A]">
+                  O cenário mais nobre de Brasília para momentos inesquecíveis. Infraestrutura de 2.500 m² totalmente climatizada, com acústica impecável, paisagismo privativo e alta gastronomia autoral.
+                </p>
+
+                {/* 4 Pilares da Infraestrutura Institucional */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                  <div className="border-l border-[#D3B47C]/40 pl-3">
+                    <strong className="block text-xs font-serif text-white">01. Salões Modulares</strong>
+                    <span className="text-[0.68rem] text-[#ABA29A]">Capacidade flexível de 100 até 1.200 convidados</span>
+                  </div>
+                  <div className="border-l border-[#D3B47C]/40 pl-3">
+                    <strong className="block text-xs font-serif text-white">02. Alta Gastronomia</strong>
+                    <span className="text-[0.68rem] text-[#ABA29A]">Buffet próprio com menus autorais e degustações</span>
+                  </div>
+                  <div className="border-l border-[#D3B47C]/40 pl-3">
+                    <strong className="block text-xs font-serif text-white">03. Jardim & Pôr do Sol</strong>
+                    <span className="text-[0.68rem] text-[#ABA29A]">Área externa privativa com espelho d'água</span>
+                  </div>
+                  <div className="border-l border-[#D3B47C]/40 pl-3">
+                    <strong className="block text-xs font-serif text-white">04. Espaço da Noiva</strong>
+                    <span className="text-[0.68rem] text-[#ABA29A]">Camarim privativo climatizado com espelhos cenográficos</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4 pt-3">
+                  <a
+                    href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-lg bg-[#D3B47C] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#100E0D] shadow transition hover:opacity-90 flex items-center gap-2"
+                  >
+                    <Calendar className="h-4 w-4" />
+                    <span>AGENDAR VISITA VIP</span>
+                  </a>
+
+                  <Link
+                    href="/sobre"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider text-white/80 hover:text-[#D3B47C] transition border-b border-white/20 pb-0.5"
+                  >
+                    <span>CONHECER A ESTRUTURA (2.500 M²) ↗</span>
+                  </Link>
+
+                  <Link
+                    href="/admin/experiencias"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider text-[#ABA29A] hover:text-white transition"
+                  >
+                    <span>Central do Salão ↗</span>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Visual Monumental do Salão */}
+              <div className="flex justify-center lg:col-span-5">
+                <div className="relative aspect-[4/3] sm:aspect-[16/10] w-full max-w-[420px] overflow-hidden rounded-2xl border border-[#D3B47C]/30 shadow-2xl">
+                  <Image
+                    src="/assets/salao.jpg"
+                    alt="Salão Dúnia City Hall"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <span className="text-[0.6rem] font-bold uppercase tracking-widest text-[#D3B47C]">Dúnia City Hall • Lago Sul</span>
+                    <h4 className="font-serif text-lg text-white">Arquitetura de Alto Padrão</h4>
+                    <p className="text-[0.68rem] text-white/80 mt-0.5">Mármore nobre, lustres de cristal e cenografia acústica.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        ) : (
+          <section id="experience" className="my-12 overflow-hidden rounded-2xl border border-white/10 bg-[#141210] p-6 sm:p-10 shadow-xl">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
             <div className="space-y-3.5 lg:col-span-7">
               <p className="eyebrow hero-kicker">
@@ -909,6 +1001,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+        )}
 
         {/* 10. AGENDAMENTO VIP & CONTATO CONCIERGE (CENTRALIZADO & COMPACTO) */}
         <section id="contato" className="my-12 rounded-2xl border border-[#D3B47C]/30 bg-gradient-to-br from-[#161311] to-[#0E0C0B] p-6 sm:p-10 shadow-xl">
@@ -991,10 +1084,18 @@ export default function Home() {
             <a href="#film" className="hover:text-white transition">Galeria 35mm</a>
             <span>•</span>
             <a href="#celebrations" className="hover:text-white transition">Celebrações</a>
+            {commercialMode !== "light" && (
+              <>
+                <span>•</span>
+                <Link href="/evento" className="hover:text-white transition">Mini-site</Link>
+                <span>•</span>
+                <Link href="/painel" className="hover:text-white transition">Painel Casal</Link>
+              </>
+            )}
             <span>•</span>
-            <Link href="/evento" className="hover:text-white transition">Mini-site</Link>
+            <Link href="/sobre" className="hover:text-white transition">O Salão</Link>
             <span>•</span>
-            <Link href="/painel" className="hover:text-white transition">Painel Casal</Link>
+            <a href="#journal" className="hover:text-white transition">Revista Dúnia</a>
             <span>•</span>
             <Link href="/admin/experiencias" className="hover:text-white transition">Central Salão</Link>
           </div>

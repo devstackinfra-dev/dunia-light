@@ -57,6 +57,11 @@ import PainelEstiloTab from "@/components/painel/painel-estilo-tab"
 import PainelMesasTab from "@/components/painel/painel-mesas-tab"
 import PainelBuffetDietaryCard from "@/components/painel/painel-buffet-dietary-card"
 import {
+  getStoredArticles,
+  createNewEvent,
+  DEFAULT_EVENT_MODULES,
+  DEFAULT_OPERATIONAL_INFO,
+  type DuniaArticle,
   getActiveEventId,
   setActiveEventId,
   getStoredEvents,
@@ -80,7 +85,7 @@ import {
   type DuniaTelaoSettings,
 } from "@/lib/dunia-store"
 
-type TabKey = "overview" | "guests" | "storytelling" | "corte" | "estilo" | "mesas" | "album" | "checkin" | "editor" | "business"
+type TabKey = "overview" | "guests" | "storytelling" | "corte" | "estilo" | "mesas" | "album" | "checkin" | "editor" | "business" | "revista" | "criador"
 
 export default function PainelCasalPage() {
   const [mounted, setMounted] = useState(false)
@@ -140,6 +145,16 @@ export default function PainelCasalPage() {
   // Controle Remoto do Telão
   const [telaoSettings, setTelaoSettings] = useState<DuniaTelaoSettings>(DEFAULT_TELAO_SETTINGS)
 
+  // Criador de Celebrações no Painel
+  const [criadorName, setCriadorName] = useState("")
+  const [criadorCategory, setCriadorCategory] = useState<"Casamento" | "15 Anos" | "Corporativo / Gala" | "Bodas">("Casamento")
+  const [criadorDate, setCriadorDate] = useState("2027-05-22")
+  const [criadorTime, setCriadorTime] = useState("18:30")
+  const [criadorVenue, setCriadorVenue] = useState("Salão Imperial")
+  const [criadorGuests, setCriadorGuests] = useState(250)
+  const [criadorCerimonial, setCriadorCerimonial] = useState("Cerimonial Dúnia Excellence")
+  const [selectedArticleModal, setSelectedArticleModal] = useState<DuniaArticle | null>(null)
+
   useEffect(() => {
     setMounted(true)
     setCommercialModeState(getCommercialMode())
@@ -168,52 +183,41 @@ export default function PainelCasalPage() {
     setTelaoSettings(currentTelao)
   }, [])
 
+  const handleCreateCelebrationSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!criadorName.trim() || !criadorDate) return
+    const created = createNewEvent({
+      name: criadorName.trim(),
+      date: criadorDate,
+      time: criadorTime,
+      venue: `Dúnia City Hall — ${criadorVenue}`,
+      plan: "Guest OS + Memories",
+      theme: "gold",
+      category: criadorCategory,
+      hostAccessCode: criadorName.trim().substring(0, 4).toUpperCase() + "26",
+      maxGuests: criadorGuests,
+      whatsappQuota: 350,
+      modules: { ...DEFAULT_EVENT_MODULES },
+      operational: {
+        ...DEFAULT_OPERATIONAL_INFO,
+        espaco: criadorVenue as any,
+        tipoEvento: criadorCategory as any,
+        horarioInicio: criadorTime,
+        qtdConvidadosPrevistos: criadorGuests,
+        cerimonialista: criadorCerimonial,
+      },
+    })
+    setActiveEventId(created.id)
+    const nextState = getEventState(created.id)
+    setState(nextState)
+    setCriadorName("")
+    notify(`Celebração '${created.name}' cadastrada com sucesso na agenda!`)
+    setActiveTab("overview")
+  }
+
   const notify = (msg: string) => {
     setToastMessage(msg)
     setTimeout(() => setToastMessage(null), 3000)
-  }
-
-  if (commercialMode === "light") {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-[#0C0A09] p-6 text-center antialiased">
-        <div className="w-full max-w-lg rounded-3xl border border-[#D3B47C]/30 bg-[#161311] p-8 shadow-2xl backdrop-blur-xl">
-          <Image
-            src="/assets/logo.png"
-            alt="Dúnia City Hall"
-            width={160}
-            height={45}
-            className="h-10 w-auto object-contain mx-auto"
-          />
-          <div className="mt-6 inline-block rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-[0.65rem] font-bold uppercase tracking-widest text-amber-300">
-            MODALIDADE: HOTSITE INSTITUCIONAL ATIVO
-          </div>
-          <h2 className="mt-3 font-serif text-2xl text-white">
-            Painel do Anfitrião Desativado
-          </h2>
-          <p className="mt-2 text-xs leading-relaxed text-[#ABA29A]">
-            O Dúnia City Hall está configurado na modalidade <strong>Light</strong>. Neste modelo comercial, o salão disponibiliza apenas o Hotsite Institucional, mantendo os mini-sites de noivos e painéis de convidados desativados.
-          </p>
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              href="/"
-              className="w-full sm:w-auto rounded-xl border border-white/20 bg-white/5 px-5 py-2.5 text-xs font-semibold text-white hover:bg-white/10 transition"
-            >
-              Voltar ao Site Principal
-            </Link>
-            <button
-              onClick={() => {
-                setCommercialMode("full")
-                setCommercialModeState("full")
-                notify("Modo Experience OS reativado!")
-              }}
-              className="w-full sm:w-auto rounded-xl bg-[#D3B47C] px-5 py-2.5 text-xs font-bold text-[#100E0D] hover:bg-[#D3B47C]/90 transition"
-            >
-              Ativar Experience OS (Demo)
-            </button>
-          </div>
-        </div>
-      </div>
-    )
   }
 
   if (!mounted || !state) {
@@ -661,22 +665,37 @@ export default function PainelCasalPage() {
 
           <nav className="space-y-1.5">
             {[
-              { key: "overview", label: "Visão Geral", icon: Calendar, enabled: true },
-              { key: "guests", label: "Convidados & RSVP", icon: Users, enabled: event.modules?.rsvpWhatsApp !== false },
-              { key: "mesas", label: "Mapa de Mesas & Totens", icon: QrCode, enabled: true },
-              { key: "storytelling", label: "Storytelling & Livro", icon: BookOpen, enabled: true },
-              { key: "corte", label: "Corte de Honra", icon: Crown, enabled: true },
-              { key: "estilo", label: "Guia de Estilo & Traje", icon: Palette, enabled: true },
-              { key: "editor", label: "Editor do Mini-site", icon: Edit3, enabled: true },
-              { key: "checkin", label: "Controle de Entrada", icon: CheckCircle, enabled: event.modules?.receptionCheckin !== false },
-              { key: "album", label: "Dúnia Memories", icon: Camera, enabled: event.modules?.guestAlbum !== false || event.modules?.liveTelao !== false },
-              { key: "business", label: "Módulos & Upgrades", icon: Sparkles, enabled: true },
-            ].map(({ key, label, icon: Icon, enabled }) => (
+              ...(commercialMode === "light"
+                ? [
+                    { key: "album", label: "Galeria de Fotos", icon: Camera, enabled: true, highlight: false },
+                    { key: "revista", label: "Revista Dúnia", icon: BookOpen, enabled: true, highlight: false },
+                    { key: "criador", label: "Criador de Celebrações", icon: Plus, enabled: true, highlight: true },
+                    { key: "overview", label: "Resumo da Celebração", icon: Calendar, enabled: true, highlight: false },
+                    { key: "guests", label: "Convidados & RSVP", icon: Users, enabled: false, badge: "Experience OS" },
+                    { key: "mesas", label: "Mapa de Mesas & QR", icon: QrCode, enabled: false, badge: "Experience OS" },
+                    { key: "editor", label: "Editor do Mini-site", icon: Edit3, enabled: false, badge: "Experience OS" },
+                    { key: "checkin", label: "Controle de Portaria", icon: CheckCircle, enabled: false, badge: "Experience OS" },
+                  ]
+                : [
+                    { key: "overview", label: "Visão Geral", icon: Calendar, enabled: true },
+                    { key: "guests", label: "Convidados & RSVP", icon: Users, enabled: event.modules?.rsvpWhatsApp !== false },
+                    { key: "mesas", label: "Mapa de Mesas & Totens", icon: QrCode, enabled: true },
+                    { key: "storytelling", label: "Storytelling & Livro", icon: BookOpen, enabled: true },
+                    { key: "corte", label: "Corte de Honra", icon: Crown, enabled: true },
+                    { key: "estilo", label: "Guia de Estilo & Traje", icon: Palette, enabled: true },
+                    { key: "editor", label: "Editor do Mini-site", icon: Edit3, enabled: true },
+                    { key: "checkin", label: "Controle de Entrada", icon: CheckCircle, enabled: event.modules?.receptionCheckin !== false },
+                    { key: "album", label: "Dúnia Memories", icon: Camera, enabled: event.modules?.guestAlbum !== false || event.modules?.liveTelao !== false },
+                    { key: "revista", label: "Revista Dúnia", icon: BookOpen, enabled: true },
+                    { key: "criador", label: "Criador de Celebrações", icon: Plus, enabled: true },
+                    { key: "business", label: "Módulos & Upgrades", icon: Sparkles, enabled: true },
+                  ]),
+            ].map(({ key, label, icon: Icon, enabled, badge, highlight }: any) => (
               <button
                 key={key}
                 onClick={() => {
                   if (!enabled) {
-                    notify(`O módulo '${label}' não está ativado no plano deste evento. Fale com a equipe do Dúnia.`)
+                    notify(`O módulo '${label}' é exclusivo do plano Experience OS. Disponível mediante upgrade.`)
                     return
                   }
                   setActiveTab(key as TabKey)
@@ -694,8 +713,8 @@ export default function PainelCasalPage() {
                   <span>{label}</span>
                 </div>
                 {!enabled && (
-                  <span className="rounded bg-white/10 px-1.5 py-0.5 text-[0.55rem] uppercase text-white/40">
-                    Bloqueado
+                  <span className="rounded bg-amber-500/10 px-1.5 py-0.5 text-[0.55rem] uppercase text-amber-300 border border-amber-500/20">
+                    {badge || "Bloqueado"}
                   </span>
                 )}
               </button>
@@ -798,19 +817,51 @@ export default function PainelCasalPage() {
           </div>
 
           <div className="flex items-center gap-4">
-            <Link
-              href="/evento"
-              target="_blank"
-              className="flex items-center gap-2 rounded-xl bg-[#D3B47C] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#100E0D] shadow transition hover:opacity-90"
-            >
-              <span>Abrir Mini-site</span>
-              <ExternalLink className="h-3.5 w-3.5" />
-            </Link>
+            {commercialMode !== "light" ? (
+              <Link
+                href="/evento"
+                target="_blank"
+                className="flex items-center gap-2 rounded-xl bg-[#D3B47C] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#100E0D] shadow transition hover:opacity-90"
+              >
+                <span>Abrir Mini-site</span>
+                <ExternalLink className="h-3.5 w-3.5" />
+              </Link>
+            ) : (
+              <Link
+                href="/admin/experiencias"
+                className="flex items-center gap-2 rounded-xl border border-[#D3B47C]/40 bg-[#161311] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#D3B47C] shadow transition hover:bg-[#D3B47C]/10"
+              >
+                <span>Central do Salão Dúnia ↗</span>
+              </Link>
+            )}
           </div>
         </header>
 
         {/* Corpo da Tab */}
         <main className="flex-1 p-6 lg:p-10">
+          {commercialMode === "light" && (
+            <div className="mb-8 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <Sparkles className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="text-sm font-bold text-amber-300">MODALIDADE LIGHT • PAINEL DESIDRATADO DO ANFITRIÃO</h4>
+                  <p className="text-xs text-[#ABA29A] mt-0.5 leading-relaxed">
+                    Você tem acesso liberado à <strong>Galeria de Fotos</strong>, <strong>Revista Dúnia</strong> e <strong>Criador de Celebrações</strong>. Módulos avançados de RSVP, mapa de mesas e mini-sites pertencem ao plano <strong>Experience OS</strong>.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  setCommercialMode("full")
+                  setCommercialModeState("full")
+                  notify("Modo Experience OS ativado para demonstração!")
+                }}
+                className="shrink-0 rounded-xl bg-[#D3B47C] px-4 py-2 text-xs font-bold text-[#100E0D] hover:bg-[#D3B47C]/90 transition"
+              >
+                Ativar Demo Experience OS
+              </button>
+            </div>
+          )}
           {/* TAB 1: VISÃO GERAL */}
           {activeTab === "overview" && (
             <div className="space-y-8">
@@ -2403,6 +2454,52 @@ export default function PainelCasalPage() {
           )}
         </main>
       </div>
+
+      {/* Modal de Leitura da Revista Dúnia */}
+      {selectedArticleModal && (
+        <div
+          onClick={() => setSelectedArticleModal(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-white/20 bg-[#161311] shadow-2xl max-h-[90vh] overflow-y-auto p-6 sm:p-8"
+          >
+            <button
+              onClick={() => setSelectedArticleModal(null)}
+              className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black cursor-pointer"
+              aria-label="Fechar"
+            >
+              ✕
+            </button>
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#D3B47C]">
+              {selectedArticleModal.label || "REVISTA DÚNIA"}
+            </span>
+            <h2 className="font-serif text-2xl text-white sm:text-3xl mt-2 leading-snug">
+              {selectedArticleModal.title}
+            </h2>
+            <div className="mt-2 flex items-center gap-3 text-xs text-[#ABA29A]">
+              <span>{selectedArticleModal.author || "Redação Dúnia"}</span>
+              <span>•</span>
+              <span>{selectedArticleModal.readTime || "4 min"} de leitura</span>
+            </div>
+            <div className="relative my-6 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-black/50">
+              <Image
+                src={selectedArticleModal.image || "/assets/casal.jpg"}
+                alt={selectedArticleModal.title}
+                fill
+                className="object-cover"
+              />
+            </div>
+            <p className="text-sm font-serif italic text-[#D3B47C]/90 leading-relaxed border-l-2 border-[#D3B47C] pl-4 my-4">
+              &ldquo;{selectedArticleModal.text}&rdquo;
+            </p>
+            <div className="text-xs sm:text-sm text-white/90 leading-relaxed space-y-4 whitespace-pre-line">
+              {selectedArticleModal.article}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal de Convite & QR Code */}
       {selectedGuestQr && (
