@@ -1117,3 +1117,214 @@ export function deleteArticle(id: number | string): void {
   const filtered = articles.filter((a) => String(a.id) !== String(id))
   saveStoredArticles(filtered)
 }
+
+
+// ==========================================
+// TIPOS DE CELEBRAÇÃO / CARDS DA HOME (CUSTOMIZÁVEIS)
+// ==========================================
+
+export interface DuniaCelebrationCard {
+  id: string
+  category: string        // ex: "CASAMENTOS DOS SONHOS"
+  title: string           // ex: "O Cenário dos Sonhos Para o Sim"
+  description: string     // ex: "Desde 2008 eternizando momentos..."
+  image: string           // ex: "/assets/casal.jpg"
+  imagePosition?: string  // ex: "object-[center_12%]"
+  href: string            // ex: "/casamento"
+  buttonText: string      // ex: "CONHECER ESPAÇO"
+  hasMinisiteBadge?: boolean // se exibe o badge "Mini-site incluso" em modo full
+  active?: boolean        // se está visível na Home
+  order?: number
+}
+
+export interface DuniaAcervoPhoto {
+  url: string
+  label: string
+  category: "casamento" | "debutante" | "corporativo" | "buffet" | "salao" | "jardim"
+}
+
+export const ACERVO_DUNIA_PHOTOS: DuniaAcervoPhoto[] = [
+  // Casamentos
+  { url: "/assets/casal.jpg", label: "Casamento Clássico (Capa)", category: "casamento" },
+  { url: "/images/dunia/casamento-hero.jpg", label: "Altar Iluminado & Cerimônia", category: "casamento" },
+  { url: "/images/dunia/casamento-galeria.jpg", label: "Mesa de Doces & Lustres", category: "casamento" },
+  { url: "/images/galeria/CASAMENTO-101.jpg", label: "Recepção Imperial dos Noivos", category: "casamento" },
+  { url: "/images/galeria/CASAMENTO-106.jpg", label: "Bolo Cenográfico & Cristais", category: "casamento" },
+  { url: "/images/galeria/Destaque-Casamento-1.jpg", label: "Dança dos Noivos no Salão", category: "casamento" },
+
+  // Debutantes (15 Anos)
+  { url: "/assets/debutante.jpg", label: "Debutante Glamour (Capa)", category: "debutante" },
+  { url: "/images/dunia/debutante-hero.jpg", label: "Valsa dos 15 Anos", category: "debutante" },
+  { url: "/images/dunia/debutante-galeria.jpg", label: "Pista Neon & Iluminação", category: "debutante" },
+  { url: "/images/galeria/12-11-22-36.jpg", label: "Cenografia Moderna & Baladinha", category: "debutante" },
+
+  // Corporativo & Gala
+  { url: "/assets/corporativo.jpg", label: "Gala Empresarial & Plenária", category: "corporativo" },
+  { url: "/images/dunia/corporativo-hero.jpg", label: "Palco & Telão de Led", category: "corporativo" },
+  { url: "/images/dunia/corporativo-galeria.jpg", label: "Premiação & Coquetel VIP", category: "corporativo" },
+  { url: "/images/dunia/festa.jpg", label: "Confraternização de Final de Ano", category: "corporativo" },
+
+  // Gastronomia & Buffet
+  { url: "/assets/mesa.jpg", label: "Mesa Posta & Cristais de Luxo", category: "buffet" },
+  { url: "/images/dunia/buffet-hero.jpg", label: "Ilhas Gastronômicas & Antepastos", category: "buffet" },
+  { url: "/images/dunia/buffet-galeria.jpg", label: "Menu Degustação & Alta Cozinha", category: "buffet" },
+
+  // Salão & Embaixadas
+  { url: "/assets/salao.jpg", label: "Salão Imperial Monumental", category: "salao" },
+  { url: "/images/dunia/salao-principal.jpg", label: "Visão Panorâmica do Salão", category: "salao" },
+  { url: "/images/dunia/embaixadas-galeria.jpg", label: "Banquete Diplomático", category: "salao" },
+  { url: "/images/galeria/CASAMENTO-92.jpg", label: "Lustres de Cristal Baccarat", category: "salao" },
+
+  // Jardim & Áreas Verdes
+  { url: "/assets/jardim.jpg", label: "Jardim Imperial & Espelho d'Água", category: "jardim" },
+  { url: "/images/dunia/jardim-galeria.jpg", label: "Pergolado & Cerimônia Externa", category: "jardim" },
+  { url: "/images/galeria/CASAMENTO-84.jpg", label: "Paisagismo Noturno Iluminado", category: "jardim" },
+]
+
+export const DEFAULT_CELEBRATION_CARDS: DuniaCelebrationCard[] = [
+  {
+    id: "casamento",
+    category: "CASAMENTOS DOS SONHOS",
+    title: "O Cenário dos Sonhos Para o Sim",
+    description: "Desde 2008 eternizando momentos com elegância. Espaço da Noiva exclusivo e lustres de cristal.",
+    image: "/assets/casal.jpg",
+    imagePosition: "object-[center_12%]",
+    href: "/casamento",
+    buttonText: "CONHECER ESPAÇO",
+    hasMinisiteBadge: true,
+    active: true,
+    order: 1,
+  },
+  {
+    id: "debutante",
+    category: "15 ANOS LENDÁRIOS",
+    title: "O Baile Perfeito Para Brilhar",
+    description: "Pista de dança integrada, iluminação cenográfica de ponta e ambientes instagramáveis.",
+    image: "/assets/debutante.jpg",
+    imagePosition: "object-[center_8%]",
+    href: "/debutante",
+    buttonText: "VER DETALHES",
+    hasMinisiteBadge: false,
+    active: true,
+    order: 2,
+  },
+  {
+    id: "corporativo",
+    category: "CORPORATIVO & GALA",
+    title: "Convenções & Premiações",
+    description: "Isolamento acústico de padrão internacional, climatização inteligente e gerador próprio.",
+    image: "/assets/corporativo.jpg",
+    imagePosition: "object-[center_25%]",
+    href: "/corporativo",
+    buttonText: "VER DETALHES",
+    hasMinisiteBadge: false,
+    active: true,
+    order: 3,
+  },
+  {
+    id: "buffet",
+    category: "GASTRONOMIA AUTORAL",
+    title: "Buffet Dúnia: Alta Cozinha",
+    description: "Cardápios sob medida assinados por chefs, coquetéis volantes, ilhas gourmet e ceias refinadas.",
+    image: "/assets/mesa.jpg",
+    imagePosition: "object-[center_18%]",
+    href: "/buffet",
+    buttonText: "CONHECER BUFFET",
+    hasMinisiteBadge: false,
+    active: true,
+    order: 4,
+  },
+  {
+    id: "embaixadas",
+    category: "DIPLOMACIA & ESTADO",
+    title: "Embaixadas & Recepções",
+    description: "Protocolo diplomático rigoroso, segurança VIP e localização estratégica nobre no Lago Sul.",
+    image: "/assets/salao.jpg",
+    imagePosition: "object-[center_15%]",
+    href: "/embaixadas",
+    buttonText: "VER PROTOCOLO",
+    hasMinisiteBadge: false,
+    active: true,
+    order: 5,
+  },
+  {
+    id: "jardim",
+    category: "NATUREZA & AR LIVRE",
+    title: "Jardim & Celebrações ao Ar Livre",
+    description: "Área externa privativa com espelho d'água, pergolado clássico e paisagismo iluminado.",
+    image: "/assets/jardim.jpg",
+    imagePosition: "object-[center_35%]",
+    href: "/jardim",
+    buttonText: "EXPLORAR JARDIM",
+    hasMinisiteBadge: false,
+    active: true,
+    order: 6,
+  },
+]
+
+const STORE_CELEBRATION_CARDS_KEY = "dunia-celebration-cards-v1"
+
+export function getStoredCelebrationCards(): DuniaCelebrationCard[] {
+  if (typeof window === "undefined") return DEFAULT_CELEBRATION_CARDS
+  try {
+    const raw = localStorage.getItem(STORE_CELEBRATION_CARDS_KEY)
+    if (!raw) {
+      localStorage.setItem(STORE_CELEBRATION_CARDS_KEY, JSON.stringify(DEFAULT_CELEBRATION_CARDS))
+      return DEFAULT_CELEBRATION_CARDS
+    }
+    const parsed = JSON.parse(raw)
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_CELEBRATION_CARDS
+  } catch {
+    return DEFAULT_CELEBRATION_CARDS
+  }
+}
+
+export function saveStoredCelebrationCards(cards: DuniaCelebrationCard[]): void {
+  if (typeof window === "undefined") return
+  try {
+    localStorage.setItem(STORE_CELEBRATION_CARDS_KEY, JSON.stringify(cards))
+    window.dispatchEvent(new CustomEvent("dunia-celebrations-change", { detail: cards }))
+  } catch (e) {
+    console.warn("Erro ao salvar cards de celebrações:", e)
+  }
+}
+
+export function updateCelebrationCard(id: string, updates: Partial<DuniaCelebrationCard>): DuniaCelebrationCard | null {
+  const cards = getStoredCelebrationCards()
+  const idx = cards.findIndex((c) => c.id === id)
+  if (idx === -1) return null
+  const updated = { ...cards[idx], ...updates }
+  cards[idx] = updated
+  saveStoredCelebrationCards(cards)
+  return updated
+}
+
+export function createNewCelebrationCard(data: Omit<DuniaCelebrationCard, "id"> & { id?: string }): DuniaCelebrationCard {
+  const cards = getStoredCelebrationCards()
+  const id = data.id || `celebration-${Date.now()}`
+  const newCard: DuniaCelebrationCard = {
+    ...data,
+    id,
+    active: data.active ?? true,
+    order: data.order ?? (cards.length + 1),
+    buttonText: data.buttonText || "VER DETALHES",
+    hasMinisiteBadge: data.hasMinisiteBadge ?? false,
+  }
+  const updated = [...cards, newCard]
+  saveStoredCelebrationCards(updated)
+  return newCard
+}
+
+export function deleteCelebrationCard(id: string): void {
+  const cards = getStoredCelebrationCards()
+  const filtered = cards.filter((c) => c.id !== id)
+  saveStoredCelebrationCards(filtered)
+}
+
+export function resetCelebrationCards(): DuniaCelebrationCard[] {
+  if (typeof window !== "undefined") {
+    localStorage.setItem(STORE_CELEBRATION_CARDS_KEY, JSON.stringify(DEFAULT_CELEBRATION_CARDS))
+    window.dispatchEvent(new CustomEvent("dunia-celebrations-change", { detail: DEFAULT_CELEBRATION_CARDS }))
+  }
+  return DEFAULT_CELEBRATION_CARDS
+}

@@ -83,6 +83,16 @@ import {
   type DuniaGuest,
   type DuniaEvent,
   type DuniaTelaoSettings,
+  getStoredCelebrationCards,
+  saveStoredCelebrationCards,
+  updateCelebrationCard,
+  createNewCelebrationCard,
+  deleteCelebrationCard,
+  resetCelebrationCards,
+  DEFAULT_CELEBRATION_CARDS,
+  ACERVO_DUNIA_PHOTOS,
+  type DuniaCelebrationCard,
+  type DuniaAcervoPhoto,
 } from "@/lib/dunia-store"
 
 type TabKey = "overview" | "guests" | "storytelling" | "corte" | "estilo" | "mesas" | "album" | "checkin" | "editor" | "business" | "revista" | "criador"
@@ -155,6 +165,17 @@ export default function PainelCasalPage() {
   const [criadorCerimonial, setCriadorCerimonial] = useState("Cerimonial Dúnia Excellence")
   const [selectedArticleModal, setSelectedArticleModal] = useState<DuniaArticle | null>(null)
 
+  // Tipos de Celebrações (Home) & Acervo de Imagens
+  const [celebrationCards, setCelebrationCards] = useState<DuniaCelebrationCard[]>(DEFAULT_CELEBRATION_CARDS)
+  const [editingCard, setEditingCard] = useState<DuniaCelebrationCard | null>(null)
+  const [isCreatingCard, setIsCreatingCard] = useState(false)
+  const [selectedPhotoCategory, setSelectedPhotoCategory] = useState<string>("all")
+  const [customPhotoInput, setCustomPhotoInput] = useState("")
+
+  // Revista Dúnia Tab
+  const [journalArticles, setJournalArticles] = useState<DuniaArticle[]>([])
+  const [journalFilter, setJournalFilter] = useState<string>("all")
+
   useEffect(() => {
     setMounted(true)
     setCommercialModeState(getCommercialMode())
@@ -181,7 +202,70 @@ export default function PainelCasalPage() {
 
     const currentTelao = getTelaoSettings(activeId)
     setTelaoSettings(currentTelao)
+
+    const loadCards = () => {
+      setCelebrationCards(getStoredCelebrationCards())
+    }
+    loadCards()
+    window.addEventListener("dunia-celebrations-change", loadCards)
+
+    const loadArticles = () => {
+      setJournalArticles(getStoredArticles())
+    }
+    loadArticles()
+    window.addEventListener("dunia-articles-change", loadArticles)
+
+    return () => {
+      window.removeEventListener("dunia-celebrations-change", loadCards)
+      window.removeEventListener("dunia-articles-change", loadArticles)
+    }
   }, [])
+
+  const handleSaveCelebrationCard = (e?: React.FormEvent) => {
+    if (e) e.preventDefault()
+    if (!editingCard) return
+    if (!editingCard.title.trim()) {
+      notify("Informe o título da celebração.")
+      return
+    }
+    if (isCreatingCard) {
+      const created = createNewCelebrationCard(editingCard)
+      setCelebrationCards(getStoredCelebrationCards())
+      notify(`Tipo de celebração '${created.title}' criado com sucesso na Home!`)
+    } else {
+      updateCelebrationCard(editingCard.id, editingCard)
+      setCelebrationCards(getStoredCelebrationCards())
+      notify(`Card '${editingCard.title}' atualizado com sucesso na Home!`)
+    }
+    setEditingCard(null)
+    setIsCreatingCard(false)
+  }
+
+  const handleToggleCardActive = (id: string, active: boolean) => {
+    updateCelebrationCard(id, { active })
+    setCelebrationCards(getStoredCelebrationCards())
+    notify(active ? "Card ativado e visível na Home!" : "Card ocultado da Home.")
+  }
+
+  const handleDeleteCard = (id: string) => {
+    if (celebrationCards.length <= 1) {
+      notify("Você deve manter pelo menos um tipo de celebração.")
+      return
+    }
+    if (typeof window !== "undefined" && window.confirm("Deseja realmente remover este tipo de celebração da Home?")) {
+      deleteCelebrationCard(id)
+      setCelebrationCards(getStoredCelebrationCards())
+      notify("Tipo de celebração removido da Home.")
+    }
+  }
+
+  const handleResetCelebrationCards = () => {
+    if (typeof window !== "undefined" && window.confirm("Deseja restaurar os 6 cards originais do Dúnia (Casamento, Debutante, Corporativo, Buffet, Embaixadas e Jardim)?")) {
+      const reset = resetCelebrationCards()
+      setCelebrationCards(reset)
+      notify("Cards da Home restaurados para o padrão original Dúnia!")
+    }
+  }
 
   const handleCreateCelebrationSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -813,6 +897,8 @@ export default function PainelCasalPage() {
               {activeTab === "checkin" && "Controle de Entrada & Recepção"}
               {activeTab === "album" && "Dúnia Memories (Álbum de Fotos)"}
               {activeTab === "business" && "Módulos Contratados & Upgrades da Celebração"}
+              {activeTab === "revista" && "Revista Dúnia — Inspiração & Histórias"}
+              {activeTab === "criador" && "Tipos de Celebrações (Home) & Criador"}
             </h1>
           </div>
 
@@ -2452,8 +2538,650 @@ export default function PainelCasalPage() {
               </div>
             </div>
           )}
+
+          {/* TAB: REVISTA DÚNIA (EDITORIAL & INSPIRAÇÃO) */}
+          {activeTab === "revista" && (
+            <div className="space-y-8 animate-fadeIn">
+              <div className="rounded-2xl border border-white/10 bg-[#161311] p-6 lg:p-8">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                  <div>
+                    <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#D3B47C]">
+                      CURADORIA EDITORIAL DÚNIA
+                    </span>
+                    <h2 className="mt-1 font-serif text-2xl lg:text-3xl text-white">
+                      Revista Dúnia — Histórias, Inspiração & Alta Gastronomia
+                    </h2>
+                    <p className="mt-1 text-xs text-[#ABA29A] max-w-2xl leading-relaxed">
+                      Artigos exclusivos e referências de cenografia, iluminação arquitetônica e alta gastronomia para inspirar cada detalhe da sua celebração.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2">
+                    {["all", "casamento", "inspiracao", "eventos", "gastronomia"].map((cat) => (
+                      <button
+                        key={cat}
+                        onClick={() => setJournalFilter(cat)}
+                        className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider transition ${
+                          journalFilter === cat
+                            ? "bg-[#D3B47C] text-[#100E0D]"
+                            : "border border-white/10 bg-[#1C1816] text-[#ABA29A] hover:text-white"
+                        }`}
+                      >
+                        {cat === "all" ? "Todos" : cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Grid de Artigos */}
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {journalArticles
+                  .filter((a) => a.status !== "rascunho")
+                  .filter((a) => journalFilter === "all" || a.category === journalFilter)
+                  .map((art) => (
+                    <article
+                      key={art.id}
+                      onClick={() => setSelectedArticleModal(art)}
+                      className="group cursor-pointer flex flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-[#161311] shadow-lg transition duration-300 hover:-translate-y-1 hover:border-[#D3B47C]/50"
+                    >
+                      <div className="relative aspect-[16/10] w-full overflow-hidden bg-black/40">
+                        <Image
+                          src={art.image || "/assets/casal.jpg"}
+                          alt={art.title}
+                          fill
+                          sizes="(max-width: 640px) 100vw, 33vw"
+                          className="object-cover transition duration-700 group-hover:scale-105 filter brightness-95"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#161311] via-black/20 to-transparent" />
+                        <span className="absolute top-3 left-3 rounded-md bg-black/75 px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-[#D3B47C] backdrop-blur-md border border-[#D3B47C]/20">
+                          {art.category}
+                        </span>
+                      </div>
+
+                      <div className="flex flex-1 flex-col justify-between p-5 space-y-4">
+                        <div>
+                          <span className="text-[0.62rem] font-bold uppercase tracking-widest text-[#ABA29A]">
+                            {art.label || "REVISTA DÚNIA"}
+                          </span>
+                          <h3 className="mt-1 font-serif text-lg text-white font-normal line-clamp-2 group-hover:text-[#D3B47C] transition">
+                            {art.title}
+                          </h3>
+                          <p className="mt-2 text-xs text-[#ABA29A] line-clamp-2 leading-relaxed">
+                            {art.text}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between border-t border-white/10 pt-3 text-[0.7rem] text-[#ABA29A]">
+                          <span>{art.author || "Redação Dúnia"}</span>
+                          <span className="text-[#D3B47C] font-semibold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                            Ler artigo →
+                          </span>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB: CRIADOR DE CELEBRAÇÕES & EDITOR DOS TIPOS DE EVENTOS DA HOME */}
+          {activeTab === "criador" && (
+            <div className="space-y-8 animate-fadeIn">
+              {/* Top Banner de Gestão */}
+              <div className="rounded-2xl border border-[#D3B47C]/30 bg-[#161311] p-6 lg:p-8">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#D3B47C]">
+                        PERSONALIZAÇÃO DA HOME • SEÇÃO CENÁRIOS
+                      </span>
+                      <span className="rounded-full bg-[#D3B47C]/10 px-2.5 py-0.5 text-[0.65rem] font-semibold text-[#D3B47C] border border-[#D3B47C]/20">
+                        {celebrationCards.filter((c) => c.active !== false).length} ativos na Home
+                      </span>
+                    </div>
+                    <h2 className="mt-1 font-serif text-2xl lg:text-3xl text-white">
+                      Tipos de Celebrações & Eventos da Home
+                    </h2>
+                    <p className="mt-1 text-xs text-[#ABA29A] max-w-2xl leading-relaxed">
+                      Aqui você edita os tipos de celebração, fotos reais do acervo Dúnia, títulos e descrições que aparecem na Home (<code className="text-[#D3B47C]">/#celebrations</code>). Qualquer alteração é salva e refletida instantaneamente na vitrine.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Link
+                      href="/#celebrations"
+                      target="_blank"
+                      className="inline-flex items-center gap-2 rounded-xl border border-[#D3B47C]/40 bg-[#1C1816] px-4 py-2.5 text-xs font-semibold text-[#D3B47C] hover:bg-[#D3B47C]/10 transition"
+                    >
+                      <span>Ver na Home ↗</span>
+                    </Link>
+                    <button
+                      onClick={handleResetCelebrationCards}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-black/40 px-3.5 py-2.5 text-xs text-[#ABA29A] hover:text-white hover:border-white/20 transition"
+                      title="Restaurar os 6 cards originais do Dúnia"
+                    >
+                      <RefreshCw className="h-3.5 w-3.5" />
+                      <span>Restaurar Padrão</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsCreatingCard(true)
+                        setEditingCard({
+                          id: `celebration-${Date.now()}`,
+                          category: "NOVA CELEBRAÇÃO",
+                          title: "Título da Celebração",
+                          description: "Breve descrição sobre como o Dúnia acolhe este tipo de celebração com sofisticação absoluta.",
+                          image: "/assets/casal.jpg",
+                          imagePosition: "object-center",
+                          href: "/casamento",
+                          buttonText: "VER DETALHES",
+                          hasMinisiteBadge: false,
+                          active: true,
+                          order: celebrationCards.length + 1,
+                        })
+                      }}
+                      className="inline-flex items-center gap-2 rounded-xl bg-[#D3B47C] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[#100E0D] hover:bg-[#D3B47C]/90 shadow transition"
+                    >
+                      <Plus className="h-4 w-4" />
+                      <span>Novo Tipo</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Grid dos Cards de Celebração da Home */}
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {celebrationCards.map((card) => (
+                  <div
+                    key={card.id}
+                    className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border transition duration-300 ${
+                      card.active === false
+                        ? "border-white/5 bg-[#12100E] opacity-60"
+                        : "border-white/10 bg-[#161311] hover:border-[#D3B47C]/50 shadow-lg"
+                    }`}
+                  >
+                    {/* Imagem do Card */}
+                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/50">
+                      <Image
+                        src={card.image}
+                        alt={card.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 33vw"
+                        className={`object-cover ${card.imagePosition || "object-[center_12%]"} filter brightness-95`}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#161311] via-black/20 to-transparent" />
+
+                      {/* Badges sobrepostos */}
+                      <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
+                        <span className="rounded-md bg-black/75 px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-[#D3B47C] backdrop-blur-md border border-[#D3B47C]/20">
+                          {card.category}
+                        </span>
+                        <span
+                          className={`rounded-md px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-wider backdrop-blur-md ${
+                            card.active !== false
+                              ? "bg-emerald-900/80 text-emerald-300 border border-emerald-500/30"
+                              : "bg-red-900/80 text-red-300 border border-red-500/30"
+                          }`}
+                        >
+                          {card.active !== false ? "Na Home" : "Oculto"}
+                        </span>
+                      </div>
+
+                      {/* Botão rápido para trocar foto */}
+                      <button
+                        onClick={() => {
+                          setIsCreatingCard(false)
+                          setEditingCard({ ...card })
+                        }}
+                        className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-lg bg-black/80 px-2.5 py-1.5 text-[0.68rem] font-semibold text-white backdrop-blur-md border border-white/20 hover:border-[#D3B47C] hover:text-[#D3B47C] transition cursor-pointer"
+                      >
+                        <Camera className="h-3 w-3" />
+                        <span>Trocar Foto</span>
+                      </button>
+                    </div>
+
+                    {/* Conteúdo do Card */}
+                    <div className="flex flex-1 flex-col justify-between p-5 space-y-4">
+                      <div>
+                        <span className="text-[0.62rem] font-bold uppercase tracking-widest text-[#D3B47C]/80">
+                          {card.category}
+                        </span>
+                        <h3 className="mt-1 font-serif text-lg text-white font-normal line-clamp-1">
+                          {card.title}
+                        </h3>
+                        <p className="mt-1.5 text-xs text-[#ABA29A] line-clamp-2 leading-relaxed">
+                          {card.description}
+                        </p>
+                      </div>
+
+                      <div className="space-y-3 pt-3 border-t border-white/10">
+                        <div className="flex items-center justify-between text-[0.7rem] text-[#ABA29A]">
+                          <span className="font-mono text-white/60 truncate max-w-[140px]">{card.href}</span>
+                          <span className="text-[#D3B47C] font-semibold uppercase">{card.buttonText || "VER DETALHES"}</span>
+                        </div>
+
+                        <div className="flex items-center justify-between gap-2 pt-1">
+                          <button
+                            onClick={() => {
+                              setIsCreatingCard(false)
+                              setEditingCard({ ...card })
+                            }}
+                            className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-[#D3B47C]/30 bg-[#1C1816] py-2 text-xs font-semibold text-[#D3B47C] hover:bg-[#D3B47C] hover:text-[#100E0D] transition"
+                          >
+                            <Edit3 className="h-3.5 w-3.5" />
+                            <span>Editar Card & Imagem</span>
+                          </button>
+
+                          <button
+                            onClick={() => handleToggleCardActive(card.id, card.active === false ? true : false)}
+                            className="rounded-xl border border-white/10 bg-[#1C1816] p-2 text-[#ABA29A] hover:text-white transition"
+                            title={card.active === false ? "Tornar visível na Home" : "Ocultar da Home"}
+                          >
+                            {card.active === false ? <Eye className="h-4 w-4 text-amber-400" /> : <EyeOff className="h-4 w-4" />}
+                          </button>
+
+                          {celebrationCards.length > 1 && (
+                            <button
+                              onClick={() => handleDeleteCard(card.id)}
+                              className="rounded-xl border border-red-500/20 bg-red-500/10 p-2 text-red-400 hover:bg-red-500/20 transition"
+                              title="Remover tipo de celebração"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* SEÇÃO 2: AGENDAMENTO OPERACIONAL DE CELEBRAÇÕES */}
+              <div className="mt-12 rounded-2xl border border-white/10 bg-[#161311] p-6 lg:p-8">
+                <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#D3B47C]">
+                  AGENDA OPERACIONAL DÚNIA CITY HALL
+                </span>
+                <h3 className="mt-1 font-serif text-2xl text-white">Cadastrar Nova Celebração na Agenda</h3>
+                <p className="mt-1 text-xs text-[#ABA29A] max-w-xl">
+                  Adicione uma nova data oficial de celebração no sistema para associar anfitriões, convidados e gestão do evento.
+                </p>
+
+                <form onSubmit={handleCreateCelebrationSubmit} className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  <div>
+                    <label className="block text-[0.7rem] font-semibold uppercase tracking-wider text-[#ABA29A]">
+                      Nome da Celebração
+                    </label>
+                    <input
+                      type="text"
+                      value={criadorName}
+                      onChange={(e) => setCriadorName(e.target.value)}
+                      placeholder="Ex: Amanda & Lucas ou 15 Anos Laura"
+                      className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-3.5 py-2.5 text-xs text-white focus:border-[#D3B47C] focus:outline-none"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[0.7rem] font-semibold uppercase tracking-wider text-[#ABA29A]">
+                      Tipo de Evento
+                    </label>
+                    <select
+                      value={criadorCategory}
+                      onChange={(e) => setCriadorCategory(e.target.value as any)}
+                      className="mt-1.5 w-full rounded-xl border border-white/15 bg-[#1C1816] px-3.5 py-2.5 text-xs text-white focus:border-[#D3B47C] focus:outline-none"
+                    >
+                      <option value="Casamento">Casamento</option>
+                      <option value="15 Anos">15 Anos</option>
+                      <option value="Corporativo / Gala">Corporativo / Gala</option>
+                      <option value="Bodas">Bodas</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[0.7rem] font-semibold uppercase tracking-wider text-[#ABA29A]">
+                      Data do Evento
+                    </label>
+                    <input
+                      type="date"
+                      value={criadorDate}
+                      onChange={(e) => setCriadorDate(e.target.value)}
+                      className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-3.5 py-2.5 text-xs text-white focus:border-[#D3B47C] focus:outline-none"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[0.7rem] font-semibold uppercase tracking-wider text-[#ABA29A]">
+                      Espaço Contratado
+                    </label>
+                    <select
+                      value={criadorVenue}
+                      onChange={(e) => setCriadorVenue(e.target.value)}
+                      className="mt-1.5 w-full rounded-xl border border-white/15 bg-[#1C1816] px-3.5 py-2.5 text-xs text-white focus:border-[#D3B47C] focus:outline-none"
+                    >
+                      <option value="Salão Imperial">Salão Imperial (Até 1.200 pax)</option>
+                      <option value="Espaço Cristal">Espaço Cristal (Até 400 pax)</option>
+                      <option value="Jardim Imperial">Jardim Imperial & Espelho</option>
+                      <option value="Todos os Espaços">Todos os Espaços Integrados</option>
+                    </select>
+                  </div>
+
+                  <div className="sm:col-span-2 lg:col-span-4 flex justify-end pt-2">
+                    <button
+                      type="submit"
+                      className="inline-flex items-center gap-2 rounded-xl bg-[#D3B47C] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#100E0D] hover:bg-[#D3B47C]/90 transition"
+                    >
+                      <Plus className="h-4 w-4" />
+                      <span>Gravar na Agenda Operacional</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
         </main>
       </div>
+
+      {/* Modal de Edição de Card de Celebração (Home) com Seletor Visual de Fotos */}
+      {editingCard && (
+        <div
+          onClick={() => {
+            setEditingCard(null)
+            setIsCreatingCard(false)
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-4xl overflow-hidden rounded-3xl border border-white/20 bg-[#161311] shadow-2xl max-h-[92vh] overflow-y-auto p-6 sm:p-8"
+          >
+            <button
+              onClick={() => {
+                setEditingCard(null)
+                setIsCreatingCard(false)
+              }}
+              className="absolute right-5 top-5 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black cursor-pointer border border-white/20"
+              aria-label="Fechar"
+            >
+              ✕
+            </button>
+
+            <div>
+              <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#D3B47C]">
+                EDITOR VISUAL • SEÇÃO CENÁRIOS DA HOME
+              </span>
+              <h2 className="mt-1 font-serif text-2xl text-white sm:text-3xl">
+                {isCreatingCard ? "Cadastrar Novo Tipo de Celebração" : `Editar: ${editingCard.category}`}
+              </h2>
+              <p className="mt-1 text-xs text-[#ABA29A]">
+                Altere a imagem do acervo, título, textos e links. Visualize o resultado antes de salvar na Home.
+              </p>
+            </div>
+
+            <div className="mt-6 grid gap-8 lg:grid-cols-12">
+              {/* COLUNA ESQUERDA: PREVIEW DO CARD & SELEÇÃO DE FOTO DO ACERVO */}
+              <div className="lg:col-span-6 space-y-5">
+                {/* Visual Preview do Card */}
+                <div>
+                  <label className="block text-[0.65rem] font-bold uppercase tracking-wider text-[#D3B47C] mb-2">
+                    Pré-visualização do Card na Home
+                  </label>
+                  <div className="relative overflow-hidden rounded-xl border border-[#D3B47C]/40 bg-[#141210] shadow-xl">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/40">
+                      <Image
+                        src={editingCard.image || "/assets/casal.jpg"}
+                        alt={editingCard.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 50vw"
+                        className={`object-cover ${editingCard.imagePosition || "object-[center_12%]"} filter brightness-95`}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#141210] via-black/20 to-transparent" />
+                      <span className="absolute top-3 left-3 rounded-md bg-black/75 px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-[#D3B47C] backdrop-blur-md border border-[#D3B47C]/20">
+                        {editingCard.category || "CATEGORIA"}
+                      </span>
+                    </div>
+                    <div className="p-4 space-y-2">
+                      <h4 className="font-serif text-lg text-white font-normal line-clamp-1">
+                        {editingCard.title || "Título da Celebração"}
+                      </h4>
+                      <p className="text-xs text-[#ABA29A] line-clamp-2 leading-relaxed">
+                        {editingCard.description || "Descrição curta da celebração..."}
+                      </p>
+                      <div className="flex items-center justify-between border-t border-white/10 pt-2.5 text-[0.7rem]">
+                        <span className="text-[#D3B47C] font-semibold uppercase">
+                          {editingCard.buttonText || "VER DETALHES"} →
+                        </span>
+                        {editingCard.hasMinisiteBadge && commercialMode !== "light" && (
+                          <span className="text-[0.6rem] text-white/50 uppercase tracking-wider">
+                            Mini-site incluso
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Seletor Visual de Fotos do Acervo Dúnia */}
+                <div className="rounded-2xl border border-white/10 bg-[#12100E] p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="text-[0.7rem] font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
+                      <Camera className="h-3.5 w-3.5 text-[#D3B47C]" />
+                      <span>Fotos do Acervo Dúnia</span>
+                    </label>
+                    <span className="text-[0.65rem] text-[#ABA29A]">Clique para aplicar</span>
+                  </div>
+
+                  {/* Filtros de categoria do acervo */}
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {[
+                      { key: "all", label: "Todas" },
+                      { key: "casamento", label: "Casamentos" },
+                      { key: "debutante", label: "15 Anos" },
+                      { key: "corporativo", label: "Corporativo" },
+                      { key: "buffet", label: "Buffet" },
+                      { key: "salao", label: "Salão" },
+                      { key: "jardim", label: "Jardim" },
+                    ].map((f) => (
+                      <button
+                        key={f.key}
+                        type="button"
+                        onClick={() => setSelectedPhotoCategory(f.key)}
+                        className={`rounded-lg px-2.5 py-1 text-[0.65rem] font-medium transition ${
+                          selectedPhotoCategory === f.key
+                            ? "bg-[#D3B47C] text-[#100E0D] font-bold"
+                            : "bg-white/5 text-[#ABA29A] hover:bg-white/10 hover:text-white"
+                        }`}
+                      >
+                        {f.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Grid de miniaturas do acervo */}
+                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 max-h-48 overflow-y-auto pr-1">
+                    {ACERVO_DUNIA_PHOTOS
+                      .filter((p) => selectedPhotoCategory === "all" || p.category === selectedPhotoCategory)
+                      .map((p) => (
+                        <button
+                          key={p.url}
+                          type="button"
+                          onClick={() => setEditingCard({ ...editingCard, image: p.url })}
+                          title={p.label}
+                          className={`relative aspect-square overflow-hidden rounded-lg border-2 transition ${
+                            editingCard.image === p.url
+                              ? "border-[#D3B47C] scale-95 shadow-md shadow-[#D3B47C]/30"
+                              : "border-transparent opacity-75 hover:opacity-100 hover:border-white/40"
+                          }`}
+                        >
+                          <Image src={p.url} alt={p.label} fill sizes="80px" className="object-cover" />
+                          {editingCard.image === p.url && (
+                            <div className="absolute inset-0 bg-[#D3B47C]/20 flex items-center justify-center">
+                              <span className="text-white text-xs drop-shadow font-bold">✓</span>
+                            </div>
+                          )}
+                        </button>
+                      ))}
+                  </div>
+
+                  {/* URL customizada / Externa */}
+                  <div className="mt-3 pt-3 border-t border-white/10">
+                    <label className="block text-[0.65rem] font-semibold uppercase tracking-wider text-[#ABA29A]">
+                      Ou digite URL customizada da imagem
+                    </label>
+                    <input
+                      type="text"
+                      value={editingCard.image}
+                      onChange={(e) => setEditingCard({ ...editingCard, image: e.target.value })}
+                      placeholder="/assets/casal.jpg ou https://..."
+                      className="mt-1 w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2 text-xs font-mono text-white focus:border-[#D3B47C] focus:outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* COLUNA DIREITA: CAMPOS DO FORMULÁRIO */}
+              <div className="lg:col-span-6 space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#ABA29A]">
+                    Categoria / Badge Superior
+                  </label>
+                  <input
+                    type="text"
+                    value={editingCard.category}
+                    onChange={(e) => setEditingCard({ ...editingCard, category: e.target.value })}
+                    placeholder="Ex: CASAMENTOS DOS SONHOS"
+                    className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-xs text-white focus:border-[#D3B47C] focus:outline-none"
+                    required
+                  />
+                  <small className="text-[0.65rem] text-[#ABA29A] mt-0.5 block">Exibido em caixa alta com acabamento dourado</small>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#ABA29A]">
+                    Título Principal do Card
+                  </label>
+                  <input
+                    type="text"
+                    value={editingCard.title}
+                    onChange={(e) => setEditingCard({ ...editingCard, title: e.target.value })}
+                    placeholder="Ex: O Cenário dos Sonhos Para o Sim"
+                    className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm text-white focus:border-[#D3B47C] focus:outline-none"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#ABA29A]">
+                    Descrição Curta (Linha Fina)
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={editingCard.description}
+                    onChange={(e) => setEditingCard({ ...editingCard, description: e.target.value })}
+                    placeholder="Texto conciso explicando o diferencial deste tipo de celebração..."
+                    className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-xs text-white focus:border-[#D3B47C] focus:outline-none leading-relaxed"
+                    required
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-[#ABA29A]">
+                      Link de Destino
+                    </label>
+                    <input
+                      type="text"
+                      value={editingCard.href}
+                      onChange={(e) => setEditingCard({ ...editingCard, href: e.target.value })}
+                      placeholder="/casamento ou /contato"
+                      className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-3.5 py-2.5 text-xs font-mono text-white focus:border-[#D3B47C] focus:outline-none"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-[#ABA29A]">
+                      Texto do Botão
+                    </label>
+                    <input
+                      type="text"
+                      value={editingCard.buttonText || "VER DETALHES"}
+                      onChange={(e) => setEditingCard({ ...editingCard, buttonText: e.target.value })}
+                      placeholder="CONHECER ESPAÇO"
+                      className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-3.5 py-2.5 text-xs text-white focus:border-[#D3B47C] focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#ABA29A]">
+                    Alinhamento Vertical da Foto
+                  </label>
+                  <select
+                    value={editingCard.imagePosition || "object-[center_12%]"}
+                    onChange={(e) => setEditingCard({ ...editingCard, imagePosition: e.target.value })}
+                    className="mt-1.5 w-full rounded-xl border border-white/15 bg-[#1C1816] px-3.5 py-2.5 text-xs text-white focus:border-[#D3B47C] focus:outline-none"
+                  >
+                    <option value="object-[center_8%]">Foco no Topo Suave (8%)</option>
+                    <option value="object-[center_12%]">Foco Clássico Rostos / Pessoas (12%)</option>
+                    <option value="object-[center_18%]">Foco Intermediário Mesas & Doces (18%)</option>
+                    <option value="object-[center_25%]">Foco Cenográfico Ampliado (25%)</option>
+                    <option value="object-[center_35%]">Foco Jardins / Ar Livre (35%)</option>
+                    <option value="object-center">Centro Absoluto (50%)</option>
+                  </select>
+                </div>
+
+                {/* Opções de visualização */}
+                <div className="space-y-3 pt-3 border-t border-white/10">
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editingCard.active !== false}
+                      onChange={(e) => setEditingCard({ ...editingCard, active: e.target.checked })}
+                      className="h-5 w-5 rounded accent-[#D3B47C] cursor-pointer"
+                    />
+                    <span className="text-xs text-white">Exibir este card na seção Cenários da Home</span>
+                  </label>
+
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={Boolean(editingCard.hasMinisiteBadge)}
+                      onChange={(e) => setEditingCard({ ...editingCard, hasMinisiteBadge: e.target.checked })}
+                      className="h-5 w-5 rounded accent-[#D3B47C] cursor-pointer"
+                    />
+                    <span className="text-xs text-[#ABA29A]">
+                      Incluir selo &ldquo;Mini-site incluso&rdquo; (visível apenas no plano Experience OS)
+                    </span>
+                  </label>
+                </div>
+
+                {/* Botões de Ação */}
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEditingCard(null)
+                      setIsCreatingCard(false)
+                    }}
+                    className="rounded-xl border border-white/10 bg-transparent px-5 py-2.5 text-xs text-[#ABA29A] hover:text-white transition"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleSaveCelebrationCard()}
+                    className="rounded-xl bg-[#D3B47C] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-[#100E0D] hover:bg-[#D3B47C]/90 shadow transition"
+                  >
+                    Salvar Alterações na Home
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal de Leitura da Revista Dúnia */}
       {selectedArticleModal && (

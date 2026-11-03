@@ -1,6 +1,15 @@
 "use client"
 
-import { getStoredArticles, DEFAULT_DUNIA_ARTICLES, type DuniaArticle, getCommercialMode, type DuniaCommercialMode } from "@/lib/dunia-store"
+import {
+  getStoredArticles,
+  DEFAULT_DUNIA_ARTICLES,
+  type DuniaArticle,
+  getCommercialMode,
+  type DuniaCommercialMode,
+  getStoredCelebrationCards,
+  DEFAULT_CELEBRATION_CARDS,
+  type DuniaCelebrationCard,
+} from "@/lib/dunia-store"
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
@@ -152,6 +161,7 @@ export default function Home() {
   const [showAllArticles, setShowAllArticles] = useState(false)
   const [articlesList, setArticlesList] = useState<DuniaArticle[]>(DEFAULT_DUNIA_ARTICLES)
   const [selectedArticle, setSelectedArticle] = useState<DuniaArticle | null>(null)
+  const [celebrationCards, setCelebrationCards] = useState<DuniaCelebrationCard[]>(DEFAULT_CELEBRATION_CARDS)
 
   useEffect(() => {
     setCommercialMode(getCommercialMode())
@@ -160,16 +170,25 @@ export default function Home() {
     }
     window.addEventListener("dunia-mode-change", onModeChange)
 
-    const load = () => {
+    const loadArticles = () => {
       const stored = getStoredArticles()
       const publicOnly = stored.filter((a) => a.status !== "rascunho")
       setArticlesList(publicOnly.length > 0 ? publicOnly : DEFAULT_DUNIA_ARTICLES)
     }
-    load()
-    window.addEventListener("dunia-articles-change", load)
+    loadArticles()
+    window.addEventListener("dunia-articles-change", loadArticles)
+
+    const loadCelebrations = () => {
+      const stored = getStoredCelebrationCards()
+      setCelebrationCards(stored && stored.length > 0 ? stored : DEFAULT_CELEBRATION_CARDS)
+    }
+    loadCelebrations()
+    window.addEventListener("dunia-celebrations-change", loadCelebrations)
+
     return () => {
       window.removeEventListener("dunia-mode-change", onModeChange)
-      window.removeEventListener("dunia-articles-change", load)
+      window.removeEventListener("dunia-articles-change", loadArticles)
+      window.removeEventListener("dunia-celebrations-change", loadCelebrations)
     }
   }, [])
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -516,218 +535,53 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Grid Perfeitamente Simétrico 3x2 com Proporções Fotográficas que Não Cortam Cabeças nem Lustres */}
+          {/* Grid Perfeitamente Simétrico com Proporções Fotográficas */}
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {/* 1. Casamentos */}
-            <Link
-              href="/casamento"
-              className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-[#141210] shadow-lg transition duration-500 hover:-translate-y-1 hover:border-[#D3B47C]/50"
-            >
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/40">
-                <Image
-                  src="/assets/casal.jpg"
-                  alt="Casamento no Dúnia City Hall"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover object-[center_12%] transition duration-700 group-hover:scale-105 filter brightness-95"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#141210] via-black/20 to-transparent" />
-              </div>
-              <div className="flex flex-1 flex-col justify-between p-5">
-                <div>
-                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
-                    CASAMENTOS DOS SONHOS
-                  </span>
-                  <h3 className="mt-1 font-serif text-xl font-normal text-white">
-                    O Cenário dos Sonhos Para o Sim
-                  </h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-[#ABA29A] line-clamp-2">
-                    Desde 2008 eternizando momentos com elegância. Espaço da Noiva exclusivo e lustres de cristal.
-                  </p>
-                </div>
-                <div className="mt-3.5 flex items-center justify-between border-t border-white/10 pt-3">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#D3B47C] group-hover:text-white transition">
-                    CONHECER ESPAÇO <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </span>
-                  <span className="text-[0.65rem] text-white/50 uppercase tracking-wider">Mini-site incluso</span>
-                </div>
-              </div>
-            </Link>
-
-            {/* 2. 15 Anos */}
-            <Link
-              href="/debutante"
-              className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-[#141210] shadow-lg transition duration-500 hover:-translate-y-1 hover:border-[#D3B47C]/50"
-            >
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/40">
-                <Image
-                  src="/assets/debutante.jpg"
-                  alt="Debutantes no Dúnia City Hall"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover object-[center_8%] transition duration-700 group-hover:scale-105 filter brightness-95"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#141210] via-black/20 to-transparent" />
-              </div>
-              <div className="flex flex-1 flex-col justify-between p-5">
-                <div>
-                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
-                    15 ANOS LENDÁRIOS
-                  </span>
-                  <h3 className="mt-1 font-serif text-xl font-normal text-white">
-                    O Baile Perfeito Para Brilhar
-                  </h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-[#ABA29A] line-clamp-2">
-                    Pista de dança integrada, iluminação cenográfica de ponta e ambientes instagramáveis.
-                  </p>
-                </div>
-                <div className="mt-3.5 border-t border-white/10 pt-3">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#D3B47C] group-hover:text-white transition">
-                    VER DETALHES <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </div>
-            </Link>
-
-            {/* 3. Corporativo & Gala */}
-            <Link
-              href="/corporativo"
-              className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-[#141210] shadow-lg transition duration-500 hover:-translate-y-1 hover:border-[#D3B47C]/50"
-            >
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/40">
-                <Image
-                  src="/assets/corporativo.jpg"
-                  alt="Eventos Corporativos no Dúnia"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover object-[center_25%] transition duration-700 group-hover:scale-105 filter brightness-95"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#141210] via-black/20 to-transparent" />
-              </div>
-              <div className="flex flex-1 flex-col justify-between p-5">
-                <div>
-                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
-                    CORPORATIVO & GALA
-                  </span>
-                  <h3 className="mt-1 font-serif text-xl font-normal text-white">
-                    Convenções & Premiações
-                  </h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-[#ABA29A] line-clamp-2">
-                    Isolamento acústico de padrão internacional, climatização inteligente e gerador próprio.
-                  </p>
-                </div>
-                <div className="mt-3.5 border-t border-white/10 pt-3">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#D3B47C] group-hover:text-white transition">
-                    VER DETALHES <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </div>
-            </Link>
-
-            {/* 4. Buffet Dúnia */}
-            <Link
-              href="/buffet"
-              className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-[#141210] shadow-lg transition duration-500 hover:-translate-y-1 hover:border-[#D3B47C]/50"
-            >
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/40">
-                <Image
-                  src="/assets/mesa.jpg"
-                  alt="Gastronomia Autoral Buffet Dúnia"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover object-[center_18%] transition duration-700 group-hover:scale-105 filter brightness-95"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#141210] via-black/20 to-transparent" />
-              </div>
-              <div className="flex flex-1 flex-col justify-between p-5">
-                <div>
-                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
-                    GASTRONOMIA AUTORAL
-                  </span>
-                  <h3 className="mt-1 font-serif text-xl font-normal text-white">
-                    Buffet Dúnia: Alta Cozinha
-                  </h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-[#ABA29A] line-clamp-2">
-                    Cardápios sob medida assinados por chefs, coquetéis volantes, ilhas gourmet e ceias refinadas.
-                  </p>
-                </div>
-                <div className="mt-3.5 border-t border-white/10 pt-3">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#D3B47C] group-hover:text-white transition">
-                    CONHECER BUFFET <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </div>
-            </Link>
-
-            {/* 5. Embaixadas */}
-            <Link
-              href="/embaixadas"
-              className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-[#141210] shadow-lg transition duration-500 hover:-translate-y-1 hover:border-[#D3B47C]/50"
-            >
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/40">
-                <Image
-                  src="/assets/salao.jpg"
-                  alt="Recepções Diplomáticas no Dúnia"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover object-[center_15%] transition duration-700 group-hover:scale-105 filter brightness-95"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#141210] via-black/20 to-transparent" />
-              </div>
-              <div className="flex flex-1 flex-col justify-between p-5">
-                <div>
-                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
-                    DIPLOMACIA & ESTADO
-                  </span>
-                  <h3 className="mt-1 font-serif text-xl font-normal text-white">
-                    Embaixadas & Recepções
-                  </h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-[#ABA29A] line-clamp-2">
-                    Protocolo diplomático rigoroso, segurança VIP e localização estratégica nobre no Lago Sul.
-                  </p>
-                </div>
-                <div className="mt-3.5 border-t border-white/10 pt-3">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#D3B47C] group-hover:text-white transition">
-                    VER PROTOCOLO <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </div>
-            </Link>
-
-            {/* 6. Jardim & Áreas Verdes */}
-            <Link
-              href="/jardim"
-              className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-[#141210] shadow-lg transition duration-500 hover:-translate-y-1 hover:border-[#D3B47C]/50"
-            >
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/40">
-                <Image
-                  src="/assets/jardim.jpg"
-                  alt="Jardim e Área Externa Dúnia"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover object-[center_35%] transition duration-700 group-hover:scale-105 filter brightness-95"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#141210] via-black/20 to-transparent" />
-              </div>
-              <div className="flex flex-1 flex-col justify-between p-5">
-                <div>
-                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
-                    NATUREZA & AR LIVRE
-                  </span>
-                  <h3 className="mt-1 font-serif text-xl font-normal text-white">
-                    Jardim & Celebrações ao Ar Livre
-                  </h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-[#ABA29A] line-clamp-2">
-                    Paisagismo maduro, iluminação de árvores e pergolado para cerimônias ao pôr do sol.
-                  </p>
-                </div>
-                <div className="mt-3.5 border-t border-white/10 pt-3">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#D3B47C] group-hover:text-white transition">
-                    VER JARDIM <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </div>
-            </Link>
+            {celebrationCards
+              .filter((card) => card.active !== false)
+              .sort((a, b) => (a.order || 0) - (b.order || 0))
+              .map((card) => (
+                <Link
+                  key={card.id}
+                  href={card.href}
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-[#141210] shadow-lg transition duration-500 hover:-translate-y-1 hover:border-[#D3B47C]/50"
+                >
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/40">
+                    <Image
+                      src={card.image}
+                      alt={card.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className={`object-cover ${card.imagePosition || "object-[center_12%]"} transition duration-700 group-hover:scale-105 filter brightness-95`}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#141210] via-black/20 to-transparent" />
+                  </div>
+                  <div className="flex flex-1 flex-col justify-between p-5">
+                    <div>
+                      <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
+                        {card.category}
+                      </span>
+                      <h3 className="mt-1 font-serif text-xl font-normal text-white">
+                        {card.title}
+                      </h3>
+                      <p className="mt-1.5 text-xs leading-relaxed text-[#ABA29A] line-clamp-2">
+                        {card.description}
+                      </p>
+                    </div>
+                    <div className="mt-3.5 flex items-center justify-between border-t border-white/10 pt-3">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#D3B47C] group-hover:text-white transition">
+                        {card.buttonText || "VER DETALHES"}{" "}
+                        <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                      </span>
+                      {commercialMode !== "light" && card.hasMinisiteBadge && (
+                        <span className="text-[0.65rem] text-white/50 uppercase tracking-wider">
+                          Mini-site incluso
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              ))}
           </div>
         </section>
 
