@@ -54,6 +54,7 @@ import {
   setCommercialMode,
   type DuniaCommercialMode,
 } from "@/lib/dunia-store"
+import CommercialTutorialModal from "@/components/evento/comercial-tutorial-modal"
 import {
   getStorytellingForEvent,
   type EventStorytelling,
@@ -92,6 +93,7 @@ export default function EventoPage() {
 
   // Countdown State
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+  const [commercialTutorialOpen, setCommercialTutorialOpen] = useState(false)
 
   // Initialize
   useEffect(() => {
@@ -395,10 +397,25 @@ END:VCALENDAR`
           </div>
 
           {/* Links e Botão de Ação */}
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* BOTÃO GUIA COMERCIAL / TUTORIAL INTERATIVO */}
+            <button
+              onClick={() => setCommercialTutorialOpen(true)}
+              className="group relative inline-flex items-center gap-1.5 rounded-full border border-[#D3B47C] bg-gradient-to-r from-[#D3B47C]/25 via-[#D3B47C]/15 to-[#D3B47C]/25 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[#E2C799] shadow-[0_0_15px_rgba(211,180,124,0.3)] transition-all hover:scale-105 hover:bg-[#D3B47C] hover:text-[#120F0D]"
+              title="Abrir o tutorial comercial da plataforma e roteiro de apresentação"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-[#D3B47C] group-hover:text-[#120F0D]" />
+              <span className="hidden lg:inline">Tutorial Comercial</span>
+              <span className="lg:hidden">Tutorial</span>
+              <span className="inline-block rounded bg-[#D3B47C] px-1 py-0.2 text-[0.58rem] font-extrabold text-[#120F0D] group-hover:bg-[#120F0D] group-hover:text-[#D3B47C]">
+                PITCH
+              </span>
+            </button>
+
             <Link
               href="/evento/telao"
               target="_blank"
+              title="Abrir a projeção em tempo real que roda nos telões de LED do salão durante o evento"
               className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/80 transition hover:border-[#D3B47C] hover:text-[#D3B47C]"
             >
               <Tv className="h-3.5 w-3.5 text-[#D3B47C]" />
@@ -407,6 +424,7 @@ END:VCALENDAR`
 
             <a
               href="#qrcode-section"
+              title="Simular a experiência do convidado na mesa escaneando para enviar fotos e mensagens"
               className="inline-flex items-center gap-1.5 rounded-lg border border-[#D3B47C]/40 bg-[#D3B47C]/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[#D3B47C] transition hover:bg-[#D3B47C]/20"
             >
               <QrCode className="h-3.5 w-3.5" />
@@ -1739,6 +1757,24 @@ END:VCALENDAR`
           </div>
         </div>
       )}
+
+      {/* MODAL TUTORIAL & GUIA COMERCIAL */}
+      <CommercialTutorialModal
+        isOpen={commercialTutorialOpen}
+        onClose={() => setCommercialTutorialOpen(false)}
+        onSwitchEvent={handleSwitchEvent}
+      />
+
+      {/* PÍLULA FLUTUANTE DE APRESENTAÇÃO COMERCIAL */}
+      <div className="fixed bottom-5 right-5 z-40 hidden sm:flex items-center gap-2">
+        <button
+          onClick={() => setCommercialTutorialOpen(true)}
+          className="group flex items-center gap-2 rounded-full border border-[#D3B47C]/60 bg-[#14110F]/95 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[#D3B47C] shadow-[0_10px_30px_rgba(0,0,0,0.85),0_0_20px_rgba(211,180,124,0.3)] backdrop-blur-xl hover:scale-105 hover:border-[#D3B47C] hover:bg-[#D3B47C] hover:text-[#120F0D] transition-all"
+        >
+          <Sparkles className="h-4 w-4" />
+          <span>Tutorial & Pitch Comercial</span>
+        </button>
+      </div>
     </div>
   )
 }
