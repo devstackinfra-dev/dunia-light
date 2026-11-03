@@ -78,7 +78,7 @@ export default function DuniaBackground() {
 
       {/* 2. TELA ATMOSFÉRICA FIXA: ILUMINAÇÃO CÊNICA DE SALÃO MONUMENTAL */}
       <div
-        className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
         aria-hidden="true"
       >
         {/* 2.1 BASE VELUDO OBSIDIAN & VINHETA TEATRAL PROFUNDA */}

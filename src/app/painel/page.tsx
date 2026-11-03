@@ -602,7 +602,7 @@ export default function PainelCasalPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-[#0C0A09] text-[#F3EEE6] antialiased">
+    <div className="relative z-10 flex min-h-screen bg-[#0C0A09] text-[#F3EEE6] antialiased">
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-xl border border-[#D3B47C]/40 bg-[#1A1715] px-5 py-3 text-xs font-semibold text-[#D3B47C] shadow-2xl backdrop-blur-md">
@@ -612,7 +612,7 @@ export default function PainelCasalPage() {
       )}
 
       {/* Sidebar Desktop */}
-      <aside className="hidden w-64 shrink-0 flex-col justify-between border-r border-white/10 bg-[#100E0D] p-6 lg:flex">
+      <aside className="hidden w-64 shrink-0 flex-col justify-between border-r border-white/10 bg-[#100E0D] p-6 lg:flex overflow-y-auto">
         <div className="space-y-8">
           <Link href="/" className="block">
             <Image
@@ -873,9 +873,6 @@ export default function PainelCasalPage() {
                   </div>
                 </div>
 
-                {/* RELATÓRIO DE BUFFET & RESTRIÇÕES ALIMENTARES */}
-                <PainelBuffetDietaryCard event={event} guests={guests} onNotify={notify} />
-
                 {/* Últimos Retornos de RSVP */}
                 <div className="rounded-2xl border border-white/10 bg-[#161311] p-6">
                   <h3 className="font-serif text-lg text-white">Últimas Respostas</h3>
@@ -905,6 +902,9 @@ export default function PainelCasalPage() {
                   </div>
                 </div>
               </div>
+
+              {/* RELATÓRIO DE BUFFET & RESTRIÇÕES ALIMENTARES · ALTA GASTRONOMIA DÚNIA */}
+              <PainelBuffetDietaryCard event={event} guests={guests} onNotify={notify} />
             </div>
           )}
 

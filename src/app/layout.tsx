@@ -163,7 +163,9 @@ export default async function RootLayout({
         )}
         <DuniaBackground />
         <ConteudoProvider conteudo={conteudo}>
-          {children}
+          <div className="relative z-10 flex min-h-screen flex-col">
+            {children}
+          </div>
           {/* <WhatsAppNotification /> */}
         </ConteudoProvider>
       </body>
