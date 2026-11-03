@@ -84,9 +84,9 @@ const EVENT_DEMO_EXPLANATIONS: Record<string, EventDemoExplanation> = {
   },
   "ev-clarice": {
     id: "ev-clarice",
-    name: "Clarice & Gustavo",
-    shortLabel: "Clarice",
-    pillLabel: "Clarice (Jardim)",
+    name: "Larissa & Renato",
+    shortLabel: "Larissa",
+    pillLabel: "Larissa (Jardim)",
     niche: "Casamento ao Ar Livre & Pôr do Sol",
     badge: "JARDIM INTEGRADO",
     capacity: "320 Convidados",
@@ -184,10 +184,23 @@ export default function EventoPage() {
     const stored = getStoredEvents()
     setAllEvents(stored)
 
-    const activeId = getActiveEventId()
+    let activeId = getActiveEventId()
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search)
+      const paramEv = urlParams.get("evento")
+      if (paramEv && stored.some((e: any) => e.id === paramEv)) {
+        activeId = paramEv
+        setActiveEventId(paramEv)
+      }
+    }
+
     setSelectedEventId(activeId)
     const current = getEventState(activeId)
     setState(current)
+
+    if (typeof window !== "undefined" && current?.event?.name) {
+      document.title = `${current.event.name} — Dúnia City Hall`
+    }
 
     const storyData = getStorytellingForEvent(activeId)
     setWishesList(storyData.guestWishes)
@@ -205,6 +218,15 @@ export default function EventoPage() {
     const nextStory = getStorytellingForEvent(eventId)
     setWishesList(nextStory.guestWishes)
     setWishSubmitted(false)
+
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href)
+      url.searchParams.set("evento", eventId)
+      window.history.replaceState({}, "", url.toString())
+      if (next?.event?.name) {
+        document.title = `${next.event.name} — Dúnia City Hall`
+      }
+    }
   }
 
   // Countdown timer
@@ -883,10 +905,16 @@ END:VCALENDAR`
             </p>
           </div>
 
-          {/* PAIS DOS NOIVOS */}
+          {/* PAIS / PATRONOS / DIRETORIA */}
           <div className="mb-10">
             <h3 className="mb-4 text-center font-mono text-xs uppercase tracking-[0.25em] text-[#D3B47C]">
-              OS PAIS • NOSSA MAIOR INSPIRAÇÃO
+              {event.category === "15 Anos"
+                ? "MEUS PAIS • MEU MAIOR AMOR"
+                : event.category?.includes("Corporativo")
+                ? "LIDERANÇA INSTITUCIONAL & DIRETORIA"
+                : event.id === "ev-reveillon"
+                ? "PATRONOS DE HONRA DA VIRADA"
+                : "OS PAIS • NOSSA MAIOR INSPIRAÇÃO"}
             </h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {story.honorCourt.parents.map((p, i) => (
@@ -904,10 +932,16 @@ END:VCALENDAR`
             </div>
           </div>
 
-          {/* PADRINHOS & MADRINHAS */}
+          {/* PADRINHOS / COMITÊ / EMBAIXADORES */}
           <div>
             <h3 className="mb-4 text-center font-mono text-xs uppercase tracking-[0.25em] text-[#D3B47C]">
-              CORTE DE PADRINHOS • GUARDIÕES DO NOSSO AMOR
+              {event.category === "15 Anos"
+                ? "DAMAS & CAVALHEIROS DE HONRA • AMIGOS DA VIDA"
+                : event.category?.includes("Corporativo")
+                ? "CORPO DE JURADOS & CONSELHO DELIBERATIVO"
+                : event.id === "ev-reveillon"
+                ? "EMBAIXADORES & MESA DE HONRA"
+                : "CORTE DE PADRINHOS • GUARDIÕES DO NOSSO AMOR"}
             </h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {story.honorCourt.witnesses.map((w, i) => (
@@ -1346,7 +1380,7 @@ END:VCALENDAR`
               Confirmação de Presença
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-[#ABA29A]">
-              Por favor, confirme até o dia <strong>10 de Novembro de 2026</strong> para organizarmos seu lugar e acolhimento com primor.
+              Por favor, confirme sua presença para organizarmos seu lugar e acolhimento com primor no <strong>{event.venue}</strong>.
             </p>
 
             {/* Pílulas de Códigos de Demonstração Rápida */}
@@ -1466,6 +1500,7 @@ END:VCALENDAR`
       </section>
 
       {/* 12. LISTA DE PRESENTES & COTAS DE LUA DE MEL */}
+      {event.modules?.giftListPix !== false && (
       <section className="relative z-10 border-t border-white/10 bg-[#0C0A09] py-20">
         <div className="container mx-auto max-w-4xl px-4 sm:px-6 text-center">
           <Gift className="mx-auto mb-3 h-8 w-8 text-[#D3B47C]" />
@@ -1531,6 +1566,7 @@ END:VCALENDAR`
           </div>
         </div>
       </section>
+      )}
 
       {/* 13. LIVRO DE OURO DIGITAL (RECADOS & VOTOS DOS CONVIDADOS) */}
       <section id="livro-ouro-section" className="relative z-10 border-t border-white/10 bg-[#100E0D] py-24">

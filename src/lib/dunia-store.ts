@@ -204,7 +204,7 @@ export const SEED_EVENTS: DuniaEvent[] = [
   },
   {
     id: "ev-clarice",
-    name: "Clarice & Gustavo",
+    name: "Larissa & Renato",
     date: "2026-11-28",
     time: "17:30",
     venue: "Dúnia City Hall — Jardim Imperial & Salão",
@@ -217,7 +217,7 @@ export const SEED_EVENTS: DuniaEvent[] = [
     welcomePhoto: "/assets/casal.jpg",
     salaoPhoto: "/assets/salao.jpg",
     category: "Casamento",
-    hostAccessCode: "CG2026",
+    hostAccessCode: "LR2026",
     whatsappQuota: 400,
     maxGuests: 350,
     modules: {
@@ -520,7 +520,30 @@ export function getStoredEvents(): DuniaEvent[] {
       return SEED_EVENTS
     }
     const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : SEED_EVENTS
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      // Sincroniza metadados canônicos dos eventos pré-configurados
+      const synced = SEED_EVENTS.map((seed) => {
+        const existing = parsed.find((p: DuniaEvent) => p.id === seed.id)
+        if (!existing) return seed
+        return {
+          ...seed,
+          ...existing,
+          name: seed.name,
+          category: seed.category,
+          date: existing.date || seed.date,
+          time: existing.time || seed.time,
+          venue: existing.venue || seed.venue,
+          welcomePhoto: seed.welcomePhoto,
+          operational: { ...seed.operational, ...existing.operational },
+        }
+      })
+      // Mantém também eventos personalizados adicionais criados no salão
+      const customEvents = parsed.filter((p: DuniaEvent) => !SEED_EVENTS.some((s) => s.id === p.id))
+      const combined = [...synced, ...customEvents]
+      localStorage.setItem(STORE_EVENTS_KEY, JSON.stringify(combined))
+      return combined
+    }
+    return SEED_EVENTS
   } catch {
     return SEED_EVENTS
   }
@@ -563,7 +586,15 @@ export function getEventState(eventId: string): DuniaEventState {
     const raw = localStorage.getItem(stateKey)
     if (raw) {
       const parsed = JSON.parse(raw)
-      if (parsed && parsed.event && Array.isArray(parsed.guests)) {
+      if (parsed && parsed.event && parsed.event.id === currentEvent.id && Array.isArray(parsed.guests)) {
+        parsed.event = {
+          ...currentEvent,
+          ...parsed.event,
+          name: currentEvent.name,
+          category: currentEvent.category,
+          welcomePhoto: currentEvent.welcomePhoto,
+          operational: { ...currentEvent.operational, ...parsed.event.operational },
+        }
         if (!parsed.album) parsed.album = { published: true, expiry: 30 }
         if (!parsed.album.guestPhotos || !Array.isArray(parsed.album.guestPhotos)) {
           parsed.album.guestPhotos = SEED_GUEST_PHOTOS
@@ -572,11 +603,11 @@ export function getEventState(eventId: string): DuniaEventState {
       }
     }
 
-    // Tenta fallback para chave compatível
+    // Tenta fallback para chave legada SOMENTE se for exatamente o mesmo evento
     const legacyRaw = localStorage.getItem(LEGACY_ACTIVE_KEY)
-    if (legacyRaw && currentEvent.id === getActiveEventId()) {
+    if (legacyRaw) {
       const parsed = JSON.parse(legacyRaw)
-      if (parsed && parsed.event && Array.isArray(parsed.guests)) {
+      if (parsed && parsed.event && parsed.event.id === currentEvent.id && Array.isArray(parsed.guests)) {
         if (!parsed.album) parsed.album = { published: true, expiry: 30 }
         if (!parsed.album.guestPhotos || !Array.isArray(parsed.album.guestPhotos)) {
           parsed.album.guestPhotos = SEED_GUEST_PHOTOS
