@@ -35,7 +35,7 @@ export function Areas() {
             alt=""
             className="h-full w-full object-cover object-center filter brightness-[0.25] contrast-[1.1] scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#100E0D]/95 via-[#100E0D]/90 to-[#100E0D]/98" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#100E0D]/95 via-[#100E0D]/90 to-[#100E0D]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,#100E0D_100%)] opacity-80" />
         </div>
       )}

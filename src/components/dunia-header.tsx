@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import {
@@ -28,6 +28,7 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
   const [celebrationsOpen, setCelebrationsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,6 +42,30 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
     handleScroll()
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  // Fechar dropdown ao clicar fora ou pressionar Escape
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setCelebrationsOpen(false)
+      }
+    }
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setCelebrationsOpen(false)
+      }
+    }
+
+    if (celebrationsOpen) {
+      document.addEventListener("mousedown", handleClickOutside)
+      document.addEventListener("keydown", handleKeyDown)
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+      document.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [celebrationsOpen])
 
   const isHome = currentPage === "/"
 
@@ -92,9 +117,9 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        className={`fixed inset-x-0 top-0 z-[100] transition-all duration-300 ${
           scrolled
-            ? "bg-[#0C0A09]/92 py-3 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.85)] border-b border-white/[0.08]"
+            ? "bg-[#0C0A09]/95 py-3 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.85)] border-b border-white/[0.08]"
             : "bg-gradient-to-b from-[#0C0A09]/95 via-[#0C0A09]/75 to-transparent py-4.5 border-b border-white/[0.04]"
         }`}
       >
@@ -116,24 +141,28 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
           </Link>
 
           {/* 2. MENU PRINCIPAL DESKTOP (CENTRALIZADO & REFINADO) */}
-          <nav className="hidden items-center gap-6 xl:gap-8 lg:flex" aria-label="Navegação Principal">
+          <nav className="hidden items-center gap-3.5 xl:gap-6 lg:flex" aria-label="Navegação Principal">
             {/* A Experiência */}
             <Link
               href={isHome ? "#story" : "/#story"}
-              className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/75 transition-colors hover:text-[#D3B47C] whitespace-nowrap"
+              className="text-[0.68rem] xl:text-[0.72rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.2em] text-white/75 transition-colors hover:text-[#D3B47C] whitespace-nowrap"
             >
               A EXPERIÊNCIA
             </Link>
 
             {/* CELEBRAÇÕES (COM MEGA-DROPDOWN LUXUOSO) */}
             <div
+              ref={dropdownRef}
               className="relative"
               onMouseEnter={() => setCelebrationsOpen(true)}
               onMouseLeave={() => setCelebrationsOpen(false)}
             >
               <button
-                className="flex items-center gap-1.5 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/75 transition-colors hover:text-[#D3B47C] whitespace-nowrap cursor-pointer"
+                type="button"
+                className="flex items-center gap-1.5 py-2 text-[0.68rem] xl:text-[0.72rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.2em] text-white/75 transition-colors hover:text-[#D3B47C] whitespace-nowrap cursor-pointer"
                 onClick={() => setCelebrationsOpen(!celebrationsOpen)}
+                aria-expanded={celebrationsOpen}
+                aria-haspopup="true"
               >
                 <span>CELEBRAÇÕES</span>
                 <ChevronDown
@@ -145,9 +174,12 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
 
               {/* Painel Suspenso Luxuoso */}
               {celebrationsOpen && (
-                <div className="absolute left-1/2 top-full -translate-x-1/2 pt-2 z-50 w-[540px] animate-fadeIn">
-                  <div className="rounded-2xl border border-[#D3B47C]/30 bg-[#120F0D]/98 p-4 shadow-[0_25px_60px_rgba(0,0,0,0.9)] backdrop-blur-2xl">
-                    <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3 px-2">
+                <div className="absolute left-1/2 top-full -translate-x-1/2 pt-2 z-[110] w-[560px] max-w-[calc(100vw-2rem)] animate-fadeIn">
+                  <div
+                    style={{ backgroundColor: "#14110F" }}
+                    className="rounded-2xl border-2 border-[#D3B47C]/40 bg-[#14110F] p-4 sm:p-5 shadow-[0_30px_70px_rgba(0,0,0,0.98),0_0_35px_rgba(211,180,124,0.15)] ring-1 ring-black/80"
+                  >
+                    <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3.5 px-2">
                       <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#D3B47C]">
                         CENÁRIOS & EXPERIÊNCIAS DÚNIA
                       </span>
@@ -168,7 +200,7 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
                             className={`group flex items-start gap-3 rounded-xl p-2.5 transition border ${
                               isActive
                                 ? "bg-white/10 border-[#D3B47C]/50"
-                                : "border-transparent hover:bg-white/[0.04] hover:border-white/10"
+                                : "border-transparent hover:bg-white/[0.06] hover:border-white/15"
                             }`}
                           >
                             <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#D3B47C]/15 text-[#D3B47C] group-hover:bg-[#D3B47C] group-hover:text-[#100E0D] transition">
@@ -192,11 +224,11 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
                       })}
                     </div>
 
-                    <div className="mt-3 flex items-center justify-between border-t border-white/10 pt-3 px-2 text-xs">
+                    <div className="mt-3.5 flex items-center justify-between border-t border-white/10 pt-3 px-2 text-xs">
                       <Link
                         href="/sobre"
                         onClick={() => setCelebrationsOpen(false)}
-                        className="text-[0.7rem] text-white/70 hover:text-[#D3B47C] transition flex items-center gap-1"
+                        className="text-[0.7rem] text-white/70 hover:text-[#D3B47C] transition flex items-center gap-1.5"
                       >
                         <Castle className="h-3.5 w-3.5 text-[#D3B47C]" />
                         <span>Conhecer o Salão (2.500 m²)</span>
@@ -218,7 +250,7 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
             {/* Galeria 35mm */}
             <Link
               href={isHome ? "#film" : "/#film"}
-              className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/75 transition-colors hover:text-[#D3B47C] whitespace-nowrap"
+              className="text-[0.68rem] xl:text-[0.72rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.2em] text-white/75 transition-colors hover:text-[#D3B47C] whitespace-nowrap"
             >
               GALERIA 35MM
             </Link>
@@ -226,7 +258,7 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
             {/* O Salão */}
             <Link
               href="/sobre"
-              className={`text-[0.72rem] font-semibold uppercase tracking-[0.2em] transition-colors whitespace-nowrap ${
+              className={`text-[0.68rem] xl:text-[0.72rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.2em] transition-colors whitespace-nowrap ${
                 currentPage === "/sobre"
                   ? "text-[#D3B47C]"
                   : "text-white/75 hover:text-[#D3B47C]"
@@ -238,7 +270,7 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
             {/* Revista Dúnia */}
             <Link
               href={isHome ? "#journal" : "/#journal"}
-              className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/75 transition-colors hover:text-[#D3B47C] whitespace-nowrap"
+              className="text-[0.68rem] xl:text-[0.72rem] font-semibold uppercase tracking-[0.18em] xl:tracking-[0.2em] text-white/75 transition-colors hover:text-[#D3B47C] whitespace-nowrap"
             >
               REVISTA DÚNIA
             </Link>
@@ -290,7 +322,10 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
 
       {/* MENU MOBILE EXPANDIDO EM TELA CHEIA */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 flex flex-col justify-between bg-[#0C0A09]/98 pt-24 pb-8 px-6 backdrop-blur-2xl lg:hidden overflow-y-auto animate-fadeIn">
+        <div
+          style={{ backgroundColor: "#0C0A09" }}
+          className="fixed inset-0 z-[95] flex flex-col justify-between bg-[#0C0A09] pt-24 pb-8 px-6 backdrop-blur-2xl lg:hidden overflow-y-auto animate-fadeIn"
+        >
           <div>
             <div className="mb-6 pb-4 border-b border-white/10 text-center">
               <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#D3B47C]">
