@@ -27,6 +27,7 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [celebrationsOpen, setCelebrationsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -68,6 +69,10 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
   }, [celebrationsOpen])
 
   const isHome = currentPage === "/"
+  // No Hero da Home, o menu fica oculto para dar destaque total ao hero.
+  // Ele aparece ao rolar a página (scrolled) OU ao passar o mouse no topo (isHovered).
+  // Nas demais páginas (!isHome), o menu permanece sempre visível.
+  const isHeaderVisible = !isHome || scrolled || isHovered || celebrationsOpen || mobileMenuOpen
 
   const celebrations = [
     {
@@ -116,8 +121,28 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
 
   return (
     <>
+      {/* SENSOR DE HOVER NO TOPO DO HERO (REVELA O MENU AO APROXIMAR O CURSOR) */}
+      {isHome && !scrolled && (
+        <div
+          onMouseEnter={() => setIsHovered(true)}
+          onTouchStart={() => setIsHovered(true)}
+          className="fixed top-0 inset-x-0 h-16 z-[99] pointer-events-auto bg-transparent"
+          aria-hidden="true"
+        />
+      )}
+
       <header
-        className={`fixed inset-x-0 top-0 z-[100] transition-all duration-300 ${
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => {
+          if (!celebrationsOpen) {
+            setIsHovered(false)
+          }
+        }}
+        className={`fixed inset-x-0 top-0 z-[100] transition-all duration-500 ease-out ${
+          isHeaderVisible
+            ? "opacity-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 -translate-y-full pointer-events-none"
+        } ${
           scrolled
             ? "bg-[#0C0A09]/95 py-3.5 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.88)] border-b border-white/[0.08]"
             : "bg-gradient-to-b from-[#0C0A09]/95 via-[#0C0A09]/75 to-transparent py-5 sm:py-6 border-b border-white/[0.04]"
@@ -129,7 +154,7 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
             <Link
               href="/"
               className={`flex items-center gap-3 transition-all duration-500 ease-out hover:scale-[1.02] ${
-                isHome && !scrolled
+                isHome && !scrolled && !isHovered
                   ? "opacity-0 -translate-y-3 pointer-events-none scale-95"
                   : "opacity-100 translate-y-0 pointer-events-auto scale-100"
               }`}
