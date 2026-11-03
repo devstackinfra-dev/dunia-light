@@ -30,6 +30,16 @@ import {
   ChevronLeft,
   Check,
   Printer,
+  Volume2,
+  Play,
+  Pause,
+  Disc,
+  ScrollText,
+  Users,
+  Shirt,
+  Music2,
+  Quote,
+  Send,
 } from "lucide-react"
 import {
   getStoredEvents,
@@ -44,6 +54,11 @@ import {
   setCommercialMode,
   type DuniaCommercialMode,
 } from "@/lib/dunia-store"
+import {
+  getStorytellingForEvent,
+  type EventStorytelling,
+  type GuestWish,
+} from "@/config/event-storytelling"
 
 export default function EventoPage() {
   const [mounted, setMounted] = useState(false)
@@ -67,6 +82,14 @@ export default function EventoPage() {
   const [lightboxPhoto, setLightboxPhoto] = useState<string | null>(null)
   const [likedPhotos, setLikedPhotos] = useState<Record<string, number>>({})
 
+  // Storytelling interactive states
+  const [wishesList, setWishesList] = useState<GuestWish[]>([])
+  const [playingTrack, setPlayingTrack] = useState<number | null>(null)
+  const [newWishName, setNewWishName] = useState("")
+  const [newWishRelation, setNewWishRelation] = useState("Amigo(a)")
+  const [newWishText, setNewWishText] = useState("")
+  const [wishSubmitted, setWishSubmitted] = useState(false)
+
   // Countdown State
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
 
@@ -81,6 +104,9 @@ export default function EventoPage() {
     setSelectedEventId(activeId)
     const current = getEventState(activeId)
     setState(current)
+
+    const storyData = getStorytellingForEvent(activeId)
+    setWishesList(storyData.guestWishes)
   }, [])
 
   // Event Switcher handler
@@ -92,6 +118,10 @@ export default function EventoPage() {
     setRsvpFeedback(null)
     setRsvpCode("")
     setRsvpMessage("")
+    const nextStory = getStorytellingForEvent(eventId)
+    setWishesList(nextStory.guestWishes)
+    setPlayingTrack(null)
+    setWishSubmitted(false)
   }
 
   // Countdown timer
@@ -127,6 +157,7 @@ export default function EventoPage() {
 
   const { event, guests, album } = state
   const guestPhotos: DuniaGuestPhoto[] = album.guestPhotos || []
+  const story = getStorytellingForEvent(selectedEventId)
 
   // Dynamic Upload URL for QR Code
   const originUrl = typeof window !== "undefined" ? window.location.origin : "http://localhost:3000"
@@ -210,6 +241,26 @@ export default function EventoPage() {
     }
   }
 
+  // Add guest wish
+  const handleAddWish = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!newWishName.trim() || !newWishText.trim()) return
+
+    const newWish: GuestWish = {
+      id: `gw-${Date.now()}`,
+      name: newWishName.trim(),
+      relationship: newWishRelation.trim() || "Amigo(a)",
+      text: newWishText.trim(),
+      timeAgo: "agora mesmo",
+    }
+
+    setWishesList((prev) => [newWish, ...prev])
+    setNewWishName("")
+    setNewWishText("")
+    setWishSubmitted(true)
+    setTimeout(() => setWishSubmitted(false), 4000)
+  }
+
   // Google Calendar Link generator
   const getGoogleCalendarUrl = () => {
     const title = encodeURIComponent(`${event.name} — Dúnia City Hall`)
@@ -249,12 +300,12 @@ END:VCALENDAR`
 
   // Curated official gallery photos
   const officialGallery = [
-    { src: "/images/galeria/Destaque-Casamento-1.jpg", caption: "O Sim Sob Lustres de Cristal" },
-    { src: "/images/galeria/Destaque-Casamento-2.jpg", caption: "Arquitetura Clássica & Cenografia" },
-    { src: "/images/galeria/Destaque-Casamento-3.jpg", caption: "Mesa de Doces & Alta Gastronomia" },
-    { src: "/images/galeria/Destaque-Casamento-4.jpg", caption: "Brinde com os Padrinhos" },
-    { src: "/images/galeria/CASAMENTO-92.jpg", caption: "Detalhes Florais & Ambientação" },
-    { src: "/images/galeria/CASAMENTO-111.jpg", caption: "Celebração & Pista de Dança" },
+    { src: "/images/acervo/03-casamento/Destaque-Casamento-1.jpg", caption: "O Sim Sob Lustres de Cristal" },
+    { src: "/images/acervo/03-casamento/Destaque-Casamento-2.jpg", caption: "Arquitetura Clássica & Cenografia Monumental" },
+    { src: "/images/acervo/03-casamento/Destaque-Casamento-3.jpg", caption: "Mesa de Doces & Alta Gastronomia Dúnia" },
+    { src: "/images/acervo/03-casamento/Destaque-Casamento-4.jpg", caption: "Brinde com a Corte de Padrinhos" },
+    { src: "/images/acervo/03-casamento/CASAMENTO-92.jpg", caption: "Detalhes Florais & Ambientação de Luxo" },
+    { src: "/images/acervo/03-casamento/CASAMENTO-111.jpg", caption: "Celebração & Pista de Dança Sem Fim" },
   ]
 
   if (commercialMode === "light") {
@@ -373,36 +424,41 @@ END:VCALENDAR`
       </header>
 
       {/* 2. HERO EDITORIAL CINEMATOGRÁFICO */}
-      <section className="relative z-10 flex min-h-[82vh] flex-col justify-end overflow-hidden px-4 pb-16 pt-24 sm:px-8 sm:pb-20">
+      <section className="relative z-10 flex min-h-[85vh] flex-col justify-end overflow-hidden px-4 pb-16 pt-28 sm:px-8 sm:pb-24">
         {/* Foto de Fundo com Fade Suave */}
         <div className="absolute inset-0 z-0">
           <Image
             src={event.welcomePhoto || "/assets/casal.jpg"}
             alt={event.name}
             fill
-            className="object-cover object-[center_28%] filter brightness-[0.42] transition-transform duration-1000"
+            className="object-cover object-[center_28%] filter brightness-[0.40] transition-transform duration-1000"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0C0A09] via-[#0C0A09]/50 to-black/30" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(12,10,9,0.85)_100%)]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0C0A09] via-[#0C0A09]/60 to-black/35" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(12,10,9,0.9)_100%)]" />
         </div>
 
         <div className="container relative z-10 mx-auto max-w-4xl text-center">
           {/* Kicker Dourado com Ornamento */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#D3B47C]/30 bg-black/60 px-4 py-1.5 backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#D3B47C]/30 bg-black/60 px-4 py-1.5 backdrop-blur-md shadow-lg">
             <span className="h-1.5 w-1.5 rounded-full bg-[#D3B47C] animate-pulse" />
             <span className="text-[0.65rem] font-bold uppercase tracking-[0.28em] text-[#D3B47C]">
-              CELEBRAÇÃO OFICIAL • DÚNIA CITY HALL
+              {story.kicker}
             </span>
           </div>
 
           {/* Nome dos Anfitriões */}
-          <h1 className="mt-6 font-serif text-5xl font-normal leading-tight text-white sm:text-7xl lg:text-8xl">
+          <h1 className="mt-6 font-serif text-5xl font-normal leading-tight text-white sm:text-7xl lg:text-8xl drop-shadow-md">
             {event.name}
           </h1>
 
+          {/* Poetic Tagline */}
+          <p className="mt-3 font-serif text-base italic text-[#E5D7C3]/90 sm:text-xl max-w-2xl mx-auto leading-relaxed">
+            &ldquo;{story.heroTagline}&rdquo;
+          </p>
+
           {/* Data e Local */}
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs uppercase tracking-[0.25em] text-[#ABA29A] sm:text-sm">
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-xs uppercase tracking-[0.25em] text-[#ABA29A] sm:text-sm">
             <span>{formatEventDate(event.date)}</span>
             <span>•</span>
             <span>{event.time}</span>
@@ -411,7 +467,7 @@ END:VCALENDAR`
           </div>
 
           {/* CONTAGEM REGRESSIVA EM ESTILO CRONÔMETRO DE LUXO */}
-          <div className="mt-8 inline-grid grid-cols-4 gap-2.5 rounded-2xl border border-white/15 bg-black/65 p-3.5 backdrop-blur-md sm:gap-6 sm:p-5 shadow-2xl">
+          <div className="mt-8 inline-grid grid-cols-4 gap-2.5 rounded-2xl border border-white/15 bg-black/70 p-3.5 backdrop-blur-md sm:gap-6 sm:p-5 shadow-2xl">
             <div className="flex flex-col items-center min-w-[55px] sm:min-w-[80px]">
               <span className="font-serif text-2xl font-light text-white sm:text-4xl lg:text-5xl">
                 {timeLeft.days}
@@ -449,11 +505,19 @@ END:VCALENDAR`
             </a>
 
             <a
-              href="#qrcode-section"
+              href="#historia-section"
               className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-[#D3B47C] hover:bg-white/10"
             >
-              <Camera className="h-4 w-4 text-[#D3B47C]" />
-              <span>Enviar Fotos da Mesa</span>
+              <ScrollText className="h-4 w-4 text-[#D3B47C]" />
+              <span>Nossa História</span>
+            </a>
+
+            <a
+              href="#dress-code-section"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-black/40 px-4 py-3.5 text-xs font-medium text-white/80 transition hover:bg-black/70 hover:text-white"
+            >
+              <Shirt className="h-4 w-4 text-[#D3B47C]" />
+              <span>Dress Code</span>
             </a>
 
             <button
@@ -468,53 +532,436 @@ END:VCALENDAR`
         </div>
       </section>
 
-      {/* 3. MENSAGEM DOS ANFITRIÕES & NOSSA HISTÓRIA */}
-      <section className="relative z-10 border-t border-white/10 bg-[#100E0D] py-20">
-        <div className="container mx-auto max-w-4xl px-4 sm:px-6">
-          <div className="text-center">
-            <Heart className="mx-auto mb-4 h-7 w-7 text-[#D3B47C]" />
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#D3B47C]">
-              O SENTIMENTO POR TRÁS DA CELEBRAÇÃO
-            </span>
-            <h2 className="mt-3 font-serif text-3xl font-normal leading-relaxed text-white sm:text-4xl lg:text-5xl">
-              &ldquo;{event.message}&rdquo;
-            </h2>
-            <p className="mt-4 text-xs sm:text-sm text-[#ABA29A] max-w-2xl mx-auto leading-relaxed">
-              Cada detalhe no Dúnia City Hall foi pensado para criar memórias vivas, acolhedoras e inesquecíveis. A sua presença é o que torna esse dia completo.
-            </p>
-          </div>
+      {/* 2.5 MENU RÁPIDO DE NAVEGAÇÃO EDITORIAL (ANCHORS) */}
+      <nav className="sticky top-[61px] z-40 border-y border-white/10 bg-[#12100E]/95 py-2.5 backdrop-blur-md overflow-x-auto no-scrollbar">
+        <div className="container mx-auto flex max-w-6xl items-center justify-start sm:justify-center gap-2 px-4 text-xs font-medium text-white/70 whitespace-nowrap">
+          <a href="#carta-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
+            Carta dos Noivos
+          </a>
+          <span className="text-white/20">•</span>
+          <a href="#historia-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
+            Linha do Tempo
+          </a>
+          <span className="text-white/20">•</span>
+          <a href="#corte-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
+            Pais & Padrinhos
+          </a>
+          <span className="text-white/20">•</span>
+          <a href="#dress-code-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
+            Dress Code
+          </a>
+          <span className="text-white/20">•</span>
+          <a href="#playlist-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
+            Trilha Sonora
+          </a>
+          <span className="text-white/20">•</span>
+          <a href="#roteiro-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
+            Roteiro da Noite
+          </a>
+          <span className="text-white/20">•</span>
+          <a href="#qrcode-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
+            Display & Telão
+          </a>
+          <span className="text-white/20">•</span>
+          <a href="#livro-ouro-section" className="rounded-full px-3 py-1 hover:bg-white/5 hover:text-[#D3B47C] transition">
+            Livro de Ouro
+          </a>
+        </div>
+      </nav>
 
-          {/* Grid de 3 Marcos da História */}
-          <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl border border-white/10 bg-[#161311] p-5 text-center transition hover:border-[#D3B47C]/40">
-              <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">01 • O ENCONTRO</span>
-              <h3 className="mt-2 font-serif text-lg text-white">Onde Tudo Começou</h3>
-              <p className="mt-2 text-xs text-[#ABA29A] leading-relaxed">
-                Um olhar entre amigos em Brasília que se transformou na história mais bonita das nossas vidas.
-              </p>
+      {/* 3. CARTA ABERTA DOS NOIVOS (THE LOVE LETTER / ACOLHIMENTO DOS ANFITRIÕES) */}
+      <section id="carta-section" className="relative z-10 border-t border-white/10 bg-[#100E0D] py-24">
+        <div className="container mx-auto max-w-3xl px-4 sm:px-6">
+          <div className="relative rounded-3xl border border-[#D3B47C]/30 bg-gradient-to-b from-[#181412] to-[#12100E] p-8 sm:p-14 shadow-2xl">
+            {/* Selo Dourado de Cera Simulado */}
+            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full border border-[#D3B47C]/60 bg-[#D3B47C]/15 shadow-[0_0_25px_rgba(211,180,124,0.3)]">
+              <Heart className="h-7 w-7 text-[#D3B47C] fill-[#D3B47C]/30" />
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#161311] p-5 text-center transition hover:border-[#D3B47C]/40">
-              <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">02 • O PEDIDO</span>
-              <h3 className="mt-2 font-serif text-lg text-white">O Sim Inesquecível</h3>
-              <p className="mt-2 text-xs text-[#ABA29A] leading-relaxed">
-                Ao pôr do sol, uma promessa sincera de construir juntos um caminho repleto de amor e cumplicidade.
-              </p>
+            <div className="text-center mb-8">
+              <span className="text-[0.65rem] font-bold uppercase tracking-[0.28em] text-[#D3B47C]">
+                {story.openLetter.kicker}
+              </span>
+              <h2 className="mt-2 font-serif text-3xl font-normal text-white sm:text-4xl">
+                {story.openLetter.title}
+              </h2>
+              <div className="mx-auto mt-4 h-px w-20 bg-gradient-to-r from-transparent via-[#D3B47C]/60 to-transparent" />
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#161311] p-5 text-center transition hover:border-[#D3B47C]/40">
-              <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">03 • O GRANDE DIA</span>
-              <h3 className="mt-2 font-serif text-lg text-white">No Dúnia City Hall</h3>
-              <p className="mt-2 text-xs text-[#ABA29A] leading-relaxed">
-                Reunindo quem mais amamos no salão mais distinto do Lago Sul para uma celebração épica.
+            {/* Texto da Carta */}
+            <div className="space-y-5 font-serif text-base sm:text-lg leading-relaxed text-[#D6CEBE]/90 font-light text-justify sm:text-left">
+              <p className="text-[#D3B47C] font-normal italic text-lg sm:text-xl">
+                {story.openLetter.salutation}
+              </p>
+              {story.openLetter.paragraphs.map((par, idx) => (
+                <p key={idx}>{par}</p>
+              ))}
+            </div>
+
+            {/* Assinatura e Data */}
+            <div className="mt-10 border-t border-white/10 pt-6 text-center sm:text-right">
+              <p className="font-serif text-xl sm:text-2xl text-[#D3B47C] italic">
+                {story.openLetter.signature}
+              </p>
+              <p className="mt-1 text-xs uppercase tracking-widest text-[#ABA29A]">
+                {story.openLetter.dateAndCity}
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. O DESTAQUE PRINCIPAL: DISPLAY DE MESA INTERATIVO & QR CODE AO VIVO */}
-      <section id="qrcode-section" className="relative z-10 border-t border-white/10 bg-[#0C0A09] py-24">
+      {/* 4. CAPÍTULO A CAPÍTULO: A NOSSA LINHA DO TEMPO (THE VISUAL MEMOIR) */}
+      <section id="historia-section" className="relative z-10 border-t border-white/10 bg-[#0C0A09] py-24">
+        <div className="container mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#D3B47C]">
+              MEMÓRIAS QUE CONSTRUÍRAM O NOSSO DESTINO
+            </span>
+            <h2 className="mt-2 font-serif text-3xl text-white sm:text-5xl">
+              Nossa História em Capítulos
+            </h2>
+            <p className="mt-3 text-xs sm:text-sm text-[#ABA29A] leading-relaxed">
+              Cada passo, cada viagem e cada risada compartilhada nos trouxe até este altar sagrado no Dúnia City Hall.
+            </p>
+          </div>
+
+          <div className="space-y-16 sm:space-y-24">
+            {story.chapters.map((chapter, index) => {
+              const isEven = index % 2 === 0
+              return (
+                <div
+                  key={chapter.id}
+                  className={`grid gap-8 lg:grid-cols-12 lg:items-center ${
+                    isEven ? "" : "lg:flex-row-reverse"
+                  }`}
+                >
+                  {/* Foto do Capítulo */}
+                  <div className={`lg:col-span-6 ${isEven ? "lg:order-1" : "lg:order-2"}`}>
+                    <div
+                      onClick={() => setLightboxPhoto(chapter.image)}
+                      className="group relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/15 bg-black/40 shadow-2xl cursor-pointer"
+                    >
+                      <Image
+                        src={chapter.image}
+                        alt={chapter.title}
+                        fill
+                        className="object-cover transition duration-700 group-hover:scale-105 group-hover:brightness-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+
+                      {/* Badge de Ano & Local */}
+                      <div className="absolute top-4 left-4 rounded-full border border-[#D3B47C]/40 bg-black/60 px-3.5 py-1 text-xs font-mono font-bold text-[#D3B47C] backdrop-blur-md">
+                        {chapter.year}
+                      </div>
+
+                      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white/80">
+                        <span className="flex items-center gap-1.5 truncate">
+                          <MapPin className="h-3.5 w-3.5 text-[#D3B47C] shrink-0" />
+                          <span className="truncate">{chapter.location}</span>
+                        </span>
+                        <span className="hidden sm:inline-flex items-center gap-1 text-[0.65rem] text-[#D3B47C] uppercase tracking-wider font-semibold opacity-0 group-hover:opacity-100 transition">
+                          Ampliar <Maximize2 className="h-3 w-3" />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Texto Narrativo do Capítulo */}
+                  <div className={`lg:col-span-6 space-y-4 ${isEven ? "lg:order-2" : "lg:order-1"}`}>
+                    <div className="inline-flex items-center gap-2">
+                      <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#D3B47C] font-semibold">
+                        {chapter.label} • {chapter.year}
+                      </span>
+                    </div>
+
+                    <h3 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-white font-normal leading-tight">
+                      {chapter.title}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-[#ABA29A] leading-relaxed font-light">
+                      {chapter.text}
+                    </p>
+
+                    {chapter.quote && (
+                      <div className="relative rounded-2xl border-l-2 border-[#D3B47C] bg-[#161311] p-4 text-xs italic text-[#E5D7C3]/90 leading-relaxed">
+                        <Quote className="absolute right-3 top-3 h-5 w-5 text-[#D3B47C]/20" />
+                        &ldquo;{chapter.quote}&rdquo;
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. A CORTE DE HONRA • PAIS & PADRINHOS (AQUELES QUE CAMINHAM CONOSCO) */}
+      <section id="corte-section" className="relative z-10 border-t border-white/10 bg-[#100E0D] py-24">
+        <div className="container mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#D3B47C]/40 bg-[#D3B47C]/10 px-3.5 py-1 text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#D3B47C]">
+              <Users className="h-3.5 w-3.5" />
+              <span>NOSSAS RAÍZES & CÚMPLICES</span>
+            </div>
+            <h2 className="mt-3 font-serif text-3xl text-white sm:text-5xl">
+              {story.honorCourt.title}
+            </h2>
+            <p className="mt-3 text-xs sm:text-sm text-[#ABA29A] leading-relaxed">
+              {story.honorCourt.subtitle}
+            </p>
+          </div>
+
+          {/* PAIS DOS NOIVOS */}
+          <div className="mb-10">
+            <h3 className="mb-4 text-center font-mono text-xs uppercase tracking-[0.25em] text-[#D3B47C]">
+              OS PAIS • NOSSA MAIOR INSPIRAÇÃO
+            </h3>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {story.honorCourt.parents.map((p, i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl border border-white/10 bg-[#161311] p-6 text-center transition hover:border-[#D3B47C]/40 hover:bg-[#1a1614]"
+                >
+                  <span className="inline-block rounded-full border border-[#D3B47C]/30 bg-[#D3B47C]/10 px-3 py-0.5 text-[0.65rem] font-bold uppercase tracking-wider text-[#D3B47C]">
+                    {p.role}
+                  </span>
+                  <h4 className="mt-3 font-serif text-xl text-white">{p.name}</h4>
+                  <p className="mt-2 text-xs text-[#ABA29A] leading-relaxed">{p.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* PADRINHOS & MADRINHAS */}
+          <div>
+            <h3 className="mb-4 text-center font-mono text-xs uppercase tracking-[0.25em] text-[#D3B47C]">
+              CORTE DE PADRINHOS • GUARDIÕES DO NOSSO AMOR
+            </h3>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {story.honorCourt.witnesses.map((w, i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl border border-white/10 bg-[#14110F] p-5 text-center transition hover:border-[#D3B47C]/40 hover:-translate-y-1"
+                >
+                  <div className="mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-[#D3B47C]/10 text-[#D3B47C]">
+                    <Sparkles className="h-4 w-4" />
+                  </div>
+                  <h5 className="font-serif text-base text-white">{w.name}</h5>
+                  <span className="mt-1 block text-[0.65rem] font-bold uppercase tracking-wider text-[#D3B47C]">
+                    {w.role}
+                  </span>
+                  <p className="mt-2 text-xs text-[#ABA29A] leading-relaxed">{w.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. GUIA DE ESTILO & DRESS CODE (COMO SONHAMOS RECEBER VOCÊ) */}
+      <section id="dress-code-section" className="relative z-10 border-t border-white/10 bg-[#0C0A09] py-24">
+        <div className="container mx-auto max-w-4xl px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#D3B47C]/40 bg-[#D3B47C]/10 px-3.5 py-1 text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#D3B47C]">
+              <Shirt className="h-3.5 w-3.5" />
+              <span>A ELEGÂNCIA DA NOITE</span>
+            </div>
+            <h2 className="mt-3 font-serif text-3xl text-white sm:text-5xl">
+              Guia de Estilo & Dress Code
+            </h2>
+            <p className="mt-2 text-xs sm:text-sm text-[#ABA29A]">
+              {story.dressCode.tagline}
+            </p>
+          </div>
+
+          <div className="rounded-3xl border border-[#D3B47C]/30 bg-[#161311] p-6 sm:p-10 shadow-2xl">
+            {/* Tagline Principal */}
+            <div className="text-center pb-8 border-b border-white/10">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#D3B47C]">
+                TRAJE SUGERIDO
+              </span>
+              <h3 className="mt-1 font-serif text-2xl sm:text-3xl text-white">
+                {story.dressCode.style}
+              </h3>
+              <p className="mt-2 text-xs sm:text-sm text-[#ABA29A] max-w-xl mx-auto leading-relaxed">
+                {story.dressCode.description}
+              </p>
+            </div>
+
+            {/* Paleta de Cores Inspiracional */}
+            <div className="py-8 border-b border-white/10">
+              <span className="block text-center text-xs font-bold uppercase tracking-widest text-[#D3B47C] mb-4">
+                PALETA DE CORES SUGERIDA PARA INSPIRAÇÃO
+              </span>
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+                {story.dressCode.palette.map((color, i) => (
+                  <div key={i} className="flex flex-col items-center text-center gap-1.5">
+                    <div
+                      className="h-12 w-12 sm:h-14 sm:w-14 rounded-full border-2 border-white/20 shadow-lg transition hover:scale-110"
+                      style={{ backgroundColor: color.hex }}
+                    />
+                    <span className="text-xs font-semibold text-white">{color.name}</span>
+                    {color.note && (
+                      <span className="text-[0.65rem] text-[#ABA29A]">{color.note}</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Recomendações Para Elas & Para Eles */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8">
+              <div className="rounded-2xl border border-white/10 bg-black/40 p-5">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#D3B47C]">
+                  PARA AS DAMAS
+                </span>
+                <p className="mt-2 text-xs leading-relaxed text-[#ABA29A]">
+                  {story.dressCode.forHer}
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-black/40 p-5">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#D3B47C]">
+                  PARA OS CAVALHEIROS
+                </span>
+                <p className="mt-2 text-xs leading-relaxed text-[#ABA29A]">
+                  {story.dressCode.forHim}
+                </p>
+              </div>
+            </div>
+
+            {/* Lembrete Delicado */}
+            <div className="mt-6 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-center">
+              <p className="text-xs text-amber-200/90 leading-relaxed">
+                ✨ <strong>Lembrete carinhoso:</strong> {story.dressCode.caution}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. A TRILHA SONORA DO NOSSO AMOR (PLAYLIST EMOCIONAL) */}
+      <section id="playlist-section" className="relative z-10 border-t border-white/10 bg-[#100E0D] py-24">
+        <div className="container mx-auto max-w-4xl px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#D3B47C]/40 bg-[#D3B47C]/10 px-3.5 py-1 text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#D3B47C]">
+              <Disc className="h-3.5 w-3.5" />
+              <span>MELODIAS DO NOSSO CORAÇÃO</span>
+            </div>
+            <h2 className="mt-3 font-serif text-3xl text-white sm:text-5xl">
+              {story.playlist.title}
+            </h2>
+            <p className="mt-2 text-xs sm:text-sm text-[#ABA29A]">
+              {story.playlist.subtitle}
+            </p>
+          </div>
+
+          <div className="rounded-3xl border border-white/15 bg-[#161311] p-6 sm:p-8 shadow-2xl">
+            <div className="divide-y divide-white/10">
+              {story.playlist.tracks.map((track, i) => {
+                const isPlaying = playingTrack === i
+                return (
+                  <div
+                    key={i}
+                    onClick={() => setPlayingTrack(isPlaying ? null : i)}
+                    className={`group flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-4 px-3 rounded-xl transition cursor-pointer ${
+                      isPlaying ? "bg-[#D3B47C]/10 border border-[#D3B47C]/30" : "hover:bg-white/5"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3.5">
+                      <button
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition ${
+                          isPlaying
+                            ? "bg-[#D3B47C] text-[#100E0D] shadow"
+                            : "bg-white/10 text-white group-hover:bg-[#D3B47C] group-hover:text-[#100E0D]"
+                        }`}
+                      >
+                        {isPlaying ? <Pause className="h-4 w-4 fill-current" /> : <Play className="h-4 w-4 fill-current ml-0.5" />}
+                      </button>
+
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-serif text-lg text-white font-medium">{track.title}</h4>
+                          <span className="rounded-full border border-[#D3B47C]/30 bg-[#D3B47C]/10 px-2 py-0.5 text-[0.6rem] font-bold uppercase text-[#D3B47C]">
+                            {track.mood}
+                          </span>
+                        </div>
+                        <p className="text-xs text-[#ABA29A]">{track.artist} • <span className="italic text-white/70">&ldquo;{track.note}&rdquo;</span></p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 self-end sm:self-center text-xs font-mono text-[#D3B47C]">
+                      {isPlaying && (
+                        <div className="flex items-end gap-0.5 h-3.5">
+                          <span className="w-1 bg-[#D3B47C] rounded-full animate-pulse h-full" />
+                          <span className="w-1 bg-[#D3B47C] rounded-full animate-pulse delay-75 h-2/3" />
+                          <span className="w-1 bg-[#D3B47C] rounded-full animate-pulse delay-150 h-full" />
+                        </div>
+                      )}
+                      <span>{track.duration}</span>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. PROGRAMAÇÃO & ROTEIRO DA CELEBRAÇÃO */}
+      <section id="roteiro-section" className="relative z-10 border-t border-white/10 bg-[#0C0A09] py-24">
+        <div className="container mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#D3B47C]">
+              CADA INSTANTE IMPORTA
+            </span>
+            <h2 className="mt-2 font-serif text-3xl text-white sm:text-5xl">
+              Roteiro Poético da Noite
+            </h2>
+            <p className="mt-2 text-xs sm:text-sm text-[#ABA29A]">
+              Momentos desenhados para você viver conosco com o coração aberto do início ao fim.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {story.poeticSchedule.map((item, idx) => (
+              <div
+                key={idx}
+                className="overflow-hidden rounded-2xl border border-white/10 bg-[#161311] transition hover:border-[#D3B47C]/40 hover:-translate-y-1 shadow-lg"
+              >
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute top-3 left-3 rounded-md bg-black/80 px-2.5 py-1 text-xs font-mono font-bold text-[#D3B47C]">
+                    {item.time}
+                  </div>
+                </div>
+                <div className="p-5 space-y-2">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-[#D3B47C] block">
+                    {item.act}
+                  </span>
+                  <h3 className="font-serif text-lg text-white font-normal leading-snug">{item.title}</h3>
+                  <p className="text-[0.7rem] text-[#D3B47C]/90 italic leading-snug">
+                    {item.atmosphere}
+                  </p>
+                  <p className="text-xs text-[#ABA29A] leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 9. O DESTAQUE PRINCIPAL: DISPLAY DE MESA INTERATIVO & QR CODE AO VIVO */}
+      <section id="qrcode-section" className="relative z-10 border-t border-white/10 bg-[#100E0D] py-24">
         <div className="container mx-auto max-w-6xl px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#D3B47C]/40 bg-[#D3B47C]/10 px-3.5 py-1 text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#D3B47C]">
@@ -548,88 +995,72 @@ END:VCALENDAR`
                 </div>
 
                 {/* Moldura Dourada do QR Code */}
-                <div className="relative mx-auto my-4 w-56 h-56 rounded-2xl border-2 border-[#D3B47C] bg-white p-3 shadow-inner">
+                <div className="relative mx-auto w-48 rounded-2xl border-2 border-[#D3B47C]/60 bg-white p-3 shadow-inner">
                   <img
                     src={qrCodeImageUrl}
-                    alt="QR Code Álbum do Evento"
-                    width={220}
-                    height={220}
-                    className="w-full h-full object-contain"
+                    alt="QR Code do Telão do Evento"
+                    className="h-auto w-full rounded-lg object-contain"
                   />
-                  <div className="absolute inset-0 pointer-events-none rounded-xl ring-1 ring-black/10" />
+                  <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 rounded-full bg-[#100E0D] px-3 py-0.5 text-[0.6rem] font-bold tracking-wider text-[#D3B47C] uppercase border border-[#D3B47C]/40">
+                    AO VIVO NO TELÃO
+                  </div>
                 </div>
 
-                <div className="mt-4 space-y-1">
-                  <p className="font-serif text-lg font-normal text-white">
-                    Compartilhe Sua Perspectiva
+                {/* Instruções do Totem */}
+                <div className="mt-6 space-y-1.5">
+                  <p className="font-serif text-lg font-light text-white">
+                    Compartilhe Seus Olhares
                   </p>
-                  <p className="text-[0.72rem] text-[#D3B47C] font-medium leading-relaxed">
-                    Aponte a câmera do celular para enviar fotos diretamente ao Telão Dúnia!
+                  <p className="text-xs text-[#ABA29A] leading-relaxed max-w-xs mx-auto">
+                    Aponte a câmera do seu celular para enviar fotos diretamente para o telão oficial do Dúnia City Hall.
                   </p>
                 </div>
 
-                {/* Status Ao Vivo */}
-                <div className="mt-5 flex items-center justify-center gap-2 rounded-xl bg-black/60 py-2 px-3 border border-white/10 text-xs">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-                  <span className="text-[0.68rem] font-semibold text-emerald-300 uppercase tracking-wider">
-                    Transmissão Ativa no Salão
-                  </span>
-                </div>
-
-                {/* Ações Rápidas do Display */}
-                <div className="mt-5 grid grid-cols-2 gap-2">
+                {/* Botões do Totem */}
+                <div className="mt-5 flex items-center justify-center gap-2 pt-4 border-t border-white/10">
                   <button
                     onClick={() => setShowQrModal(true)}
-                    className="flex items-center justify-center gap-1.5 rounded-xl border border-[#D3B47C]/40 bg-[#D3B47C]/10 py-2.5 px-2 text-[0.68rem] font-bold uppercase tracking-wider text-[#D3B47C] transition hover:bg-[#D3B47C]/20"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/10 transition"
                   >
-                    <Maximize2 className="h-3 w-3" />
-                    <span>Ampliar QR</span>
+                    <Maximize2 className="h-3 w-3 text-[#D3B47C]" />
+                    <span>Escanear no Monitor</span>
                   </button>
 
                   <button
-                    onClick={handleCopyLink}
-                    className="flex items-center justify-center gap-1.5 rounded-xl border border-white/15 bg-white/5 py-2.5 px-2 text-[0.68rem] font-bold uppercase tracking-wider text-white transition hover:bg-white/10"
+                    onClick={() => setShowPrintModal(true)}
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-[#D3B47C]/40 bg-[#D3B47C]/10 px-3 py-1.5 text-xs font-bold text-[#D3B47C] hover:bg-[#D3B47C]/20 transition"
                   >
-                    {copiedLink ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
-                    <span>{copiedLink ? "Copiado!" : "Copiar Link"}</span>
+                    <Printer className="h-3 w-3" />
+                    <span>Imprimir Totens</span>
                   </button>
                 </div>
-
-                <button
-                  onClick={() => setShowPrintModal(true)}
-                  className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-black/40 py-2 text-[0.65rem] font-medium text-white/70 hover:text-white transition"
-                >
-                  <Printer className="h-3 w-3 text-[#D3B47C]" />
-                  <span>Imprimir Modelo de Display de Mesa</span>
-                </button>
               </div>
             </div>
 
-            {/* LADO DIREITO: DEMO DO TELÃO AO VIVO & FOTOS ENVIADAS */}
+            {/* LADO DIREITO: EXPLICAÇÃO DO SISTEMA & FEED AO VIVO DO TELÃO */}
             <div className="lg:col-span-7 space-y-6">
-              {/* Card de Explicação do Fluxo */}
               <div className="rounded-2xl border border-white/10 bg-[#161311] p-6 sm:p-8">
                 <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
-                  COMO FUNCIONA A EXPERIÊNCIA
+                  EXPERIÊNCIA INTERATIVA DÚNIA
                 </span>
                 <h3 className="mt-1 font-serif text-2xl text-white sm:text-3xl">
-                  Sem download de aplicativo. Apenas aponte e compartilhe.
+                  Como Funciona o Telão em 3 Passos
                 </h3>
 
                 <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <div className="rounded-xl border border-white/10 bg-black/30 p-4">
                     <span className="font-serif text-2xl text-[#D3B47C]">01</span>
-                    <h4 className="mt-1 text-xs font-bold uppercase text-white">Escaneie o QR</h4>
+                    <h4 className="mt-1 text-xs font-bold uppercase text-white">Aponte o Celular</h4>
                     <p className="mt-1 text-[0.7rem] text-[#ABA29A] leading-relaxed">
-                      Cada convidado usa sua própria câmera do celular na mesa.
+                      Sem precisar baixar nenhum aplicativo. Abre na hora no navegador.
                     </p>
                   </div>
 
                   <div className="rounded-xl border border-white/10 bg-black/30 p-4">
                     <span className="font-serif text-2xl text-[#D3B47C]">02</span>
-                    <h4 className="mt-1 text-xs font-bold uppercase text-white">Tire a Foto</h4>
+                    <h4 className="mt-1 text-xs font-bold uppercase text-white">Envie sua Foto</h4>
                     <p className="mt-1 text-[0.7rem] text-[#ABA29A] leading-relaxed">
-                      Adicione um recado carinhoso aos noivos ou anfitriões.
+                      Tire uma selfie ou escolha da galeria com um recado carinhoso.
                     </p>
                   </div>
 
@@ -713,152 +1144,14 @@ END:VCALENDAR`
         </div>
       </section>
 
-      {/* 5. PROGRAMAÇÃO & ROTEIRO DA CELEBRAÇÃO */}
-      <section className="relative z-10 border-t border-white/10 bg-[#100E0D] py-24">
-        <div className="container mx-auto max-w-5xl px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#D3B47C]">
-              CADA INSTANTE IMPORTA
-            </span>
-            <h2 className="mt-2 font-serif text-3xl text-white sm:text-5xl">
-              Roteiro da Noite
-            </h2>
-            <p className="mt-2 text-xs sm:text-sm text-[#ABA29A]">
-              Preparamos momentos emocionantes para você viver conosco do início ao fim.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Ato 1 */}
-            <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#161311] transition hover:border-[#D3B47C]/40">
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <Image
-                  src="/images/galeria/Dunia-24-06-23-144.jpg"
-                  alt="Welcome Drink"
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute top-3 left-3 rounded-md bg-black/75 px-2.5 py-1 text-xs font-mono font-bold text-[#D3B47C]">
-                  18:00
-                </div>
-              </div>
-              <div className="p-5">
-                <div className="flex items-center gap-1.5 text-[#D3B47C] text-xs font-semibold">
-                  <Wine className="h-3.5 w-3.5" />
-                  <span>BOAS-VINDAS</span>
-                </div>
-                <h3 className="mt-2 font-serif text-lg text-white">Welcome Cocktail</h3>
-                <p className="mt-1 text-xs text-[#ABA29A] leading-relaxed">
-                  Recepção no Foyer e Jardim com música acústica ao vivo e espumantes gelados.
-                </p>
-              </div>
-            </div>
-
-            {/* Ato 2 */}
-            <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#161311] transition hover:border-[#D3B47C]/40">
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <Image
-                  src="/assets/salao.jpg"
-                  alt="A Cerimônia"
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute top-3 left-3 rounded-md bg-black/75 px-2.5 py-1 text-xs font-mono font-bold text-[#D3B47C]">
-                  19:00
-                </div>
-              </div>
-              <div className="p-5">
-                <div className="flex items-center gap-1.5 text-[#D3B47C] text-xs font-semibold">
-                  <Heart className="h-3.5 w-3.5" />
-                  <span>A CERIMÔNIA</span>
-                </div>
-                <h3 className="mt-2 font-serif text-lg text-white">O Momento do Sim</h3>
-                <p className="mt-1 text-xs text-[#ABA29A] leading-relaxed">
-                  Celebração emocionante na nave principal sob o brilho dos lustres de cristal.
-                </p>
-              </div>
-            </div>
-
-            {/* Ato 3 */}
-            <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#161311] transition hover:border-[#D3B47C]/40">
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <Image
-                  src="/assets/mesa.jpg"
-                  alt="O Jantar"
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute top-3 left-3 rounded-md bg-black/75 px-2.5 py-1 text-xs font-mono font-bold text-[#D3B47C]">
-                  20:30
-                </div>
-              </div>
-              <div className="p-5">
-                <div className="flex items-center gap-1.5 text-[#D3B47C] text-xs font-semibold">
-                  <UtensilsCrossed className="h-3.5 w-3.5" />
-                  <span>GASTRONOMIA</span>
-                </div>
-                <h3 className="mt-2 font-serif text-lg text-white">Banquete Dúnia</h3>
-                <p className="mt-1 text-xs text-[#ABA29A] leading-relaxed">
-                  Menu autoral exclusivo com alta gastronomia, doces finos e mesa de antepastos.
-                </p>
-              </div>
-            </div>
-
-            {/* Ato 4 */}
-            <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#161311] transition hover:border-[#D3B47C]/40">
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <Image
-                  src="/assets/festa.jpg"
-                  alt="A Pista de Dança"
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute top-3 left-3 rounded-md bg-black/75 px-2.5 py-1 text-xs font-mono font-bold text-[#D3B47C]">
-                  22:00
-                </div>
-              </div>
-              <div className="p-5">
-                <div className="flex items-center gap-1.5 text-[#D3B47C] text-xs font-semibold">
-                  <Music className="h-3.5 w-3.5" />
-                  <span>A FESTA</span>
-                </div>
-                <h3 className="mt-2 font-serif text-lg text-white">Pista & Telão</h3>
-                <p className="mt-1 text-xs text-[#ABA29A] leading-relaxed">
-                  DJ ao vivo, iluminação cênica de ponta, bar de drinks autorais e fotos dos convidados.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Card de Dress Code / Traje */}
-          <div className="mt-8 rounded-2xl border border-[#D3B47C]/25 bg-[#D3B47C]/5 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="space-y-2 text-center md:text-left">
-              <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
-                GUIA DE ESTILO & CONFORTO
-              </span>
-              <h3 className="font-serif text-2xl text-white">Traje: Passeio Completo / Black Tie Opcional</h3>
-              <p className="text-xs text-[#ABA29A] max-w-xl">
-                O salão é 100% climatizado. Para os cavalheiros: terno clássico. Para as damas: vestidos elegantes longos ou midi sofisticados.
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="h-8 w-8 rounded-full bg-[#1A1817] border border-white/20" title="Preto Clássico" />
-              <div className="h-8 w-8 rounded-full bg-[#2A3439] border border-white/20" title="Azul Noturno" />
-              <div className="h-8 w-8 rounded-full bg-[#3D2F28] border border-white/20" title="Mogno Nobre" />
-              <div className="h-8 w-8 rounded-full bg-[#D3B47C] border border-[#D3B47C]" title="Toques Dourados" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. LOCALIZAÇÃO & COMO CHEGAR */}
+      {/* 10. LOCALIZAÇÃO & COMO CHEGAR */}
       <section id="localizacao" className="relative z-10 border-t border-white/10 bg-[#0C0A09] py-24">
         <div className="container mx-auto max-w-5xl px-4 sm:px-6">
           <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
             {/* Foto e Card de Endereço */}
             <div className="lg:col-span-6 relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 shadow-2xl">
               <Image
-                src="/images/galeria/Destaque-Casamento-2.jpg"
+                src="/images/acervo/03-casamento/Destaque-Casamento-2.jpg"
                 alt="Dúnia City Hall Fachada"
                 fill
                 className="object-cover"
@@ -940,7 +1233,7 @@ END:VCALENDAR`
         </div>
       </section>
 
-      {/* 7. CONFIRMAÇÃO DE PRESENÇA (RSVP DIGITAL DE LUXO) */}
+      {/* 11. CONFIRMAÇÃO DE PRESENÇA (RSVP DIGITAL DE LUXO) */}
       <section id="rsvp-section" className="relative z-10 border-t border-white/10 bg-[#100E0D] py-24">
         <div className="container mx-auto max-w-2xl px-4 sm:px-6">
           <div className="text-center">
@@ -950,225 +1243,320 @@ END:VCALENDAR`
             <h2 className="mt-2 font-serif text-3xl text-white sm:text-5xl">
               Confirmação de Presença
             </h2>
-            <p className="mt-2 text-xs sm:text-sm text-[#ABA29A] max-w-md mx-auto">
-              Digite o código individual impresso no seu convite para confirmar a sua presença e dos seus acompanhantes.
+            <p className="mt-2 text-xs sm:text-sm text-[#ABA29A]">
+              Por favor, confirme até o dia <strong>10 de Novembro de 2026</strong> para organizarmos seu lugar e acolhimento com primor.
             </p>
-          </div>
 
-          {/* Pílulas de Códigos de Demonstração Rápida */}
-          <div className="mt-8 rounded-2xl border border-dashed border-[#D3B47C]/40 bg-[#D3B47C]/10 p-4 sm:p-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                <span className="text-xs font-bold text-[#D3B47C] uppercase tracking-wider block">
-                  Códigos de Teste Rápido (Demonstração):
-                </span>
-                <p className="text-[0.7rem] text-white/70">Clique em qualquer um para auto-preencher:</p>
-              </div>
-              <div className="flex flex-wrap gap-2">
+            {/* Pílulas de Códigos de Demonstração Rápida */}
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs">
+              <span className="text-white/40 text-[0.7rem]">Convites de teste:</span>
+              {guests.slice(0, 3).map((g) => (
                 <button
-                  type="button"
-                  onClick={() => handleSelectDemoGuest("DUNIA-001")}
-                  className="rounded-lg border border-[#D3B47C]/40 bg-black/40 px-2.5 py-1 text-xs font-mono text-[#D3B47C] hover:bg-[#D3B47C] hover:text-[#100E0D] transition"
+                  key={g.id}
+                  onClick={() => handleSelectDemoGuest(g.code)}
+                  className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[0.65rem] text-[#D3B47C] hover:border-[#D3B47C] transition"
                 >
-                  DUNIA-001 (Ana)
+                  {g.code} ({g.name.split(" ")[0]})
                 </button>
-                <button
-                  type="button"
-                  onClick={() => handleSelectDemoGuest("DUNIA-002")}
-                  className="rounded-lg border border-[#D3B47C]/40 bg-black/40 px-2.5 py-1 text-xs font-mono text-[#D3B47C] hover:bg-[#D3B47C] hover:text-[#100E0D] transition"
-                >
-                  DUNIA-002 (Pedro)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleSelectDemoGuest("DUNIA-003")}
-                  className="rounded-lg border border-[#D3B47C]/40 bg-black/40 px-2.5 py-1 text-xs font-mono text-[#D3B47C] hover:bg-[#D3B47C] hover:text-[#100E0D] transition"
-                >
-                  DUNIA-003 (Mariana)
-                </button>
-              </div>
+              ))}
             </div>
           </div>
 
           {/* FORMULÁRIO */}
-          <form
-            onSubmit={handleRsvpSubmit}
-            className="mt-6 space-y-5 rounded-3xl border border-white/10 bg-[#161311] p-6 sm:p-8 shadow-2xl"
-          >
+          <form onSubmit={handleRsvpSubmit} className="mt-8 space-y-4 rounded-3xl border border-white/15 bg-[#161311] p-6 sm:p-8 shadow-2xl">
             <div>
-              <label className="block text-[0.7rem] font-bold uppercase tracking-widest text-[#D3B47C]">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#D3B47C]">
                 Código do Convite
               </label>
               <input
                 type="text"
-                required
                 value={rsvpCode}
-                onChange={(e) => setRsvpCode(e.target.value.toUpperCase())}
+                onChange={(e) => setRsvpCode(e.target.value)}
                 placeholder="Ex: DUNIA-001"
-                className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/50 px-4 py-3.5 font-mono text-base uppercase text-white placeholder-white/20 transition focus:border-[#D3B47C] focus:outline-none"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-black/50 px-4 py-3 text-sm text-white placeholder-white/30 focus:border-[#D3B47C] focus:outline-none focus:ring-1 focus:ring-[#D3B47C]"
               />
             </div>
 
             <div>
-              <label className="block text-[0.7rem] font-bold uppercase tracking-widest text-[#ABA29A]">
-                Confirmação
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#D3B47C]">
+                Você comparecerá à celebração?
               </label>
-              <select
-                value={rsvpStatus}
-                onChange={(e) => setRsvpStatus(e.target.value as "confirmed" | "declined")}
-                className="mt-1.5 w-full rounded-xl border border-white/15 bg-[#1C1816] px-4 py-3.5 text-sm text-white transition focus:border-[#D3B47C] focus:outline-none"
-              >
-                <option value="confirmed">Sim, estarei presente com muita alegria! ✓</option>
-                <option value="declined">Infelizmente não poderei comparecer ✕</option>
-              </select>
+              <div className="mt-2 grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setRsvpStatus("confirmed")}
+                  className={`flex items-center justify-center gap-2 rounded-xl border p-3 text-xs font-bold uppercase transition ${
+                    rsvpStatus === "confirmed"
+                      ? "border-emerald-500 bg-emerald-500/20 text-emerald-300"
+                      : "border-white/15 bg-black/40 text-white/60 hover:border-white/30"
+                  }`}
+                >
+                  <CheckCircle2 className="h-4 w-4" />
+                  <span>Sim, confirmo</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setRsvpStatus("declined")}
+                  className={`flex items-center justify-center gap-2 rounded-xl border p-3 text-xs font-bold uppercase transition ${
+                    rsvpStatus === "declined"
+                      ? "border-rose-500 bg-rose-500/20 text-rose-300"
+                      : "border-white/15 bg-black/40 text-white/60 hover:border-white/30"
+                  }`}
+                >
+                  <XCircle className="h-4 w-4" />
+                  <span>Não poderei ir</span>
+                </button>
+              </div>
             </div>
 
             <div>
-              <label className="block text-[0.7rem] font-bold uppercase tracking-widest text-[#ABA29A]">
-                Restrição Alimentar (Buffet Dúnia)
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#D3B47C]">
+                Restrição Alimentar (Opcional)
               </label>
               <select
                 value={dietary}
                 onChange={(e) => setDietary(e.target.value)}
-                className="mt-1.5 w-full rounded-xl border border-white/15 bg-[#1C1816] px-4 py-3 text-sm text-white transition focus:border-[#D3B47C] focus:outline-none"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-black/50 px-4 py-3 text-xs text-white focus:border-[#D3B47C] focus:outline-none"
               >
-                <option value="padrao">Nenhuma restrição (Menu Completo)</option>
-                <option value="vegetariano">Opção Vegetariana</option>
-                <option value="vegano">Opção Vegana</option>
-                <option value="sem-gluten">Sem Glúten (Celíaco)</option>
-                <option value="sem-lactose">Sem Lactose</option>
+                <option value="padrao">Nenhuma restrição (Menu Completo Dúnia)</option>
+                <option value="vegetariano">Menu Vegetariano</option>
+                <option value="vegano">Menu Vegano</option>
+                <option value="sem_gluten">Sem Glúten (Celíacos)</option>
+                <option value="sem_lactose">Sem Lactose</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-[0.7rem] font-bold uppercase tracking-widest text-[#ABA29A]">
-                Mensagem aos Anfitriões (opcional)
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#D3B47C]">
+                Mensagem aos Noivos (Opcional)
               </label>
               <textarea
                 value={rsvpMessage}
                 onChange={(e) => setRsvpMessage(e.target.value)}
                 rows={3}
-                placeholder="Deixe uma mensagem especial de carinho aos anfitriões..."
-                className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/50 px-4 py-3 text-sm text-white placeholder-white/20 transition focus:border-[#D3B47C] focus:outline-none"
+                placeholder="Deixe um recado afetuoso para os anfitriões..."
+                className="mt-2 w-full rounded-xl border border-white/15 bg-black/50 p-4 text-xs text-white placeholder-white/30 focus:border-[#D3B47C] focus:outline-none focus:ring-1 focus:ring-[#D3B47C]"
               />
             </div>
+
+            <button
+              type="submit"
+              className="w-full rounded-xl bg-gradient-to-r from-[#D3B47C] via-[#E2C799] to-[#C49A61] py-3.5 text-xs font-bold uppercase tracking-wider text-[#100E0D] shadow-lg transition hover:scale-[1.01] active:scale-[0.99]"
+            >
+              Enviar Confirmação
+            </button>
 
             {/* FEEDBACK */}
             {rsvpFeedback && (
               <div
-                className={`flex items-start gap-3 rounded-xl p-4 text-xs sm:text-sm ${
+                className={`rounded-xl p-4 text-xs leading-relaxed ${
                   rsvpFeedback.type === "success"
-                    ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
-                    : "border border-rose-500/30 bg-rose-500/10 text-rose-300"
+                    ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
+                    : "border border-rose-500/30 bg-rose-500/10 text-rose-200"
                 }`}
               >
-                {rsvpFeedback.type === "success" ? (
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
-                ) : (
-                  <XCircle className="mt-0.5 h-5 w-5 shrink-0 text-rose-400" />
-                )}
-                <span>{rsvpFeedback.text}</span>
+                {rsvpFeedback.text}
               </div>
             )}
-
-            <button
-              type="submit"
-              className="w-full rounded-xl bg-gradient-to-r from-[#D3B47C] via-[#E2C799] to-[#C49A61] py-4 text-xs font-bold uppercase tracking-widest text-[#100E0D] shadow-lg transition hover:scale-[1.01] hover:opacity-95"
-            >
-              ENVIAR CONFIRMAÇÃO
-            </button>
           </form>
         </div>
       </section>
 
-      {/* 8. LISTA DE PRESENTES & COTAS DE LUA DE MEL */}
+      {/* 12. LISTA DE PRESENTES & COTAS DE LUA DE MEL */}
       <section className="relative z-10 border-t border-white/10 bg-[#0C0A09] py-20">
         <div className="container mx-auto max-w-4xl px-4 sm:px-6 text-center">
-          <Gift className="mx-auto mb-3 h-7 w-7 text-[#D3B47C]" />
+          <Gift className="mx-auto mb-3 h-8 w-8 text-[#D3B47C]" />
           <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#D3B47C]">
-            COTAS DE LUA DE MEL & GENTILEZAS
+            CARINHO & GRATIDÃO
           </span>
           <h2 className="mt-2 font-serif text-3xl text-white sm:text-4xl">
-            Presenteie os Anfitriões
+            Lista de Presentes & Cotas de Lua de Mel
           </h2>
-          <p className="mt-2 text-xs sm:text-sm text-[#ABA29A] max-w-xl mx-auto">
-            Sua presença é nossa maior celebração! Caso deseje nos presentear, criamos cotas simbólicas para nossa viagem dos sonhos.
+          <p className="mt-2 text-xs sm:text-sm text-[#ABA29A] max-w-xl mx-auto leading-relaxed">
+            O nosso maior presente é ter você conosco. Caso queira nos presentear com uma cota para a viagem dos nossos sonhos ou para o nosso novo lar:
           </p>
 
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 text-left">
-            <div className="rounded-2xl border border-white/10 bg-[#161311] p-4 transition hover:border-[#D3B47C]">
-              <span className="text-xl">🥂</span>
-              <h4 className="mt-2 text-xs font-bold text-white">Brinde em Paris</h4>
-              <p className="text-xs text-[#D3B47C] font-mono mt-1 font-bold">R$ 150,00</p>
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-white/10 bg-[#161311] p-6 text-center transition hover:border-[#D3B47C]/40">
+              <span className="text-2xl">🗼</span>
+              <h4 className="mt-2 font-serif text-base text-white">Jantar Romântico em Paris</h4>
+              <p className="mt-1 font-mono text-sm text-[#D3B47C]">R$ 250,00</p>
+              <button
+                onClick={handleCopyPix}
+                className="mt-4 w-full rounded-xl border border-white/15 bg-white/5 py-2 text-xs font-semibold text-white hover:bg-white/10 transition"
+              >
+                Presentear Cota
+              </button>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#161311] p-4 transition hover:border-[#D3B47C]">
-              <span className="text-xl">🎈</span>
-              <h4 className="mt-2 text-xs font-bold text-white">Balão na Capadócia</h4>
-              <p className="text-xs text-[#D3B47C] font-mono mt-1 font-bold">R$ 350,00</p>
+            <div className="rounded-2xl border border-white/10 bg-[#161311] p-6 text-center transition hover:border-[#D3B47C]/40">
+              <span className="text-2xl">🛶</span>
+              <h4 className="mt-2 font-serif text-base text-white">Passeio de Gôndola em Veneza</h4>
+              <p className="mt-1 font-mono text-sm text-[#D3B47C]">R$ 400,00</p>
+              <button
+                onClick={handleCopyPix}
+                className="mt-4 w-full rounded-xl border border-white/15 bg-white/5 py-2 text-xs font-semibold text-white hover:bg-white/10 transition"
+              >
+                Presentear Cota
+              </button>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#161311] p-4 transition hover:border-[#D3B47C]">
-              <span className="text-xl">🍽️</span>
-              <h4 className="mt-2 text-xs font-bold text-white">Jantar à Beira-Mar</h4>
-              <p className="text-xs text-[#D3B47C] font-mono mt-1 font-bold">R$ 250,00</p>
-            </div>
-
-            <div className="rounded-2xl border border-white/10 bg-[#161311] p-4 transition hover:border-[#D3B47C]">
-              <span className="text-xl">🏨</span>
-              <h4 className="mt-2 text-xs font-bold text-white">Diária Resort Grécia</h4>
-              <p className="text-xs text-[#D3B47C] font-mono mt-1 font-bold">R$ 500,00</p>
+            <div className="rounded-2xl border border-white/10 bg-[#161311] p-6 text-center transition hover:border-[#D3B47C]/40">
+              <span className="text-2xl">🏡</span>
+              <h4 className="mt-2 font-serif text-base text-white">Cota Livre para o Novo Lar</h4>
+              <p className="mt-1 font-mono text-sm text-[#D3B47C]">Valor à escolha</p>
+              <button
+                onClick={handleCopyPix}
+                className="mt-4 w-full rounded-xl border border-white/15 bg-white/5 py-2 text-xs font-semibold text-white hover:bg-white/10 transition"
+              >
+                Copiar Chave Pix
+              </button>
             </div>
           </div>
 
           {/* CHAVE PIX DOS NOIVOS */}
-          <div className="mt-8 inline-flex flex-col sm:flex-row items-center gap-3 rounded-2xl border border-[#D3B47C]/40 bg-[#D3B47C]/10 p-4">
-            <div className="text-xs text-left">
-              <span className="font-bold text-[#D3B47C] block uppercase tracking-wider">Chave PIX Oficial:</span>
-              <span className="font-mono text-white/90">financeiro@duniacityhall.com.br</span>
-            </div>
+          <div className="mt-8 inline-flex flex-col sm:flex-row items-center gap-3 rounded-2xl border border-[#D3B47C]/30 bg-[#161311] p-4 text-xs">
+            <span className="text-white/60">Chave Pix Oficial:</span>
+            <span className="font-mono font-bold text-[#D3B47C]">financeiro@duniacityhall.com.br</span>
             <button
               onClick={handleCopyPix}
-              className="rounded-xl bg-[#D3B47C] px-4 py-2 text-xs font-bold text-[#100E0D] hover:bg-[#D3B47C]/90 transition"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[#D3B47C] px-3 py-1.5 font-bold text-[#100E0D] hover:bg-[#D3B47C]/90 transition"
             >
-              {copiedPix ? "Chave Copiada! ✓" : "Copiar Chave PIX"}
+              {copiedPix ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+              <span>{copiedPix ? "Copiado!" : "Copiar Chave"}</span>
             </button>
           </div>
         </div>
       </section>
 
-      {/* 9. ÁLBUM OFICIAL & GALERIA DE FOTOGRAFIAS DO DÚNIA */}
-      <section className="relative z-10 border-t border-white/10 bg-[#100E0D] py-24">
-        <div className="container mx-auto max-w-6xl px-4 sm:px-6">
+      {/* 13. LIVRO DE OURO DIGITAL (RECADOS & VOTOS DOS CONVIDADOS) */}
+      <section id="livro-ouro-section" className="relative z-10 border-t border-white/10 bg-[#100E0D] py-24">
+        <div className="container mx-auto max-w-4xl px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#D3B47C]">
-              DÚNIA MEMORIES • COBERTURA OFICIAL
-            </span>
-            <h2 className="mt-2 font-serif text-3xl text-white sm:text-5xl">
-              Fragmentos de Uma Noite Única
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#D3B47C]/40 bg-[#D3B47C]/10 px-3.5 py-1 text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#D3B47C]">
+              <Heart className="h-3.5 w-3.5" />
+              <span>LIVRO DE OURO DIGITAL</span>
+            </div>
+            <h2 className="mt-3 font-serif text-3xl text-white sm:text-5xl">
+              Mensagens & Votos de Felicidade
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-[#ABA29A]">
-              Clique em qualquer imagem para ver em tela cheia os detalhes deste grande momento.
+              Deixe um recado de amor para os anfitriões antes da celebração.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:gap-4">
-            {officialGallery.map((foto, idx) => (
+          {/* Formulário de Deixar Recado */}
+          <form onSubmit={handleAddWish} className="mb-12 rounded-3xl border border-white/15 bg-[#161311] p-6 sm:p-8 shadow-xl">
+            <h3 className="font-serif text-xl text-white mb-4">Escrever no Livro de Ouro</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block text-xs font-semibold text-[#D3B47C] uppercase">Seu Nome</label>
+                <input
+                  type="text"
+                  value={newWishName}
+                  onChange={(e) => setNewWishName(e.target.value)}
+                  placeholder="Ex: Camila & Rodrigo"
+                  className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-3.5 py-2.5 text-xs text-white placeholder-white/30 focus:border-[#D3B47C] focus:outline-none"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-[#D3B47C] uppercase">Grau de Parentesco / Amizade</label>
+                <input
+                  type="text"
+                  value={newWishRelation}
+                  onChange={(e) => setNewWishRelation(e.target.value)}
+                  placeholder="Ex: Padrinhos / Amiga da Noiva"
+                  className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-3.5 py-2.5 text-xs text-white placeholder-white/30 focus:border-[#D3B47C] focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-[#D3B47C] uppercase">Sua Mensagem com Carinho</label>
+              <textarea
+                value={newWishText}
+                onChange={(e) => setNewWishText(e.target.value)}
+                rows={3}
+                placeholder="Deseje bênçãos, compartilhe uma memória ou mande boas energias..."
+                className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 p-3.5 text-xs text-white placeholder-white/30 focus:border-[#D3B47C] focus:outline-none"
+                required
+              />
+            </div>
+
+            <div className="mt-4 flex items-center justify-between">
+              <button
+                type="submit"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#D3B47C] px-5 py-2.5 text-xs font-bold uppercase text-[#100E0D] hover:bg-[#D3B47C]/90 transition"
+              >
+                <Send className="h-3.5 w-3.5" />
+                <span>Publicar Mensagem</span>
+              </button>
+
+              {wishSubmitted && (
+                <span className="text-xs text-emerald-400 font-medium animate-fadeIn">
+                  ✓ Sua mensagem foi eternizada no livro de ouro!
+                </span>
+              )}
+            </div>
+          </form>
+
+          {/* Mural de Mensagens */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {wishesList.map((wish) => (
               <div
-                key={idx}
-                onClick={() => setLightboxPhoto(foto.src)}
-                className="group relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-black/40 cursor-pointer"
+                key={wish.id}
+                className="rounded-2xl border border-white/10 bg-[#161311] p-5 space-y-2.5 transition hover:border-[#D3B47C]/30"
+              >
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-serif text-base text-white font-medium">{wish.name}</span>
+                  <span className="text-[0.65rem] text-[#ABA29A]">{wish.timeAgo}</span>
+                </div>
+                <span className="inline-block rounded-full border border-[#D3B47C]/30 bg-[#D3B47C]/10 px-2 py-0.5 text-[0.6rem] font-bold text-[#D3B47C] uppercase">
+                  {wish.relationship}
+                </span>
+                <p className="text-xs text-[#D6CEBE]/90 font-light italic leading-relaxed">
+                  &ldquo;{wish.text}&rdquo;
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 14. ÁLBUM OFICIAL & GALERIA DE FOTOGRAFIAS DO DÚNIA */}
+      <section className="relative z-10 border-t border-white/10 bg-[#0C0A09] py-24">
+        <div className="container mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#D3B47C]">
+              REGISTROS CINEMATOGRÁFICOS
+            </span>
+            <h2 className="mt-2 font-serif text-3xl text-white sm:text-5xl">
+              Álbum Oficial de Inspirações
+            </h2>
+            <p className="mt-2 text-xs sm:text-sm text-[#ABA29A]">
+              Momentos reais registrados no Dúnia City Hall para inspirar a sua imaginação.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {officialGallery.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => setLightboxPhoto(item.src)}
+                className="group relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-black/40 cursor-pointer shadow-lg"
               >
                 <Image
-                  src={foto.src}
-                  alt={foto.caption}
+                  src={item.src}
+                  alt={item.caption}
                   fill
-                  className="object-cover transition duration-700 group-hover:scale-110"
+                  className="object-cover transition duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
-                <div className="absolute bottom-3 left-3 right-3 text-xs opacity-0 group-hover:opacity-100 transition duration-300">
-                  <span className="text-[#D3B47C] font-semibold text-[0.7rem] block">{foto.caption}</span>
-                  <small className="text-white/60 text-[0.6rem]">Ver em alta resolução ↗</small>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80 group-hover:opacity-95 transition" />
+                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white">
+                  <span className="font-serif text-sm font-light">{item.caption}</span>
+                  <Maximize2 className="h-4 w-4 text-[#D3B47C] opacity-0 group-hover:opacity-100 transition" />
                 </div>
               </div>
             ))}
@@ -1176,89 +1564,79 @@ END:VCALENDAR`
         </div>
       </section>
 
-      {/* 10. RODAPÉ INSTITUCIONAL */}
-      <footer className="relative z-10 border-t border-white/10 bg-[#0C0A09] py-14 text-center">
-        <div className="container mx-auto max-w-4xl px-4">
+      {/* 15. RODAPÉ INSTITUCIONAL */}
+      <footer className="relative z-10 border-t border-white/10 bg-[#0A0807] py-14 text-center text-xs text-[#ABA29A]">
+        <div className="container mx-auto max-w-4xl px-4 space-y-4">
           <Image
             src="/assets/logo.png"
             alt="Dúnia City Hall"
-            width={160}
-            height={45}
-            className="mx-auto h-9 w-auto object-contain opacity-85"
+            width={130}
+            height={36}
+            className="h-8 w-auto object-contain mx-auto opacity-80"
           />
-          <p className="mt-3 font-serif text-sm italic text-[#D3B47C]">
-            &ldquo;O lugar onde grandes histórias acontecem.&rdquo;
+          <p className="text-xs text-white/50 max-w-md mx-auto leading-relaxed">
+            Dúnia City Hall • O Cenário dos Momentos Inesquecíveis no Lago Sul, Brasília.
           </p>
-          <p className="mt-1 text-xs text-[#ABA29A]">
-            SHIS QI 15 Lote J/K, Lago Sul • Brasília – DF • (61) 3366-2008
-          </p>
-
-          <div className="mt-6 flex flex-wrap justify-center gap-5 text-xs text-white/50">
-            <Link href="/" className="hover:text-white transition">
-              Página Principal Dúnia
-            </Link>
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-[#D3B47C] pt-2">
+            <Link href="/" className="hover:underline">Visitar Página Principal</Link>
             <span>•</span>
-            <Link href="/evento/fotos" className="hover:text-white transition">
-              Enviar Fotos do Evento
-            </Link>
+            <Link href="/painel" className="hover:underline">Painel Administrativo</Link>
             <span>•</span>
-            <Link href="/evento/telao" target="_blank" className="hover:text-white transition">
-              Telão ao Vivo
-            </Link>
-            <span>•</span>
-            <Link href="/painel" className="hover:text-white transition">
-              Painel do Anfitrião
-            </Link>
+            <a href="#rsvp-section" className="hover:underline">Confirmar Presença</a>
           </div>
+          <p className="text-[0.65rem] text-white/30 pt-4">
+            © {new Date().getFullYear()} Dúnia City Hall. Todos os direitos reservados.
+          </p>
         </div>
       </footer>
 
       {/* MODAL 1: QR CODE EM TELA CHEIA (PARA ESCANEAR DO MONITOR) */}
       {showQrModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-md rounded-3xl border-2 border-[#D3B47C] bg-[#120F0D] p-6 text-center shadow-2xl">
+        <div
+          onClick={() => setShowQrModal(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-md"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md rounded-3xl border border-[#D3B47C]/40 bg-[#161311] p-8 text-center shadow-2xl"
+          >
             <button
               onClick={() => setShowQrModal(false)}
-              className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition"
-              aria-label="Fechar modal"
+              className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white/80 hover:bg-white/20 transition"
             >
-              <X className="h-4 w-4" />
+              <X className="h-5 w-5" />
             </button>
 
-            <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#D3B47C]">
               DÚNIA LIVE MEMORIES
             </span>
             <h3 className="mt-1 font-serif text-2xl text-white">Escanear com Celular</h3>
-            <p className="mt-1 text-xs text-[#ABA29A]">
-              Aponte a câmera do seu smartphone diretamente para este QR Code:
+            <p className="mt-2 text-xs text-[#ABA29A]">
+              Aponte a câmera do seu smartphone para o código abaixo para testar o envio de fotos ao vivo.
             </p>
 
-            <div className="mx-auto my-5 w-64 h-64 rounded-2xl bg-white p-3 shadow-lg">
+            <div className="my-6 mx-auto w-64 rounded-2xl border-2 border-[#D3B47C] bg-white p-4 shadow-xl">
               <img
                 src={qrCodeImageUrl}
-                alt="QR Code Gigante"
-                width={250}
-                height={250}
-                className="w-full h-full object-contain"
+                alt="QR Code Telão Ampliado"
+                className="h-auto w-full rounded-lg object-contain"
               />
             </div>
 
-            <p className="text-xs text-[#D3B47C] font-mono break-all px-2">
-              {guestUploadUrl}
-            </p>
-
-            <div className="mt-5 flex gap-2">
+            <div className="flex flex-col gap-2">
               <button
                 onClick={handleCopyLink}
-                className="flex-1 rounded-xl bg-[#D3B47C] py-2.5 text-xs font-bold text-[#100E0D] hover:bg-[#D3B47C]/90 transition"
+                className="w-full rounded-xl bg-[#D3B47C] py-2.5 text-xs font-bold text-[#100E0D] hover:bg-[#D3B47C]/90 transition flex items-center justify-center gap-2"
               >
-                {copiedLink ? "Link Copiado!" : "Copiar Link"}
+                {copiedLink ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                <span>{copiedLink ? "Link Copiado!" : "Copiar Link Direto"}</span>
               </button>
+
               <Link
                 href="/evento/fotos"
-                className="flex-1 rounded-xl border border-white/20 bg-white/5 py-2.5 text-xs font-semibold text-white hover:bg-white/10 transition flex items-center justify-center"
+                className="w-full rounded-xl border border-white/20 bg-white/5 py-2.5 text-xs font-semibold text-white hover:bg-white/10 transition"
               >
-                Abrir Envio ↗
+                Abrir Página de Envio de Fotos
               </Link>
             </div>
           </div>
@@ -1267,64 +1645,68 @@ END:VCALENDAR`
 
       {/* MODAL 2: PRÉ-VISUALIZAÇÃO DE DISPLAY DE MESA PARA IMPRESSÃO */}
       {showPrintModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-lg rounded-3xl border border-white/20 bg-[#161311] p-6 sm:p-8 text-center shadow-2xl">
+        <div
+          onClick={() => setShowPrintModal(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-md overflow-y-auto"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-lg rounded-3xl border border-[#D3B47C]/40 bg-[#161311] p-6 sm:p-8 text-center shadow-2xl my-8"
+          >
             <button
               onClick={() => setShowPrintModal(false)}
-              className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition"
+              className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white/80 hover:bg-white/20 transition"
             >
-              <X className="h-4 w-4" />
+              <X className="h-5 w-5" />
             </button>
 
-            <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C]">
-              ARTE DE IMPRESSÃO
+            <span className="text-xs font-bold uppercase tracking-widest text-[#D3B47C]">
+              DISPLAYS DE MESA OFICIAIS
             </span>
             <h3 className="mt-1 font-serif text-2xl text-white">Totem de Mesa para Gráfica</h3>
             <p className="mt-1 text-xs text-[#ABA29A]">
-              Modelo pronto para confecção em acrílico 10x15cm para posicionar nas mesas dos convidados.
+              Modelo padrão de impressão (10x15cm ou 15x21cm) com acabamento em acrílico ou papel couché fosco.
             </p>
 
             {/* Cartão de Mesa Simulado */}
-            <div className="my-6 mx-auto max-w-xs rounded-2xl border-2 border-[#D3B47C] bg-white p-6 text-[#100E0D] shadow-2xl">
-              <div className="border-b border-[#D3B47C]/30 pb-3">
-                <span className="font-serif text-sm font-bold tracking-widest text-[#8C6D37] uppercase block">
-                  DÚNIA CITY HALL
-                </span>
-                <span className="text-[0.65rem] text-neutral-500 font-sans tracking-wider uppercase">
-                  {event.name}
-                </span>
+            <div className="my-6 mx-auto max-w-xs rounded-2xl border-2 border-[#D3B47C] bg-[#120F0D] p-6 text-center text-white shadow-2xl">
+              <Image
+                src="/assets/logo.png"
+                alt="Dúnia City Hall"
+                width={120}
+                height={35}
+                className="h-7 w-auto object-contain mx-auto mb-3"
+              />
+              <p className="font-serif text-xl text-[#D3B47C]">{event.name}</p>
+              <p className="text-[0.65rem] uppercase tracking-widest text-[#ABA29A] mt-0.5">
+                {formatEventDate(event.date)}
+              </p>
+
+              <div className="my-4 mx-auto w-40 rounded-xl bg-white p-2.5 shadow">
+                <img src={qrCodeImageUrl} alt="QR Code" className="h-auto w-full object-contain" />
               </div>
 
-              <div className="my-4 mx-auto w-40 h-40 border border-neutral-300 rounded-xl p-1 bg-white">
-                <img
-                  src={qrCodeImageUrl}
-                  alt="QR Code Totem"
-                  width={160}
-                  height={160}
-                  className="w-full h-full object-contain"
-                />
+              <p className="font-serif text-sm text-white">Compartilhe Suas Fotos</p>
+              <p className="text-[0.65rem] text-[#ABA29A] mt-1 leading-snug">
+                Aponte a câmera do seu celular e veja suas fotos no telão oficial do salão!
+              </p>
+              <div className="mt-4 border-t border-white/10 pt-2 text-[0.6rem] text-[#D3B47C] uppercase tracking-widest">
+                MESA VIP • DÚNIA CITY HALL
               </div>
-
-              <p className="font-serif text-base font-semibold text-[#100E0D]">
-                Compartilhe Suas Fotos!
-              </p>
-              <p className="text-[0.65rem] text-neutral-600 mt-1 leading-snug">
-                Aponte a câmera do seu celular e veja suas fotos aparecerem ao vivo no Telão do salão.
-              </p>
             </div>
 
-            <div className="flex justify-center gap-3">
+            <div className="flex gap-3 justify-center">
               <button
                 onClick={() => window.print()}
-                className="inline-flex items-center gap-2 rounded-xl bg-[#D3B47C] px-5 py-2.5 text-xs font-bold text-[#100E0D] hover:bg-[#D3B47C]/90 transition"
+                className="rounded-xl bg-[#D3B47C] px-5 py-2.5 text-xs font-bold text-[#100E0D] hover:bg-[#D3B47C]/90 transition inline-flex items-center gap-2"
               >
                 <Printer className="h-4 w-4" />
-                <span>Imprimir Arte</span>
+                <span>Imprimir Este Modelo</span>
               </button>
 
               <button
                 onClick={() => setShowPrintModal(false)}
-                className="rounded-xl border border-white/20 bg-white/5 px-5 py-2.5 text-xs font-semibold text-white hover:bg-white/10 transition"
+                className="rounded-xl border border-white/20 bg-white/5 px-4 py-2.5 text-xs font-semibold text-white hover:bg-white/10 transition"
               >
                 Fechar
               </button>
@@ -1337,21 +1719,23 @@ END:VCALENDAR`
       {lightboxPhoto && (
         <div
           onClick={() => setLightboxPhoto(null)}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-md cursor-pointer animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 backdrop-blur-md"
         >
-          <div className="relative max-w-4xl max-h-[85vh] w-full h-[75vh]" onClick={(e) => e.stopPropagation()}>
-            <Image
+          <button
+            onClick={() => setLightboxPhoto(null)}
+            className="absolute right-6 top-6 rounded-full bg-white/15 p-3 text-white hover:bg-white/30 transition"
+          >
+            <X className="h-6 w-6" />
+          </button>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-h-[85vh] max-w-[90vw] overflow-hidden rounded-2xl border border-white/20 shadow-2xl"
+          >
+            <img
               src={lightboxPhoto}
-              alt="Foto Dúnia Lightbox"
-              fill
-              className="object-contain"
+              alt="Foto Ampliada"
+              className="max-h-[85vh] max-w-[90vw] object-contain"
             />
-            <button
-              onClick={() => setLightboxPhoto(null)}
-              className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-black/70 text-white border border-white/20 hover:bg-white/20 transition"
-            >
-              <X className="h-5 w-5" />
-            </button>
           </div>
         </div>
       )}
