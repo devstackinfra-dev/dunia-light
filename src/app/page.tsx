@@ -287,19 +287,11 @@ export default function Home() {
                 Não é apenas uma festa. É a mão que treme antes do sim. É o abraço que demora. É a noite que se torna parte de quem somos no salão mais elegante de Brasília.
               </p>
 
-              <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+              <div className="pt-2">
                 <a className="line-link" href="#story">
                   ENTRE NESSA HISTÓRIA <b>↗</b>
                 </a>
 
-                <Link
-                  href="/evento"
-                  target="_blank"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-[0.72rem] font-semibold tracking-wider text-white/80 hover:text-white hover:border-[#D3B47C] transition backdrop-blur-sm"
-                >
-                  <span>VER MINI-SITE DEMO</span>
-                  <ExternalLink className="h-3 w-3 text-[#D3B47C]" />
-                </Link>
               </div>
             </div>
 
