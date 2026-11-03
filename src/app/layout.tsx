@@ -141,6 +141,26 @@ export default async function RootLayout({
   return (
     <html lang="pt-BR" className={`${cormorant.variable} ${dmSans.variable} ${serifa.variable} ${sans.variable} ${playfair.variable} ${openSans.variable}`} style={temaCss}>
       <body className="font-corpo antialiased selection:bg-marca-latao/30 selection:text-marca-tinta bg-[#0A0807] text-[#F3EEE6] overflow-x-hidden relative min-h-screen">
+        {process.env.NODE_ENV !== "production" && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                try {
+                  if (typeof window !== "undefined" && "serviceWorker" in navigator && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+                    navigator.serviceWorker.getRegistrations().then(function(regs) {
+                      for (var r of regs) { r.unregister(); }
+                    });
+                    if ("caches" in window) {
+                      caches.keys().then(function(keys) {
+                        for (var k of keys) { caches.delete(k); }
+                      });
+                    }
+                  }
+                } catch(e) {}
+              `,
+            }}
+          />
+        )}
         <DuniaBackground />
         <ConteudoProvider conteudo={conteudo}>
           {children}
