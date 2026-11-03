@@ -231,21 +231,7 @@ export default function Home() {
   const visibleArticles = showAllArticles ? filteredArticles : filteredArticles.slice(0, 3)
 
   return (
-    <div className="relative min-h-screen bg-[#0C0A09] text-[#F3EEE6] antialiased selection:bg-[#D3B47C]/30 selection:text-white overflow-x-hidden">
-      {/* Fundo Atmosférico de Iluminação Cênica Dúnia (Ultra Imersivo) */}
-      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        {/* Lustre Monumental: Chandelier Glow Dourado no Topo */}
-        <div className="absolute -top-40 right-[-10%] h-[850px] w-[850px] rounded-full bg-gradient-to-br from-[#D3B47C]/22 via-[#B58A4A]/12 to-transparent blur-[160px]" />
-        {/* Halo Âmbar Cálido na Esquerda Atrás do Logo Hero */}
-        <div className="absolute top-10 -left-36 h-[750px] w-[750px] rounded-full bg-gradient-to-br from-[#D3B47C]/16 via-[#8C6D37]/10 to-transparent blur-[150px]" />
-        {/* Iluminação Noturna Quente e Aveludada */}
-        <div className="absolute top-[38%] right-[15%] h-[650px] w-[650px] rounded-full bg-[#AF8850]/10 blur-[150px]" />
-        <div className="absolute bottom-20 left-10 h-[750px] w-[750px] rounded-full bg-[#D3B47C]/10 blur-[170px]" />
-        {/* Vinheta Noturna Teatral: Foco e Profundidade nos Eixos Centrais */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,#070605_95%)] opacity-90" />
-        {/* Textura Editorial Sutil de Luz e Granulação Nobre */}
-        <div className="absolute inset-0 bg-[radial-gradient(#d3b47c_0.85px,transparent_0.85px)] [background-size:52px_52px] opacity-[0.035]" />
-      </div>
+    <div className="relative min-h-screen bg-transparent text-[#F3EEE6] antialiased selection:bg-[#D3B47C]/30 selection:text-white overflow-x-hidden">
       {/* HEADER NAVEGACAO CENTRALIZADO DE ALTO LUXO */}
       <DuniaHeader currentPage="/" />
 

@@ -435,3 +435,49 @@ html{scroll-behavior:smooth}
 .animate-fadeIn {
   animation: fadeInEffect 0.8s ease-out forwards;
 }
+
+
+/* Partículas Flutuantes Sutis de Poeira de Cristal Dourada */
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-45px) translateX(20px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.15;
+  }
+}
+
+.ambient-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f3d4a0 15%, rgba(211, 180, 124, 0.4) 45%, transparent 75%);
+  pointer-events: none;
+  animation: floatParticle 10s ease-in-out infinite;
+  filter: blur(0.5px);
+}
+
+/* Interação Sofisticada com Fotos em Todo o Site */
+img {
+  transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Brilho Cênico Dourado em Cards de Fotos ao passar o cursor */
+.celebration-card,
+.journal-card,
+.film-frame,
+[data-interactive-photo] {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease, border-color 0.6s ease;
+}
+
+.celebration-card:hover,
+.journal-card:hover,
+.film-frame:hover,
+[data-interactive-photo]:hover {
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.95), 0 0 50px rgba(211, 180, 124, 0.22);
+}

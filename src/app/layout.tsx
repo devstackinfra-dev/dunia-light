@@ -9,6 +9,7 @@ import { getConteudo } from "@/lib/conteudo"
 import { getSetting } from "@/lib/db/settings"
 import type { LandingSettings } from "@/types/landing"
 import { ConteudoProvider } from "@/components/home/shared/ConteudoProvider"
+import DuniaBackground from "@/components/dunia-background"
 
 // Cormorant Garamond: a serifa nobre e cinematográfica oficial do Dúnia City Hall
 const cormorant = Cormorant_Garamond({
@@ -139,7 +140,8 @@ export default async function RootLayout({
 
   return (
     <html lang="pt-BR" className={`${cormorant.variable} ${dmSans.variable} ${serifa.variable} ${sans.variable} ${playfair.variable} ${openSans.variable}`} style={temaCss}>
-      <body className="font-corpo antialiased selection:bg-marca-latao/30 selection:text-marca-tinta">
+      <body className="font-corpo antialiased selection:bg-marca-latao/30 selection:text-marca-tinta bg-[#0A0807] text-[#F3EEE6] overflow-x-hidden relative min-h-screen">
+        <DuniaBackground />
         <ConteudoProvider conteudo={conteudo}>
           {children}
           {/* <WhatsAppNotification /> */}

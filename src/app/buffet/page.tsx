@@ -12,7 +12,7 @@ export const metadata = {
 
 export default function BuffetPage() {
   return (
-    <div className="min-h-screen bg-[#100E0D] text-[#F3EEE6] antialiased selection:bg-[#D3B47C]/30 selection:text-white">
+    <div className="relative z-10 min-h-screen bg-transparent text-[#F3EEE6] antialiased selection:bg-[#D3B47C]/30 selection:text-white">
       <DuniaHeader currentPage="/buffet" />
 
       <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
