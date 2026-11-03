@@ -644,6 +644,24 @@ export const EVENT_STORYTELLING_DATA: Record<string, EventStorytelling> = {
   },
 }
 
+export function saveStorytellingForEvent(eventId: string, data: EventStorytelling): void {
+  if (typeof window === "undefined") return
+  try {
+    localStorage.setItem(`dunia_storytelling_${eventId}`, JSON.stringify(data))
+    window.dispatchEvent(new Event("dunia_storytelling_updated"))
+  } catch (e) {
+    console.error("Failed to save storytelling to localStorage", e)
+  }
+}
+
 export function getStorytellingForEvent(eventId: string): EventStorytelling {
+  if (typeof window !== "undefined") {
+    try {
+      const stored = localStorage.getItem(`dunia_storytelling_${eventId}`)
+      if (stored) {
+        return JSON.parse(stored)
+      }
+    } catch (e) {}
+  }
   return EVENT_STORYTELLING_DATA[eventId] || EVENT_STORYTELLING_DATA["ev-jm"]
 }

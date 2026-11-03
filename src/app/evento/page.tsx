@@ -220,6 +220,7 @@ export default function EventoPage() {
     const guest = updatedGuests[guestIndex]
     guest.status = rsvpStatus
     guest.message = rsvpMessage.trim()
+    guest.dietary = dietary as any
     guest.updatedAt = Date.now()
 
     const nextState: DuniaEventState = {

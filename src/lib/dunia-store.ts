@@ -13,6 +13,8 @@ export interface DuniaGuest {
   invitedVia?: "whatsapp" | "email" | "manual"
   invitedAt?: number
   invitationStatus?: "nao_enviado" | "enviado" | "entregue" | "lido"
+  table?: string
+  dietary?: "padrao" | "vegetariano" | "vegano" | "celiaco" | "sem_lactose" | "kids"
 }
 
 export interface DuniaEventModules {

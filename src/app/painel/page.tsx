@@ -46,7 +46,16 @@ import {
   ShieldCheck,
   RefreshCw,
   Layers,
+  BookOpen,
+  Crown,
+  Palette,
+  UtensilsCrossed,
 } from "lucide-react"
+import PainelStorytellingTab from "@/components/painel/painel-storytelling-tab"
+import PainelCorteTab from "@/components/painel/painel-corte-tab"
+import PainelEstiloTab from "@/components/painel/painel-estilo-tab"
+import PainelMesasTab from "@/components/painel/painel-mesas-tab"
+import PainelBuffetDietaryCard from "@/components/painel/painel-buffet-dietary-card"
 import {
   getActiveEventId,
   setActiveEventId,
@@ -71,7 +80,7 @@ import {
   type DuniaTelaoSettings,
 } from "@/lib/dunia-store"
 
-type TabKey = "overview" | "guests" | "editor" | "checkin" | "album" | "business"
+type TabKey = "overview" | "guests" | "storytelling" | "corte" | "estilo" | "mesas" | "album" | "checkin" | "editor" | "business"
 
 export default function PainelCasalPage() {
   const [mounted, setMounted] = useState(false)
@@ -477,6 +486,16 @@ export default function PainelCasalPage() {
   }
 
   // Check-in Process
+  // Atualizar Mesa do Convidado
+  const handleUpdateGuestTable = (guestId: number, table: string) => {
+    if (!state) return
+    const updated = state.guests.map((g) => (g.id === guestId ? { ...g, table } : g))
+    const nextState = { ...state, guests: updated }
+    setState(nextState)
+    saveEventState(event.id, nextState)
+    notify("Mesa do convidado atualizada com sucesso!")
+  }
+
   const handleCheckinSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const cleanCode = checkinCode.trim().toUpperCase()
@@ -644,6 +663,10 @@ export default function PainelCasalPage() {
             {[
               { key: "overview", label: "Visão Geral", icon: Calendar, enabled: true },
               { key: "guests", label: "Convidados & RSVP", icon: Users, enabled: event.modules?.rsvpWhatsApp !== false },
+              { key: "mesas", label: "Mapa de Mesas & Totens", icon: QrCode, enabled: true },
+              { key: "storytelling", label: "Storytelling & Livro", icon: BookOpen, enabled: true },
+              { key: "corte", label: "Corte de Honra", icon: Crown, enabled: true },
+              { key: "estilo", label: "Estilo & Playlist", icon: Palette, enabled: true },
               { key: "editor", label: "Editor do Mini-site", icon: Edit3, enabled: true },
               { key: "checkin", label: "Controle de Entrada", icon: CheckCircle, enabled: event.modules?.receptionCheckin !== false },
               { key: "album", label: "Dúnia Memories", icon: Camera, enabled: event.modules?.guestAlbum !== false || event.modules?.liveTelao !== false },
@@ -718,6 +741,10 @@ export default function PainelCasalPage() {
               {[
                 { key: "overview", label: "Visão Geral", icon: Calendar },
                 { key: "guests", label: "Convidados & RSVP", icon: Users },
+                { key: "mesas", label: "Mapa de Mesas", icon: QrCode },
+                { key: "storytelling", label: "Storytelling & Livro", icon: BookOpen },
+                { key: "corte", label: "Corte de Honra", icon: Crown },
+                { key: "estilo", label: "Estilo & Playlist", icon: Palette },
                 { key: "editor", label: "Editor do Mini-site", icon: Edit3 },
                 { key: "checkin", label: "Controle de Entrada", icon: CheckCircle },
                 { key: "album", label: "Dúnia Memories", icon: Camera },
@@ -759,6 +786,10 @@ export default function PainelCasalPage() {
             <h1 className="font-serif text-2xl text-white">
               {activeTab === "overview" && "Visão Geral da Celebração"}
               {activeTab === "guests" && "Gestão de Convidados & RSVP"}
+              {activeTab === "mesas" && "Mapa de Mesas & Totens QR de Luxo"}
+              {activeTab === "storytelling" && "Storytelling, Capítulos & Livro de Ouro"}
+              {activeTab === "corte" && "Corte de Honra · Pais, Padrinhos & Damas"}
+              {activeTab === "estilo" && "Guia de Estilo, Paleta & Playlist Curada"}
               {activeTab === "editor" && "Editor do Mini-site"}
               {activeTab === "checkin" && "Controle de Entrada & Recepção"}
               {activeTab === "album" && "Dúnia Memories (Álbum de Fotos)"}
@@ -841,6 +872,9 @@ export default function PainelCasalPage() {
                     <p className="mt-1 text-sm italic text-white/90">&ldquo;{event.message}&rdquo;</p>
                   </div>
                 </div>
+
+                {/* RELATÓRIO DE BUFFET & RESTRIÇÕES ALIMENTARES */}
+                <PainelBuffetDietaryCard event={event} guests={guests} onNotify={notify} />
 
                 {/* Últimos Retornos de RSVP */}
                 <div className="rounded-2xl border border-white/10 bg-[#161311] p-6">
@@ -1195,6 +1229,31 @@ export default function PainelCasalPage() {
                 </div>
               </div>
             </div>
+          )}
+
+          {/* TAB NOVA: STORYTELLING & LIVRO DE OURO */}
+          {activeTab === "storytelling" && (
+            <PainelStorytellingTab eventId={event.id} onNotify={notify} />
+          )}
+
+          {/* TAB NOVA: CORTE DE HONRA */}
+          {activeTab === "corte" && (
+            <PainelCorteTab eventId={event.id} onNotify={notify} />
+          )}
+
+          {/* TAB NOVA: GUIA DE ESTILO & PLAYLIST */}
+          {activeTab === "estilo" && (
+            <PainelEstiloTab eventId={event.id} onNotify={notify} />
+          )}
+
+          {/* TAB NOVA: MAPA DE MESAS & TOTENS QR */}
+          {activeTab === "mesas" && (
+            <PainelMesasTab
+              event={event}
+              guests={guests}
+              onUpdateGuestTable={handleUpdateGuestTable}
+              onNotify={notify}
+            />
           )}
 
           {/* TAB 3: EDITOR DO MINI-SITE */}
