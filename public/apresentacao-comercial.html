@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apresentação Executiva: Nova Estratégia Digital & Comercial — Dúnia City Hall</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: #0A0807;
+      color: #F3EEE6;
+      overflow-x: hidden;
+    }
+    .font-serif {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+    .gold-gradient {
+      background: linear-gradient(135deg, #D3B47C 0%, #EAD5B2 50%, #C29B5D 100%);
+    }
+    .gold-text {
+      background: linear-gradient(135deg, #D3B47C 0%, #F5E6CA 50%, #C29B5D 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .slide {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+    }
+    .slide.active {
+      display: block;
+      opacity: 1;
+    }
+    .glass-card {
+      background: rgba(22, 19, 17, 0.75);
+      border: 1px solid rgba(211, 180, 124, 0.2);
+      backdrop-filter: blur(12px);
+    }
+    .glass-card-hover:hover {
+      border-color: rgba(211, 180, 124, 0.5);
+      transform: translateY(-2px);
+      transition: all 0.3s ease;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0A0807;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2A2420;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #D3B47C;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-[#D3B47C]/30 selection:text-white">
+
+  <!-- TOP BAR -->
+  <header class="border-b border-white/10 bg-[#100E0D]/90 backdrop-blur-md px-6 py-4 sticky top-0 z-50 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <div class="border border-[#D3B47C]/40 px-3 py-1 rounded-md text-xs font-serif tracking-[0.2em] text-[#D3B47C]">
+        DÚNIA CITY HALL
+      </div>
+      <span class="text-xs text-white/50 hidden md:inline">• Proposta Comercial & Transformação Digital</span>
+    </div>
+
+    <!-- Navigation Pills -->
+    <div class="flex items-center gap-1.5 md:gap-2">
+      <button onclick="prevSlide()" class="p-2 rounded-lg border border-white/10 hover:border-[#D3B47C] hover:bg-white/5 transition text-xs flex items-center gap-1 text-white/80">
+        ◀ <span class="hidden sm:inline">Anterior</span>
+      </button>
+      <span id="slideIndicator" class="px-3 py-1 rounded-md bg-white/5 text-xs font-mono text-[#D3B47C] border border-white/10">
+        01 / 07
+      </span>
+      <button onclick="nextSlide()" class="p-2 rounded-lg bg-[#D3B47C] hover:bg-[#D3B47C]/90 text-[#100E0D] font-bold text-xs flex items-center gap-1 transition">
+        <span class="hidden sm:inline">Próximo</span> ▶
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN SLIDES CONTAINER -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-6 py-10">
+
+    <!-- ================= SLIDE 1: CAPA EXECUTIVA ================= -->
+    <div class="slide active" id="slide-1">
+      <div class="text-center max-w-3xl mx-auto pt-6 pb-12">
+        <span class="text-[0.7rem] font-bold uppercase tracking-[0.3em] text-[#D3B47C] border border-[#D3B47C]/30 px-3 py-1 rounded-full bg-[#D3B47C]/5 inline-block mb-4">
+          APRESENTAÇÃO EXECUTIVA • 2026/2027
+        </span>
+        <h1 class="font-serif text-4xl sm:text-6xl text-white font-normal leading-tight tracking-tight">
+          A Nova Presença Digital do <span class="gold-text italic">Dúnia City Hall</span>
+        </h1>
+        <p class="mt-4 text-sm sm:text-base text-[#ABA29A] leading-relaxed max-w-2xl mx-auto">
+          Da substituição do site atual à implementação da plataforma tecnológica que encanta anfitriões, elimina custos de buffet e fecha mais celebrações de luxo no Lago Sul.
+        </p>
+
+        <!-- Quick Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12 text-left">
+          <div class="glass-card p-5 rounded-2xl">
+            <span class="text-xs text-rose-400 font-semibold tracking-wider uppercase block mb-1">01. O Ponto de Partida</span>
+            <h4 class="font-serif text-lg text-white">O Site Atual</h4>
+            <p class="text-xs text-[#ABA29A] mt-1 leading-relaxed">
+              Diagnóstico do portal <em class="text-white/70">duniacityhall.com.br</em>: estático, subaproveita o acervo fotográfico e não participa do fechamento de vendas.
+            </p>
+          </div>
+
+          <div class="glass-card p-5 rounded-2xl border-[#D3B47C]/40">
+            <span class="text-xs text-amber-300 font-semibold tracking-wider uppercase block mb-1">02. Entrada Imediata</span>
+            <h4 class="font-serif text-lg text-white">Pacote Dúnia Prestige</h4>
+            <p class="text-xs text-[#ABA29A] mt-1 leading-relaxed">
+              Hotsite Institucional cinematográfico com Galeria 35mm (309 fotos reais), Revista editorial e captação de leads VIP via WhatsApp.
+            </p>
+          </div>
+
+          <div class="glass-card p-5 rounded-2xl border-emerald-500/40">
+            <span class="text-xs text-emerald-400 font-semibold tracking-wider uppercase block mb-1">03. A Grande Virada</span>
+            <h4 class="font-serif text-lg text-white">Dúnia Experience OS</h4>
+            <p class="text-xs text-[#ABA29A] mt-1 leading-relaxed">
+              Mini-sites por nicho, RSVP inteligente, controle de portaria e Telão de LED interativo em tempo real via QR Code de mesa.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-10">
+          <button onclick="goToSlide(2)" class="px-8 py-3 rounded-xl bg-[#D3B47C] text-[#100E0D] font-bold text-xs uppercase tracking-widest hover:opacity-90 shadow-[0_10px_30px_rgba(211,180,124,0.3)] transition">
+            Iniciar Apresentação Comercial →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= SLIDE 2: DIAGNÓSTICO DO SITE ATUAL ================= -->
+    <div class="slide" id="slide-2">
+      <div class="border-b border-white/10 pb-4 mb-8">
+        <span class="text-xs font-bold uppercase tracking-[0.25em] text-rose-400">FASE 01 • O DIAGNÓSTICO</span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mt-1">O Site Atual vs. O Potencial Real do Dúnia</h2>
+        <p class="text-xs sm:text-sm text-[#ABA29A] mt-1">
+          O Dúnia City Hall é um monumento de 2.500 m² no Lago Sul, mas o site legado (<em>duniacityhall.com.br</em>) comunica apenas uma fração do seu valor.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+        <!-- Site Antigo -->
+        <div class="rounded-2xl border border-rose-500/20 bg-rose-500/[0.03] p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-rose-500/20 pb-3">
+            <span class="text-xs font-bold text-rose-400 tracking-wider uppercase">Site Atual (duniacityhall.com.br)</span>
+            <span class="text-[0.65rem] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 uppercase">Limitado</span>
+          </div>
+
+          <ul class="space-y-3 text-xs text-[#ABA29A]">
+            <li class="flex items-start gap-2">
+              <span class="text-rose-400 font-bold">✕</span>
+              <span><strong>Visual Estático & Datado:</strong> Não transmite o glamour e a sofisticação exigidos por noivas de alta renda e famílias do Lago Sul.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-rose-400 font-bold">✕</span>
+              <span><strong>Subaproveitamento do Acervo:</strong> O salão possui mais de 300 fotos profissionais espetaculares que ficavam escondidas ou difíceis de navegar.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-rose-400 font-bold">✕</span>
+              <span><strong>Comunicação Genérica:</strong> Mistura casamentos, corporativo e 15 anos sem adaptar a linguagem para cada decisão de compra.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-rose-400 font-bold">✕</span>
+              <span><strong>Sem Interatividade:</strong> É apenas um panfleto estático. Não ajuda o comercial a justificar o valor da locação.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- O Novo Posicionamento -->
+        <div class="rounded-2xl border border-[#D3B47C]/40 bg-[#161311] p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-[#D3B47C]/20 pb-3">
+            <span class="text-xs font-bold text-[#D3B47C] tracking-wider uppercase">A Nova Estratégia de Alto Padrão</span>
+            <span class="text-[0.65rem] px-2 py-0.5 rounded bg-[#D3B47C]/20 text-[#D3B47C] uppercase font-bold">Editorial Vogue</span>
+          </div>
+
+          <ul class="space-y-3 text-xs text-[#ABA29A]">
+            <li class="flex items-start gap-2">
+              <span class="text-[#D3B47C] font-bold">✓</span>
+              <span><strong>Estética Cinematográfica:</strong> Tipografia nobre (<em>Cormorant Garamond</em>), paleta escura com dourado acetinado e atmosfera editorial.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-[#D3B47C] font-bold">✓</span>
+              <span><strong>Galeria 35mm com 309 Fotos Reais:</strong> Filtro inteligente por nicho (Casamentos, 15 Anos, Corporativo, Gastronomia, Espaços e Jardim).</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-[#D3B47C] font-bold">✓</span>
+              <span><strong>Revista Dúnia:</strong> Conteúdo institucional que gera autoridade e desejo antes mesmo da visita presencial.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-[#D3B47C] font-bold">✓</span>
+              <span><strong>Estruturação em 2 Níveis Comerciais:</strong> Permite ao salão fechar com clientes conservadores (Pacote Prestige) ou avançados (Experience OS).</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= SLIDE 3: MODELO 1 - PACOTE PRESTIGE ================= -->
+    <div class="slide" id="slide-3">
+      <div class="border-b border-white/10 pb-4 mb-8">
+        <span class="text-xs font-bold uppercase tracking-[0.25em] text-amber-300">MODELO 01 • ENTRADA IMEDIATA</span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mt-1">Pacote Dúnia Prestige (Institucional / Desidratado)</h2>
+        <p class="text-xs sm:text-sm text-[#ABA29A] mt-1">
+          A presença digital definitiva para o salão: substitui o site legado com elegância absoluta, valorizando a arquitetura e captando leads qualificados.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass-card p-6 rounded-2xl space-y-3">
+          <div class="h-10 w-10 rounded-xl bg-[#D3B47C]/10 flex items-center justify-center text-[#D3B47C] font-serif text-lg font-bold">
+            01
+          </div>
+          <h3 class="font-serif text-xl text-white">Portal Institucional Monumental</h3>
+          <p class="text-xs text-[#ABA29A] leading-relaxed">
+            Apresentação cinematográfica dos 2.500 m² no Lago Sul, salões modulares acústicos, jardim privativo para cerimônias ao pôr do sol e Espaço da Noiva.
+          </p>
+          <span class="text-[0.65rem] text-[#D3B47C] font-semibold block uppercase">Conversão para WhatsApp VIP</span>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl space-y-3">
+          <div class="h-10 w-10 rounded-xl bg-[#D3B47C]/10 flex items-center justify-center text-[#D3B47C] font-serif text-lg font-bold">
+            02
+          </div>
+          <h3 class="font-serif text-xl text-white">Galeria 35mm & Revista Dúnia</h3>
+          <p class="text-xs text-[#ABA29A] leading-relaxed">
+            Exibição contínua em película do acervo oficial (309 fotos em alta resolução), além de artigos editoriais com tendências, gastronomia e cenografia.
+          </p>
+          <span class="text-[0.65rem] text-[#D3B47C] font-semibold block uppercase">Totalmente categorizado</span>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl space-y-3">
+          <div class="h-10 w-10 rounded-xl bg-[#D3B47C]/10 flex items-center justify-center text-[#D3B47C] font-serif text-lg font-bold">
+            03
+          </div>
+          <h3 class="font-serif text-xl text-white">Painel Desidratado & Criador</h3>
+          <p class="text-xs text-[#ABA29A] leading-relaxed">
+            Área de acesso com galeria, leitor da revista e o <strong>Criador de Celebrações</strong> para cadastrar casamentos, 15 anos e eventos na agenda do salão.
+          </p>
+          <span class="text-[0.65rem] text-[#D3B47C] font-semibold block uppercase">Sem mini-sites externos</span>
+        </div>
+      </div>
+
+      <!-- Action Box -->
+      <div class="mt-8 p-6 rounded-2xl border border-amber-500/30 bg-amber-500/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold text-amber-300 uppercase tracking-wider">Deploy em Produção Ativo</span>
+          <p class="text-xs text-[#ABA29A] mt-0.5">Explore a versão Dúnia Prestige já configurada na Vercel.</p>
+        </div>
+        <a href="https://dunia-institucional.vercel.app/" target="_blank" class="px-5 py-2.5 rounded-xl bg-[#D3B47C] text-[#100E0D] font-bold text-xs uppercase tracking-wider hover:bg-[#D3B47C]/90 transition">
+          Abrir Modelo Prestige ao Vivo ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- ================= SLIDE 4: MODELO 2 - EXPERIENCE OS ================= -->
+    <div class="slide" id="slide-4">
+      <div class="border-b border-white/10 pb-4 mb-8">
+        <span class="text-xs font-bold uppercase tracking-[0.25em] text-emerald-400">MODELO 02 • A EVOLUÇÃO TECNOLÓGICA</span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mt-1">Dúnia Experience OS: A Máquina de Fechamento</h2>
+        <p class="text-xs sm:text-sm text-[#ABA29A] mt-1">
+          Nenhum outro espaço de Brasília oferece isso: uma plataforma completa que transforma cada contrato fechado em uma experiência digital inesquecível para anfitriões e convidados.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="glass-card p-5 rounded-2xl border-emerald-500/30">
+          <span class="text-xs font-bold text-emerald-400 block mb-1">01. MINI-SITES VIP</span>
+          <h4 class="font-serif text-lg text-white">Por Nicho de Evento</h4>
+          <p class="text-xs text-[#ABA29A] mt-2 leading-relaxed">
+            Mini-site editorial digno da Vogue com história do casal, contagem regressiva, dress code e integração com Waze.
+          </p>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl border-emerald-500/30">
+          <span class="text-xs font-bold text-emerald-400 block mb-1">02. RSVP INTELIGENTE</span>
+          <h4 class="font-serif text-lg text-white">Economia Real no Buffet</h4>
+          <p class="text-xs text-[#ABA29A] mt-2 leading-relaxed">
+            Confirmação por código individual com controle de acompanhantes e restrições alimentares. Evita pagar pratos extras sem necessidade.
+          </p>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl border-emerald-500/30">
+          <span class="text-xs font-bold text-emerald-400 block mb-1">03. TELÃO AO VIVO</span>
+          <h4 class="font-serif text-lg text-white">Efeito "Uau" com QR Code</h4>
+          <p class="text-xs text-[#ABA29A] mt-2 leading-relaxed">
+            Convidados sentam à mesa, escaneiam o totem e postam fotos com recados que sobem instantaneamente para os telões de LED do salão.
+          </p>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl border-emerald-500/30">
+          <span class="text-xs font-bold text-emerald-400 block mb-1">04. CHECK-IN NA PORTARIA</span>
+          <h4 class="font-serif text-lg text-white">Segurança Anti-Penetra</h4>
+          <p class="text-xs text-[#ABA29A] mt-2 leading-relaxed">
+            Validação de convites por QR Code com bloqueio automático de duplicidade na recepção do salão.
+          </p>
+        </div>
+      </div>
+
+      <!-- Live Switcher Banner -->
+      <div class="mt-8 p-6 rounded-2xl glass-card flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold text-[#D3B47C] uppercase tracking-wider">Demonstração Interativa dos 6 Nichos</span>
+          <p class="text-xs text-[#ABA29A] mt-1">Veja a plataforma se transformar ao vivo entre Casamento, Jardim, 15 Anos, Solenidade, Corporativo e Réveillon.</p>
+        </div>
+        <a href="http://localhost:3000/evento" target="_blank" class="px-6 py-2.5 rounded-xl gold-gradient text-[#100E0D] font-bold text-xs uppercase tracking-wider hover:opacity-90 transition">
+          Ver Mini-site Multi-Nicho Demo ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- ================= SLIDE 5: OS 6 NICHOS ESTRATÉGICOS ================= -->
+    <div class="slide" id="slide-5">
+      <div class="border-b border-white/10 pb-4 mb-8">
+        <span class="text-xs font-bold uppercase tracking-[0.25em] text-[#D3B47C]">ARGUMENTO COMERCIAL</span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mt-1">6 Nichos Prontos para Apresentar ao Dono do Salão</h2>
+        <p class="text-xs sm:text-sm text-[#ABA29A] mt-1">
+          Mostre que o sistema não é apenas para casamentos: ele atende todos os públicos de alta rentabilidade que o Dúnia precisa captar.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+        <div class="glass-card p-4 rounded-xl border-l-4 border-l-[#D3B47C]">
+          <span class="font-bold text-white text-sm block">1. Juliana & Marcos</span>
+          <span class="text-[#D3B47C] block font-semibold mb-1">Casamento Clássico (Salão Imperial)</span>
+          <p class="text-[#ABA29A]">História de amor em 4 atos, corte de padrinhos, dress code Passeio Completo e lista Pix integrada.</p>
+        </div>
+
+        <div class="glass-card p-4 rounded-xl border-l-4 border-l-emerald-400">
+          <span class="font-bold text-white text-sm block">2. Larissa & Renato</span>
+          <span class="text-emerald-400 block font-semibold mb-1">Casamento ao Ar Livre (Jardim Imperial)</span>
+          <p class="text-[#ABA29A]">Utiliza as fotos reais do acervo do Dúnia, cerimônia ao pôr do sol na passarela sobre o espelho d'água.</p>
+        </div>
+
+        <div class="glass-card p-4 rounded-xl border-l-4 border-l-pink-400">
+          <span class="font-bold text-white text-sm block">3. Sofia 15 Anos</span>
+          <span class="text-pink-400 block font-semibold mb-1">Debutante & Balada (Espaço Cristal)</span>
+          <p class="text-[#ABA29A]">Foco jovem com contagem regressiva, envio de fotos em tempo real para o telão de LED e recados de amigos.</p>
+        </div>
+
+        <div class="glass-card p-4 rounded-xl border-l-4 border-l-blue-400">
+          <span class="font-bold text-white text-sm block">4. Dra. Helena & Dr. Bruno</span>
+          <span class="text-blue-400 block font-semibold mb-1">Solenidade Black Tie & Autoridades</span>
+          <p class="text-[#ABA29A]">Alto protocolo para magistrados, médicos e diplomatas: QR Code nominal rigoroso e relatório dietético.</p>
+        </div>
+
+        <div class="glass-card p-4 rounded-xl border-l-4 border-l-amber-400">
+          <span class="font-bold text-white text-sm block">5. Prêmio Empresarial Apex</span>
+          <span class="text-amber-400 block font-semibold mb-1">Gala Corporativa B2B (Segunda a Quinta)</span>
+          <p class="text-[#ABA29A]">Ocupa a agenda corporativa do salão no meio da semana com conselho deliberativo, patrocinadores e credenciamento.</p>
+        </div>
+
+        <div class="glass-card p-4 rounded-xl border-l-4 border-l-purple-400">
+          <span class="font-bold text-white text-sm block">6. Réveillon dos Embaixadores</span>
+          <span class="text-purple-400 block font-semibold mb-1">Grande Produção Própria do Dúnia</span>
+          <p class="text-[#ABA29A]">Mapa de setores, venda de mesas, ceia dos embaixadores e contagem regressiva nos telões de alta resolução.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= SLIDE 6: MATRIZ COMPARATIVA ================= -->
+    <div class="slide" id="slide-6">
+      <div class="border-b border-white/10 pb-4 mb-8">
+        <span class="text-xs font-bold uppercase tracking-[0.25em] text-[#D3B47C]">ESTRUTURAÇÃO COMERCIAL</span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mt-1">Matriz Comparativa de Modelos</h2>
+        <p class="text-xs sm:text-sm text-[#ABA29A] mt-1">
+          Apresente ao proprietário do salão a segurança de poder escolher entre o essencial ou o ecossistema completo.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs text-[#ABA29A] border-collapse">
+          <thead>
+            <tr class="border-b border-white/20 text-white font-serif text-sm">
+              <th class="py-3 px-4">Recurso / Diferencial</th>
+              <th class="py-3 px-4 text-rose-400">Site Legado (Antigo)</th>
+              <th class="py-3 px-4 text-amber-300">Pacote Dúnia Prestige</th>
+              <th class="py-3 px-4 text-emerald-400">Dúnia Experience OS</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/10">
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Design & Identidade Visual</td>
+              <td class="py-3 px-4 text-rose-300">Estático e datado</td>
+              <td class="py-3 px-4 text-amber-200">Editorial Vogue / Luxo</td>
+              <td class="py-3 px-4 text-emerald-300">Editorial Vogue + Interativo</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Galeria 35mm (309 Fotos Reais)</td>
+              <td class="py-3 px-4 text-rose-300">Ausente / Desorganizado</td>
+              <td class="py-3 px-4 text-amber-200">Película contínua 35mm</td>
+              <td class="py-3 px-4 text-emerald-300">Película 35mm + Filtros Nichos</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Revista Dúnia (Artigos)</td>
+              <td class="py-3 px-4 text-rose-300">Inexistente</td>
+              <td class="py-3 px-4 text-amber-200">Inclusa com leitor</td>
+              <td class="py-3 px-4 text-emerald-300">Inclusa com leitor</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Mini-sites dos Clientes</td>
+              <td class="py-3 px-4 text-rose-300">Não possui</td>
+              <td class="py-3 px-4 text-white/40">Desativado (Modo Light)</td>
+              <td class="py-3 px-4 text-emerald-300 font-bold">Incluso para cada evento</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Painel do Anfitrião / Casal</td>
+              <td class="py-3 px-4 text-rose-300">Não possui</td>
+              <td class="py-3 px-4 text-amber-200">Painel Desidratado (Fotos/Revista)</td>
+              <td class="py-3 px-4 text-emerald-300 font-bold">Painel Completo + RSVP + Mesas</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Telão de LED em Tempo Real</td>
+              <td class="py-3 px-4 text-rose-300">Não possui</td>
+              <td class="py-3 px-4 text-white/40">Não aplicável</td>
+              <td class="py-3 px-4 text-emerald-300 font-bold">Transmissão ao vivo via QR</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Impacto Comercial no Fechamento</td>
+              <td class="py-3 px-4 text-rose-300">Neutro ou negativo</td>
+              <td class="py-3 px-4 text-amber-200">Valoriza a arquitetura</td>
+              <td class="py-3 px-4 text-emerald-300 font-bold">Gera fechamento de contratos</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ================= SLIDE 7: O RETORNO FINANCEIRO & FECHAMENTO ================= -->
+    <div class="slide" id="slide-7">
+      <div class="border-b border-white/10 pb-4 mb-8">
+        <span class="text-xs font-bold uppercase tracking-[0.25em] text-[#D3B47C]">O FECHAMENTO DA NEGOCIAÇÃO</span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mt-1">Como o Sistema se Paga e Gera Lucro para o Dúnia</h2>
+        <p class="text-xs sm:text-sm text-[#ABA29A] mt-1">
+          O dono do salão não deve ver isso como custo, mas como um investimento com retorno financeiro direto e imediato.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Estratégia A -->
+        <div class="glass-card p-6 rounded-2xl border-l-4 border-l-amber-400 space-y-3">
+          <span class="text-xs font-bold text-amber-300 uppercase tracking-wider block">Estratégia 01 • Como Taxa de Tecnologia / Concierge</span>
+          <h3 class="font-serif text-2xl text-white">Lucro Direto por Evento</h3>
+          <p class="text-xs text-[#ABA29A] leading-relaxed">
+            O salão embutir no contrato de cada cliente uma <strong>Taxa de Concierge Digital & Telão Interativo</strong> de R$ 900 a R$ 1.800:
+          </p>
+          <div class="p-3 bg-white/5 rounded-xl border border-white/10 text-xs text-white">
+            <span class="text-[#D3B47C] font-bold">Simulação:</span> 40 eventos/ano × R$ 1.200 = <strong>R$ 48.000,00</strong> de receita adicional para o salão, pagando a plataforma com sobra e gerando lucro líquido.
+          </div>
+        </div>
+
+        <!-- Estratégia B -->
+        <div class="glass-card p-6 rounded-2xl border-l-4 border-l-emerald-400 space-y-3">
+          <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block">Estratégia 02 • Como Diferencial de Fechamento</span>
+          <h3 class="font-serif text-2xl text-white">Ganhando Contratos da Concorrência</h3>
+          <p class="text-xs text-[#ABA29A] leading-relaxed">
+            No Lago Sul, concorrentes disputam os mesmos casamentos. Oferecer o Experience OS como <em>"Cortesia Exclusiva Dúnia para quem fechar esta semana"</em> define a escolha do casal na hora:
+          </p>
+          <div class="p-3 bg-white/5 rounded-xl border border-white/10 text-xs text-white">
+            <span class="text-emerald-300 font-bold">Impacto Real:</span> Fechar apenas <strong>1 ou 2 contratos a mais</strong> no ano por causa da tecnologia já gera entre <strong>R$ 60.000 e R$ 140.000</strong> a mais no faturamento anual do salão.
+          </div>
+        </div>
+      </div>
+
+      <!-- Links Práticos de Demonstração -->
+      <div class="mt-8 p-6 rounded-2xl border border-[#D3B47C]/40 bg-[#161311] flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <h4 class="font-serif text-lg text-white">Links Prontos para a Demonstração com o Cliente</h4>
+          <p class="text-xs text-[#ABA29A]">Abra as abas antes da reunião para alternar instantaneamente.</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <a href="https://dunia-institucional.vercel.app/" target="_blank" class="px-4 py-2 rounded-lg border border-white/20 text-xs hover:border-[#D3B47C] transition">
+            1. Versão Prestige (Light) ↗
+          </a>
+          <a href="http://localhost:3000/evento" target="_blank" class="px-4 py-2 rounded-lg bg-[#D3B47C] text-[#100E0D] font-bold text-xs hover:bg-[#D3B47C]/90 transition">
+            2. Experience OS (Multi-Nicho) ↗
+          </a>
+          <a href="http://localhost:3000/admin/experiencias" target="_blank" class="px-4 py-2 rounded-lg border border-[#D3B47C]/50 text-xs text-[#D3B47C] hover:bg-[#D3B47C]/10 transition">
+            3. Central & Criador ↗
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- BOTTOM BAR / KEYBOARD HINT -->
+  <footer class="border-t border-white/10 bg-[#0C0A09] px-6 py-4 text-center text-xs text-white/40 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <div>
+      Dúnia City Hall — SHIS QI 15 Lago Sul, Brasília / DF • Apresentação Comercial Exclusiva
+    </div>
+    <div class="flex items-center gap-3">
+      <span>Navegue com as setas <kbd class="px-1.5 py-0.5 rounded bg-white/10 text-white font-mono">◀</kbd> <kbd class="px-1.5 py-0.5 rounded bg-white/10 text-white font-mono">▶</kbd> do teclado</span>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 7;
+
+    function updateSlide() {
+      for (let i = 1; i <= totalSlides; i++) {
+        const el = document.getElementById('slide-' + i);
+        if (el) {
+          if (i === currentSlide) {
+            el.classList.add('active');
+          } else {
+            el.classList.remove('active');
+          }
+        }
+      }
+      const indicator = document.getElementById('slideIndicator');
+      if (indicator) {
+        indicator.innerText = String(currentSlide).padStart(2, '0') + ' / ' + String(totalSlides).padStart(2, '0');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function goToSlide(n) {
+      if (n >= 1 && n <= totalSlides) {
+        currentSlide = n;
+        updateSlide();
+      }
+    }
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      }
+    });
+  </script>
+</body>
+</html>
