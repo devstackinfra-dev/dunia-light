@@ -40,15 +40,35 @@ export default function DuniaGalleryViewer({
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null)
   const [isAutoScrolling, setIsAutoScrolling] = useState<boolean>(true)
   const [isHovered, setIsHovered] = useState<boolean>(false)
+  const [customPhotos, setCustomPhotos] = useState<any[]>([])
   const filmTrackRef = useRef<HTMLDivElement>(null)
   const thumbnailTrackRef = useRef<HTMLDivElement>(null)
   const animFrameRef = useRef<number | null>(null)
 
+  useEffect(() => {
+    const load = () => {
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem("dunia-custom-gallery-photos-v1")
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored)
+            if (Array.isArray(parsed)) setCustomPhotos(parsed)
+          } catch {}
+        }
+      }
+    }
+    load()
+    window.addEventListener("dunia-gallery-change", load)
+    return () => window.removeEventListener("dunia-gallery-change", load)
+  }, [])
+
+  const allCombinedPhotos = [...customPhotos, ...ALL_PHOTOS]
+
   // Filtragem
   const filteredPhotos =
     activeCategory === "all"
-      ? ALL_PHOTOS
-      : ALL_PHOTOS.filter((p) => p.category === activeCategory)
+      ? allCombinedPhotos
+      : allCombinedPhotos.filter((p) => p.category === activeCategory)
 
   const displayPhotos = limit ? filteredPhotos.slice(0, limit) : filteredPhotos.slice(0, visibleCount)
   const hasMore = !limit && visibleCount < filteredPhotos.length

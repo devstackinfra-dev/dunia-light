@@ -1118,6 +1118,14 @@ export function deleteArticle(id: number | string): void {
   saveStoredArticles(filtered)
 }
 
+export function resetArticles(): DuniaArticle[] {
+  if (typeof window !== "undefined") {
+    localStorage.setItem(STORE_ARTICLES_KEY, JSON.stringify(DEFAULT_DUNIA_ARTICLES))
+    window.dispatchEvent(new CustomEvent("dunia-articles-change", { detail: DEFAULT_DUNIA_ARTICLES }))
+  }
+  return DEFAULT_DUNIA_ARTICLES
+}
+
 
 // ==========================================
 // TIPOS DE CELEBRAÇÃO / CARDS DA HOME (CUSTOMIZÁVEIS)
@@ -1327,4 +1335,231 @@ export function resetCelebrationCards(): DuniaCelebrationCard[] {
     window.dispatchEvent(new CustomEvent("dunia-celebrations-change", { detail: DEFAULT_CELEBRATION_CARDS }))
   }
   return DEFAULT_CELEBRATION_CARDS
+}
+
+
+// ==========================================
+// GRADE DOS SHOWS & ATRAÇÕES ARTÍSTICAS
+// ==========================================
+
+export interface DuniaShowItem {
+  id: string
+  title: string
+  artist: string
+  genre: string
+  date: string
+  time: string
+  venue: string
+  description: string
+  image: string
+  status: "confirmado" | "em_breve" | "especial"
+  active?: boolean
+  featured?: boolean
+  order?: number
+}
+
+export const DEFAULT_DUNIA_SHOWS: DuniaShowItem[] = [
+  {
+    id: "show-1",
+    title: "Dúnia Symphonic: Noite de Gala",
+    artist: "Camerata & Orquestra Clássica",
+    genre: "Música Erudita & Trilha Sonora",
+    date: "Próxima Sexta-feira",
+    time: "20:30",
+    venue: "Salão Imperial",
+    description: "Execução sinfônica com cordas e sopros sob a luz dos lustres monumentais de cristal.",
+    image: "/assets/salao.jpg",
+    status: "confirmado",
+    featured: true,
+    order: 1,
+  },
+  {
+    id: "show-2",
+    title: "Sunset Jazz & Sax Lounge",
+    artist: "Quarteto Lago Sul Jazz",
+    genre: "Jazz & Bossa Contemporânea",
+    date: "Sábados ao Entardecer",
+    time: "18:00",
+    venue: "Jardim Imperial & Espelho d'Água",
+    description: "Saxofone ao vivo acompanhado de coquetelaria autoral à beira do espelho d'água.",
+    image: "/assets/jardim.jpg",
+    status: "confirmado",
+    featured: true,
+    order: 2,
+  },
+  {
+    id: "show-3",
+    title: "Baile dos Embaixadores & Gala",
+    artist: "Big Band Dúnia City Hall",
+    genre: "Swing, Clássicos & Valsa",
+    date: "Temporada de Fim de Ano",
+    time: "21:00",
+    venue: "Salão Imperial",
+    description: "Música de gala ao vivo para recepções diplomáticas e solenidades com protocolo de estado.",
+    image: "/assets/corporativo.jpg",
+    status: "confirmado",
+    featured: false,
+    order: 3,
+  },
+  {
+    id: "show-4",
+    title: "Live Electronic & Cenografia 360°",
+    artist: "Live Sax & DJ Session",
+    genre: "Deep House & Live Act",
+    date: "Festas & Pista Lendária",
+    time: "23:00",
+    venue: "Pista Central & Lounge",
+    description: "Iluminação inteligente de última geração sincronizada com percussão eletrônica e sax.",
+    image: "/assets/festa.jpg",
+    status: "confirmado",
+    featured: false,
+    order: 4,
+  },
+]
+
+const STORE_SHOWS_KEY = "dunia-shows-schedule-v1"
+
+export function getStoredShows(): DuniaShowItem[] {
+  if (typeof window === "undefined") return DEFAULT_DUNIA_SHOWS
+  try {
+    const raw = localStorage.getItem(STORE_SHOWS_KEY)
+    if (!raw) {
+      localStorage.setItem(STORE_SHOWS_KEY, JSON.stringify(DEFAULT_DUNIA_SHOWS))
+      return DEFAULT_DUNIA_SHOWS
+    }
+    const parsed = JSON.parse(raw)
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_DUNIA_SHOWS
+  } catch {
+    return DEFAULT_DUNIA_SHOWS
+  }
+}
+
+export function saveStoredShows(shows: DuniaShowItem[]): void {
+  if (typeof window === "undefined") return
+  try {
+    localStorage.setItem(STORE_SHOWS_KEY, JSON.stringify(shows))
+    window.dispatchEvent(new CustomEvent("dunia-shows-change", { detail: shows }))
+  } catch (e) {
+    console.warn("Erro ao salvar grade de shows:", e)
+  }
+}
+
+export function updateShowItem(id: string, updates: Partial<DuniaShowItem>): DuniaShowItem | null {
+  const shows = getStoredShows()
+  const idx = shows.findIndex((s) => s.id === id)
+  if (idx === -1) return null
+  const updated = { ...shows[idx], ...updates }
+  shows[idx] = updated
+  saveStoredShows(shows)
+  return updated
+}
+
+export function createNewShowItem(data: Omit<DuniaShowItem, "id"> & { id?: string }): DuniaShowItem {
+  const shows = getStoredShows()
+  const id = data.id || `show-${Date.now()}`
+  const newShow: DuniaShowItem = {
+    ...data,
+    id,
+    order: data.order ?? (shows.length + 1),
+    status: data.status || "confirmado",
+  }
+  const updated = [...shows, newShow]
+  saveStoredShows(updated)
+  return newShow
+}
+
+export function deleteShowItem(id: string): void {
+  const shows = getStoredShows()
+  const filtered = shows.filter((s) => s.id !== id)
+  saveStoredShows(filtered)
+}
+
+export function resetShows(): DuniaShowItem[] {
+  if (typeof window !== "undefined") {
+    localStorage.setItem(STORE_SHOWS_KEY, JSON.stringify(DEFAULT_DUNIA_SHOWS))
+    window.dispatchEvent(new CustomEvent("dunia-shows-change", { detail: DEFAULT_DUNIA_SHOWS }))
+  }
+  return DEFAULT_DUNIA_SHOWS
+}
+
+// ==========================================
+// GALERIA DE FOTOS DO SALÃO (ALIMENTAÇÃO DA GALERIA)
+// ==========================================
+
+export interface DuniaCustomGalleryPhoto {
+  id: string | number
+  title: string
+  label: string
+  category: "all" | "casamento" | "buffet" | "debutante" | "corporativo" | "salao" | "decoracao" | "festas" | "jardim" | "embaixadas"
+  src: string
+  url: string
+}
+
+const STORE_GALLERY_CUSTOM_KEY = "dunia-custom-gallery-photos-v1"
+
+export const INITIAL_CUSTOM_GALLERY_PHOTOS: DuniaCustomGalleryPhoto[] = [
+  { id: "gal-1", title: "Lustres de Cristal Baccarat", label: "SALÃO PRINCIPAL", category: "salao", src: "/assets/salao.jpg", url: "/assets/salao.jpg" },
+  { id: "gal-2", title: "Mesa Posta & Cristais", label: "BUFFET DÚNIA", category: "buffet", src: "/assets/mesa.jpg", url: "/assets/mesa.jpg" },
+  { id: "gal-3", title: "Dança dos Noivos no Altar", label: "CASAMENTOS REAIS", category: "casamento", src: "/assets/casal.jpg", url: "/assets/casal.jpg" },
+  { id: "gal-4", title: "Cenografia Moderna 15 Anos", label: "DEBUTANTES", category: "debutante", src: "/assets/debutante.jpg", url: "/assets/debutante.jpg" },
+  { id: "gal-5", title: "Jardim Imperial & Espelho", label: "ÁREA EXTERNA", category: "jardim", src: "/assets/jardim.jpg", url: "/assets/jardim.jpg" },
+  { id: "gal-6", title: "Gala Empresarial & Plenária", label: "CORPORATIVO", category: "corporativo", src: "/assets/corporativo.jpg", url: "/assets/corporativo.jpg" },
+  { id: "gal-7", title: "Pista Neon & Iluminação", label: "PISTA & BALADA", category: "festas", src: "/assets/festa.jpg", url: "/assets/festa.jpg" },
+  { id: "gal-8", title: "Recepção dos Noivos Imperial", label: "CASAMENTOS REAIS", category: "casamento", src: "/images/galeria/CASAMENTO-101.jpg", url: "/images/galeria/CASAMENTO-101.jpg" },
+  { id: "gal-9", title: "Bolo Cenográfico & Cristais", label: "CENOGRAFIA", category: "decoracao", src: "/images/galeria/CASAMENTO-106.jpg", url: "/images/galeria/CASAMENTO-106.jpg" },
+  { id: "gal-10", title: "Ilha Gastronômica de Antepastos", label: "ALTA COZINHA", category: "buffet", src: "/images/dunia/buffet-hero.jpg", url: "/images/dunia/buffet-hero.jpg" },
+  { id: "gal-11", title: "Cerimônia Externa Pergolado", label: "JARDIM", category: "jardim", src: "/images/dunia/jardim-galeria.jpg", url: "/images/dunia/jardim-galeria.jpg" },
+  { id: "gal-12", title: "Banquete Diplomático", label: "EMBAIXADAS", category: "embaixadas", src: "/images/dunia/embaixadas-galeria.jpg", url: "/images/dunia/embaixadas-galeria.jpg" },
+]
+
+export function getStoredGalleryPhotos(): DuniaCustomGalleryPhoto[] {
+  if (typeof window === "undefined") return INITIAL_CUSTOM_GALLERY_PHOTOS
+  try {
+    const raw = localStorage.getItem(STORE_GALLERY_CUSTOM_KEY)
+    if (!raw) {
+      localStorage.setItem(STORE_GALLERY_CUSTOM_KEY, JSON.stringify(INITIAL_CUSTOM_GALLERY_PHOTOS))
+      return INITIAL_CUSTOM_GALLERY_PHOTOS
+    }
+    const parsed = JSON.parse(raw)
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : INITIAL_CUSTOM_GALLERY_PHOTOS
+  } catch {
+    return INITIAL_CUSTOM_GALLERY_PHOTOS
+  }
+}
+
+export function saveStoredGalleryPhotos(photos: DuniaCustomGalleryPhoto[]): void {
+  if (typeof window === "undefined") return
+  try {
+    localStorage.setItem(STORE_GALLERY_CUSTOM_KEY, JSON.stringify(photos))
+    window.dispatchEvent(new CustomEvent("dunia-gallery-change", { detail: photos }))
+  } catch (e) {
+    console.warn("Erro ao salvar fotos da galeria:", e)
+  }
+}
+
+export function addGalleryPhoto(data: Omit<DuniaCustomGalleryPhoto, "id"> & { id?: string | number }): DuniaCustomGalleryPhoto {
+  const photos = getStoredGalleryPhotos()
+  const newPhoto: DuniaCustomGalleryPhoto = {
+    ...data,
+    id: data.id || `gal-${Date.now()}`,
+    label: data.label || data.category.toUpperCase(),
+    url: data.url || data.src,
+  }
+  const updated = [newPhoto, ...photos]
+  saveStoredGalleryPhotos(updated)
+  return newPhoto
+}
+
+export function deleteGalleryPhoto(id: string | number): void {
+  const photos = getStoredGalleryPhotos()
+  const filtered = photos.filter((p) => String(p.id) !== String(id))
+  saveStoredGalleryPhotos(filtered)
+}
+
+export function resetGalleryPhotos(): DuniaCustomGalleryPhoto[] {
+  if (typeof window !== "undefined") {
+    localStorage.setItem(STORE_GALLERY_CUSTOM_KEY, JSON.stringify(INITIAL_CUSTOM_GALLERY_PHOTOS))
+    window.dispatchEvent(new CustomEvent("dunia-gallery-change", { detail: INITIAL_CUSTOM_GALLERY_PHOTOS }))
+  }
+  return INITIAL_CUSTOM_GALLERY_PHOTOS
 }
