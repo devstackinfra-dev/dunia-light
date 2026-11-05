@@ -158,74 +158,52 @@ export default function Home() {
       {/* HEADER NAVEGACAO CENTRALIZADO DE ALTO LUXO */}
       <DuniaHeader currentPage="/" />
 
-      {/* 1. HERO SECTION CINEMATOGRÁFICO EDITORIAL (COM LOGO PRESTIGE & CARROSSEL INTERATIVO DE FOTOS) */}
-      <section className="relative pt-32 sm:pt-40 pb-20 sm:pb-24 overflow-hidden z-10" id="top">
+      {/* 1. HERO SECTION CINEMATOGRÁFICO EDITORIAL (MARCA MONUMENTAL + CARROSSEL AMPLO + TEXTO INFERIOR) */}
+      <section className="relative pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-hidden z-10" id="top">
         {/* Halos Luminosos Sutis: Champagne Nobre & Vinho Institucional */}
-        <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[950px] h-[450px] bg-[radial-gradient(ellipse_at_top,rgba(189,148,99,0.12),transparent_70%)] blur-2xl" />
-        <div className="pointer-events-none absolute top-1/2 right-[5%] -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[#741F32]/05 via-[#BD9463]/08 to-transparent rounded-full blur-[130px]" />
+        <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[1100px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(189,148,99,0.14),transparent_70%)] blur-2xl" />
+        <div className="pointer-events-none absolute top-1/3 right-[2%] w-[700px] h-[700px] bg-gradient-to-tr from-[#741F32]/06 via-[#BD9463]/08 to-transparent rounded-full blur-[140px]" />
 
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
+          
+          {/* BLOCO SUPERIOR: A MARCA BEM GRANDE À ESQUERDA & O CARROSSEL EXPANSIVO À DIREITA */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-center">
             
-            {/* Coluna de Texto: Marca Dúnia & Tipografia Editorial de Alto Nível */}
-            <div className="lg:col-span-6 space-y-6 text-left">
-              {/* LOGO DÚNIA CITY HALL MAJESTOSA NO HERO */}
-              <div className="inline-block pb-1">
+            {/* COLUNA ESQUERDA: MARCA DÚNIA CITY HALL BEM GRANDE & PRESENÇA MONUMENTAL */}
+            <div className="lg:col-span-5 xl:col-span-4 flex flex-col justify-center space-y-5 text-left">
+              <div className="inline-block">
                 <Link href="/" className="inline-block group" aria-label="Dúnia City Hall">
                   <Image
                     src="/images/dunia/logo-dunia-preta.png"
                     alt="Dúnia City Hall"
-                    width={360}
-                    height={120}
+                    width={480}
+                    height={160}
                     priority
-                    className="w-56 sm:w-64 lg:w-72 h-auto object-contain transition duration-500 group-hover:scale-[1.01]"
+                    className="w-72 sm:w-84 md:w-96 lg:w-[420px] xl:w-[460px] h-auto object-contain transition duration-500 group-hover:scale-[1.01]"
                   />
                 </Link>
               </div>
 
-              <p className="eyebrow hero-kicker !text-[#741F32] flex items-center gap-2">
-                <span className="ornament !bg-[#D7B78D]" /> O LUGAR ONDE AS HISTÓRIAS ACONTECEM
-              </p>
-
-              <h1 className="font-serif text-3xl sm:text-5xl lg:text-[3.6rem] font-normal leading-[1.02] text-[#30221D] tracking-[-0.03em]">
-                Há dias que<br />
-                não cabem <em className="italic text-[#741F32] font-normal">no tempo.</em>
-              </h1>
-
-              <p className="text-xs sm:text-sm leading-relaxed text-[#77665D] max-w-md font-sans font-normal pt-1">
-                Não é apenas uma festa. É a mão que treme antes do sim. É o abraço que demora. É a noite que se torna parte de quem somos no salão mais elegante de Brasília.
-              </p>
-
-              {/* Botões de Ação do Hero: Vinho Institucional & Champanhe Discreto */}
-              <div className="flex flex-wrap items-center gap-3.5 pt-3">
-                <a
-                  href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20reservar%20minha%20data%20e%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#741F32] hover:bg-[#541725] px-6 py-3 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-[0_4px_22px_rgba(116,31,50,0.25)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_6px_28px_rgba(116,31,50,0.35)]"
-                >
-                  <Calendar className="h-4 w-4" />
-                  <span>RESERVAR MINHA DATA</span>
-                </a>
-
-                <a
-                  href="#story"
-                  className="inline-flex items-center gap-2 rounded-full border border-[#D7B78D] bg-[#F2E4D5]/60 hover:bg-[#741F32] hover:border-[#741F32] hover:text-[#F7EFE6] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#741F32] transition-all duration-300 shadow-sm"
-                >
-                  <span>CONHECER O ESPAÇO</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </a>
+              <div className="space-y-2">
+                <p className="eyebrow hero-kicker !text-[#741F32] flex items-center gap-2">
+                  <span className="ornament !bg-[#D7B78D]" /> SHIS QI 15 • LAGO SUL, BRASÍLIA
+                </p>
+                <p className="font-serif italic text-[#77665D] text-sm sm:text-base leading-relaxed max-w-sm">
+                  Onde os momentos mais marcantes e celebrações memoráveis da capital federal ganham vida desde 2008.
+                </p>
               </div>
+
+              <div className="h-px w-28 bg-gradient-to-r from-[#D7B78D] to-transparent" />
             </div>
 
-            {/* Coluna do Carrossel de Imagens do Salão */}
-            <div className="lg:col-span-6 flex flex-col items-center lg:items-end relative">
+            {/* COLUNA DIREITA: CARROSSEL DE FOTOS GRANDE & CINEMATOGRÁFICO */}
+            <div className="lg:col-span-7 xl:col-span-8 flex flex-col relative">
               {/* Aura Suave Dourada/Champanhe envolvendo o carrossel */}
-              <div className="pointer-events-none absolute -inset-6 bg-gradient-to-tr from-[#BD9463]/18 via-[#741F32]/05 to-transparent rounded-full blur-3xl opacity-80" />
+              <div className="pointer-events-none absolute -inset-6 bg-gradient-to-tr from-[#BD9463]/20 via-[#741F32]/06 to-transparent rounded-full blur-3xl opacity-80" />
 
-              {/* Container do Carrossel com cantos arredondados discretos e borda suave */}
+              {/* Container do Carrossel de Grande Escala */}
               <div
-                className="relative w-full max-w-[430px] aspect-[4/5] overflow-hidden rounded-2xl shadow-[0_25px_60px_-15px_rgba(84,23,37,0.18)] border border-[#D7B78D]/40 bg-[#211813] group"
+                className="relative w-full aspect-[16/11] sm:aspect-[16/10] lg:aspect-[16/10] xl:aspect-[16/9.5] min-h-[360px] sm:min-h-[440px] lg:min-h-[480px] xl:min-h-[520px] overflow-hidden rounded-3xl shadow-[0_25px_65px_-15px_rgba(84,23,37,0.2)] border border-[#D7B78D]/45 bg-[#211813] group"
                 onMouseEnter={() => setIsHeroCarouselHovered(true)}
                 onMouseLeave={() => setIsHeroCarouselHovered(false)}
               >
@@ -242,28 +220,33 @@ export default function Home() {
                       alt={slide.title}
                       fill
                       priority={idx === 0}
-                      className="object-cover object-center filter brightness-[0.94] contrast-[1.04] transition duration-700 group-hover:scale-105"
+                      className="object-cover object-center filter brightness-[0.93] contrast-[1.04] transition duration-700 group-hover:scale-[1.02]"
                     />
 
                     {/* Gradiente escuro inferior para legibilidade da legenda */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
 
                     {/* Pílula de Tag / Categoria no Topo */}
-                    <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
-                      <span className="rounded-full bg-[#211813]/70 backdrop-blur-md border border-[#D7B78D]/30 px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[#BD9463]">
+                    <div className="absolute top-4 sm:top-6 left-4 sm:left-6 z-20 flex items-center gap-2">
+                      <span className="rounded-full bg-[#211813]/70 backdrop-blur-md border border-[#D7B78D]/35 px-3.5 py-1.5 text-[0.62rem] sm:text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#BD9463]">
                         {slide.tag}
                       </span>
                     </div>
 
+                    {/* Contador de Slides no Topo Direito */}
+                    <div className="absolute top-4 sm:top-6 right-4 sm:right-6 z-20 rounded-full bg-[#211813]/70 backdrop-blur-md border border-[#D7B78D]/35 px-3.5 py-1.5 text-[0.68rem] sm:text-xs font-bold text-[#F7EFE6] tracking-widest font-mono">
+                      0{currentHeroSlide + 1} <span className="text-[#BD9463]">/</span> 0{HERO_SLIDES.length}
+                    </div>
+
                     {/* Card de Legenda com Alto Contraste no Rodapé do Slide */}
-                    <div className="absolute bottom-4 left-4 right-4 z-20 rounded-xl border border-white/15 bg-[#211813]/75 p-4 backdrop-blur-md shadow-lg text-white">
-                      <span className="text-[0.58rem] font-bold uppercase tracking-[0.25em] text-[#BD9463] block">
+                    <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 z-20 rounded-2xl border border-white/15 bg-[#211813]/80 p-4 sm:p-5 backdrop-blur-md shadow-xl text-white">
+                      <span className="text-[0.58rem] sm:text-[0.62rem] font-bold uppercase tracking-[0.25em] text-[#BD9463] block">
                         DÚNIA CITY HALL • LAGO SUL
                       </span>
-                      <h3 className="font-serif text-lg sm:text-xl font-normal text-white leading-tight mt-1">
+                      <h3 className="font-serif text-lg sm:text-2xl font-normal text-white leading-tight mt-1">
                         {slide.title}
                       </h3>
-                      <p className="text-[0.72rem] text-white/85 line-clamp-1 mt-1 font-sans">
+                      <p className="text-xs sm:text-sm text-white/85 line-clamp-1 mt-1 font-sans">
                         {slide.subtitle}
                       </p>
                     </div>
@@ -273,34 +256,29 @@ export default function Home() {
                 {/* Botões de Navegação Anterior / Próximo (Laterais) */}
                 <button
                   onClick={prevHeroSlide}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white hover:bg-[#741F32] backdrop-blur-md border border-white/20 transition-all"
+                  className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-30 flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-black/50 text-white hover:bg-[#741F32] backdrop-blur-md border border-white/20 transition-all"
                   aria-label="Foto anterior"
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="h-5 w-5" />
                 </button>
                 <button
                   onClick={nextHeroSlide}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white hover:bg-[#741F32] backdrop-blur-md border border-white/20 transition-all"
+                  className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-30 flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-black/50 text-white hover:bg-[#741F32] backdrop-blur-md border border-white/20 transition-all"
                   aria-label="Próxima foto"
                 >
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronRight className="h-5 w-5" />
                 </button>
-
-                {/* Contador de Slides no Topo Direito */}
-                <div className="absolute top-4 right-4 z-20 rounded-full bg-[#211813]/70 backdrop-blur-md border border-[#D7B78D]/30 px-3 py-1 text-[0.65rem] font-bold text-[#F7EFE6] tracking-widest font-mono">
-                  0{currentHeroSlide + 1} <span className="text-[#BD9463]">/</span> 0{HERO_SLIDES.length}
-                </div>
               </div>
 
-              {/* Tira de Miniaturas abaixo do carrossel */}
-              <div className="mt-4 flex items-center justify-center gap-2 max-w-[430px] w-full px-1">
+              {/* Tira de Miniaturas (Thumbnails) abaixo do carrossel */}
+              <div className="mt-3.5 flex items-center justify-center gap-2 w-full px-1">
                 {HERO_SLIDES.map((slide, idx) => (
                   <button
                     key={slide.image}
                     onClick={() => setCurrentHeroSlide(idx)}
-                    className={`relative h-12 flex-1 rounded-xl overflow-hidden border transition-all duration-300 ${
+                    className={`relative h-12 sm:h-14 flex-1 rounded-xl overflow-hidden border transition-all duration-300 ${
                       idx === currentHeroSlide
-                        ? "border-[#741F32] scale-105 shadow-md ring-1 ring-[#741F32]"
+                        ? "border-[#741F32] scale-105 shadow-md ring-2 ring-[#741F32]"
                         : "border-[#D7B78D]/40 opacity-70 hover:opacity-100 hover:border-[#D7B78D]"
                     }`}
                     aria-label={`Ver foto ${idx + 1}`}
@@ -317,6 +295,53 @@ export default function Home() {
             </div>
 
           </div>
+
+          {/* BLOCO INFERIOR: O TEXTO E CTAs LOGO ABAIXO (EDITORIAL, ESPAÇOSO & ELEGANTE) */}
+          <div className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-[#D7B78D]/35 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* Coluna de Título e Texto Editorial */}
+            <div className="lg:col-span-7 xl:col-span-8 space-y-4 text-left">
+              <p className="eyebrow hero-kicker !text-[#741F32] flex items-center gap-2">
+                <span className="ornament !bg-[#D7B78D]" /> O LUGAR ONDE AS HISTÓRIAS ACONTECEM
+              </p>
+
+              <h1 className="font-serif text-3xl sm:text-5xl lg:text-[3.6rem] xl:text-[4.1rem] font-normal leading-[1.02] text-[#30221D] tracking-[-0.03em]">
+                Há dias que não cabem <br className="hidden sm:inline" />
+                <em className="italic text-[#741F32] font-normal">no tempo.</em>
+              </h1>
+
+              <p className="text-sm sm:text-base leading-relaxed text-[#77665D] max-w-2xl font-sans font-normal">
+                Não é apenas uma festa. É a mão que treme antes do sim. É o abraço que demora. É a noite que se torna parte de quem somos no salão mais elegante e acolhedor de Brasília.
+              </p>
+            </div>
+
+            {/* Coluna de Botões de Ação & Badges de Confiança */}
+            <div className="lg:col-span-5 xl:col-span-4 flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-center gap-3.5">
+              <a
+                href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20reservar%20minha%20data%20e%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
+                target="_blank"
+                rel="noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-[#741F32] hover:bg-[#541725] px-8 py-4 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-[0_4px_22px_rgba(116,31,50,0.25)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_6px_28px_rgba(116,31,50,0.35)]"
+              >
+                <Calendar className="h-4 w-4" />
+                <span>RESERVAR MINHA DATA</span>
+              </a>
+
+              <a
+                href="#story"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-[#D7B78D] bg-[#F2E4D5]/60 hover:bg-[#741F32] hover:border-[#741F32] hover:text-[#F7EFE6] px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#741F32] transition-all duration-300 shadow-sm"
+              >
+                <span>CONHECER O ESPAÇO</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </a>
+
+              <span className="text-[0.68rem] text-[#77665D] tracking-wider uppercase font-medium pt-1">
+                2.500 m² no Lago Sul • Alta Gastronomia Autoral
+              </span>
+            </div>
+
+          </div>
+
         </div>
 
         {/* Transição Orgânica Suave para a Seção Seguinte */}
