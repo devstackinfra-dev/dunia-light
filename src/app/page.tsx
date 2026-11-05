@@ -188,9 +188,9 @@ export default function Home() {
       {/* 1. HERO SECTION CINEMATOGRÁFICO: A FOTO OCUPA TODO O HERO + CARD COM BLUR ESCURO SOB O LOGO/TEXTO */}
       <section
         id="top"
-        className="relative w-full overflow-hidden bg-[#120B08] z-10 select-none flex flex-col justify-between pt-20 sm:pt-24 lg:pt-24 pb-8 sm:pb-8 lg:pb-10 min-h-[100svh] lg:min-h-0"
+        className="relative w-full overflow-hidden bg-[#120B08] z-10 select-none flex flex-col justify-between pt-16 sm:pt-20 lg:pt-20 pb-4 sm:pb-5 lg:pb-6"
         style={{
-          height: "clamp(640px, 86vh, 880px)",
+          height: "clamp(450px, 58vh, 580px)",
         }}
         onMouseEnter={() => setIsHeroCarouselHovered(true)}
         onMouseLeave={() => setIsHeroCarouselHovered(false)}
@@ -225,24 +225,24 @@ export default function Home() {
 
           {/* Vinheta Escura Suave à Esquerda para Contraste do Card e Textos */}
           <div className="absolute inset-y-0 left-0 w-full sm:w-2/3 lg:w-[48%] bg-gradient-to-r from-black/85 via-black/40 to-transparent pointer-events-none" />
-          <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/75 via-black/25 to-transparent pointer-events-none" />
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/90 via-black/35 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/75 via-black/25 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/90 via-black/35 to-transparent pointer-events-none" />
         </div>
 
         {/* CONTEÚDO PRINCIPAL: CARD COM BLUR ESCURO À ESQUERDA + CONTROLES E LEGENDAS SOBRE A FOTO */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12 w-full flex-1 flex flex-col justify-between relative z-20">
           
           {/* Linha Superior: Card Flutuante com Blur Escuro (Esquerda) + Badges Flutuantes (Direita) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
             
             {/* CARD COM BLUR E FUNDO MAIS ESCURO EMBAIXO DO LOGO E DOS TEXTOS (COMO NO MOCKUP) */}
             <div className="lg:col-span-5 xl:col-span-5">
-              <div className="rounded-[2rem] border border-[#BD9463]/35 bg-black/80 sm:bg-[#100806]/85 backdrop-blur-2xl p-5 sm:p-6 lg:p-6 xl:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.85)] space-y-3 lg:space-y-3.5 text-left max-w-lg">
+              <div className="rounded-2xl sm:rounded-[1.75rem] border border-[#BD9463]/35 bg-black/80 sm:bg-[#100806]/85 backdrop-blur-2xl p-4 sm:p-5 lg:p-5.5 shadow-[0_20px_50px_rgba(0,0,0,0.85)] space-y-2.5 sm:space-y-3 text-left max-w-md">
                 
                 {/* Kicker Institucional */}
                 <div className="flex items-center gap-2">
                   <span className="h-px w-5 bg-[#BD9463]" />
-                  <span className="text-[0.6rem] sm:text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#BD9463]">
+                  <span className="text-[0.58rem] sm:text-[0.62rem] font-bold uppercase tracking-[0.22em] text-[#BD9463]">
                     SHIS QI 15 • LAGO SUL, BRASÍLIA
                   </span>
                 </div>
@@ -253,32 +253,32 @@ export default function Home() {
                     <Image
                       src="/images/dunia/logo-dunia-hd.png"
                       alt="Dúnia City Hall"
-                      width={340}
-                      height={110}
+                      width={300}
+                      height={96}
                       priority
-                      className="w-44 sm:w-56 md:w-60 lg:w-[260px] xl:w-[290px] h-auto object-contain filter drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)] transition duration-300 group-hover:scale-[1.01]"
+                      className="w-36 sm:w-44 md:w-48 lg:w-[210px] xl:w-[230px] h-auto object-contain filter drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)] transition duration-300 group-hover:scale-[1.01]"
                     />
                   </Link>
                 </div>
 
                 {/* Título Poético */}
-                <h1 className="font-serif text-lg sm:text-xl lg:text-[1.6rem] xl:text-[1.85rem] font-normal leading-[1.16] text-[#F7EFE6] tracking-[-0.015em]">
+                <h1 className="font-serif text-base sm:text-lg lg:text-[1.35rem] xl:text-[1.5rem] font-normal leading-[1.18] text-[#F7EFE6] tracking-[-0.015em]">
                   Há dias que não cabem <br className="hidden sm:inline" />
                   <em className="italic text-[#E8D4BF] font-normal">no tempo.</em>
                 </h1>
 
                 {/* Descrição Concisa */}
-                <p className="text-xs sm:text-[0.8rem] text-[#D4C7BC] leading-relaxed font-sans font-normal max-w-md">
+                <p className="text-[0.72rem] sm:text-[0.78rem] text-[#D4C7BC] leading-relaxed font-sans font-normal max-w-sm">
                   O cenário dos momentos mais nobres e celebrações memoráveis da capital federal. 2.500 m² de arquitetura clássica, alta gastronomia autoral e acústica impecável.
                 </p>
 
                 {/* Dupla de CTAs Refinados */}
-                <div className="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                <div className="pt-0.5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                   <a
                     href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20reservar%20minha%20data%20e%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#741F32] hover:bg-[#541725] px-5 py-2.5 text-[0.7rem] sm:text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md border border-[#BD9463]/30 transition-all duration-300 hover:scale-[1.02]"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#741F32] hover:bg-[#541725] px-4 py-2 text-[0.68rem] sm:text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md border border-[#BD9463]/30 transition-all duration-300 hover:scale-[1.02]"
                   >
                     <Calendar className="h-3.5 w-3.5 text-[#E8D4BF]" />
                     <span>RESERVAR MINHA DATA</span>
@@ -286,7 +286,7 @@ export default function Home() {
 
                   <a
                     href="#story"
-                    className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#D7B78D]/45 bg-white/10 hover:bg-white/18 px-4 py-2.5 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.12em] text-[#E8D4BF] backdrop-blur-md transition-all duration-300 shadow-sm"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#D7B78D]/45 bg-white/10 hover:bg-white/18 px-3.5 py-2 text-[0.68rem] sm:text-xs font-semibold uppercase tracking-[0.12em] text-[#E8D4BF] backdrop-blur-md transition-all duration-300 shadow-sm"
                   >
                     <span>CONHECER O ESPAÇO</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -294,7 +294,7 @@ export default function Home() {
                 </div>
 
                 {/* Selo de Credibilidade */}
-                <div className="flex flex-wrap items-center gap-2 text-[0.56rem] sm:text-[0.62rem] text-[#D4C7BC]/75 uppercase tracking-wider font-medium pt-1 border-t border-white/10">
+                <div className="flex flex-wrap items-center gap-2 text-[0.52rem] sm:text-[0.58rem] text-[#D4C7BC]/75 uppercase tracking-wider font-medium pt-1 border-t border-white/10">
                   <span className="flex items-center gap-1">
                     <Sparkles className="h-2.5 w-2.5 text-[#BD9463]" />
                     2.500 M² NO LAGO SUL
@@ -322,43 +322,43 @@ export default function Home() {
           </div>
 
           {/* Faixa Inferior sobre a Foto: Legenda à Esquerda + Miniaturas e Controles à Direita */}
-          <div className="pt-4 flex flex-col lg:flex-row items-stretch lg:items-end justify-between gap-3 sm:gap-4">
+          <div className="pt-2 sm:pt-3 flex flex-col lg:flex-row items-stretch lg:items-end justify-between gap-2.5 sm:gap-3">
             
             {/* Legenda Flutuante com Fundo Translúcido e Blur */}
-            <div className="rounded-2xl border border-white/15 bg-black/70 backdrop-blur-md px-4 py-2.5 shadow-xl text-white max-w-lg">
+            <div className="rounded-xl border border-white/15 bg-black/70 backdrop-blur-md px-3.5 py-2 shadow-xl text-white max-w-lg">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-[0.56rem] font-bold uppercase tracking-[0.22em] text-[#BD9463] block drop-shadow-sm">
+                <span className="text-[0.54rem] font-bold uppercase tracking-[0.22em] text-[#BD9463] block drop-shadow-sm">
                   DÚNIA CITY HALL • LAGO SUL
                 </span>
-                <span className="lg:hidden text-[0.58rem] font-mono text-[#BD9463] font-bold">
+                <span className="lg:hidden text-[0.56rem] font-mono text-[#BD9463] font-bold">
                   0{currentHeroSlide + 1} / 0{HERO_SLIDES.length}
                 </span>
               </div>
-              <h3 className="font-serif text-sm sm:text-base font-normal text-white mt-0.5 leading-snug drop-shadow-md">
+              <h3 className="font-serif text-xs sm:text-sm font-normal text-white mt-0.5 leading-snug drop-shadow-md">
                 {HERO_SLIDES[currentHeroSlide].title}
               </h3>
-              <p className="text-[0.65rem] text-white/80 line-clamp-1 font-sans mt-0.5">
+              <p className="text-[0.62rem] text-white/80 line-clamp-1 font-sans mt-0.5">
                 {HERO_SLIDES[currentHeroSlide].subtitle}
               </p>
             </div>
 
             {/* Controles: Setas e Miniaturas Roláveis */}
-            <div className="flex items-center justify-between sm:justify-end gap-2.5 sm:gap-3">
+            <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-2.5">
               {/* Setas Circulares */}
               <div className="flex items-center gap-1.5 shrink-0">
                 <button
                   onClick={prevHeroSlide}
-                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-black/65 text-white/90 hover:bg-[#741F32] hover:text-white backdrop-blur-md border border-white/20 transition shadow-md active:scale-95"
+                  className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-black/65 text-white/90 hover:bg-[#741F32] hover:text-white backdrop-blur-md border border-white/20 transition shadow-md active:scale-95"
                   aria-label="Foto anterior"
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="h-3.5 w-3.5" />
                 </button>
                 <button
                   onClick={nextHeroSlide}
-                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-black/65 text-white/90 hover:bg-[#741F32] hover:text-white backdrop-blur-md border border-white/20 transition shadow-md active:scale-95"
+                  className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-black/65 text-white/90 hover:bg-[#741F32] hover:text-white backdrop-blur-md border border-white/20 transition shadow-md active:scale-95"
                   aria-label="Próxima foto"
                 >
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronRight className="h-3.5 w-3.5" />
                 </button>
               </div>
 
@@ -368,7 +368,7 @@ export default function Home() {
                   <button
                     key={slide.image}
                     onClick={() => setCurrentHeroSlide(idx)}
-                    className={`relative h-10 w-14 sm:h-11 sm:w-16 lg:h-11 lg:w-18 rounded-xl overflow-hidden border shrink-0 transition-all duration-300 ${
+                    className={`relative h-9 w-13 sm:h-10 sm:w-15 rounded-xl overflow-hidden border shrink-0 transition-all duration-300 ${
                       idx === currentHeroSlide
                         ? "border-[#BD9463] ring-2 ring-[#BD9463] scale-105 shadow-xl"
                         : "border-white/25 opacity-65 hover:opacity-100 hover:border-white/60"
@@ -379,7 +379,7 @@ export default function Home() {
                       src={slide.image}
                       alt={slide.title}
                       fill
-                      sizes="80px"
+                      sizes="70px"
                       className="object-cover"
                       style={{ objectPosition: slide.objectPosition }}
                     />
