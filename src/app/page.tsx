@@ -94,8 +94,8 @@ const HERO_SLIDES = [
     tag: "15 ANOS & GRANDES CELEBRAÇÕES",
     title: "Debutantes & Grandes Galas",
     subtitle: "Pista monumental, som e luz cênica com energia vibrante",
-    objectPosition: "center 26%",
-    mobileObjectPosition: "center 26%",
+    objectPosition: "center 20%",
+    mobileObjectPosition: "center 20%",
   },
 ]
 
@@ -217,7 +217,7 @@ export default function Home() {
       {/* 1. HERO SECTION CINEMATOGRÁFICO: EXPERIÊNCIA RESPONSIVA PREMIUM MOBILE + DESKTOP */}
       <section
         id="top"
-        className="relative mx-auto w-full max-w-[1600px] min-h-[100svh] lg:min-h-0 lg:h-[clamp(560px,72vh,720px)] overflow-hidden bg-[#120B08] z-10 select-none flex flex-col justify-between pt-16 sm:pt-20 pb-5 sm:pb-6 shadow-2xl"
+        className="relative mx-auto w-full max-w-[1380px] min-h-[100svh] lg:min-h-0 lg:h-[clamp(480px,58vh,580px)] overflow-hidden bg-[#120B08] z-10 select-none flex flex-col justify-between pt-14 sm:pt-16 lg:pt-16 pb-4 sm:pb-5 shadow-2xl rounded-none lg:rounded-[1.5rem]"
         onMouseEnter={() => setIsHeroCarouselHovered(true)}
         onMouseLeave={() => setIsHeroCarouselHovered(false)}
         onTouchStart={handleTouchStart}
@@ -238,7 +238,7 @@ export default function Home() {
                 alt={slide.title}
                 fill
                 priority={idx === 0}
-                sizes="(max-width: 1024px) 100vw, 1600px"
+                sizes="(max-width: 1024px) 100vw, 1380px"
                 style={{
                   objectPosition: isMobile ? slide.mobileObjectPosition : slide.objectPosition,
                 }}
@@ -416,7 +416,7 @@ export default function Home() {
               
               {/* Card Flutuante com Fundo Translúcido e Blur */}
               <div className="lg:col-span-5 xl:col-span-5">
-                <div className="rounded-2xl sm:rounded-[1.75rem] border border-[#BD9463]/35 bg-black/80 sm:bg-[#100806]/85 backdrop-blur-2xl p-4 sm:p-5 lg:p-5.5 shadow-[0_20px_50px_rgba(0,0,0,0.85)] space-y-2.5 sm:space-y-3 text-left max-w-md">
+                <div className="rounded-2xl sm:rounded-[1.75rem] border border-[#BD9463]/35 bg-black/80 sm:bg-[#100806]/85 backdrop-blur-2xl p-3.5 sm:p-4.5 lg:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.85)] space-y-2 sm:space-y-2.5 text-left max-w-[395px]">
                   
                   {/* Kicker Institucional */}
                   <div className="flex items-center gap-2">
