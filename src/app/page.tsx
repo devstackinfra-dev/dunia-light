@@ -185,13 +185,12 @@ export default function Home() {
       {/* HEADER NAVEGACAO CENTRALIZADO DE ALTO LUXO */}
       <DuniaHeader currentPage="/" />
 
-      {/* 1. HERO SECTION CINEMATOGRÁFICO REFINADO (PROPORÇÃO EQUILIBRADA 75VH + ENQUADRAMENTO PERSONALIZADO) */}
+      {/* 1. HERO SECTION CINEMATOGRÁFICO: A FOTO OCUPA TODO O HERO + CARD COM BLUR ESCURO SOB O LOGO/TEXTO */}
       <section
         id="top"
-        className="relative w-full overflow-hidden bg-[#120B08] z-10 select-none flex flex-col justify-between pt-20 sm:pt-24 lg:pt-24 pb-4 sm:pb-6"
+        className="relative w-full overflow-hidden bg-[#120B08] z-10 select-none flex flex-col justify-between pt-20 sm:pt-24 lg:pt-24 pb-8 sm:pb-8 lg:pb-10 min-h-[100svh] lg:min-h-0"
         style={{
-          height: "clamp(520px, 75vh, 760px)",
-          minHeight: "500px",
+          height: "clamp(640px, 86vh, 880px)",
         }}
         onMouseEnter={() => setIsHeroCarouselHovered(true)}
         onMouseLeave={() => setIsHeroCarouselHovered(false)}
@@ -199,7 +198,7 @@ export default function Home() {
         onTouchEnd={handleTouchEnd}
         aria-label="Apresentação Monumental Dúnia City Hall"
       >
-        {/* CARROSSEL DE FOTOGRAFIAS EM TELA AMPLA COM ENQUADRAMENTO INDIVIDUAL E KEN BURNS SUTIL */}
+        {/* A FOTOGRAFIA OCUPA TODO O HERO (TELA AMPLA FULL-BLEED COM ENQUADRAMENTO E KEN BURNS SUAVE) */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           {HERO_SLIDES.map((slide, idx) => (
             <div
@@ -224,141 +223,155 @@ export default function Home() {
             </div>
           ))}
 
-          {/* MÁSCARAS DE ILUMINAÇÃO REFINADAS:
-              - Lateral esquerda suave: protege logotipo e textos sem escurecer excessivamente a arquitetura.
-              - Topo e base discretos para respiração dos controles e do header. */}
-          <div className="absolute inset-y-0 left-0 w-full sm:w-4/5 lg:w-[55%] bg-gradient-to-r from-[#120B08]/90 via-[#120B08]/50 sm:via-[#120B08]/30 to-transparent" />
-          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#120B08]/85 via-[#120B08]/35 to-transparent" />
+          {/* Vinheta Escura Suave à Esquerda para Contraste do Card e Textos */}
+          <div className="absolute inset-y-0 left-0 w-full sm:w-2/3 lg:w-[48%] bg-gradient-to-r from-black/85 via-black/40 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/75 via-black/25 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/90 via-black/35 to-transparent pointer-events-none" />
         </div>
 
-        {/* CONTEÚDO PRINCIPAL FIXO E MONUMENTAL (HIERARQUIA CONTROLADA SEM COMPETIÇÃO) */}
+        {/* CONTEÚDO PRINCIPAL: CARD COM BLUR ESCURO À ESQUERDA + CONTROLES E LEGENDAS SOBRE A FOTO */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12 w-full flex-1 flex flex-col justify-between relative z-20">
           
-          {/* BLOCO SUPERIOR/CENTRAL: MARCA DÚNIA (340–420PX NO DESKTOP) + TÍTULO EDITORIAL + CTAs */}
-          <div className="max-w-md sm:max-w-lg lg:max-w-xl text-left space-y-4 pt-1 sm:pt-2">
+          {/* Linha Superior: Card Flutuante com Blur Escuro (Esquerda) + Badges Flutuantes (Direita) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             
-            {/* Kicker Institucional Discreto */}
-            <div className="flex items-center gap-2">
-              <span className="h-px w-6 bg-[#BD9463]" />
-              <span className="text-[0.6rem] sm:text-[0.66rem] font-bold uppercase tracking-[0.24em] text-[#BD9463]">
-                SHIS QI 15 • LAGO SUL, BRASÍLIA • DESDE 2008
+            {/* CARD COM BLUR E FUNDO MAIS ESCURO EMBAIXO DO LOGO E DOS TEXTOS (COMO NO MOCKUP) */}
+            <div className="lg:col-span-5 xl:col-span-5">
+              <div className="rounded-[2rem] border border-[#BD9463]/35 bg-black/80 sm:bg-[#100806]/85 backdrop-blur-2xl p-5 sm:p-6 lg:p-6 xl:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.85)] space-y-3 lg:space-y-3.5 text-left max-w-lg">
+                
+                {/* Kicker Institucional */}
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-5 bg-[#BD9463]" />
+                  <span className="text-[0.6rem] sm:text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#BD9463]">
+                    SHIS QI 15 • LAGO SUL, BRASÍLIA
+                  </span>
+                </div>
+
+                {/* A Marca Dúnia City Hall */}
+                <div className="inline-block">
+                  <Link href="/" className="inline-block group focus:outline-none" aria-label="Dúnia City Hall">
+                    <Image
+                      src="/images/dunia/logo-dunia-hd.png"
+                      alt="Dúnia City Hall"
+                      width={340}
+                      height={110}
+                      priority
+                      className="w-44 sm:w-56 md:w-60 lg:w-[260px] xl:w-[290px] h-auto object-contain filter drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)] transition duration-300 group-hover:scale-[1.01]"
+                    />
+                  </Link>
+                </div>
+
+                {/* Título Poético */}
+                <h1 className="font-serif text-lg sm:text-xl lg:text-[1.6rem] xl:text-[1.85rem] font-normal leading-[1.16] text-[#F7EFE6] tracking-[-0.015em]">
+                  Há dias que não cabem <br className="hidden sm:inline" />
+                  <em className="italic text-[#E8D4BF] font-normal">no tempo.</em>
+                </h1>
+
+                {/* Descrição Concisa */}
+                <p className="text-xs sm:text-[0.8rem] text-[#D4C7BC] leading-relaxed font-sans font-normal max-w-md">
+                  O cenário dos momentos mais nobres e celebrações memoráveis da capital federal. 2.500 m² de arquitetura clássica, alta gastronomia autoral e acústica impecável.
+                </p>
+
+                {/* Dupla de CTAs Refinados */}
+                <div className="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                  <a
+                    href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20reservar%20minha%20data%20e%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#741F32] hover:bg-[#541725] px-5 py-2.5 text-[0.7rem] sm:text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md border border-[#BD9463]/30 transition-all duration-300 hover:scale-[1.02]"
+                  >
+                    <Calendar className="h-3.5 w-3.5 text-[#E8D4BF]" />
+                    <span>RESERVAR MINHA DATA</span>
+                  </a>
+
+                  <a
+                    href="#story"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#D7B78D]/45 bg-white/10 hover:bg-white/18 px-4 py-2.5 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.12em] text-[#E8D4BF] backdrop-blur-md transition-all duration-300 shadow-sm"
+                  >
+                    <span>CONHECER O ESPAÇO</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+
+                {/* Selo de Credibilidade */}
+                <div className="flex flex-wrap items-center gap-2 text-[0.56rem] sm:text-[0.62rem] text-[#D4C7BC]/75 uppercase tracking-wider font-medium pt-1 border-t border-white/10">
+                  <span className="flex items-center gap-1">
+                    <Sparkles className="h-2.5 w-2.5 text-[#BD9463]" />
+                    2.500 M² NO LAGO SUL
+                  </span>
+                  <span className="text-[#BD9463]/60">•</span>
+                  <span>1.200 CONVIDADOS</span>
+                  <span className="text-[#BD9463]/60">•</span>
+                  <span>ALTA GASTRONOMIA</span>
+                </div>
+
+              </div>
+            </div>
+
+            {/* Badges Flutuantes no Canto Superior Direito da Foto (Desktop) */}
+            <div className="hidden lg:flex lg:col-span-7 justify-end items-center gap-3 pt-1">
+              <span className="rounded-full bg-black/65 backdrop-blur-md border border-[#D7B78D]/35 px-3.5 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[#BD9463] shadow-lg">
+                {HERO_SLIDES[currentHeroSlide].tag}
               </span>
-            </div>
 
-            {/* A MARCA DÚNIA CITY HALL EM ESCALA NOBRE E EQUILIBRADA (340–420PX) */}
-            <div className="inline-block">
-              <Link href="/" className="inline-block group focus:outline-none" aria-label="Dúnia City Hall">
-                <Image
-                  src="/images/dunia/logo-dunia-hd.png"
-                  alt="Dúnia City Hall"
-                  width={420}
-                  height={140}
-                  priority
-                  className="w-52 sm:w-64 md:w-72 lg:w-[350px] xl:w-[390px] h-auto object-contain filter drop-shadow-[0_8px_20px_rgba(0,0,0,0.85)] transition duration-300 group-hover:scale-[1.01]"
-                />
-              </Link>
-            </div>
-
-            {/* Título Editorial Confortável (Sem concorrência agressiva com o logotipo) */}
-            <h1 className="font-serif text-lg sm:text-2xl lg:text-[1.85rem] xl:text-[2.1rem] font-normal leading-[1.14] text-[#F7EFE6] tracking-[-0.015em] drop-shadow-sm">
-              Há dias que não cabem <br className="hidden sm:inline" />
-              <em className="italic text-[#E8D4BF] font-normal">no tempo.</em>
-            </h1>
-
-            {/* Texto Descritivo e de Posicionamento Conciso */}
-            <p className="text-xs sm:text-[0.84rem] text-[#D4C7BC] max-w-md leading-relaxed font-sans font-normal drop-shadow-sm">
-              O cenário dos momentos mais nobres e celebrações memoráveis da capital federal. 2.500 m² de arquitetura clássica, alta gastronomia autoral e acústica impecável.
-            </p>
-
-            {/* Dupla de CTAs Refinados (Proporções de Alta Joalheria) */}
-            <div className="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
-              <a
-                href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20reservar%20minha%20data%20e%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#741F32] hover:bg-[#541725] px-6 py-3 text-[0.72rem] sm:text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md border border-[#BD9463]/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
-              >
-                <Calendar className="h-3.5 w-3.5 text-[#E8D4BF]" />
-                <span>RESERVAR MINHA DATA</span>
-              </a>
-
-              <a
-                href="#story"
-                className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#D7B78D]/45 bg-white/10 hover:bg-white/18 px-5 py-3 text-[0.72rem] sm:text-xs font-semibold uppercase tracking-[0.12em] text-[#E8D4BF] backdrop-blur-md transition-all duration-300 shadow-sm"
-              >
-                <span>CONHECER O ESPAÇO</span>
-                <ArrowRight className="h-3.5 w-3.5" />
-              </a>
-            </div>
-
-            {/* Selo de Credibilidade em Linha Única Discreta */}
-            <div className="flex flex-wrap items-center gap-2.5 text-[0.62rem] sm:text-[0.66rem] text-[#D4C7BC]/75 uppercase tracking-wider font-medium pt-0.5">
-              <span className="flex items-center gap-1">
-                <Sparkles className="h-3 w-3 text-[#BD9463]" />
-                2.500 m² no Lago Sul
-              </span>
-              <span className="text-[#BD9463]/60">•</span>
-              <span>1.200 Convidados</span>
-              <span className="text-[#BD9463]/60">•</span>
-              <span>Alta Gastronomia Autoral</span>
+              <div className="rounded-full bg-black/65 backdrop-blur-md border border-white/15 px-3.5 py-1 text-[0.65rem] font-bold text-[#F7EFE6] tracking-widest font-mono shadow-lg">
+                0{currentHeroSlide + 1} <span className="text-[#BD9463]">/</span> 0{HERO_SLIDES.length}
+              </div>
             </div>
 
           </div>
 
-          {/* FAIXA VISUAL CONSISTENTE DO RODAPÉ (LEGENDA + CONTROLES + MINIATURAS) */}
-          <div className="pt-3 sm:pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-white/10">
+          {/* Faixa Inferior sobre a Foto: Legenda à Esquerda + Miniaturas e Controles à Direita */}
+          <div className="pt-4 flex flex-col lg:flex-row items-stretch lg:items-end justify-between gap-3 sm:gap-4">
             
-            {/* Lado Esquerdo: Legenda Discreta e Minimalista */}
-            <div className="flex items-center gap-2.5 rounded-full border border-white/15 bg-black/45 backdrop-blur-md px-3.5 py-1.5 text-white shadow-lg">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#BD9463] animate-pulse shrink-0" />
-              <span className="text-[0.56rem] sm:text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[#BD9463] shrink-0">
-                {HERO_SLIDES[currentHeroSlide].tag}
-              </span>
-              <span className="text-[#BD9463]/40">•</span>
-              <span className="font-serif text-xs sm:text-sm font-normal text-white truncate max-w-[190px] sm:max-w-xs">
+            {/* Legenda Flutuante com Fundo Translúcido e Blur */}
+            <div className="rounded-2xl border border-white/15 bg-black/70 backdrop-blur-md px-4 py-2.5 shadow-xl text-white max-w-lg">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[0.56rem] font-bold uppercase tracking-[0.22em] text-[#BD9463] block drop-shadow-sm">
+                  DÚNIA CITY HALL • LAGO SUL
+                </span>
+                <span className="lg:hidden text-[0.58rem] font-mono text-[#BD9463] font-bold">
+                  0{currentHeroSlide + 1} / 0{HERO_SLIDES.length}
+                </span>
+              </div>
+              <h3 className="font-serif text-sm sm:text-base font-normal text-white mt-0.5 leading-snug drop-shadow-md">
                 {HERO_SLIDES[currentHeroSlide].title}
-              </span>
+              </h3>
+              <p className="text-[0.65rem] text-white/80 line-clamp-1 font-sans mt-0.5">
+                {HERO_SLIDES[currentHeroSlide].subtitle}
+              </p>
             </div>
 
-            {/* Lado Direito: Controles Acessíveis + Contador + Miniaturas */}
-            <div className="flex items-center gap-2.5 self-end sm:self-auto">
-              
-              {/* Setas Circulares Discretas */}
-              <div className="flex items-center gap-1">
+            {/* Controles: Setas e Miniaturas Roláveis */}
+            <div className="flex items-center justify-between sm:justify-end gap-2.5 sm:gap-3">
+              {/* Setas Circulares */}
+              <div className="flex items-center gap-1.5 shrink-0">
                 <button
                   onClick={prevHeroSlide}
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white/90 hover:bg-[#741F32] hover:text-white backdrop-blur-md border border-white/20 transition-all shadow-md active:scale-95"
-                  aria-label="Fotografia anterior"
-                  title="Foto anterior"
+                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-black/65 text-white/90 hover:bg-[#741F32] hover:text-white backdrop-blur-md border border-white/20 transition shadow-md active:scale-95"
+                  aria-label="Foto anterior"
                 >
-                  <ChevronLeft className="h-3.5 w-3.5" />
+                  <ChevronLeft className="h-4 w-4" />
                 </button>
                 <button
                   onClick={nextHeroSlide}
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white/90 hover:bg-[#741F32] hover:text-white backdrop-blur-md border border-white/20 transition-all shadow-md active:scale-95"
-                  aria-label="Próxima fotografia"
-                  title="Próxima foto"
+                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-black/65 text-white/90 hover:bg-[#741F32] hover:text-white backdrop-blur-md border border-white/20 transition shadow-md active:scale-95"
+                  aria-label="Próxima foto"
                 >
-                  <ChevronRight className="h-3.5 w-3.5" />
+                  <ChevronRight className="h-4 w-4" />
                 </button>
               </div>
 
-              {/* Contador de Slides */}
-              <div className="rounded-full bg-black/50 backdrop-blur-md border border-white/15 px-2.5 py-1 text-[0.62rem] sm:text-[0.66rem] font-bold text-[#F7EFE6] tracking-widest font-mono">
-                0{currentHeroSlide + 1} <span className="text-[#BD9463]">/</span> 0{HERO_SLIDES.length}
-              </div>
-
-              {/* Miniaturas no Desktop/Tablet */}
-              <div className="hidden md:flex items-center gap-1.5">
+              {/* Miniaturas Navegáveis com scrollbar oculta */}
+              <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto max-w-[280px] sm:max-w-none pb-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                 {HERO_SLIDES.map((slide, idx) => (
                   <button
                     key={slide.image}
                     onClick={() => setCurrentHeroSlide(idx)}
-                    className={`relative h-9 w-13 lg:h-10 lg:w-15 rounded-lg overflow-hidden border transition-all duration-300 ${
+                    className={`relative h-10 w-14 sm:h-11 sm:w-16 lg:h-11 lg:w-18 rounded-xl overflow-hidden border shrink-0 transition-all duration-300 ${
                       idx === currentHeroSlide
-                        ? "border-[#BD9463] ring-2 ring-[#BD9463] scale-105 shadow-md"
-                        : "border-white/20 opacity-60 hover:opacity-100 hover:border-white/50"
+                        ? "border-[#BD9463] ring-2 ring-[#BD9463] scale-105 shadow-xl"
+                        : "border-white/25 opacity-65 hover:opacity-100 hover:border-white/60"
                     }`}
                     aria-label={`Ver foto ${idx + 1}: ${slide.title}`}
                   >
@@ -366,36 +379,21 @@ export default function Home() {
                       src={slide.image}
                       alt={slide.title}
                       fill
-                      sizes="60px"
+                      sizes="80px"
                       className="object-cover"
                       style={{ objectPosition: slide.objectPosition }}
                     />
                   </button>
                 ))}
               </div>
-
-              {/* Indicadores em Pontos no Mobile */}
-              <div className="flex md:hidden items-center gap-1.5 pl-1">
-                {HERO_SLIDES.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentHeroSlide(idx)}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      idx === currentHeroSlide ? "w-4 bg-[#BD9463]" : "w-1.5 bg-white/30"
-                    }`}
-                    aria-label={`Ir para slide ${idx + 1}`}
-                  />
-                ))}
-              </div>
-
             </div>
 
           </div>
 
         </div>
 
-        {/* TRANSIÇÃO SUTIL E CONTROLADA PARA O FUNDO CHAMPAGNE DA PRÓXIMA SEÇÃO */}
-        <div className="pointer-events-none absolute bottom-0 inset-x-0 h-10 sm:h-14 bg-gradient-to-b from-transparent via-[#F7EFE6]/30 to-[#F7EFE6] z-10" />
+        {/* TRANSIÇÃO ORGÂNICA SUTIL PARA O FUNDO CHAMPAGNE DA SEÇÃO SEGUINTE */}
+        <div className="pointer-events-none absolute bottom-0 inset-x-0 h-8 sm:h-10 bg-gradient-to-b from-transparent via-[#F7EFE6]/25 to-[#F7EFE6] z-10" />
       </section>
 
       {/* CONTAINER CENTRALIZADO DO RESTANTE DO HOTSITE */}
