@@ -501,8 +501,8 @@ export default function DuniaGalleryViewer({
                 <Image
                   src="/images/dunia/dunia-film-canister.png"
                   alt="Carretel de Filme Dúnia City Hall"
-                  width={178}
-                  height={370}
+                  width={180}
+                  height={380}
                   priority
                   className="w-full h-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.95)]"
                 />
@@ -597,7 +597,7 @@ export default function DuniaGalleryViewer({
                           src={photo.src}
                           alt={photo.title}
                           fill
-                          sizes="(max-width: 640px) 340px, (max-width: 1024px) 470px, 510px"
+                          sizes="(max-width: 740px) 440px, (max-width: 1024px) 470px, 510px"
                           className="object-cover transition duration-500 group-hover:scale-105 filter brightness-100 contrast-[1.02]"
                           loading="lazy"
                         />

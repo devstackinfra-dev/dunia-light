@@ -167,20 +167,20 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
         }`}
       >
         <div className="mx-auto flex w-full max-w-[1380px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          {/* 1. BRAND LOGO COM FUNDO OBSIDIAN DE ALTO CONTRASTE (NÃO SOME NO FUNDO CHAMPAGNE) */}
-          <div className="flex items-center shrink-0 min-w-[140px] sm:min-w-[190px]">
+          {/* 1. BRAND LOGO COM CONTRASTE ELEGANTE NATIVO (SEM CAIXA PRETA NO HEADER CHAMPANHE) */}
+          <div className="flex items-center shrink-0 min-w-[130px] sm:min-w-[180px]">
             <Link
               href="/"
-              className="inline-flex items-center justify-center rounded-xl bg-[#120B08] px-3 py-1.5 sm:px-4 sm:py-2 border border-[#BD9463]/40 shadow-sm transition-all duration-300 ease-out hover:scale-[1.02] hover:border-[#BD9463]/75 hover:shadow-md group"
+              className="flex items-center transition-all duration-300 ease-out hover:scale-[1.02]"
               aria-label="Dúnia City Hall — Início"
             >
               <Image
-                src="/images/dunia/logo-dunia-hd.png"
+                src="/images/dunia/logo-dunia-preta.png"
                 alt="Dúnia City Hall"
-                width={260}
-                height={90}
+                width={240}
+                height={84}
                 priority
-                className="h-7 sm:h-8.5 lg:h-9 w-auto object-contain transition-all duration-300 filter drop-shadow-sm group-hover:brightness-105"
+                className="h-8 sm:h-9 lg:h-9.5 w-auto object-contain transition-all duration-300"
               />
             </Link>
           </div>

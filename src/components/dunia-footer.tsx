@@ -9,13 +9,13 @@ export default function DuniaFooter() {
         <div className="grid gap-10 md:grid-cols-12">
           {/* Coluna Marca */}
           <div className="space-y-4 md:col-span-4">
-            <Link href="/" aria-label="Dúnia City Hall" className="inline-flex items-center rounded-xl bg-[#120B08] px-3.5 py-1.5 border border-[#BD9463]/40 shadow-sm transition hover:scale-[1.02]">
+            <Link href="/" aria-label="Dúnia City Hall" className="inline-block transition hover:scale-[1.02]">
               <Image
-                src="/images/dunia/logo-dunia-hd.png"
+                src="/images/dunia/logo-dunia-preta.png"
                 alt="Dúnia City Hall"
                 width={180}
                 height={60}
-                className="h-8 w-auto object-contain"
+                className="h-8.5 w-auto object-contain"
               />
             </Link>
             <p className="text-xs leading-relaxed text-[#5C4D4C] max-w-xs">
