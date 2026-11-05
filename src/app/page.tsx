@@ -46,36 +46,42 @@ const HERO_SLIDES = [
     tag: "ESTRUTURA MONUMENTAL",
     title: "Salão Imperial de 2.500 m²",
     subtitle: "Lustres de cristal Baccarat, pé-direito duplo de 7m e acústica impecável",
+    objectPosition: "center 28%",
   },
   {
     image: "/images/dunia/casal.jpg",
     tag: "O SIM DOS SONHOS",
     title: "Casamentos Memoráveis",
-    subtitle: "O clássico, o romantismo e a distinção no Lago Sul de Brasília",
+    subtitle: "O romantismo clássico e a distinção no Lago Sul de Brasília",
+    objectPosition: "center 20%",
   },
   {
     image: "/images/dunia/mesa.jpg",
     tag: "CENOGRAFIA & DETALHES",
     title: "Mesa Posta & Cristais",
     subtitle: "Arranjos florais nobres e iluminação cenográfica sob medida",
+    objectPosition: "center 35%",
   },
   {
     image: "/images/dunia/buffet-hero.jpg",
     tag: "ALTA GASTRONOMIA",
     title: "Buffet Dúnia Autoral",
     subtitle: "Menus autorais e degustações exclusivas para anfitriões",
+    objectPosition: "center 42%",
   },
   {
     image: "/images/dunia/jardim-galeria.jpg",
     tag: "ÁREA EXTERNA PRIVATIVA",
     title: "Jardim Imperial & Pôr do Sol",
     subtitle: "Espelho d'água ao ar livre para cerimônias encantadoras",
+    objectPosition: "center 40%",
   },
   {
     image: "/images/dunia/debutante-hero.jpg",
     tag: "15 ANOS & GRANDES CELEBRAÇÕES",
     title: "Debutantes & Grandes Galas",
     subtitle: "Pista monumental, som e luz cênica com energia vibrante",
+    objectPosition: "center 26%",
   },
 ]
 
@@ -179,17 +185,21 @@ export default function Home() {
       {/* HEADER NAVEGACAO CENTRALIZADO DE ALTO LUXO */}
       <DuniaHeader currentPage="/" />
 
-      {/* 1. HERO SECTION CINEMATOGRÁFICO DE TELA AMPLA (MARCA MONUMENTAL INDEPENDENTE + FOTOGRAFIA IMERSIVA) */}
+      {/* 1. HERO SECTION CINEMATOGRÁFICO REFINADO (PROPORÇÃO EQUILIBRADA 75VH + ENQUADRAMENTO PERSONALIZADO) */}
       <section
         id="top"
-        className="relative w-full min-h-[92vh] lg:min-h-[96vh] flex flex-col justify-between overflow-hidden bg-[#140D09] z-10 pt-28 sm:pt-36 pb-12 sm:pb-16 select-none"
+        className="relative w-full overflow-hidden bg-[#120B08] z-10 select-none flex flex-col justify-between pt-20 sm:pt-24 lg:pt-24 pb-4 sm:pb-6"
+        style={{
+          height: "clamp(520px, 75vh, 760px)",
+          minHeight: "500px",
+        }}
         onMouseEnter={() => setIsHeroCarouselHovered(true)}
         onMouseLeave={() => setIsHeroCarouselHovered(false)}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         aria-label="Apresentação Monumental Dúnia City Hall"
       >
-        {/* CARROSSEL DE FOTOGRAFIAS EM TELA AMPLA (CROSSFADE SUAVE + MICRO-ZOOM KEN BURNS) */}
+        {/* CARROSSEL DE FOTOGRAFIAS EM TELA AMPLA COM ENQUADRAMENTO INDIVIDUAL E KEN BURNS SUTIL */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           {HERO_SLIDES.map((slide, idx) => (
             <div
@@ -203,156 +213,152 @@ export default function Home() {
                 alt={slide.title}
                 fill
                 priority={idx === 0}
-                style={{ transitionDuration: "7000ms" }}
-                className={`object-cover object-center filter brightness-[0.88] contrast-[1.05] transition-transform ease-out ${
-                  idx === currentHeroSlide ? "scale-105" : "scale-100"
+                style={{
+                  objectPosition: slide.objectPosition,
+                  transitionDuration: "6500ms",
+                }}
+                className={`object-cover filter brightness-[0.92] contrast-[1.03] transition-transform ease-out motion-reduce:transform-none ${
+                  idx === currentHeroSlide ? "scale-[1.018]" : "scale-100"
                 }`}
               />
             </div>
           ))}
 
-          {/* MÁSCARAS CINEMATOGRÁFICAS DE ALTA DEFINIÇÃO:
-              1. Degradê da esquerda para direita: protege o logotipo oficial e os textos fixos com alto contraste.
-              2. Degradê do topo: protege o header transparente.
-              3. Degradê da base: prepara a transição orgânica para a próxima seção. */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#140D09]/95 via-[#140D09]/70 sm:via-[#140D09]/55 to-black/30" />
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 via-black/30 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#140D09]/90 via-[#140D09]/40 to-transparent" />
+          {/* MÁSCARAS DE ILUMINAÇÃO REFINADAS:
+              - Lateral esquerda suave: protege logotipo e textos sem escurecer excessivamente a arquitetura.
+              - Topo e base discretos para respiração dos controles e do header. */}
+          <div className="absolute inset-y-0 left-0 w-full sm:w-4/5 lg:w-[55%] bg-gradient-to-r from-[#120B08]/90 via-[#120B08]/50 sm:via-[#120B08]/30 to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#120B08]/85 via-[#120B08]/35 to-transparent" />
         </div>
 
-        {/* CONTEÚDO PRINCIPAL FIXO E MONUMENTAL (A MARCA É O TÍTULO PRINCIPAL) */}
+        {/* CONTEÚDO PRINCIPAL FIXO E MONUMENTAL (HIERARQUIA CONTROLADA SEM COMPETIÇÃO) */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12 w-full flex-1 flex flex-col justify-between relative z-20">
           
-          {/* BLOCO SUPERIOR/CENTRAL: MARCA DÚNIA EM GRANDE ESCALA + NARRATIVA EMOCIONAL + CTAs */}
-          <div className="max-w-xl lg:max-w-2xl text-left space-y-6 pt-4 sm:pt-6">
+          {/* BLOCO SUPERIOR/CENTRAL: MARCA DÚNIA (340–420PX NO DESKTOP) + TÍTULO EDITORIAL + CTAs */}
+          <div className="max-w-md sm:max-w-lg lg:max-w-xl text-left space-y-4 pt-1 sm:pt-2">
             
-            {/* Kicker Institucional com Ornamento Dourado */}
-            <div className="flex items-center gap-2.5">
-              <span className="h-px w-8 bg-[#BD9463]" />
-              <span className="text-[0.65rem] sm:text-[0.72rem] font-bold uppercase tracking-[0.26em] text-[#BD9463]">
+            {/* Kicker Institucional Discreto */}
+            <div className="flex items-center gap-2">
+              <span className="h-px w-6 bg-[#BD9463]" />
+              <span className="text-[0.6rem] sm:text-[0.66rem] font-bold uppercase tracking-[0.24em] text-[#BD9463]">
                 SHIS QI 15 • LAGO SUL, BRASÍLIA • DESDE 2008
               </span>
             </div>
 
-            {/* A MARCA DÚNIA CITY HALL COMO PROTAGONISTA MÁXIMA DA COMPOSIÇÃO */}
+            {/* A MARCA DÚNIA CITY HALL EM ESCALA NOBRE E EQUILIBRADA (340–420PX) */}
             <div className="inline-block">
               <Link href="/" className="inline-block group focus:outline-none" aria-label="Dúnia City Hall">
                 <Image
                   src="/images/dunia/logo-dunia-hd.png"
                   alt="Dúnia City Hall"
-                  width={520}
-                  height={175}
+                  width={420}
+                  height={140}
                   priority
-                  className="w-72 sm:w-88 md:w-[420px] lg:w-[470px] xl:w-[520px] h-auto object-contain filter drop-shadow-[0_15px_35px_rgba(0,0,0,0.9)] transition duration-500 group-hover:scale-[1.01]"
+                  className="w-52 sm:w-64 md:w-72 lg:w-[350px] xl:w-[390px] h-auto object-contain filter drop-shadow-[0_8px_20px_rgba(0,0,0,0.85)] transition duration-300 group-hover:scale-[1.01]"
                 />
               </Link>
             </div>
 
-            {/* Afirmação Poética Editorial (Cormorant Garamond com Itálico Champanhe) */}
-            <h1 className="font-serif text-3xl sm:text-4xl lg:text-[3.25rem] font-normal leading-[1.08] text-[#F7EFE6] tracking-[-0.02em] drop-shadow-md">
+            {/* Título Editorial Confortável (Sem concorrência agressiva com o logotipo) */}
+            <h1 className="font-serif text-lg sm:text-2xl lg:text-[1.85rem] xl:text-[2.1rem] font-normal leading-[1.14] text-[#F7EFE6] tracking-[-0.015em] drop-shadow-sm">
               Há dias que não cabem <br className="hidden sm:inline" />
               <em className="italic text-[#E8D4BF] font-normal">no tempo.</em>
             </h1>
 
-            {/* Texto Descritivo e de Posicionamento */}
-            <p className="text-sm sm:text-base leading-relaxed text-[#D4C7BC] max-w-xl font-sans font-normal drop-shadow-sm">
-              O cenário dos momentos mais nobres e celebrações memoráveis da capital federal. 2.500 m² de arquitetura clássica, alta gastronomia autoral e acústica impecável para anfitriões que valorizam a perfeição.
+            {/* Texto Descritivo e de Posicionamento Conciso */}
+            <p className="text-xs sm:text-[0.84rem] text-[#D4C7BC] max-w-md leading-relaxed font-sans font-normal drop-shadow-sm">
+              O cenário dos momentos mais nobres e celebrações memoráveis da capital federal. 2.500 m² de arquitetura clássica, alta gastronomia autoral e acústica impecável.
             </p>
 
-            {/* Dupla de CTAs de Alta Joalheria */}
-            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+            {/* Dupla de CTAs Refinados (Proporções de Alta Joalheria) */}
+            <div className="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
               <a
                 href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20reservar%20minha%20data%20e%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 rounded-full bg-[#741F32] hover:bg-[#541725] px-8 py-4 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-[0_8px_30px_rgba(116,31,50,0.5)] border border-[#BD9463]/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_35px_rgba(116,31,50,0.65)]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#741F32] hover:bg-[#541725] px-6 py-3 text-[0.72rem] sm:text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md border border-[#BD9463]/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
               >
-                <Calendar className="h-4 w-4 text-[#E8D4BF]" />
+                <Calendar className="h-3.5 w-3.5 text-[#E8D4BF]" />
                 <span>RESERVAR MINHA DATA</span>
               </a>
 
               <a
                 href="#story"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D7B78D]/60 bg-white/10 hover:bg-white/20 hover:border-[#D7B78D] px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#E8D4BF] backdrop-blur-md transition-all duration-300 shadow-sm"
+                className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#D7B78D]/45 bg-white/10 hover:bg-white/18 px-5 py-3 text-[0.72rem] sm:text-xs font-semibold uppercase tracking-[0.12em] text-[#E8D4BF] backdrop-blur-md transition-all duration-300 shadow-sm"
               >
                 <span>CONHECER O ESPAÇO</span>
                 <ArrowRight className="h-3.5 w-3.5" />
               </a>
             </div>
 
-            {/* Selo de Credibilidade e Infraestrutura */}
-            <div className="flex flex-wrap items-center gap-3 text-[0.68rem] text-[#D4C7BC]/80 uppercase tracking-wider font-medium pt-1">
-              <span className="flex items-center gap-1.5">
+            {/* Selo de Credibilidade em Linha Única Discreta */}
+            <div className="flex flex-wrap items-center gap-2.5 text-[0.62rem] sm:text-[0.66rem] text-[#D4C7BC]/75 uppercase tracking-wider font-medium pt-0.5">
+              <span className="flex items-center gap-1">
                 <Sparkles className="h-3 w-3 text-[#BD9463]" />
                 2.500 m² no Lago Sul
               </span>
-              <span className="text-[#BD9463]">•</span>
+              <span className="text-[#BD9463]/60">•</span>
               <span>1.200 Convidados</span>
-              <span className="text-[#BD9463]">•</span>
+              <span className="text-[#BD9463]/60">•</span>
               <span>Alta Gastronomia Autoral</span>
             </div>
 
           </div>
 
-          {/* BLOCO INFERIOR: LEGENDA DISCRETA DA FOTOGRAFIA + MINIATURAS INTERATIVAS & CONTROLES */}
-          <div className="pt-8 sm:pt-10 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
+          {/* FAIXA VISUAL CONSISTENTE DO RODAPÉ (LEGENDA + CONTROLES + MINIATURAS) */}
+          <div className="pt-3 sm:pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-white/10">
             
-            {/* Lado Esquerdo: Legenda Minimalista (Não esconde os detalhes arquitetônicos) */}
-            <div className="flex items-center gap-3">
-              <div className="rounded-2xl border border-white/15 bg-black/50 backdrop-blur-md px-4 py-2.5 shadow-xl text-white max-w-sm sm:max-w-md">
-                <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#BD9463] animate-pulse" />
-                  <span className="text-[0.6rem] font-bold uppercase tracking-[0.22em] text-[#BD9463]">
-                    {HERO_SLIDES[currentHeroSlide].tag}
-                  </span>
-                </div>
-                <p className="font-serif text-sm sm:text-base font-normal text-white mt-0.5 leading-snug">
-                  {HERO_SLIDES[currentHeroSlide].title}
-                </p>
-                <p className="text-[0.68rem] text-white/70 line-clamp-1 font-sans mt-0.5">
-                  {HERO_SLIDES[currentHeroSlide].subtitle}
-                </p>
-              </div>
+            {/* Lado Esquerdo: Legenda Discreta e Minimalista */}
+            <div className="flex items-center gap-2.5 rounded-full border border-white/15 bg-black/45 backdrop-blur-md px-3.5 py-1.5 text-white shadow-lg">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#BD9463] animate-pulse shrink-0" />
+              <span className="text-[0.56rem] sm:text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[#BD9463] shrink-0">
+                {HERO_SLIDES[currentHeroSlide].tag}
+              </span>
+              <span className="text-[#BD9463]/40">•</span>
+              <span className="font-serif text-xs sm:text-sm font-normal text-white truncate max-w-[190px] sm:max-w-xs">
+                {HERO_SLIDES[currentHeroSlide].title}
+              </span>
             </div>
 
-            {/* Lado Direito: Controles Acessíveis + Contador + Miniaturas Interativas */}
-            <div className="flex items-center gap-3 self-start lg:self-auto">
+            {/* Lado Direito: Controles Acessíveis + Contador + Miniaturas */}
+            <div className="flex items-center gap-2.5 self-end sm:self-auto">
               
               {/* Setas Circulares Discretas */}
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1">
                 <button
                   onClick={prevHeroSlide}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white/90 hover:bg-[#741F32] hover:text-white backdrop-blur-md border border-white/20 transition-all shadow-md active:scale-95"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white/90 hover:bg-[#741F32] hover:text-white backdrop-blur-md border border-white/20 transition-all shadow-md active:scale-95"
                   aria-label="Fotografia anterior"
                   title="Foto anterior"
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="h-3.5 w-3.5" />
                 </button>
                 <button
                   onClick={nextHeroSlide}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white/90 hover:bg-[#741F32] hover:text-white backdrop-blur-md border border-white/20 transition-all shadow-md active:scale-95"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white/90 hover:bg-[#741F32] hover:text-white backdrop-blur-md border border-white/20 transition-all shadow-md active:scale-95"
                   aria-label="Próxima fotografia"
                   title="Próxima foto"
                 >
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronRight className="h-3.5 w-3.5" />
                 </button>
               </div>
 
               {/* Contador de Slides */}
-              <div className="rounded-full bg-black/50 backdrop-blur-md border border-white/15 px-3 py-1.5 text-[0.68rem] font-bold text-[#F7EFE6] tracking-widest font-mono">
+              <div className="rounded-full bg-black/50 backdrop-blur-md border border-white/15 px-2.5 py-1 text-[0.62rem] sm:text-[0.66rem] font-bold text-[#F7EFE6] tracking-widest font-mono">
                 0{currentHeroSlide + 1} <span className="text-[#BD9463]">/</span> 0{HERO_SLIDES.length}
               </div>
 
-              {/* Miniaturas Interativas Clicáveis */}
-              <div className="hidden sm:flex items-center gap-2">
+              {/* Miniaturas no Desktop/Tablet */}
+              <div className="hidden md:flex items-center gap-1.5">
                 {HERO_SLIDES.map((slide, idx) => (
                   <button
                     key={slide.image}
                     onClick={() => setCurrentHeroSlide(idx)}
-                    className={`relative h-12 w-16 lg:h-14 lg:w-20 rounded-xl overflow-hidden border transition-all duration-300 ${
+                    className={`relative h-9 w-13 lg:h-10 lg:w-15 rounded-lg overflow-hidden border transition-all duration-300 ${
                       idx === currentHeroSlide
-                        ? "border-[#BD9463] ring-2 ring-[#BD9463] scale-105 shadow-xl"
-                        : "border-white/25 opacity-60 hover:opacity-100 hover:border-white/60"
+                        ? "border-[#BD9463] ring-2 ring-[#BD9463] scale-105 shadow-md"
+                        : "border-white/20 opacity-60 hover:opacity-100 hover:border-white/50"
                     }`}
                     aria-label={`Ver foto ${idx + 1}: ${slide.title}`}
                   >
@@ -360,10 +366,25 @@ export default function Home() {
                       src={slide.image}
                       alt={slide.title}
                       fill
-                      sizes="80px"
+                      sizes="60px"
                       className="object-cover"
+                      style={{ objectPosition: slide.objectPosition }}
                     />
                   </button>
+                ))}
+              </div>
+
+              {/* Indicadores em Pontos no Mobile */}
+              <div className="flex md:hidden items-center gap-1.5 pl-1">
+                {HERO_SLIDES.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentHeroSlide(idx)}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      idx === currentHeroSlide ? "w-4 bg-[#BD9463]" : "w-1.5 bg-white/30"
+                    }`}
+                    aria-label={`Ir para slide ${idx + 1}`}
+                  />
                 ))}
               </div>
 
@@ -373,8 +394,8 @@ export default function Home() {
 
         </div>
 
-        {/* TRANSIÇÃO ORGÂNICA SUAVE PARA O FUNDO CHAMPAGNE DA PRÓXIMA SEÇÃO */}
-        <div className="pointer-events-none absolute bottom-0 inset-x-0 h-28 sm:h-36 bg-gradient-to-b from-transparent via-[#F7EFE6]/65 to-[#F7EFE6] z-10" />
+        {/* TRANSIÇÃO SUTIL E CONTROLADA PARA O FUNDO CHAMPAGNE DA PRÓXIMA SEÇÃO */}
+        <div className="pointer-events-none absolute bottom-0 inset-x-0 h-10 sm:h-14 bg-gradient-to-b from-transparent via-[#F7EFE6]/30 to-[#F7EFE6] z-10" />
       </section>
 
       {/* CONTAINER CENTRALIZADO DO RESTANTE DO HOTSITE */}
