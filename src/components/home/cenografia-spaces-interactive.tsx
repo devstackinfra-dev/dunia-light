@@ -202,7 +202,7 @@ export default function CenografiaSpacesInteractive() {
             <div
               key={space.id}
               onClick={() => openSpaceModal(space.id, 0)}
-              className="group cursor-pointer rounded-2xl border border-[#5A1827]/12 bg-white p-3.5 sm:p-4 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#5A1827]/50 hover:bg-[#FAF7F2] hover:shadow-[0_20px_45px_rgba(90,24,39,0.12)] flex flex-col justify-between text-left shadow-sm"
+              className="group cursor-pointer rounded-2xl border border-[#D7B78D]/40 bg-[#F2E4D5]/70 backdrop-blur-sm p-3.5 sm:p-4 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#741F32]/50 hover:bg-[#F2E4D5] hover:shadow-[0_20px_45px_rgba(84,23,37,0.10)] flex flex-col justify-between text-left shadow-sm"
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
@@ -227,7 +227,7 @@ export default function CenografiaSpacesInteractive() {
 
                   {/* Número Dourado no Canto Superior Esquerdo da Foto */}
                   <div className="absolute top-2.5 left-2.5 z-10 flex items-center gap-1.5 rounded-lg border border-white/20 bg-black/70 px-2.5 py-1 backdrop-blur-md">
-                    <span className="font-serif text-xs font-semibold text-[#C5A265]">
+                    <span className="font-serif text-xs font-semibold text-[#BD9463]">
                       {space.number}
                     </span>
                     <span className="text-[0.6rem] font-bold uppercase tracking-wider text-white/80">
@@ -237,7 +237,7 @@ export default function CenografiaSpacesInteractive() {
 
                   {/* Overlay Hover: "Ver Espaço" com efeito de vidro */}
                   <div className="absolute inset-0 z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-black/40 backdrop-blur-[2px]">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#5A1827] px-3.5 py-1.5 text-[0.68rem] font-bold uppercase tracking-wider text-white shadow-xl transform scale-95 group-hover:scale-100 transition-transform">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#741F32] px-3.5 py-1.5 text-[0.68rem] font-bold uppercase tracking-wider text-white shadow-xl transform scale-95 group-hover:scale-100 transition-transform">
                       <Eye className="h-3.5 w-3.5" />
                       <span>Ver {space.name.replace("Espaço da ", "")}</span>
                     </span>
@@ -247,31 +247,31 @@ export default function CenografiaSpacesInteractive() {
                 {/* 2. TEXTO E IDENTIFICAÇÃO DO ESPAÇO */}
                 <div className="pt-4 pb-2 px-1">
                   <div className="flex items-center justify-between">
-                    <span className="font-serif text-lg font-semibold text-[#5A1827] group-hover:translate-x-0.5 transition-transform">
+                    <span className="font-serif text-lg font-semibold text-[#741F32] group-hover:translate-x-0.5 transition-transform">
                       {space.number}
                     </span>
-                    <span className="text-[0.6rem] font-semibold text-[#5A1827]/80 uppercase tracking-widest">
+                    <span className="text-[0.6rem] font-semibold text-[#741F32]/80 uppercase tracking-widest">
                       {space.gallery.length} fotos
                     </span>
                   </div>
 
-                  <h3 className="mt-1 font-serif text-base sm:text-lg font-normal text-[#201215] group-hover:text-[#5A1827] transition-colors">
+                  <h3 className="mt-1 font-serif text-base sm:text-lg font-normal text-[#30221D] group-hover:text-[#741F32] transition-colors">
                     {space.name}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-[#4A3E3D] line-clamp-2">
+                  <p className="mt-1 text-xs leading-relaxed text-[#77665D] line-clamp-2">
                     {space.shortDesc}
                   </p>
                 </div>
               </div>
 
               {/* 3. BOTÃO DE AÇÃO NO RODAPÉ */}
-              <div className="border-t border-[#5A1827]/10 pt-3 mt-2 px-1 flex items-center justify-between">
-                <span className="inline-flex items-center gap-1 text-[0.68rem] font-bold uppercase tracking-wider text-[#5A1827] group-hover:text-[#732032] transition-colors">
+              <div className="border-t border-[#741F32]/10 pt-3 mt-2 px-1 flex items-center justify-between">
+                <span className="inline-flex items-center gap-1 text-[0.68rem] font-bold uppercase tracking-wider text-[#741F32] group-hover:text-[#541725] transition-colors">
                   <span>Explorar Espaço</span>
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                 </span>
-                <span className="h-1.5 w-1.5 rounded-full bg-[#5A1827]/40 group-hover:bg-[#5A1827] transition-colors" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#741F32]/40 group-hover:bg-[#741F32] transition-colors" />
               </div>
             </div>
           )
@@ -287,20 +287,20 @@ export default function CenografiaSpacesInteractive() {
           onClick={closeModal}
         >
           <div
-            className="relative flex flex-col w-full max-w-5xl max-h-[94vh] overflow-hidden rounded-3xl border border-[#D3B47C]/40 bg-[#120F0D] shadow-[0_30px_90px_rgba(0,0,0,0.99)]"
+            className="relative flex flex-col w-full max-w-5xl max-h-[94vh] overflow-hidden rounded-3xl border border-[#BD9463]/40 bg-[#211813] shadow-[0_30px_90px_rgba(0,0,0,0.99)]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Topbar do Modal */}
-            <div className="flex items-center justify-between border-b border-white/10 px-5 sm:px-6 py-3.5 bg-[#141210]">
+            <div className="flex items-center justify-between border-b border-white/10 px-5 sm:px-6 py-3.5 bg-[#211813]">
               <div className="flex items-center gap-3">
-                <span className="font-serif text-lg font-light text-[#D3B47C]">
+                <span className="font-serif text-lg font-light text-[#BD9463]">
                   {activeModalSpace.number}
                 </span>
                 <div>
                   <h4 className="font-serif text-base sm:text-xl text-white font-normal">
                     {activeModalSpace.name}
                   </h4>
-                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#D3B47C] block sm:inline sm:ml-2">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#BD9463] block sm:inline sm:ml-2">
                     • {activeModalSpace.badge}
                   </span>
                 </div>
@@ -338,7 +338,7 @@ export default function CenografiaSpacesInteractive() {
                       prev > 0 ? prev - 1 : activeModalSpace.gallery.length - 1
                     )
                   }
-                  className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white backdrop-blur-md hover:bg-[#D3B47C] hover:text-[#120F0D] hover:border-[#D3B47C] transition shadow-2xl"
+                  className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white backdrop-blur-md hover:bg-[#BD9463] hover:text-[#211813] hover:border-[#BD9463] transition shadow-2xl"
                   aria-label="Foto anterior"
                 >
                   <ChevronLeft className="h-5 sm:h-6 w-5 sm:w-6" />
@@ -353,7 +353,7 @@ export default function CenografiaSpacesInteractive() {
                       prev < activeModalSpace.gallery.length - 1 ? prev + 1 : 0
                     )
                   }
-                  className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white backdrop-blur-md hover:bg-[#D3B47C] hover:text-[#120F0D] hover:border-[#D3B47C] transition shadow-2xl"
+                  className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white backdrop-blur-md hover:bg-[#BD9463] hover:text-[#211813] hover:border-[#BD9463] transition shadow-2xl"
                   aria-label="Próxima foto"
                 >
                   <ChevronRight className="h-5 sm:h-6 w-5 sm:w-6" />
@@ -362,7 +362,7 @@ export default function CenografiaSpacesInteractive() {
             </div>
 
             {/* Rodapé do Modal: Legenda da Foto Atual, Miniaturas e Ações */}
-            <div className="border-t border-white/10 p-4 sm:p-5 bg-[#141210] space-y-3">
+            <div className="border-t border-white/10 p-4 sm:p-5 bg-[#211813] space-y-3">
               {/* Informações da Foto */}
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
@@ -378,7 +378,7 @@ export default function CenografiaSpacesInteractive() {
                   <Link
                     href="/sobre#tour360"
                     onClick={closeModal}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-[#D3B47C]/40 bg-[#D3B47C]/10 px-3 py-1.5 text-xs font-semibold text-[#D3B47C] hover:bg-[#D3B47C] hover:text-[#120F0D] transition"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-[#BD9463]/40 bg-[#BD9463]/10 px-3 py-1.5 text-xs font-semibold text-[#BD9463] hover:bg-[#BD9463] hover:text-[#211813] transition"
                   >
                     <Compass className="h-3.5 w-3.5" />
                     <span>Ver no Tour 360°</span>
@@ -394,7 +394,7 @@ export default function CenografiaSpacesInteractive() {
                     onClick={() => setModalPhotoIndex(idx)}
                     className={`relative h-12 w-16 sm:h-14 sm:w-20 shrink-0 overflow-hidden rounded-lg border-2 transition-all ${
                       modalPhotoIndex === idx
-                        ? "border-[#D3B47C] scale-105 shadow-[0_0_12px_rgba(211,180,124,0.4)]"
+                        ? "border-[#BD9463] scale-105 shadow-[0_0_12px_rgba(211,180,124,0.4)]"
                         : "border-white/15 opacity-60 hover:opacity-100 hover:border-white/40"
                     }`}
                   >

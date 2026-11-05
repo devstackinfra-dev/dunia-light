@@ -154,20 +154,20 @@ export default function Home() {
   const visibleArticles = showAllArticles ? filteredArticles : filteredArticles.slice(0, 3)
 
   return (
-    <div className="relative min-h-screen bg-transparent text-[#201215] antialiased selection:bg-[#5A1827]/20 selection:text-[#5A1827] overflow-x-hidden">
+    <div className="relative min-h-screen bg-transparent text-[#30221D] antialiased selection:bg-[#741F32]/15 selection:text-[#741F32] overflow-x-hidden">
       {/* HEADER NAVEGACAO CENTRALIZADO DE ALTO LUXO */}
       <DuniaHeader currentPage="/" />
 
       {/* 1. HERO SECTION CINEMATOGRÁFICO EDITORIAL (COM LOGO PRESTIGE & CARROSSEL INTERATIVO DE FOTOS) */}
-      <section className="relative pt-28 sm:pt-36 pb-16 sm:pb-20 overflow-hidden z-10" id="top">
-        {/* Halos Luminosos Sutis: Champagne & Bordô Real */}
-        <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[950px] h-[450px] bg-[radial-gradient(ellipse_at_top,rgba(197,162,101,0.18),transparent_70%)] blur-2xl" />
-        <div className="pointer-events-none absolute top-1/2 right-[5%] -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[#5A1827]/06 via-[#C5A265]/10 to-transparent rounded-full blur-[130px]" />
+      <section className="relative pt-32 sm:pt-40 pb-20 sm:pb-24 overflow-hidden z-10" id="top">
+        {/* Halos Luminosos Sutis: Champagne Nobre & Vinho Institucional */}
+        <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[950px] h-[450px] bg-[radial-gradient(ellipse_at_top,rgba(189,148,99,0.12),transparent_70%)] blur-2xl" />
+        <div className="pointer-events-none absolute top-1/2 right-[5%] -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[#741F32]/05 via-[#BD9463]/08 to-transparent rounded-full blur-[130px]" />
 
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             
-            {/* Coluna de Texto: Marca Dúnia & Tipografia Majestosa de Alto Contraste */}
+            {/* Coluna de Texto: Marca Dúnia & Tipografia Editorial de Alto Nível */}
             <div className="lg:col-span-6 space-y-6 text-left">
               {/* LOGO DÚNIA CITY HALL MAJESTOSA NO HERO */}
               <div className="inline-block pb-1">
@@ -183,49 +183,49 @@ export default function Home() {
                 </Link>
               </div>
 
-              <p className="eyebrow hero-kicker !text-[#5A1827] flex items-center gap-2">
-                <span className="ornament !bg-[#5A1827]" /> O LUGAR ONDE AS HISTÓRIAS ACONTECEM
+              <p className="eyebrow hero-kicker !text-[#741F32] flex items-center gap-2">
+                <span className="ornament !bg-[#D7B78D]" /> O LUGAR ONDE AS HISTÓRIAS ACONTECEM
               </p>
 
-              <h1 className="font-serif text-3xl sm:text-5xl lg:text-[3.5rem] font-normal leading-[0.96] text-[#201215] tracking-[-0.035em]">
+              <h1 className="font-serif text-3xl sm:text-5xl lg:text-[3.6rem] font-normal leading-[1.02] text-[#30221D] tracking-[-0.03em]">
                 Há dias que<br />
-                não cabem <em className="italic text-[#5A1827] font-normal">no tempo.</em>
+                não cabem <em className="italic text-[#741F32] font-normal">no tempo.</em>
               </h1>
 
-              <p className="text-xs sm:text-sm leading-relaxed text-[#3D2E30] max-w-md font-sans font-normal">
+              <p className="text-xs sm:text-sm leading-relaxed text-[#77665D] max-w-md font-sans font-normal pt-1">
                 Não é apenas uma festa. É a mão que treme antes do sim. É o abraço que demora. É a noite que se torna parte de quem somos no salão mais elegante de Brasília.
               </p>
 
-              {/* Botões de Ação do Hero (Bordô Real & Ouro Champagne) */}
-              <div className="flex flex-wrap items-center gap-3.5 pt-2">
+              {/* Botões de Ação do Hero: Vinho Institucional & Champanhe Discreto */}
+              <div className="flex flex-wrap items-center gap-3.5 pt-3">
                 <a
-                  href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
+                  href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20reservar%20minha%20data%20e%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#5A1827] hover:bg-[#732032] px-6 py-3 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-[0_4px_22px_rgba(90,24,39,0.28)] transition-all duration-300 hover:scale-[1.03]"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#741F32] hover:bg-[#541725] px-6 py-3 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-[0_4px_22px_rgba(116,31,50,0.25)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_6px_28px_rgba(116,31,50,0.35)]"
                 >
                   <Calendar className="h-4 w-4" />
-                  <span>AGENDAR VISITA VIP</span>
+                  <span>RESERVAR MINHA DATA</span>
                 </a>
 
                 <a
                   href="#story"
-                  className="inline-flex items-center gap-2 rounded-full border-2 border-[#5A1827]/30 bg-white/80 hover:bg-[#5A1827] hover:text-white px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#5A1827] transition-all duration-300 shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-full border border-[#D7B78D] bg-[#F2E4D5]/60 hover:bg-[#741F32] hover:border-[#741F32] hover:text-[#F7EFE6] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#741F32] transition-all duration-300 shadow-sm"
                 >
-                  <span>A EXPERIÊNCIA</span>
+                  <span>CONHECER O ESPAÇO</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </a>
               </div>
             </div>
 
-            {/* Coluna do Carrossel de Imagens do Salão (Requisitado pelo Cliente) */}
+            {/* Coluna do Carrossel de Imagens do Salão */}
             <div className="lg:col-span-6 flex flex-col items-center lg:items-end relative">
               {/* Aura Suave Dourada/Champanhe envolvendo o carrossel */}
-              <div className="pointer-events-none absolute -inset-6 bg-gradient-to-tr from-[#C5A265]/20 via-[#5A1827]/06 to-transparent rounded-full blur-3xl opacity-80" />
+              <div className="pointer-events-none absolute -inset-6 bg-gradient-to-tr from-[#BD9463]/18 via-[#741F32]/05 to-transparent rounded-full blur-3xl opacity-80" />
 
-              {/* Container do Carrossel */}
+              {/* Container do Carrossel com cantos arredondados discretos e borda suave */}
               <div
-                className="relative w-full max-w-[430px] aspect-[4/5] overflow-hidden rounded-3xl shadow-[0_25px_60px_rgba(90,24,39,0.16)] border-2 border-[#5A1827]/15 bg-white group"
+                className="relative w-full max-w-[430px] aspect-[4/5] overflow-hidden rounded-2xl shadow-[0_25px_60px_-15px_rgba(84,23,37,0.18)] border border-[#D7B78D]/40 bg-[#211813] group"
                 onMouseEnter={() => setIsHeroCarouselHovered(true)}
                 onMouseLeave={() => setIsHeroCarouselHovered(false)}
               >
@@ -250,14 +250,14 @@ export default function Home() {
 
                     {/* Pílula de Tag / Categoria no Topo */}
                     <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
-                      <span className="rounded-full bg-black/60 backdrop-blur-md border border-white/20 px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[#C5A265]">
+                      <span className="rounded-full bg-[#211813]/70 backdrop-blur-md border border-[#D7B78D]/30 px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[#BD9463]">
                         {slide.tag}
                       </span>
                     </div>
 
                     {/* Card de Legenda com Alto Contraste no Rodapé do Slide */}
-                    <div className="absolute bottom-4 left-4 right-4 z-20 rounded-2xl border border-white/20 bg-black/60 p-4 backdrop-blur-md shadow-lg text-white">
-                      <span className="text-[0.58rem] font-bold uppercase tracking-[0.25em] text-[#C5A265] block">
+                    <div className="absolute bottom-4 left-4 right-4 z-20 rounded-xl border border-white/15 bg-[#211813]/75 p-4 backdrop-blur-md shadow-lg text-white">
+                      <span className="text-[0.58rem] font-bold uppercase tracking-[0.25em] text-[#BD9463] block">
                         DÚNIA CITY HALL • LAGO SUL
                       </span>
                       <h3 className="font-serif text-lg sm:text-xl font-normal text-white leading-tight mt-1">
@@ -273,35 +273,35 @@ export default function Home() {
                 {/* Botões de Navegação Anterior / Próximo (Laterais) */}
                 <button
                   onClick={prevHeroSlide}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white hover:bg-[#5A1827] backdrop-blur-md border border-white/20 transition-all"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white hover:bg-[#741F32] backdrop-blur-md border border-white/20 transition-all"
                   aria-label="Foto anterior"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </button>
                 <button
                   onClick={nextHeroSlide}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white hover:bg-[#5A1827] backdrop-blur-md border border-white/20 transition-all"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white hover:bg-[#741F32] backdrop-blur-md border border-white/20 transition-all"
                   aria-label="Próxima foto"
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>
 
-                {/* Contador de Slides no Topo Direito (ex: 01 / 06) */}
-                <div className="absolute top-4 right-4 z-20 rounded-full bg-black/60 backdrop-blur-md border border-white/20 px-3 py-1 text-[0.65rem] font-bold text-white tracking-widest font-mono">
-                  0{currentHeroSlide + 1} <span className="text-white/40">/</span> 0{HERO_SLIDES.length}
+                {/* Contador de Slides no Topo Direito */}
+                <div className="absolute top-4 right-4 z-20 rounded-full bg-[#211813]/70 backdrop-blur-md border border-[#D7B78D]/30 px-3 py-1 text-[0.65rem] font-bold text-[#F7EFE6] tracking-widest font-mono">
+                  0{currentHeroSlide + 1} <span className="text-[#BD9463]">/</span> 0{HERO_SLIDES.length}
                 </div>
               </div>
 
-              {/* Tira de Miniaturas (Thumbnails) abaixo do carrossel */}
+              {/* Tira de Miniaturas abaixo do carrossel */}
               <div className="mt-4 flex items-center justify-center gap-2 max-w-[430px] w-full px-1">
                 {HERO_SLIDES.map((slide, idx) => (
                   <button
                     key={slide.image}
                     onClick={() => setCurrentHeroSlide(idx)}
-                    className={`relative h-12 flex-1 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                    className={`relative h-12 flex-1 rounded-xl overflow-hidden border transition-all duration-300 ${
                       idx === currentHeroSlide
-                        ? "border-[#5A1827] scale-105 shadow-md ring-1 ring-[#5A1827]"
-                        : "border-[#5A1827]/20 opacity-60 hover:opacity-100"
+                        ? "border-[#741F32] scale-105 shadow-md ring-1 ring-[#741F32]"
+                        : "border-[#D7B78D]/40 opacity-70 hover:opacity-100 hover:border-[#D7B78D]"
                     }`}
                     aria-label={`Ver foto ${idx + 1}`}
                   >
@@ -318,38 +318,41 @@ export default function Home() {
 
           </div>
         </div>
+
+        {/* Transição Orgânica Suave para a Seção Seguinte */}
+        <div className="pointer-events-none absolute bottom-0 inset-x-0 h-16 bg-gradient-to-b from-transparent via-[#F7EFE6]/50 to-[#F7EFE6]" />
       </section>
 
       {/* CONTAINER CENTRALIZADO DO RESTANTE DO HOTSITE */}
       <main className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         
-        {/* 2. PLACA EDITORIAL MARFIM (CENTRALIZADA & COM ALTO CONTRASTE) */}
-        <section className="my-10 overflow-hidden rounded-2xl bg-white border border-[#5A1827]/12 p-6 sm:p-10 text-[#201215] shadow-[0_12px_40px_rgba(90,24,39,0.06)]">
+        {/* 2. CARD INSTITUCIONAL — EMOÇÃO E CREDIBILIDADE (CHAMPAGNE PROFUNDO & LINHAS FINAS) */}
+        <section className="my-14 overflow-hidden rounded-3xl bg-gradient-to-br from-[#F2E4D5]/90 via-[#F7EFE6] to-[#E8D4BF]/80 border border-[#D7B78D]/50 p-8 sm:p-14 text-[#30221D] shadow-[0_16px_45px_rgba(84,23,37,0.06)]">
           <div className="mx-auto max-w-2xl text-center">
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#5A1827]">
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#741F32]">
               POR TRÁS DE CADA CELEBRAÇÃO
             </span>
-            <h2 className="mt-2.5 font-serif text-2xl font-normal leading-snug sm:text-4xl text-[#201215]">
-              O que torna um momento inesquecível não é a grandiosidade.<br />
-              É a <em className="italic text-[#5A1827]">emoção</em> que fica.
+            <h2 className="mt-3 font-serif text-2xl sm:text-4xl lg:text-[2.6rem] font-normal leading-snug text-[#30221D]">
+              O que torna um momento inesquecível não é a grandiosidade.<br className="hidden sm:inline" />
+              É a <em className="italic text-[#741F32]">emoção</em> que fica.
             </h2>
-            <p className="mt-4 text-xs sm:text-sm leading-relaxed text-[#4A3E3D]">
+            <p className="mt-4 text-xs sm:text-sm leading-relaxed text-[#77665D]">
               Desde 2008, o Dúnia City Hall acolhe os momentos mais marcantes da capital federal. Com arquitetura clássica no Lago Sul, lustres de cristal e gastronomia autoral, criamos cenários onde o afeto e a distinção se encontram.
             </p>
 
-            {/* Credenciais Arquitetônicas & Tradição do Dúnia */}
-            <div className="mt-8 pt-6 border-t border-[#5A1827]/15 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+            {/* Credenciais Arquitetônicas & Tradição do Dúnia (Com Divisórias Finas em Dourado Discreto) */}
+            <div className="mt-10 pt-8 border-t border-[#D7B78D]/35 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
               <div>
-                <span className="font-serif text-2xl sm:text-3xl font-normal text-[#201215]">2.500 m²</span>
-                <p className="mt-1 text-[0.65rem] uppercase tracking-[0.2em] font-semibold text-[#5A1827]">Área Nobre Lago Sul</p>
+                <span className="font-serif text-3xl sm:text-4xl font-normal text-[#30221D] tracking-tight">2.500 m²</span>
+                <p className="mt-1.5 text-[0.65rem] uppercase tracking-[0.2em] font-semibold text-[#741F32]">Área Nobre Lago Sul</p>
               </div>
-              <div className="sm:border-x sm:border-[#5A1827]/15">
-                <span className="font-serif text-2xl sm:text-3xl font-normal text-[#201215]">1.200</span>
-                <p className="mt-1 text-[0.65rem] uppercase tracking-[0.2em] font-semibold text-[#5A1827]">Convidados Confortáveis</p>
+              <div className="sm:border-x sm:border-[#D7B78D]/35">
+                <span className="font-serif text-3xl sm:text-4xl font-normal text-[#30221D] tracking-tight">1.200</span>
+                <p className="mt-1.5 text-[0.65rem] uppercase tracking-[0.2em] font-semibold text-[#741F32]">Convidados Confortáveis</p>
               </div>
               <div>
-                <span className="font-serif text-2xl sm:text-3xl font-normal text-[#201215]">+15 Anos</span>
-                <p className="mt-1 text-[0.65rem] uppercase tracking-[0.2em] font-semibold text-[#5A1827]">Excelência em Brasília</p>
+                <span className="font-serif text-3xl sm:text-4xl font-normal text-[#30221D] tracking-tight">+15 Anos</span>
+                <p className="mt-1.5 text-[0.65rem] uppercase tracking-[0.2em] font-semibold text-[#741F32]">Excelência em Brasília</p>
               </div>
             </div>
           </div>
@@ -362,7 +365,7 @@ export default function Home() {
           aria-label="História em três atos"
         >
           <div
-            className="story-stage rounded-3xl overflow-hidden border border-[#5A1827]/20 shadow-2xl"
+            className="story-stage rounded-3xl overflow-hidden border border-[#D7B78D]/35 shadow-[0_25px_60px_-15px_rgba(84,23,37,0.22)]"
             onMouseEnter={() => setIsStoryHovered(true)}
             onMouseLeave={() => setIsStoryHovered(false)}
           >
@@ -380,7 +383,7 @@ export default function Home() {
               />
               <div className="stage-shade left" />
               <div className="stage-caption caption-left">
-                <p className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#C5A265]">
+                <p className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#BD9463]">
                   CAPÍTULO 01 <span className="dot" /> A EXPECTATIVA
                 </p>
                 <h2>
@@ -406,7 +409,7 @@ export default function Home() {
               />
               <div className="stage-shade right" />
               <div className="stage-caption caption-right">
-                <p className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#C5A265]">
+                <p className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#BD9463]">
                   CAPÍTULO 02 <span className="dot" /> O ENCONTRO
                 </p>
                 <h2>
@@ -432,7 +435,7 @@ export default function Home() {
               />
               <div className="stage-shade left" />
               <div className="stage-caption caption-left">
-                <p className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#C5A265]">
+                <p className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#BD9463]">
                   CAPÍTULO 03 <span className="dot" /> A MEMÓRIA
                 </p>
                 <h2>
@@ -457,7 +460,7 @@ export default function Home() {
                   onClick={() => setActiveStoryAct(act.idx)}
                   className={`rounded-lg px-2.5 py-1 text-[0.65rem] font-bold tracking-wider transition ${
                     activeStoryAct === act.idx
-                      ? "bg-[#5A1827] text-white shadow"
+                      ? "bg-[#741F32] text-white shadow"
                       : "border border-white/20 bg-black/40 text-white/80 hover:text-white hover:bg-black/60"
                   }`}
                 >
@@ -477,14 +480,14 @@ export default function Home() {
               <div className="flex gap-1">
                 <button
                   onClick={() => setActiveStoryAct((prev) => (prev > 0 ? prev - 1 : 2))}
-                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/20 bg-black/40 text-white/80 hover:border-[#5A1827] hover:bg-[#5A1827] hover:text-white transition"
+                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/20 bg-black/40 text-white/80 hover:border-[#741F32] hover:bg-[#741F32] hover:text-white transition"
                   aria-label="Ato anterior"
                 >
                   <ChevronLeft className="h-3.5 w-3.5" />
                 </button>
                 <button
                   onClick={() => setActiveStoryAct((prev) => (prev < 2 ? prev + 1 : 0))}
-                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/20 bg-black/40 text-white/80 hover:border-[#5A1827] hover:bg-[#5A1827] hover:text-white transition"
+                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/20 bg-black/40 text-white/80 hover:border-[#741F32] hover:bg-[#741F32] hover:text-white transition"
                   aria-label="Próximo ato"
                 >
                   <ChevronRight className="h-3.5 w-3.5" />
@@ -497,42 +500,44 @@ export default function Home() {
         {/* 4. FERRAMENTA DE GALERIA COMPLETA & 35MM (340+ FOTOS OFICIAIS) */}
         <DuniaGalleryViewer />
 
-        {/* 5. CITAÇÃO CENTRALIZADA (MINIMALISTA DE ALTO CONTRASTE) */}
-        <section className="my-8 text-center py-6 px-4">
-          <p className="eyebrow hero-kicker justify-center mb-3 !text-[#5A1827]">
-            <span className="ornament !bg-[#5A1827]" /> DÚNIA CITY HALL <span className="ornament !bg-[#5A1827]" />
+        {/* 5. FRASE INSTITUCIONAL — PAUSA EMOCIONAL COM ESPAÇO NEGATIVO E DETALHES DOURADOS */}
+        <section className="my-16 sm:my-24 py-12 px-6 text-center relative">
+          <p className="eyebrow hero-kicker justify-center mb-4 !text-[#741F32]">
+            <span className="ornament !bg-[#D7B78D]" /> DÚNIA CITY HALL <span className="ornament !bg-[#D7B78D]" />
           </p>
-          <p className="font-serif text-xl sm:text-3xl font-normal leading-relaxed text-[#201215] max-w-xl mx-auto">
+          <p className="font-serif text-2xl sm:text-4xl lg:text-[2.5rem] font-normal leading-relaxed text-[#30221D] max-w-2xl mx-auto">
             &ldquo;Há lugares que recebem eventos.<br />
-            <em className="italic text-[#5A1827]">Outros guardam histórias.</em><br />
+            <em className="italic text-[#741F32]">Outros guardam histórias.</em><br />
             O Dúnia é onde elas acontecem.&rdquo;
           </p>
+          <div className="mx-auto mt-8 h-px w-24 bg-[#D7B78D]/60" />
         </section>
 
-        {/* 6. CELEBRAÇÕES & ESPAÇOS (GRID EDITORIAL EM CARDS BRANCOS COM BORDÔ) */}
-        <section id="celebrations" className="my-12">
-          <div className="text-center max-w-2xl mx-auto mb-8">
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#5A1827]">
+        {/* 6. CENÁRIOS PARA MOMENTOS ÚNICOS (CARDS CREME COM BORDAS SUAVES & HOVER ELEGANTE) */}
+        <section id="celebrations" className="my-14">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#741F32]">
               CADA VIDA TEM SEUS MARCOS
             </span>
-            <h2 className="mt-2 font-serif text-2xl font-normal text-[#201215] sm:text-4xl">
+            <h2 className="mt-2 font-serif text-2xl sm:text-4xl font-normal text-[#30221D]">
               Cenários Inesquecíveis para Momentos Únicos
             </h2>
-            <p className="mt-2 text-xs sm:text-sm text-[#4A3E3D] leading-relaxed">
-              Estrutura clássica e versátil no Lago Sul, desenhada para acolher sua celebração com distinção.
+            <p className="mt-2.5 text-xs sm:text-sm text-[#77665D] leading-relaxed">
+              Estrutura clássica e versátil no Lago Sul, desenhada para acolher sua celebração com acolhimento e distinção.
             </p>
           </div>
 
-          {/* Grid Perfeitamente Simétrico com Proporções Fotográficas */}
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Grid dos Três Cenários Principais: Casamentos, Debutantes e Corporativo */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {(celebrationCards || DEFAULT_CELEBRATION_CARDS || [])
               .filter((card) => card && card.active !== false)
               .sort((a, b) => (a.order || 0) - (b.order || 0))
+              .slice(0, 3)
               .map((card) => (
                 <Link
                   key={card.id}
                   href={card.href}
-                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#5A1827]/12 bg-white shadow-[0_8px_30px_rgba(90,24,39,0.06)] transition duration-500 hover:-translate-y-1 hover:border-[#5A1827]/40 hover:shadow-[0_16px_40px_rgba(90,24,39,0.12)]"
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#D7B78D]/40 bg-[#F2E4D5]/60 hover:bg-[#F2E4D5] shadow-[0_8px_30px_rgba(84,23,37,0.05)] transition duration-500 hover:-translate-y-1.5 hover:border-[#741F32]/50 hover:shadow-[0_18px_45px_rgba(84,23,37,0.12)]"
                 >
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/40">
                     <Image
@@ -540,25 +545,25 @@ export default function Home() {
                       alt={card.title}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className={`object-cover ${card.imagePosition || "object-[center_12%]"} transition duration-700 group-hover:scale-105 filter brightness-95`}
+                      className={`object-cover ${card.imagePosition || "object-[center_12%]"} transition duration-700 group-hover:scale-[1.03] filter brightness-95`}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   </div>
-                  <div className="flex flex-1 flex-col justify-between p-5">
+                  <div className="flex flex-1 flex-col justify-between p-6">
                     <div>
-                      <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#5A1827]">
+                      <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#741F32]">
                         {card.category}
                       </span>
-                      <h3 className="mt-1 font-serif text-xl font-normal text-[#201215] group-hover:text-[#5A1827] transition">
+                      <h3 className="mt-1.5 font-serif text-xl font-normal text-[#30221D] group-hover:text-[#741F32] transition">
                         {card.title}
                       </h3>
-                      <p className="mt-1.5 text-xs leading-relaxed text-[#4A3E3D] line-clamp-2">
+                      <p className="mt-2 text-xs leading-relaxed text-[#77665D] line-clamp-2">
                         {card.description}
                       </p>
                     </div>
-                    <div className="mt-3.5 flex items-center justify-between border-t border-[#5A1827]/10 pt-3">
-                      <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#5A1827] group-hover:text-[#732032] transition">
-                        {card.buttonText || "VER DETALHES"}{" "}
+                    <div className="mt-4 flex items-center justify-between border-t border-[#D7B78D]/30 pt-3.5">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#741F32] group-hover:text-[#541725] transition">
+                        <span>{card.buttonText || "Saiba mais"}</span>
                         <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                       </span>
                     </div>
@@ -569,15 +574,15 @@ export default function Home() {
         </section>
 
         {/* 7. ESTRUTURA & DIFERENCIAIS (INTERATIVO COM FOTOS REAIS & MODAL) */}
-        <section id="diferenciais" className="my-12 rounded-3xl border border-[#5A1827]/15 bg-white p-6 sm:p-10 shadow-xl relative overflow-hidden">
+        <section id="diferenciais" className="my-14 rounded-3xl border border-[#D7B78D]/40 bg-gradient-to-br from-[#F2E4D5]/50 via-[#F7EFE6] to-[#E8D4BF]/40 p-6 sm:p-12 shadow-xl relative overflow-hidden">
           <div className="text-center max-w-2xl mx-auto mb-8">
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#5A1827]">
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#741F32]">
               ESTRUTURA & DISTINÇÃO
             </span>
-            <h2 className="mt-2 font-serif text-2xl font-normal text-[#201215] sm:text-4xl">
+            <h2 className="mt-2 font-serif text-2xl font-normal text-[#30221D] sm:text-4xl">
               A Cenografia Onde Tudo é Pensado
             </h2>
-            <p className="mt-2 text-xs sm:text-sm text-[#4A3E3D] leading-relaxed">
+            <p className="mt-2 text-xs sm:text-sm text-[#77665D] leading-relaxed">
               2.500 m² de infraestrutura desenhados para acolhimento absoluto no Lago Sul. Passe o mouse ou clique para explorar cada ambiente em alta resolução.
             </p>
           </div>
@@ -589,10 +594,10 @@ export default function Home() {
         <section id="journal" className="my-12">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-6">
             <div>
-              <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#5A1827]">
+              <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#741F32]">
                 REVISTA DÚNIA / EDITORIAL
               </span>
-              <h2 className="mt-1 font-serif text-2xl text-[#201215] sm:text-3xl">
+              <h2 className="mt-1 font-serif text-2xl text-[#30221D] sm:text-3xl">
                 Histórias, Inspirações & Sabores
               </h2>
             </div>
@@ -614,8 +619,8 @@ export default function Home() {
                   }}
                   className={`rounded-full px-3 py-1 text-[0.65rem] font-semibold tracking-wider transition ${
                     journalFilter === key
-                      ? "bg-[#5A1827] text-white shadow-sm"
-                      : "border border-[#5A1827]/20 bg-white text-[#4A3E3D] hover:border-[#5A1827] hover:text-[#5A1827]"
+                      ? "bg-[#741F32] text-white shadow-sm"
+                      : "border border-[#D7B78D]/40 bg-white text-[#77665D] hover:border-[#741F32] hover:text-[#741F32]"
                   }`}
                 >
                   {label}
@@ -628,7 +633,7 @@ export default function Home() {
             {visibleArticles.map((article) => (
               <article
                 key={article.id}
-                className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-[#5A1827]/12 bg-white shadow-sm transition duration-500 hover:-translate-y-1 hover:border-[#5A1827]/40 hover:shadow-md"
+                className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-[#D7B78D]/40 bg-[#F2E4D5]/50 hover:bg-[#F2E4D5] shadow-sm transition duration-500 hover:-translate-y-1 hover:border-[#741F32]/40 hover:shadow-md"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
@@ -641,20 +646,20 @@ export default function Home() {
                 </div>
                 <div className="flex flex-1 flex-col justify-between p-4">
                   <div>
-                    <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#5A1827]">
+                    <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[#741F32]">
                       {article.label}
                     </span>
-                    <h3 className="mt-1 font-serif text-base font-normal text-[#201215] group-hover:text-[#5A1827] transition">
+                    <h3 className="mt-1 font-serif text-base font-normal text-[#30221D] group-hover:text-[#741F32] transition">
                       {article.title}
                     </h3>
-                    <p className="mt-1 text-xs leading-relaxed text-[#4A3E3D] line-clamp-2">
+                    <p className="mt-1 text-xs leading-relaxed text-[#77665D] line-clamp-2">
                       {article.text}
                     </p>
                   </div>
-                  <div className="mt-3 border-t border-[#5A1827]/10 pt-2.5">
+                  <div className="mt-3 border-t border-[#D7B78D]/25 pt-2.5">
                     <button
                       onClick={() => setSelectedArticle(article)}
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#5A1827] hover:text-[#732032] transition"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#741F32] hover:text-[#541725] transition"
                     >
                       <span>LER ARTIGO COMPLETO</span>
                       <ArrowRight className="h-3 w-3" />
@@ -669,7 +674,7 @@ export default function Home() {
             <div className="mt-6 text-center">
               <button
                 onClick={() => setShowAllArticles(!showAllArticles)}
-                className="inline-flex items-center gap-2 rounded-full border border-[#5A1827]/25 bg-white px-5 py-2 text-xs font-semibold tracking-wider text-[#5A1827] hover:bg-[#5A1827] hover:text-white transition shadow-sm"
+                className="inline-flex items-center gap-2 rounded-full border border-[#D7B78D]/50 bg-white px-5 py-2 text-xs font-semibold tracking-wider text-[#741F32] hover:bg-[#741F32] hover:text-white transition shadow-sm"
               >
                 <span>{showAllArticles ? "VER MENOS ARTIGOS" : `VER TODOS OS ARTIGOS (${filteredArticles.length})`}</span>
               </button>
@@ -677,151 +682,202 @@ export default function Home() {
           )}
         </section>
 
-        {/* 9. CENOGRAFIA & ESTRUTURA INSTITUCIONAL (PRESTIGE LIGHT) */}
-        <section id="experience" className="my-12 overflow-hidden rounded-2xl border border-[#5A1827]/15 bg-white p-6 sm:p-10 shadow-xl">
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-            <div className="space-y-3.5 lg:col-span-7">
-              <p className="eyebrow hero-kicker !text-[#5A1827]">
-                <span className="ornament !bg-[#5A1827]" /> ESTRUTURA MONUMENTAL • LAGO SUL
-              </p>
-              <h2 className="font-serif text-2xl text-[#201215] sm:text-4xl font-normal">
-                Experiências & Celebrações Dúnia
-              </h2>
-              <p className="text-xs sm:text-sm leading-relaxed text-[#4A3E3D]">
-                O cenário mais nobre de Brasília para momentos inesquecíveis. Infraestrutura de 2.500 m² totalmente climatizada, com acústica impecável, paisagismo privativo e alta gastronomia autoral.
-              </p>
+        {/* 9. A DIMENSÃO DÚNIA — INFRAESTRUTURA & CENOGRAFIA MONUMENTAL (LAYOUT EDITORIAL ABERTO) */}
+        <section id="experience" className="my-16 sm:my-24">
+          {/* Cabeçalho Editorial Aberto com Linha Centralizada */}
+          <div className="text-center max-w-3xl mx-auto mb-12 px-4">
+            <p className="eyebrow hero-kicker justify-center mb-3 !text-[#741F32]">
+              <span className="ornament !bg-[#D7B78D]" /> INFRAESTRUTURA MONUMENTAL • LAGO SUL <span className="ornament !bg-[#D7B78D]" />
+            </p>
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-[2.75rem] font-normal text-[#30221D] leading-tight">
+              A Dimensão Dúnia em Quatro Atributos
+            </h2>
+            <p className="mt-3 text-xs sm:text-sm text-[#77665D] leading-relaxed max-w-2xl mx-auto">
+              Engenharia clássica, pé-direito monumental e acústica de padrão internacional. Uma infraestrutura de 2.500 m² no Lago Sul desenhada para acolher com distinção absoluta.
+            </p>
+          </div>
 
-              {/* 4 Pilares da Infraestrutura Institucional */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                <div className="border-l-2 border-[#5A1827] pl-3">
-                  <strong className="block text-xs font-serif text-[#201215] font-semibold">01. Salões Modulares</strong>
-                  <span className="text-[0.68rem] text-[#4A3E3D]">Capacidade flexível de 100 até 1.200 convidados</span>
-                </div>
-                <div className="border-l-2 border-[#5A1827] pl-3">
-                  <strong className="block text-xs font-serif text-[#201215] font-semibold">02. Alta Gastronomia</strong>
-                  <span className="text-[0.68rem] text-[#4A3E3D]">Buffet próprio com menus autorais e degustações</span>
-                </div>
-                <div className="border-l-2 border-[#5A1827] pl-3">
-                  <strong className="block text-xs font-serif text-[#201215] font-semibold">03. Jardim & Pôr do Sol</strong>
-                  <span className="text-[0.68rem] text-[#4A3E3D]">Área externa privativa com espelho d&apos;água</span>
-                </div>
-                <div className="border-l-2 border-[#5A1827] pl-3">
-                  <strong className="block text-xs font-serif text-[#201215] font-semibold">04. Espaço da Noiva</strong>
-                  <span className="text-[0.68rem] text-[#4A3E3D]">Camarim privativo climatizado com espelhos cenográficos</span>
-                </div>
+          {/* Os 4 Pilares da Infraestrutura — Faixa Editorial Minimalista com Numerais Dourados */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <div className="border-t border-[#D7B78D]/60 pt-5 space-y-2 group transition-all duration-300 hover:border-[#741F32]">
+              <span className="font-serif text-2xl font-normal text-[#BD9463] block">01</span>
+              <h3 className="font-serif text-lg font-medium text-[#30221D] group-hover:text-[#741F32] transition">
+                Salões Modulares
+              </h3>
+              <p className="text-xs text-[#77665D] leading-relaxed">
+                Vão livre de 2.500 m², pé-direito de 7m e acústica impecável. Formato versátil para celebrações intimistas de 100 até grandes noites de 1.200 convidados.
+              </p>
+            </div>
+
+            <div className="border-t border-[#D7B78D]/60 pt-5 space-y-2 group transition-all duration-300 hover:border-[#741F32]">
+              <span className="font-serif text-2xl font-normal text-[#BD9463] block">02</span>
+              <h3 className="font-serif text-lg font-medium text-[#30221D] group-hover:text-[#741F32] transition">
+                Alta Gastronomia
+              </h3>
+              <p className="text-xs text-[#77665D] leading-relaxed">
+                Cozinha autoral própria de padrão internacional com cardápios exclusivos sob medida, degustação privativa para anfitriões e serviço impecável.
+              </p>
+            </div>
+
+            <div className="border-t border-[#D7B78D]/60 pt-5 space-y-2 group transition-all duration-300 hover:border-[#741F32]">
+              <span className="font-serif text-2xl font-normal text-[#BD9463] block">03</span>
+              <h3 className="font-serif text-lg font-medium text-[#30221D] group-hover:text-[#741F32] transition">
+                Jardim & Pôr do Sol
+              </h3>
+              <p className="text-xs text-[#77665D] leading-relaxed">
+                Área verde privativa integrada com espelho d&apos;água ao ar livre. O cenário perfeito para cerimônias inesquecíveis durante o entardecer de Brasília.
+              </p>
+            </div>
+
+            <div className="border-t border-[#D7B78D]/60 pt-5 space-y-2 group transition-all duration-300 hover:border-[#741F32]">
+              <span className="font-serif text-2xl font-normal text-[#BD9463] block">04</span>
+              <h3 className="font-serif text-lg font-medium text-[#30221D] group-hover:text-[#741F32] transition">
+                Suíte Privativa da Noiva
+              </h3>
+              <p className="text-xs text-[#77665D] leading-relaxed">
+                Camarim exclusivo climatizado com espelhos cenográficos, sala de relaxamento e privacidade total para os preparativos mais especiais.
+              </p>
+            </div>
+          </div>
+
+          {/* Vitrine Fotográfica Panorâmica da Arquitetura do Salão Nobre (Widescreen 21:9) */}
+          <div className="relative aspect-[16/8] sm:aspect-[21/9] w-full overflow-hidden rounded-3xl border border-[#D7B78D]/40 shadow-2xl group">
+            <Image
+              src="/images/dunia/decoracao-hero.jpg"
+              alt="Cenografia e Decoração Monumental do Dúnia City Hall"
+              fill
+              className="object-cover object-center filter brightness-[0.92] contrast-[1.04] transition duration-700 group-hover:scale-[1.02]"
+            />
+            {/* Gradiente Escuro de Profundidade */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
+
+            {/* Conteúdo Sobreposto na Imagem Panorâmica */}
+            <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-10 sm:right-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 text-white">
+              <div>
+                <span className="text-[0.62rem] font-bold uppercase tracking-[0.25em] text-[#BD9463] block">
+                  CENOGRAFIA MONUMENTAL • LAGO SUL
+                </span>
+                <h3 className="font-serif text-xl sm:text-2xl lg:text-3xl font-normal text-white mt-1">
+                  O Salão Imperial em Sua Plenitude
+                </h3>
+                <p className="text-xs text-white/80 max-w-lg mt-1 font-sans hidden sm:block">
+                  Lustres de cristal nobre, piso em mármore, climatização central silenciosa e gerador próprio de energia 100% full-backup.
+                </p>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4 pt-3">
-                <a
-                  href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full bg-[#5A1827] hover:bg-[#732032] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow transition flex items-center gap-2"
-                >
-                  <Calendar className="h-4 w-4" />
-                  <span>AGENDAR VISITA VIP</span>
-                </a>
-
+              <div className="flex items-center gap-3">
                 <Link
                   href="/sobre"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider text-[#5A1827] hover:text-[#732032] transition border-b border-[#5A1827]/30 pb-0.5"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/50 hover:bg-[#741F32] hover:border-[#741F32] px-5 py-2.5 text-xs font-semibold tracking-wider text-white backdrop-blur-md transition-all shadow-md"
                 >
-                  <span>CONHECER A ESTRUTURA (2.500 M²) ↗</span>
+                  <span>ESPECIFICAÇÕES TÉCNICAS (2.500 M²)</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
 
                 <Link
                   href="/admin/experiencias"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider text-[#4A3E3D] hover:text-[#5A1827] transition"
+                  className="hidden md:inline-flex items-center gap-1.5 text-xs font-medium text-white/70 hover:text-white transition"
                 >
                   <span>Central do Salão ↗</span>
                 </Link>
               </div>
             </div>
-
-            {/* Visual Monumental do Salão */}
-            <div className="flex justify-center lg:col-span-5">
-              <div className="relative aspect-[4/3] sm:aspect-[16/10] w-full max-w-[420px] overflow-hidden rounded-2xl border border-[#5A1827]/15 shadow-xl">
-                <Image
-                  src="/images/dunia/salao-principal.jpg"
-                  alt="Salão Dúnia City Hall"
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <span className="text-[0.6rem] font-bold uppercase tracking-widest text-[#C5A265]">Dúnia City Hall • Lago Sul</span>
-                  <h4 className="font-serif text-lg text-white">Arquitetura de Alto Padrão</h4>
-                  <p className="text-[0.68rem] text-white/85 mt-0.5">Mármore nobre, lustres de cristal e cenografia acústica.</p>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 
-        {/* 10. AGENDAMENTO VIP & CONTATO CONCIERGE (CENTRALIZADO & CLARO) */}
-        <section id="contato" className="my-12 rounded-2xl border border-[#5A1827]/15 bg-white p-6 sm:p-10 shadow-xl">
-          <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
-            <div className="space-y-3.5 lg:col-span-7">
-              <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#5A1827]">
-                ATENDIMENTO EXCLUSIVO
+        {/* 10. O CONVITE — ATENDIMENTO CONCIERGE VIP (ESTÉTICA DE PAPELARIA DE ALTO LUXO) */}
+        <section id="contato" className="my-16 sm:my-24 rounded-3xl border border-[#D7B78D]/60 ring-1 ring-[#D7B78D]/25 bg-gradient-to-br from-[#F2E4D5] via-[#F7EFE6] to-[#E8D4BF]/90 p-8 sm:p-14 shadow-2xl relative overflow-hidden">
+          {/* Halos Luminosos Sutis no Convite */}
+          <div className="pointer-events-none absolute -top-20 -right-20 w-80 h-80 bg-[radial-gradient(ellipse_at_center,rgba(189,148,99,0.2),transparent_70%)] blur-2xl" />
+          <div className="pointer-events-none absolute -bottom-20 -left-20 w-80 h-80 bg-[radial-gradient(ellipse_at_center,rgba(116,31,50,0.08),transparent_70%)] blur-2xl" />
+
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center relative z-10">
+            {/* Coluna Esquerda: O Convite Personalizado & Concierge */}
+            <div className="space-y-5 lg:col-span-7">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#D7B78D] bg-white/70 px-3.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.25em] text-[#741F32] backdrop-blur-sm">
+                <Sparkles className="h-3 w-3 text-[#BD9463]" /> ATENDIMENTO CONCIERGE EXCLUSIVO
               </span>
-              <h2 className="font-serif text-2xl font-normal text-[#201215] sm:text-4xl">
-                Agende Sua Visita VIP ao Dúnia City Hall
+
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-[2.6rem] font-normal text-[#30221D] leading-[1.12]">
+                Sua celebração merece ser vivida de perto.
               </h2>
-              <p className="text-xs sm:text-sm leading-relaxed text-[#4A3E3D]">
-                Venha conhecer pessoalmente a monumentalidade dos 2.500 m² no Lago Sul, os lustres clássicos de cristal e desenhar a celebração dos seus sonhos com nossa equipe de concierge.
+
+              <p className="text-xs sm:text-sm leading-relaxed text-[#77665D] max-w-xl">
+                Agende uma visita privativa guiada por nossa equipe de concierge. Conheça pessoalmente a monumentalidade dos 2.500 m² no Lago Sul, encante-se com nossos lustres clássicos de cristal e desenhe cada detalhe da sua história com acolhimento e exclusividade.
               </p>
 
-              <div className="space-y-2 pt-1">
-                <div className="flex items-start gap-2.5">
-                  <MapPin className="h-3.5 w-3.5 shrink-0 text-[#5A1827] mt-0.5" />
-                  <span className="text-xs text-[#4A3E3D]">
-                    SHIS QI 15 Lote J/K, Lago Sul, Brasília — DF, CEP 71.600-700
-                  </span>
+              {/* Cápsulas de Contato VIP */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <div className="rounded-2xl border border-[#D7B78D]/40 bg-white/60 p-4 backdrop-blur-sm shadow-sm space-y-1">
+                  <div className="flex items-center gap-2 text-[#741F32]">
+                    <MapPin className="h-3.5 w-3.5" />
+                    <span className="text-[0.65rem] font-bold uppercase tracking-wider text-[#30221D]">Localização Nobre</span>
+                  </div>
+                  <p className="text-xs text-[#77665D] pl-5">
+                    SHIS QI 15 Lote J/K, Lago Sul — Brasília / DF
+                  </p>
                 </div>
-                <div className="flex items-center gap-2.5">
-                  <Phone className="h-3.5 w-3.5 shrink-0 text-[#5A1827]" />
-                  <span className="text-xs text-[#4A3E3D]">(61) 3686-5339 (Salão Principal)</span>
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <MessageSquare className="h-3.5 w-3.5 shrink-0 text-[#5A1827]" />
-                  <span className="text-xs text-[#201215] font-semibold">
-                    (61) 97401-7544 (Concierge WhatsApp VIP)
-                  </span>
+
+                <div className="rounded-2xl border border-[#D7B78D]/40 bg-white/60 p-4 backdrop-blur-sm shadow-sm space-y-1">
+                  <div className="flex items-center gap-2 text-[#741F32]">
+                    <MessageSquare className="h-3.5 w-3.5" />
+                    <span className="text-[0.65rem] font-bold uppercase tracking-wider text-[#30221D]">Concierge WhatsApp</span>
+                  </div>
+                  <p className="text-xs text-[#30221D] font-semibold pl-5">
+                    (61) 97401-7544 • Resposta dedicada
+                  </p>
                 </div>
               </div>
 
-              <div className="pt-2">
+              {/* Botão de Ação Master do Convite */}
+              <div className="pt-3 flex flex-wrap items-center gap-4">
                 <a
                   href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#5A1827] hover:bg-[#732032] px-6 py-3 text-xs font-bold uppercase tracking-wider text-white shadow transition"
+                  className="inline-flex items-center gap-2.5 rounded-full bg-[#741F32] hover:bg-[#541725] px-7 py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-[0_4px_22px_rgba(116,31,50,0.25)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_6px_28px_rgba(116,31,50,0.35)]"
                 >
-                  <MessageSquare className="h-3.5 w-3.5" />
-                  <span>FALAR COM CONCIERGE NO WHATSAPP</span>
+                  <Calendar className="h-4 w-4" />
+                  <span>AGENDAR VISITA VIP COM O CONCIERGE</span>
                 </a>
+
+                <div className="flex items-center gap-2 text-xs text-[#77665D]">
+                  <Phone className="h-3.5 w-3.5 text-[#741F32]" />
+                  <span>(61) 3686-5339 (Salão Principal)</span>
+                </div>
               </div>
             </div>
 
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-[#5A1827]/15 lg:col-span-5 shadow-lg">
-              <Image
-                src="/images/dunia/salao-principal.jpg"
-                alt="Salão Dúnia City Hall"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-              <div className="absolute bottom-3 left-3 right-3">
-                <span className="text-[0.65rem] uppercase tracking-widest text-[#C5A265]">Lago Sul • Brasília</span>
-                <p className="font-serif text-lg text-white">Dúnia City Hall</p>
+            {/* Coluna Direita: Fotografia Emocionante de Celebração (Romantismo & Vida) */}
+            <div className="lg:col-span-5 flex justify-center">
+              <div className="relative aspect-[3/4] w-full max-w-[380px] overflow-hidden rounded-2xl border border-[#D7B78D]/50 shadow-2xl group">
+                <Image
+                  src="/images/dunia/casamento-hero.jpg"
+                  alt="Celebração inesquecível no Dúnia City Hall"
+                  fill
+                  className="object-cover filter brightness-[0.94] contrast-[1.04] transition duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
+
+                {/* Selo Editorial Discreto */}
+                <div className="absolute bottom-5 left-5 right-5 text-white">
+                  <span className="text-[0.58rem] font-bold uppercase tracking-[0.25em] text-[#BD9463] block">
+                    DÚNIA CITY HALL • LAGO SUL
+                  </span>
+                  <p className="font-serif text-lg font-normal text-white mt-1 leading-snug">
+                    Onde o afeto e a distinção se encontram.
+                  </p>
+                  <span className="text-[0.68rem] text-white/80 block mt-1 font-sans">
+                    Visitas privativas com agendamento prévio.
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* 11. FOOTER OFICIAL CENTRALIZADO & DISCRETO */}
-        <footer className="my-10 border-t border-[#5A1827]/15 pt-8 text-center">
+        <footer className="my-10 border-t border-[#D7B78D]/40 pt-8 text-center">
           <Image
             src="/images/dunia/logo-dunia-preta.png"
             alt="Dúnia City Hall"
@@ -829,25 +885,25 @@ export default function Home() {
             height={48}
             className="mx-auto h-9 w-auto object-contain"
           />
-          <p className="mt-2.5 font-serif text-xs italic text-[#5A1827]">
+          <p className="mt-2.5 font-serif text-xs italic text-[#741F32]">
             Algumas noites passam. <em>Outras vivem para sempre.</em>
           </p>
 
-          <div className="mt-5 flex flex-wrap justify-center gap-3 text-xs text-[#4A3E3D]">
-            <a href="#story" className="hover:text-[#5A1827] transition">A Experiência</a>
+          <div className="mt-5 flex flex-wrap justify-center gap-3 text-xs text-[#77665D]">
+            <a href="#story" className="hover:text-[#741F32] transition">A Experiência</a>
             <span>•</span>
-            <a href="#film" className="hover:text-[#5A1827] transition">Galeria 35mm</a>
+            <a href="#film" className="hover:text-[#741F32] transition">Galeria 35mm</a>
             <span>•</span>
-            <a href="#celebrations" className="hover:text-[#5A1827] transition">Celebrações</a>
+            <a href="#celebrations" className="hover:text-[#741F32] transition">Celebrações</a>
             <span>•</span>
-            <Link href="/sobre" className="hover:text-[#5A1827] transition">O Salão (2.500 m²)</Link>
+            <Link href="/sobre" className="hover:text-[#741F32] transition">O Salão (2.500 m²)</Link>
             <span>•</span>
-            <a href="#journal" className="hover:text-[#5A1827] transition">Revista Dúnia</a>
+            <a href="#journal" className="hover:text-[#741F32] transition">Revista Dúnia</a>
             <span>•</span>
-            <Link href="/admin/experiencias" className="hover:text-[#5A1827] transition">Central Salão</Link>
+            <Link href="/admin/experiencias" className="hover:text-[#741F32] transition">Central Salão</Link>
           </div>
 
-          <small className="mt-5 block text-[0.6rem] uppercase tracking-widest text-[#5C4D4C]">
+          <small className="mt-5 block text-[0.6rem] uppercase tracking-widest text-[#77665D]">
             © {new Date().getFullYear()} DÚNIA CITY HALL — SHIS QI 15 LAGO SUL, BRASÍLIA / DF. TODOS OS DIREITOS RESERVADOS.
           </small>
         </footer>
@@ -861,11 +917,11 @@ export default function Home() {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-[#5A1827]/20 bg-white shadow-2xl"
+            className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-[#D7B78D]/40 bg-[#F7EFE6] shadow-2xl"
           >
             <button
               onClick={() => setSelectedArticle(null)}
-              className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-[#201215] hover:bg-[#5A1827] hover:text-white transition shadow"
+              className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-[#F2E4D5] text-[#30221D] hover:bg-[#741F32] hover:text-white transition shadow"
               aria-label="Fechar"
             >
               <X className="h-4 w-4" />
@@ -877,15 +933,15 @@ export default function Home() {
             </div>
 
             <div className="p-8">
-              <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#5A1827]">
+              <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#741F32]">
                 {selectedArticle.label}
               </span>
-              <h3 className="mt-2 font-serif text-2xl font-normal text-[#201215] sm:text-3xl">
+              <h3 className="mt-2 font-serif text-2xl font-normal text-[#30221D] sm:text-3xl">
                 {selectedArticle.title}
               </h3>
-              <div className="mt-4 space-y-4 text-xs leading-relaxed text-[#4A3E3D] sm:text-sm">
+              <div className="mt-4 space-y-4 text-xs leading-relaxed text-[#77665D] sm:text-sm">
                 <p>{selectedArticle.article}</p>
-                <p className="border-t border-[#5A1827]/10 pt-4 text-[0.7rem] italic text-[#5C4D4C]">
+                <p className="border-t border-[#D7B78D]/25 pt-4 text-[0.7rem] italic text-[#77665D]">
                   Dúnia City Hall — SHIS QI 15 Lago Sul, Brasília / DF. Tradição em celebrações desde 2008.
                 </p>
               </div>

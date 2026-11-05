@@ -18,7 +18,7 @@ const PALETAS: Record<VerticalPreset, {
   ink: string; panel: string; accent: string; surface: string; muted: string
   titleFont: "serif" | "sans"
 }> = {
-  eventos: { ink: "#FAF7F2", panel: "#FFFFFF", accent: "#5A1827", surface: "#F4ECE1", muted: "#8E682E", titleFont: "serif" },
+  eventos: { ink: "#F7EFE6", panel: "#F2E4D5", accent: "#741F32", surface: "#E8D4BF", muted: "#BD9463", titleFont: "serif" },
   juridico: { ink: "#0A131F", panel: "#121F33", accent: "#B8925A", surface: "#F8FAFC", muted: "#9AA7B6", titleFont: "serif" },
   catalogo: { ink: "#0E1726", panel: "#15243A", accent: "#F2A33C", surface: "#F7F8FA", muted: "#94A3B8", titleFont: "sans" },
   generico: { ink: "#0E1726", panel: "#15243A", accent: "#0F9F8F", surface: "#F4F6F8", muted: "#94A3B8", titleFont: "sans" },
