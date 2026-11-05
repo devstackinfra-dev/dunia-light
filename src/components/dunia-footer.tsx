@@ -11,7 +11,7 @@ export default function DuniaFooter() {
           <div className="space-y-4 md:col-span-4">
             <Link href="/" aria-label="Dúnia City Hall">
               <Image
-                src="/images/dunia/logo-dunia-preta.png"
+                src="/images/dunia/logo-dunia-hd.png"
                 alt="Dúnia City Hall"
                 width={180}
                 height={60}

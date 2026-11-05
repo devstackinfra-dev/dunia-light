@@ -62,9 +62,9 @@ export const BRAND = {
    * Imagens oficiais da marca, locais em public/images/dunia/
    */
   assets: {
-    logo: "/images/dunia/logo-dunia-preta.png",
-    logoLight: "/images/dunia/logo-dunia-preta.png",
-    logoPreta: "/images/dunia/logo-dunia-preta.png",
+    logo: "/images/dunia/logo-dunia-hd.png",
+    logoLight: "/images/dunia/logo-dunia-hd.png",
+    logoPreta: "/images/dunia/logo-dunia-hd.png",
     favicon: "/images/dunia/logo.png",
     ogImage: "/images/dunia/salao-principal.jpg",
     salaoPrincipal: "/images/dunia/salao-principal.jpg",

@@ -175,7 +175,7 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
               aria-label="Dúnia City Hall — Início"
             >
               <Image
-                src="/images/dunia/logo-dunia-preta.png"
+                src="/images/dunia/logo-dunia-hd.png"
                 alt="Dúnia City Hall"
                 width={260}
                 height={90}

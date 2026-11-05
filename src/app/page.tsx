@@ -174,7 +174,7 @@ export default function Home() {
               <div className="inline-block">
                 <Link href="/" className="inline-block group" aria-label="Dúnia City Hall">
                   <Image
-                    src="/images/dunia/logo-dunia-preta.png"
+                    src="/images/dunia/logo-dunia-hd.png"
                     alt="Dúnia City Hall"
                     width={480}
                     height={160}
@@ -904,7 +904,7 @@ export default function Home() {
         {/* 11. FOOTER OFICIAL CENTRALIZADO & DISCRETO */}
         <footer className="my-10 border-t border-[#D7B78D]/40 pt-8 text-center">
           <Image
-            src="/images/dunia/logo-dunia-preta.png"
+            src="/images/dunia/logo-dunia-hd.png"
             alt="Dúnia City Hall"
             width={140}
             height={48}
