@@ -217,7 +217,7 @@ export default function Home() {
       {/* 1. HERO SECTION CINEMATOGRÁFICO: EXPERIÊNCIA RESPONSIVA PREMIUM MOBILE + DESKTOP */}
       <section
         id="top"
-        className="relative mx-auto w-full max-w-[1380px] min-h-[100svh] lg:min-h-0 lg:h-[clamp(480px,58vh,580px)] overflow-hidden bg-[#120B08] z-10 select-none flex flex-col justify-between pt-14 sm:pt-16 lg:pt-16 pb-4 sm:pb-5 shadow-2xl rounded-none lg:rounded-[1.5rem]"
+        className="relative mx-auto w-full max-w-[1380px] min-h-[90svh] lg:min-h-0 lg:h-[clamp(480px,58vh,580px)] overflow-hidden bg-[#120B08] z-10 select-none flex flex-col justify-between pt-14 sm:pt-16 lg:pt-16 pb-4 sm:pb-5 shadow-2xl rounded-none lg:rounded-[1.5rem]"
         onMouseEnter={() => setIsHeroCarouselHovered(true)}
         onMouseLeave={() => setIsHeroCarouselHovered(false)}
         onTouchStart={handleTouchStart}
@@ -578,11 +578,11 @@ export default function Home() {
       </section>
 
       {/* CONTAINER CENTRALIZADO DO RESTANTE DO HOTSITE */}
-      <main className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <main className="mx-auto w-full max-w-[1380px] px-4 sm:px-6 lg:px-8">
         
         {/* 2. CARD INSTITUCIONAL — EMOÇÃO E CREDIBILIDADE (CHAMPAGNE PROFUNDO & LINHAS FINAS) */}
         <section className="my-14 overflow-hidden rounded-3xl bg-gradient-to-br from-[#F2E4D5]/90 via-[#F7EFE6] to-[#E8D4BF]/80 border border-[#D7B78D]/50 p-8 sm:p-14 text-[#30221D] shadow-[0_16px_45px_rgba(84,23,37,0.06)]">
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="mx-auto max-w-3xl text-center">
             <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-[#741F32]">
               POR TRÁS DE CADA CELEBRAÇÃO
             </span>

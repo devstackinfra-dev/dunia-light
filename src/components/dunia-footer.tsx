@@ -5,17 +5,17 @@ import { MapPin, Phone, MessageSquare, Castle } from "lucide-react"
 export default function DuniaFooter() {
   return (
     <footer className="border-t border-[#5A1827]/12 bg-[#FAF7F2] text-[#3D2E30]">
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1380px] px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-12">
           {/* Coluna Marca */}
           <div className="space-y-4 md:col-span-4">
-            <Link href="/" aria-label="Dúnia City Hall">
+            <Link href="/" aria-label="Dúnia City Hall" className="inline-flex items-center rounded-xl bg-[#120B08] px-3.5 py-1.5 border border-[#BD9463]/40 shadow-sm transition hover:scale-[1.02]">
               <Image
                 src="/images/dunia/logo-dunia-hd.png"
                 alt="Dúnia City Hall"
                 width={180}
                 height={60}
-                className="h-10 w-auto object-contain"
+                className="h-8 w-auto object-contain"
               />
             </Link>
             <p className="text-xs leading-relaxed text-[#5C4D4C] max-w-xs">
