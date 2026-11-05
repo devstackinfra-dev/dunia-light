@@ -495,14 +495,14 @@ export default function DuniaGalleryViewer({
           {/* CONTAINER DA PELÍCULA CONTÍNUA (UNIFICADO NO MESMO TOM #120B08, ENCAIXE PRECISO COM O CARRETEL) */}
           <div className="relative flex items-stretch overflow-hidden rounded-[2rem] border border-[#BD9463]/40 bg-[#120B08] p-2.5 sm:p-3 lg:p-3.5 shadow-[0_25px_80px_rgba(0,0,0,0.85)]">
             
-            {/* 1. CARRETEL 3D DÚNIA INTEGRADO NA ORIGEM (AUMENTADO PARA ENCAIXAR PERFEITAMENTE NAS MOLDURAS, MESMO TOM DE FUNDO) */}
-            <div className="hidden md:flex shrink-0 items-center justify-center pl-1 pr-2 relative z-20 select-none">
-              <div className="relative w-[135px] lg:w-[150px] xl:w-[160px] flex flex-col items-center justify-center">
+            {/* 1. CARRETEL 3D DÚNIA INTEGRADO NA ORIGEM (SEM FUNDO DIVERGENTE, MESMO TOM #120B08, ENCAIXE MILIMÉTRICO COM A PELÍCULA) */}
+            <div className="hidden md:flex shrink-0 items-center justify-center pl-1.5 pr-2.5 relative z-20 select-none">
+              <div className="relative w-[145px] sm:w-[155px] lg:w-[168px] xl:w-[178px] flex flex-col items-center justify-center">
                 <Image
                   src="/images/dunia/dunia-film-canister.png"
                   alt="Carretel de Filme Dúnia City Hall"
-                  width={160}
-                  height={344}
+                  width={178}
+                  height={370}
                   priority
                   className="w-full h-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.95)]"
                 />
@@ -560,7 +560,7 @@ export default function DuniaGalleryViewer({
                           setSelectedPhotoIndex(originalIndex)
                         }
                       }}
-                      className="group relative w-[310px] sm:w-[380px] md:w-[410px] lg:w-[440px] shrink-0 cursor-pointer flex flex-col bg-[#140D0A] transition-all duration-300 hover:brightness-[1.03]"
+                      className="group relative w-[300px] sm:w-[360px] md:w-[390px] lg:w-[415px] shrink-0 cursor-pointer flex flex-col bg-[#140D0A] transition-all duration-300 hover:brightness-[1.03]"
                       style={{ scrollSnapAlign: "start" }}
                     >
                       {/* TRILHO SUPERIOR INTEGRADO COM PERFURAÇÕES QUE ROLAM COM A FITA */}
@@ -592,7 +592,7 @@ export default function DuniaGalleryViewer({
                       </div>
 
                       {/* ÁREA ÚTIL: FOTOGRAFIA EM DESTAQUE COM ENCAIXE PERFEITO */}
-                      <div className="relative aspect-[16/10] w-full overflow-hidden bg-black">
+                      <div className="relative aspect-[16/9.5] w-full overflow-hidden bg-black">
                         <Image
                           src={photo.src}
                           alt={photo.title}

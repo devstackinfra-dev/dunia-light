@@ -46,7 +46,7 @@ const HERO_SLIDES = [
     tag: "ARQUITETURA MONUMENTAL",
     title: "Fachada & Porte-Cochère",
     subtitle: "Chegada triunfal coberta no Lago Sul de Brasília",
-    objectPosition: "center 45%",
+    objectPosition: "center 42%",
     mobileObjectPosition: "center 38%",
   },
   {
@@ -54,7 +54,7 @@ const HERO_SLIDES = [
     tag: "ESTRUTURA MONUMENTAL",
     title: "Salão Imperial de 2.500 m²",
     subtitle: "Lustres de cristal Baccarat, pé-direito duplo de 7m e acústica impecável",
-    objectPosition: "center 28%",
+    objectPosition: "center 30%",
     mobileObjectPosition: "center 28%",
   },
   {
@@ -62,7 +62,7 @@ const HERO_SLIDES = [
     tag: "O SIM DOS SONHOS",
     title: "Casamentos Memoráveis",
     subtitle: "O romantismo clássico e a distinção no Lago Sul de Brasília",
-    objectPosition: "center 20%",
+    objectPosition: "center 22%",
     mobileObjectPosition: "center 20%",
   },
   {
@@ -74,12 +74,12 @@ const HERO_SLIDES = [
     mobileObjectPosition: "center 35%",
   },
   {
-    image: "/images/dunia/buffet-hero.jpg",
+    image: "/images/dunia/buffet-galeria.jpg",
     tag: "ALTA GASTRONOMIA",
     title: "Buffet Dúnia Autoral",
     subtitle: "Menus autorais e degustações exclusivas para anfitriões",
-    objectPosition: "center 42%",
-    mobileObjectPosition: "center 42%",
+    objectPosition: "center 50%",
+    mobileObjectPosition: "center 50%",
   },
   {
     image: "/images/dunia/jardim-galeria.jpg",
@@ -217,7 +217,7 @@ export default function Home() {
       {/* 1. HERO SECTION CINEMATOGRÁFICO: EXPERIÊNCIA RESPONSIVA PREMIUM MOBILE + DESKTOP */}
       <section
         id="top"
-        className="relative w-full overflow-hidden bg-[#120B08] z-10 select-none flex flex-col justify-between pt-16 sm:pt-20 lg:pt-20 pb-5 sm:pb-6 lg:pb-6 min-h-[100svh] lg:min-h-0 lg:h-[clamp(500px,64vh,640px)]"
+        className="relative mx-auto w-full max-w-[1600px] min-h-[100svh] lg:min-h-0 lg:h-[clamp(560px,72vh,720px)] overflow-hidden bg-[#120B08] z-10 select-none flex flex-col justify-between pt-16 sm:pt-20 pb-5 sm:pb-6 shadow-2xl"
         onMouseEnter={() => setIsHeroCarouselHovered(true)}
         onMouseLeave={() => setIsHeroCarouselHovered(false)}
         onTouchStart={handleTouchStart}
@@ -238,13 +238,11 @@ export default function Home() {
                 alt={slide.title}
                 fill
                 priority={idx === 0}
+                sizes="(max-width: 1024px) 100vw, 1600px"
                 style={{
                   objectPosition: isMobile ? slide.mobileObjectPosition : slide.objectPosition,
-                  transitionDuration: "6500ms",
                 }}
-                className={`object-cover filter brightness-[0.93] contrast-[1.03] transition-transform ease-out motion-reduce:transform-none ${
-                  idx === currentHeroSlide ? "scale-[1.018]" : "scale-100"
-                }`}
+                className="object-cover filter brightness-[0.95] contrast-[1.02] transition-opacity duration-1000 ease-in-out"
               />
             </div>
           ))}
