@@ -140,7 +140,7 @@ export default async function RootLayout({
 
   return (
     <html lang="pt-BR" className={`${cormorant.variable} ${dmSans.variable} ${serifa.variable} ${sans.variable} ${playfair.variable} ${openSans.variable}`} style={temaCss}>
-      <body className="font-corpo antialiased selection:bg-marca-latao/30 selection:text-marca-tinta bg-[#0A0807] text-[#F3EEE6] overflow-x-hidden relative min-h-screen">
+      <body className="font-corpo antialiased selection:bg-[#5A1827]/20 selection:text-[#5A1827] bg-[#FAF7F2] text-[#201215] overflow-x-hidden relative min-h-screen">
         {process.env.NODE_ENV !== "production" && (
           <script
             dangerouslySetInnerHTML={{

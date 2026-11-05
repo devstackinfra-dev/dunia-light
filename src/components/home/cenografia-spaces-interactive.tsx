@@ -202,7 +202,7 @@ export default function CenografiaSpacesInteractive() {
             <div
               key={space.id}
               onClick={() => openSpaceModal(space.id, 0)}
-              className="group cursor-pointer rounded-2xl border border-white/10 bg-[#161311] p-3.5 sm:p-4 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#D3B47C]/70 hover:bg-[#1A1613] hover:shadow-[0_20px_45px_rgba(0,0,0,0.9),0_0_25px_rgba(211,180,124,0.18)] flex flex-col justify-between text-left"
+              className="group cursor-pointer rounded-2xl border border-[#5A1827]/12 bg-white p-3.5 sm:p-4 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#5A1827]/50 hover:bg-[#FAF7F2] hover:shadow-[0_20px_45px_rgba(90,24,39,0.12)] flex flex-col justify-between text-left shadow-sm"
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
@@ -223,11 +223,11 @@ export default function CenografiaSpacesInteractive() {
                     className="object-cover object-center filter brightness-[0.92] contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-108 group-hover:brightness-105"
                   />
                   {/* Gradiente sutil */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#161311] via-transparent to-black/25 opacity-70 group-hover:opacity-40 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-70 group-hover:opacity-40 transition-opacity" />
 
                   {/* Número Dourado no Canto Superior Esquerdo da Foto */}
                   <div className="absolute top-2.5 left-2.5 z-10 flex items-center gap-1.5 rounded-lg border border-white/20 bg-black/70 px-2.5 py-1 backdrop-blur-md">
-                    <span className="font-serif text-xs font-semibold text-[#D3B47C]">
+                    <span className="font-serif text-xs font-semibold text-[#C5A265]">
                       {space.number}
                     </span>
                     <span className="text-[0.6rem] font-bold uppercase tracking-wider text-white/80">
@@ -237,7 +237,7 @@ export default function CenografiaSpacesInteractive() {
 
                   {/* Overlay Hover: "Ver Espaço" com efeito de vidro */}
                   <div className="absolute inset-0 z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-black/40 backdrop-blur-[2px]">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D3B47C] px-3.5 py-1.5 text-[0.68rem] font-bold uppercase tracking-wider text-[#120F0D] shadow-xl transform scale-95 group-hover:scale-100 transition-transform">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#5A1827] px-3.5 py-1.5 text-[0.68rem] font-bold uppercase tracking-wider text-white shadow-xl transform scale-95 group-hover:scale-100 transition-transform">
                       <Eye className="h-3.5 w-3.5" />
                       <span>Ver {space.name.replace("Espaço da ", "")}</span>
                     </span>
@@ -247,31 +247,31 @@ export default function CenografiaSpacesInteractive() {
                 {/* 2. TEXTO E IDENTIFICAÇÃO DO ESPAÇO */}
                 <div className="pt-4 pb-2 px-1">
                   <div className="flex items-center justify-between">
-                    <span className="font-serif text-lg font-light text-[#D3B47C] group-hover:translate-x-0.5 transition-transform">
+                    <span className="font-serif text-lg font-semibold text-[#5A1827] group-hover:translate-x-0.5 transition-transform">
                       {space.number}
                     </span>
-                    <span className="text-[0.6rem] font-semibold text-[#D3B47C]/80 uppercase tracking-widest">
+                    <span className="text-[0.6rem] font-semibold text-[#5A1827]/80 uppercase tracking-widest">
                       {space.gallery.length} fotos
                     </span>
                   </div>
 
-                  <h3 className="mt-1 font-serif text-base sm:text-lg font-normal text-white group-hover:text-[#D3B47C] transition-colors">
+                  <h3 className="mt-1 font-serif text-base sm:text-lg font-normal text-[#201215] group-hover:text-[#5A1827] transition-colors">
                     {space.name}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-[#ABA29A] line-clamp-2">
+                  <p className="mt-1 text-xs leading-relaxed text-[#4A3E3D] line-clamp-2">
                     {space.shortDesc}
                   </p>
                 </div>
               </div>
 
               {/* 3. BOTÃO DE AÇÃO NO RODAPÉ */}
-              <div className="border-t border-white/10 pt-3 mt-2 px-1 flex items-center justify-between">
-                <span className="inline-flex items-center gap-1 text-[0.68rem] font-bold uppercase tracking-wider text-[#D3B47C] group-hover:text-white transition-colors">
+              <div className="border-t border-[#5A1827]/10 pt-3 mt-2 px-1 flex items-center justify-between">
+                <span className="inline-flex items-center gap-1 text-[0.68rem] font-bold uppercase tracking-wider text-[#5A1827] group-hover:text-[#732032] transition-colors">
                   <span>Explorar Espaço</span>
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                 </span>
-                <span className="h-1.5 w-1.5 rounded-full bg-[#D3B47C]/40 group-hover:bg-[#D3B47C] transition-colors" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#5A1827]/40 group-hover:bg-[#5A1827] transition-colors" />
               </div>
             </div>
           )

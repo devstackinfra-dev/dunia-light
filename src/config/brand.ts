@@ -18,7 +18,7 @@ const PALETAS: Record<VerticalPreset, {
   ink: string; panel: string; accent: string; surface: string; muted: string
   titleFont: "serif" | "sans"
 }> = {
-  eventos: { ink: "#100E0D", panel: "#1A1715", accent: "#D3B47C", surface: "#FAF8F5", muted: "#BFA167", titleFont: "serif" },
+  eventos: { ink: "#FAF7F2", panel: "#FFFFFF", accent: "#5A1827", surface: "#F4ECE1", muted: "#8E682E", titleFont: "serif" },
   juridico: { ink: "#0A131F", panel: "#121F33", accent: "#B8925A", surface: "#F8FAFC", muted: "#9AA7B6", titleFont: "serif" },
   catalogo: { ink: "#0E1726", panel: "#15243A", accent: "#F2A33C", surface: "#F7F8FA", muted: "#94A3B8", titleFont: "sans" },
   generico: { ink: "#0E1726", panel: "#15243A", accent: "#0F9F8F", surface: "#F4F6F8", muted: "#94A3B8", titleFont: "sans" },
@@ -62,8 +62,8 @@ export const BRAND = {
    * Imagens oficiais da marca, locais em public/images/dunia/
    */
   assets: {
-    logo: "/images/dunia/logo.png",
-    logoLight: "/images/dunia/logo.png",
+    logo: "/images/dunia/logo-dunia-preta.png",
+    logoLight: "/images/dunia/logo-dunia-preta.png",
     logoPreta: "/images/dunia/logo-dunia-preta.png",
     favicon: "/images/dunia/logo.png",
     ogImage: "/images/dunia/salao-principal.jpg",

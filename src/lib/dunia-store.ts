@@ -920,7 +920,8 @@ export function getCommercialMode(): DuniaCommercialMode {
   if (envMode === "light") return "light"
   if (envMode === "full") return "full"
 
-  return "full"
+  // Padrão desta branch: Light (Dúnia Prestige Institucional)
+  return "light"
 }
 
 export function setCommercialMode(mode: DuniaCommercialMode): void {
