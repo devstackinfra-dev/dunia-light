@@ -323,21 +323,6 @@ export default function DuniaHeader({ currentPage = "/" }: DuniaHeaderProps) {
 
           {/* 3. AÇÕES RÁPIDAS (DIREITA - BORDÔ REAL & OURO) */}
           <div className="hidden items-center gap-3.5 sm:flex">
-            {/* Botão Mini-Site Convite (Exibido APENAS se explicitamente no modo full) */}
-            {commercialMode === "full" && (
-              <>
-                <Link
-                  href="/evento"
-                  target="_blank"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-[#5A1827]/20 bg-[#FAF7F2] px-4 py-2 text-[0.72rem] xl:text-[0.76rem] font-semibold uppercase tracking-wider text-[#5A1827] transition hover:border-[#5A1827] hover:bg-[#5A1827]/05 whitespace-nowrap"
-                >
-                  <span>MINI-SITE</span>
-                  <ExternalLink className="h-3.5 w-3.5 text-[#5A1827]" />
-                </Link>
-                <div className="h-5 w-[1px] bg-[#5A1827]/20" />
-              </>
-            )}
-
             {/* Botão Principal: Agendar Visita VIP em Bordô Real */}
             <a
               href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."

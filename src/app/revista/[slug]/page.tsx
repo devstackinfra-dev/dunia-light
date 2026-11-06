@@ -351,3 +351,4 @@ export default function RevistaArticlePage({ params }: PageProps) {
     </div>
   )
 }
+

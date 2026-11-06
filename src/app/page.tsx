@@ -416,7 +416,7 @@ export default function Home() {
               
               {/* Card Flutuante com Fundo Translúcido e Blur (Efeito Vidro / Glassmorphic) */}
               <div className="lg:col-span-5 xl:col-span-5">
-                <div className="rounded-2xl sm:rounded-[1.75rem] border border-white/15 sm:border-[#BD9463]/30 bg-black/25 sm:bg-[#120B08]/40 backdrop-blur-xl p-3.5 sm:p-4.5 lg:p-5 shadow-[0_20px_45px_rgba(0,0,0,0.55)] space-y-2 sm:space-y-2.5 text-left max-w-[395px]">
+                <div className="rounded-2xl sm:rounded-[1.5rem] border border-white/10 sm:border-[#BD9463]/30 bg-black/25 sm:bg-[#120B08]/40 backdrop-blur-xl p-3.5 sm:p-4.5 lg:p-5 shadow-[0_20px_45px_rgba(0,0,0,0.55)] space-y-2 sm:space-y-2.5 text-left max-w-[395px]">
                   
                   {/* Kicker Institucional */}
                   <div className="flex items-center gap-2">

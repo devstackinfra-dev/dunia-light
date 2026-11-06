@@ -281,3 +281,4 @@ export function getRevistaArticleBySlug(slug: string): RevistaArticle | undefine
 export function getRelatedRevistaArticles(currentSlug: string, limit = 3): RevistaArticle[] {
   return REVISTA_ARTICLES.filter((a) => a.slug !== currentSlug).slice(0, limit)
 }
+
