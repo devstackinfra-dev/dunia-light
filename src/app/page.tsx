@@ -217,7 +217,7 @@ export default function Home() {
       {/* 1. HERO SECTION CINEMATOGRÁFICO: EXPERIÊNCIA RESPONSIVA PREMIUM MOBILE + DESKTOP */}
       <section
         id="top"
-        className="relative mx-auto w-full max-w-[1380px] min-h-[90svh] lg:min-h-0 lg:h-[clamp(480px,58vh,580px)] overflow-hidden bg-[#120B08] z-10 select-none flex flex-col justify-between pt-14 sm:pt-16 lg:pt-16 pb-4 sm:pb-5 shadow-2xl rounded-none lg:rounded-[1.5rem]"
+        className="relative mx-auto w-full max-w-[1380px] mt-20 sm:mt-24 lg:mt-28 min-h-[90svh] lg:min-h-[640px] lg:h-[clamp(640px,76vh,760px)] overflow-hidden bg-[#120B08] z-10 select-none flex flex-col justify-between pt-6 sm:pt-8 lg:pt-8 pb-5 sm:pb-6 shadow-2xl rounded-2xl lg:rounded-[1.75rem] border border-[#BD9463]/25"
         onMouseEnter={() => setIsHeroCarouselHovered(true)}
         onMouseLeave={() => setIsHeroCarouselHovered(false)}
         onTouchStart={handleTouchStart}
@@ -416,7 +416,7 @@ export default function Home() {
               
               {/* Card Flutuante com Fundo Translúcido e Blur (Efeito Vidro / Glassmorphic) */}
               <div className="lg:col-span-5 xl:col-span-5">
-                <div className="rounded-2xl sm:rounded-[1.75rem] border border-white/15 sm:border-[#BD9463]/30 bg-black/35 sm:bg-[#120B08]/40 backdrop-blur-xl p-3.5 sm:p-4.5 lg:p-5 shadow-[0_20px_45px_rgba(0,0,0,0.55)] space-y-2 sm:space-y-2.5 text-left max-w-[395px]">
+                <div className="rounded-2xl sm:rounded-[1.75rem] border border-white/15 sm:border-[#BD9463]/30 bg-black/25 sm:bg-[#120B08]/40 backdrop-blur-xl p-3.5 sm:p-4.5 lg:p-5 shadow-[0_20px_45px_rgba(0,0,0,0.55)] space-y-2 sm:space-y-2.5 text-left max-w-[395px]">
                   
                   {/* Kicker Institucional */}
                   <div className="flex items-center gap-2">
@@ -500,8 +500,8 @@ export default function Home() {
 
             </div>
 
-            {/* Faixa Inferior sobre a Foto: Legenda à Esquerda + Miniaturas e Controles à Direita */}
-            <div className="pt-2 sm:pt-3 flex flex-col lg:flex-row items-stretch lg:items-end justify-between gap-2.5 sm:gap-3">
+            {/* Faixa Inferior sobre a Foto: Legenda à Esquerda + Miniaturas e Controles à Direita (100% Visíveis e com Alto Contraste) */}
+            <div className="relative z-20 pt-2 sm:pt-3 flex flex-col lg:flex-row items-stretch lg:items-end justify-between gap-2.5 sm:gap-3">
               
               {/* Legenda Flutuante com Fundo Translúcido e Blur */}
               <div className="rounded-xl border border-white/15 bg-black/45 backdrop-blur-md px-3.5 py-2 shadow-xl text-white max-w-lg">
@@ -573,8 +573,8 @@ export default function Home() {
 
         </div>
 
-        {/* TRANSIÇÃO ORGÂNICA SUTIL PARA O FUNDO CHAMPAGNE DA SEÇÃO SEGUINTE */}
-        <div className="pointer-events-none absolute bottom-0 inset-x-0 h-8 sm:h-10 bg-gradient-to-b from-transparent via-[#F7EFE6]/25 to-[#F7EFE6] z-10" />
+        {/* GRADIENTE INFERIOR SUAVE PARA PROTEGER A LEITURA DOS CONTROLES */}
+        <div className="pointer-events-none absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-black/75 via-black/35 to-transparent z-10" />
       </section>
 
       {/* CONTAINER CENTRALIZADO DO RESTANTE DO HOTSITE */}
