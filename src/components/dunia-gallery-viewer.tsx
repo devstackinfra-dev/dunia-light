@@ -304,17 +304,17 @@ export default function DuniaGalleryViewer({
   return (
     <section
       id="film"
-      className="my-16 rounded-[2.2rem] border border-[#D7B78D]/30 bg-gradient-to-b from-[#211813] via-[#1C1410] to-[#160E0A] p-6 sm:p-10 lg:p-12 shadow-[0_30px_90px_rgba(0,0,0,0.6)] relative overflow-hidden"
+      className="my-10 sm:my-16 rounded-[1.75rem] sm:rounded-[2.2rem] border border-[#D7B78D]/30 bg-gradient-to-b from-[#211813] via-[#1C1410] to-[#160E0A] p-4 sm:p-8 lg:p-12 shadow-[0_30px_90px_rgba(0,0,0,0.6)] relative overflow-hidden"
     >
       {/* Halo de iluminação dourada e bokeh no topo direito (como no mockup) */}
       <div className="pointer-events-none absolute -top-16 -right-16 w-[420px] h-[420px] bg-[radial-gradient(ellipse_at_center,rgba(215,183,141,0.18),transparent_65%)] blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-1/3 w-[500px] h-[250px] bg-[radial-gradient(ellipse_at_center,rgba(116,31,50,0.08),transparent_70%)] blur-3xl" />
 
-      {/* 1. CABEÇALHO EXATAMENTE COMO NO MOCKUP */}
-      <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between pb-7">
+      {/* 1. CABEÇALHO EXATAMENTE COMO NO MOCKUP (OTIMIZADO PARA MOBILE & DESKTOP) */}
+      <div className="relative z-10 flex flex-col gap-4 sm:gap-6 lg:flex-row lg:items-start lg:justify-between pb-4 sm:pb-7">
         {/* Lado Esquerdo: Identificação Editorial e Título Poético */}
-        <div className="space-y-2.5 max-w-2xl text-left">
-          <span className="text-[0.66rem] font-bold uppercase tracking-[0.26em] text-[#BD9463] block">
+        <div className="space-y-2 max-w-2xl text-left">
+          <span className="text-[0.62rem] sm:text-[0.66rem] font-bold uppercase tracking-[0.24em] text-[#BD9463] block">
             {subtitle}
           </span>
           <h2 className="font-serif text-2xl sm:text-4xl lg:text-[2.75rem] text-white font-normal leading-[1.12]">
@@ -323,17 +323,47 @@ export default function DuniaGalleryViewer({
           <p className="text-xs sm:text-sm text-[#ABA29A] leading-relaxed max-w-xl">
             {description}
           </p>
-          <div className="pt-1.5">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#D7B78D]/40 bg-white/[0.04] px-3.5 py-1 text-[0.7rem] font-medium text-[#BD9463] backdrop-blur-sm shadow-sm">
-              <Camera className="h-3.5 w-3.5 text-[#BD9463]" />
+          <div className="pt-1 flex items-center justify-between sm:justify-start gap-3">
+            <span className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-[#D7B78D]/40 bg-white/[0.04] px-3 sm:px-3.5 py-1 text-[0.66rem] sm:text-[0.7rem] font-medium text-[#BD9463] backdrop-blur-sm shadow-sm">
+              <Camera className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-[#BD9463]" />
               <span>{allCombinedPhotos.length} fotografias no acervo</span>
             </span>
+
+            {/* No mobile: Controles de navegação compactos inline no topo */}
+            <div className="flex sm:hidden items-center gap-1.5">
+              <button
+                onClick={() => scrollFilm("left")}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/90 active:scale-95"
+                aria-label="Foto anterior"
+              >
+                <ChevronLeft className="h-3.5 w-3.5" />
+              </button>
+              <button
+                onClick={() => scrollFilm("right")}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/90 active:scale-95"
+                aria-label="Próxima foto"
+              >
+                <ChevronRight className="h-3.5 w-3.5" />
+              </button>
+              <button
+                onClick={() => setIsAutoScrolling(!isAutoScrolling)}
+                className={`flex items-center gap-1 rounded-full border px-2.5 py-1 text-[0.68rem] font-medium ${
+                  isAutoScrolling
+                    ? "border-[#BD9463] bg-[#BD9463]/25 text-[#E8D4BF]"
+                    : "border-white/20 bg-white/5 text-white/90"
+                }`}
+                aria-label="Pausar ou ativar movimento"
+              >
+                {isAutoScrolling ? <Pause className="h-2.5 w-2.5 text-[#BD9463]" /> : <Play className="h-2.5 w-2.5 fill-current text-white/80" />}
+                <span>{isAutoScrolling ? "Pausar" : "Auto"}</span>
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Lado Direito: Switcher (Linha 1) e Controles de Navegação (Linha 2) */}
-        <div className="flex flex-col items-start lg:items-end gap-3 shrink-0">
-          {/* Linha 1: Seletor Segmentado [ Película | Mosaico ] */}
+        {/* Lado Direito Desktop: Switcher [Película | Mosaico] e Controles */}
+        <div className="hidden sm:flex flex-col items-start lg:items-end gap-3 shrink-0">
+          {/* Linha 1: Seletor Segmentado [ Película | Mosaico ] - Exibido apenas em telas maiores */}
           <div className="inline-flex items-center rounded-2xl border border-white/10 bg-black/40 p-1 shadow-inner backdrop-blur-sm">
             {showFilmReel && (
               <button
@@ -412,8 +442,8 @@ export default function DuniaGalleryViewer({
         </div>
       </div>
 
-      {/* 2. BARRA DE FILTROS: 5 PRINCIPAIS + MAIS CATEGORIAS COMO NO MOCKUP */}
-      <div className="relative z-10 flex flex-wrap items-center gap-2.5 pt-2 pb-6">
+      {/* 2. BARRA DE FILTROS: CARROSSEL HORIZONTAL NO MOBILE (SEM EMPILHAR) / WRAP NO DESKTOP */}
+      <div className="relative z-10 flex items-center gap-2 sm:gap-2.5 overflow-x-auto sm:flex-wrap pt-1 pb-4 sm:pb-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {primaryCategories.map((cat) => {
           const isActive = activeCategory === cat.id
           return (
@@ -423,7 +453,7 @@ export default function DuniaGalleryViewer({
                 setActiveCategory(cat.id)
                 setVisibleCount(itemsPerPage)
               }}
-              className={`rounded-full px-4 py-2 text-xs font-semibold tracking-wider transition flex items-center gap-2 whitespace-nowrap shadow-sm ${
+              className={`shrink-0 rounded-full px-3.5 sm:px-4 py-1.5 sm:py-2 text-[0.72rem] sm:text-xs font-semibold tracking-wider transition flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shadow-sm ${
                 isActive
                   ? "bg-[#E8D4BF] text-[#211813] font-bold shadow-md"
                   : "border border-[#D7B78D]/30 bg-black/30 text-[#ABA29A] hover:text-white hover:border-[#D7B78D]/60"
@@ -446,7 +476,7 @@ export default function DuniaGalleryViewer({
         {/* Botão Expansor "Mais categorias ⌵" */}
         <button
           onClick={() => setShowMoreCategories(!showMoreCategories)}
-          className={`rounded-full px-4 py-2 text-xs font-semibold tracking-wider transition flex items-center gap-1.5 whitespace-nowrap shadow-sm ${
+          className={`shrink-0 rounded-full px-3.5 sm:px-4 py-1.5 sm:py-2 text-[0.72rem] sm:text-xs font-semibold tracking-wider transition flex items-center gap-1.5 whitespace-nowrap shadow-sm ${
             isMoreCategoryActive
               ? "border border-[#BD9463] bg-[#BD9463]/25 text-[#E8D4BF] font-bold"
               : "border border-[#D7B78D]/30 bg-black/30 text-[#ABA29A] hover:text-white hover:border-[#D7B78D]/60"
@@ -515,11 +545,11 @@ export default function DuniaGalleryViewer({
           }}
         >
           {/* CONTAINER DA PELÍCULA CONTÍNUA (UNIFICADO NO MESMO TOM #120B08, ENCAIXE E BORDAS 100% ALINHADAS AO ROLO) */}
-          <div className="relative flex items-center overflow-hidden rounded-[2rem] border border-[#BD9463]/40 bg-[#120B08] p-2.5 sm:p-3 lg:p-3.5 shadow-[0_25px_80px_rgba(0,0,0,0.85)]">
+          <div className="relative flex items-center overflow-hidden rounded-2xl sm:rounded-[2rem] border border-[#BD9463]/40 bg-[#120B08] p-2 sm:p-3 lg:p-3.5 shadow-[0_25px_80px_rgba(0,0,0,0.85)]">
             
             {/* 1. CARRETEL 3D DÚNIA INTEGRADO NA ORIGEM (BORDA SUPERIOR E INFERIOR RIGOROSAMENTE ALINHADAS ÀS IMAGENS) */}
             <div className="hidden md:flex shrink-0 items-center justify-center pl-1 pr-2 relative z-20 select-none">
-              <div className="relative h-[290px] sm:h-[320px] md:h-[340px] lg:h-[370px] w-auto flex items-center justify-center">
+              <div className="relative h-[260px] sm:h-[300px] md:h-[340px] lg:h-[370px] w-auto flex items-center justify-center">
                 <Image
                   src="/images/dunia/dunia-film-canister.png"
                   alt="Carretel de Filme Dúnia City Hall"
@@ -538,7 +568,7 @@ export default function DuniaGalleryViewer({
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
-              className={`dunia-scrollbar flex-1 flex items-stretch h-[290px] sm:h-[320px] md:h-[340px] lg:h-[370px] overflow-x-auto bg-[#120B08] rounded-xl ${
+              className={`dunia-scrollbar flex-1 flex items-stretch h-[260px] sm:h-[300px] md:h-[340px] lg:h-[370px] overflow-x-auto bg-[#120B08] rounded-xl ${
                 isDragging ? "cursor-grabbing" : "cursor-grab"
               }`}
               style={{
@@ -579,7 +609,7 @@ export default function DuniaGalleryViewer({
                           setSelectedPhotoIndex(originalIndex)
                         }
                       }}
-                      className="group relative w-[290px] sm:w-[350px] md:w-[390px] lg:w-[440px] h-full shrink-0 cursor-pointer flex flex-col bg-[#140D0A] transition-all duration-300 hover:brightness-[1.03]"
+                      className="group relative w-[270px] sm:w-[330px] md:w-[390px] lg:w-[440px] h-full shrink-0 cursor-pointer flex flex-col bg-[#140D0A] transition-all duration-300 hover:brightness-[1.03]"
                       style={{ scrollSnapAlign: "start" }}
                     >
                       {/* TRILHO SUPERIOR INTEGRADO COM PERFURAÇÕES QUE ROLAM COM A FITA */}
