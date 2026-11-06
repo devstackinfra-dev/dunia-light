@@ -48,8 +48,8 @@ export default function DuniaGalleryViewer({
   const [visibleCount, setVisibleCount] = useState<number>(itemsPerPage)
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null)
   
-  // Movimento automático desativado por padrão (navegação manual como protagonista)
-  const [isAutoScrolling, setIsAutoScrolling] = useState<boolean>(false)
+  // Movimento automático ativado por padrão (rolagem cinematográfica suave e contínua)
+  const [isAutoScrolling, setIsAutoScrolling] = useState<boolean>(true)
   const [isHovered, setIsHovered] = useState<boolean>(false)
   const [showMoreCategories, setShowMoreCategories] = useState<boolean>(false)
   const [customPhotos, setCustomPhotos] = useState<any[]>([])
@@ -69,6 +69,7 @@ export default function DuniaGalleryViewer({
   const filmTrackRef = useRef<HTMLDivElement>(null)
   const thumbnailTrackRef = useRef<HTMLDivElement>(null)
   const animFrameRef = useRef<number | null>(null)
+  const preciseScrollRef = useRef<number>(0)
 
   useEffect(() => {
     const load = () => {
@@ -127,6 +128,11 @@ export default function DuniaGalleryViewer({
       left: direction === "right" ? scrollAmount : -scrollAmount,
       behavior: "smooth",
     })
+    setTimeout(() => {
+      if (filmTrackRef.current) {
+        preciseScrollRef.current = filmTrackRef.current.scrollLeft
+      }
+    }, 450)
   }
 
   // Atualizar dot de paginação ativo ao rolar
@@ -148,10 +154,12 @@ export default function DuniaGalleryViewer({
     const track = filmTrackRef.current
     if (!track) return
     const maxScroll = track.scrollWidth - track.clientWidth
+    const targetScroll = maxScroll * (dotIndex / 4)
     track.scrollTo({
-      left: maxScroll * (dotIndex / 4),
+      left: targetScroll,
       behavior: "smooth",
     })
+    preciseScrollRef.current = targetScroll
   }
 
   // Handlers para Arraste Manual com Mouse
@@ -169,11 +177,16 @@ export default function DuniaGalleryViewer({
     const x = e.pageX - filmTrackRef.current.offsetLeft
     const distance = x - startX
     setDragDistance(Math.abs(distance))
-    filmTrackRef.current.scrollLeft = scrollLeftState - distance * 1.3
+    const newScroll = scrollLeftState - distance * 1.3
+    filmTrackRef.current.scrollLeft = newScroll
+    preciseScrollRef.current = newScroll
   }
 
   const handleMouseUp = () => {
     setIsDragging(false)
+    if (filmTrackRef.current) {
+      preciseScrollRef.current = filmTrackRef.current.scrollLeft
+    }
   }
 
   // Alternar favorito de uma foto
@@ -185,9 +198,9 @@ export default function DuniaGalleryViewer({
     }))
   }
 
-  // Auto-scroll contínuo quando ativado explicitamente pelo botão Auto
+  // Auto-scroll contínuo e suave (movimento contínuo de película cinematográfica bem devagar)
   useEffect(() => {
-    if (viewMode !== "reel" || !isAutoScrolling || isHovered || isDragging || selectedPhotoIndex !== null) {
+    if (viewMode !== "reel" || !isAutoScrolling || isDragging || selectedPhotoIndex !== null) {
       if (animFrameRef.current) {
         cancelAnimationFrame(animFrameRef.current)
         animFrameRef.current = null
@@ -198,19 +211,28 @@ export default function DuniaGalleryViewer({
     const track = filmTrackRef.current
     if (!track) return
 
+    // Sincroniza a posição inicial precisa com o scroll real
+    if (preciseScrollRef.current === 0 && track.scrollLeft > 0) {
+      preciseScrollRef.current = track.scrollLeft
+    }
+
     let lastTime = performance.now()
-    const speed = scrollSpeed
+    // Velocidade bem devagar, fluida e elegante (~22px por segundo)
+    const speed = scrollSpeed > 0 && scrollSpeed !== 10 ? scrollSpeed : 22
 
     const step = (now: number) => {
-      const delta = (now - lastTime) / 1000
+      const delta = Math.min((now - lastTime) / 1000, 0.1)
       lastTime = now
 
       if (track) {
-        track.scrollLeft += speed * delta
+        preciseScrollRef.current += speed * delta
         const halfWidth = track.scrollWidth / 2
-        if (halfWidth > 0 && track.scrollLeft >= halfWidth) {
-          track.scrollLeft -= halfWidth
+
+        if (halfWidth > 0 && preciseScrollRef.current >= halfWidth) {
+          preciseScrollRef.current -= halfWidth
         }
+
+        track.scrollLeft = preciseScrollRef.current
         handleScroll()
       }
 
@@ -225,7 +247,7 @@ export default function DuniaGalleryViewer({
         animFrameRef.current = null
       }
     }
-  }, [viewMode, isAutoScrolling, isHovered, isDragging, selectedPhotoIndex, activeCategory, scrollSpeed, handleScroll])
+  }, [viewMode, isAutoScrolling, isDragging, selectedPhotoIndex, activeCategory, scrollSpeed, handleScroll])
 
   // Teclado no Lightbox
   useEffect(() => {
@@ -520,7 +542,7 @@ export default function DuniaGalleryViewer({
                 isDragging ? "cursor-grabbing" : "cursor-grab"
               }`}
               style={{
-                scrollSnapType: !isDragging && isHovered ? "x mandatory" : "none",
+                scrollSnapType: isAutoScrolling ? "none" : (!isDragging && isHovered ? "x mandatory" : "none"),
                 willChange: "scroll-position",
               }}
             >
