@@ -1046,25 +1046,49 @@ export default function Home() {
 
               {/* Cápsulas de Contato VIP */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                <div className="rounded-2xl border border-[#D7B78D]/40 bg-white/60 p-4 backdrop-blur-sm shadow-sm space-y-1">
-                  <div className="flex items-center gap-2 text-[#741F32]">
-                    <MapPin className="h-3.5 w-3.5" />
-                    <span className="text-[0.65rem] font-bold uppercase tracking-wider text-[#30221D]">Localização Nobre</span>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=D%C3%BAnia+City+Hall+SHIS+QI+15+Lote+J%2FK+Lago+Sul+Bras%C3%ADlia+DF"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block rounded-2xl border border-[#D7B78D]/40 bg-white/60 hover:bg-white/90 hover:border-[#741F32]/50 p-4 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300 space-y-1"
+                >
+                  <div className="flex items-center justify-between text-[#741F32]">
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-3.5 w-3.5 transition-transform duration-300 group-hover:scale-110" />
+                      <span className="text-[0.65rem] font-bold uppercase tracking-wider text-[#30221D] group-hover:text-[#741F32] transition-colors">
+                        Localização Nobre
+                      </span>
+                    </div>
+                    <span className="text-[0.6rem] font-semibold uppercase tracking-wider text-[#741F32] opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+                      Ver no Maps ↗
+                    </span>
                   </div>
-                  <p className="text-xs text-[#77665D] pl-5">
+                  <p className="text-xs text-[#77665D] group-hover:text-[#30221D] transition-colors pl-5">
                     SHIS QI 15 Lote J/K, Lago Sul — Brasília / DF
                   </p>
-                </div>
+                </a>
 
-                <div className="rounded-2xl border border-[#D7B78D]/40 bg-white/60 p-4 backdrop-blur-sm shadow-sm space-y-1">
-                  <div className="flex items-center gap-2 text-[#741F32]">
-                    <MessageSquare className="h-3.5 w-3.5" />
-                    <span className="text-[0.65rem] font-bold uppercase tracking-wider text-[#30221D]">Concierge WhatsApp</span>
+                <a
+                  href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20atendimento%20do%20Concierge%20do%20D%C3%BAnia%20City%20Hall."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block rounded-2xl border border-[#D7B78D]/40 bg-white/60 hover:bg-white/90 hover:border-[#741F32]/50 p-4 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300 space-y-1"
+                >
+                  <div className="flex items-center justify-between text-[#741F32]">
+                    <div className="flex items-center gap-2">
+                      <MessageSquare className="h-3.5 w-3.5 transition-transform duration-300 group-hover:scale-110" />
+                      <span className="text-[0.65rem] font-bold uppercase tracking-wider text-[#30221D] group-hover:text-[#741F32] transition-colors">
+                        Concierge WhatsApp
+                      </span>
+                    </div>
+                    <span className="text-[0.6rem] font-semibold uppercase tracking-wider text-[#741F32] opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+                      Conversar ↗
+                    </span>
                   </div>
                   <p className="text-xs text-[#30221D] font-semibold pl-5">
                     (61) 97401-7544 • Resposta dedicada
                   </p>
-                </div>
+                </a>
               </div>
 
               {/* Botão de Ação Master do Convite */}
