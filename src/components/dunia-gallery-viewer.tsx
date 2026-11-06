@@ -492,34 +492,31 @@ export default function DuniaGalleryViewer({
             setTimeout(() => setIsHovered(false), 2500)
           }}
         >
-          {/* CONTAINER DA PELÍCULA CONTÍNUA (UNIFICADO NO MESMO TOM #120B08, ENCAIXE PRECISO COM O CARRETEL) */}
-          <div className="relative flex items-stretch overflow-hidden rounded-[2rem] border border-[#BD9463]/40 bg-[#120B08] p-2.5 sm:p-3 lg:p-3.5 shadow-[0_25px_80px_rgba(0,0,0,0.85)]">
+          {/* CONTAINER DA PELÍCULA CONTÍNUA (UNIFICADO NO MESMO TOM #120B08, ENCAIXE E BORDAS 100% ALINHADAS AO ROLO) */}
+          <div className="relative flex items-center overflow-hidden rounded-[2rem] border border-[#BD9463]/40 bg-[#120B08] p-2.5 sm:p-3 lg:p-3.5 shadow-[0_25px_80px_rgba(0,0,0,0.85)]">
             
-            {/* 1. CARRETEL 3D DÚNIA INTEGRADO NA ORIGEM (SEM FUNDO DIVERGENTE, MESMO TOM #120B08, ENCAIXE MILIMÉTRICO COM A PELÍCULA) */}
-            <div className="hidden md:flex shrink-0 items-center justify-center pl-1.5 pr-2.5 relative z-20 select-none">
-              <div className="relative w-[145px] sm:w-[155px] lg:w-[168px] xl:w-[178px] flex flex-col items-center justify-center">
+            {/* 1. CARRETEL 3D DÚNIA INTEGRADO NA ORIGEM (BORDA SUPERIOR E INFERIOR RIGOROSAMENTE ALINHADAS ÀS IMAGENS) */}
+            <div className="hidden md:flex shrink-0 items-center justify-center pl-1 pr-2 relative z-20 select-none">
+              <div className="relative h-[290px] sm:h-[320px] md:h-[340px] lg:h-[370px] w-auto flex items-center justify-center">
                 <Image
                   src="/images/dunia/dunia-film-canister.png"
                   alt="Carretel de Filme Dúnia City Hall"
-                  width={180}
-                  height={380}
+                  width={185}
+                  height={370}
                   priority
-                  className="w-full h-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.95)]"
+                  className="h-full w-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.95)]"
                 />
-                <span className="mt-1.5 text-[0.56rem] font-mono uppercase tracking-[0.22em] text-[#BD9463] text-center font-bold">
-                  ORIGEM • 35MM
-                </span>
               </div>
             </div>
 
-            {/* 2. O CARROSSEL DE FITA CONTÍNUA (TRILHOS, PERFURAÇÕES E FOTOGRAMAS NO MESMO TOM E ALINHADOS) */}
+            {/* 2. O CARROSSEL DE FITA CONTÍNUA (ALTURA E BORDAS MILIMETRICAMENTE EQUIVALENTES AO CARRETEL) */}
             <div
               ref={filmTrackRef}
               onScroll={handleScroll}
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
-              className={`dunia-scrollbar flex-1 flex items-stretch overflow-x-auto bg-[#120B08] rounded-xl ${
+              className={`dunia-scrollbar flex-1 flex items-stretch h-[290px] sm:h-[320px] md:h-[340px] lg:h-[370px] overflow-x-auto bg-[#120B08] rounded-xl ${
                 isDragging ? "cursor-grabbing" : "cursor-grab"
               }`}
               style={{
@@ -528,8 +525,8 @@ export default function DuniaGalleryViewer({
               }}
             >
               {/* Líder de Película 35MM saindo direto do Carretel */}
-              <div className="shrink-0 w-6 sm:w-8 lg:w-10 flex flex-col justify-between bg-gradient-to-r from-[#2B180E] to-[#140D0A] border-y border-[#BD9463]/40 border-r border-[#BD9463]/30 select-none">
-                <div className="h-8 bg-[#2B180E] border-b border-[#BD9463]/40 flex items-center justify-center">
+              <div className="shrink-0 w-6 sm:w-8 lg:w-10 h-full flex flex-col justify-between bg-gradient-to-r from-[#2B180E] to-[#140D0A] border-y border-[#BD9463]/40 border-r border-[#BD9463]/30 select-none">
+                <div className="h-7 sm:h-8 shrink-0 bg-[#2B180E] border-b border-[#BD9463]/40 flex items-center justify-center">
                   <span className="h-2.5 w-3 rounded-[2px] bg-[#120B08] border border-[#BD9463]/70 shadow-[inset_0_1px_3px_rgba(0,0,0,0.9)]" />
                 </div>
                 <div className="flex-1 flex items-center justify-center">
@@ -537,7 +534,7 @@ export default function DuniaGalleryViewer({
                     START
                   </span>
                 </div>
-                <div className="h-8 bg-[#2B180E] border-t border-[#BD9463]/40 flex items-center justify-center">
+                <div className="h-7 sm:h-8 shrink-0 bg-[#2B180E] border-t border-[#BD9463]/40 flex items-center justify-center">
                   <span className="h-2.5 w-3 rounded-[2px] bg-[#120B08] border border-[#BD9463]/70 shadow-[inset_0_1px_3px_rgba(0,0,0,0.9)]" />
                 </div>
               </div>
@@ -551,7 +548,7 @@ export default function DuniaGalleryViewer({
                 return (
                   <div
                     key={`${photo.id || originalIndex}-${index}`}
-                    className="flex items-stretch shrink-0"
+                    className="flex items-stretch h-full shrink-0"
                   >
                     {/* BLOCO DO FOTOGRAMA UNIFICADO COM TRILHOS E PERFURAÇÕES */}
                     <div
@@ -560,11 +557,11 @@ export default function DuniaGalleryViewer({
                           setSelectedPhotoIndex(originalIndex)
                         }
                       }}
-                      className="group relative w-[300px] sm:w-[360px] md:w-[390px] lg:w-[415px] shrink-0 cursor-pointer flex flex-col bg-[#140D0A] transition-all duration-300 hover:brightness-[1.03]"
+                      className="group relative w-[290px] sm:w-[350px] md:w-[390px] lg:w-[440px] h-full shrink-0 cursor-pointer flex flex-col bg-[#140D0A] transition-all duration-300 hover:brightness-[1.03]"
                       style={{ scrollSnapAlign: "start" }}
                     >
                       {/* TRILHO SUPERIOR INTEGRADO COM PERFURAÇÕES QUE ROLAM COM A FITA */}
-                      <div className="h-8 bg-gradient-to-r from-[#2F1A0F] via-[#482A18] to-[#2F1A0F] border-b border-[#BD9463]/40 flex items-center justify-between px-3 select-none">
+                      <div className="h-7 sm:h-8 shrink-0 bg-gradient-to-r from-[#2F1A0F] via-[#482A18] to-[#2F1A0F] border-b border-[#BD9463]/40 flex items-center justify-between px-3 select-none">
                         {/* Marcador do Quadro */}
                         <div className="flex items-center gap-1.5 shrink-0">
                           <span className="font-mono text-[0.62rem] sm:text-[0.68rem] font-bold text-[#BD9463] tracking-widest flex items-center gap-1">
@@ -592,7 +589,7 @@ export default function DuniaGalleryViewer({
                       </div>
 
                       {/* ÁREA ÚTIL: FOTOGRAFIA EM DESTAQUE COM ENCAIXE PERFEITO */}
-                      <div className="relative aspect-[16/9.5] w-full overflow-hidden bg-black">
+                      <div className="relative flex-1 w-full overflow-hidden bg-black">
                         <Image
                           src={photo.src}
                           alt={photo.title}
@@ -638,7 +635,7 @@ export default function DuniaGalleryViewer({
                       </div>
 
                       {/* TRILHO INFERIOR INTEGRADO COM PERFURAÇÕES QUE ROLAM COM A FITA */}
-                      <div className="h-8 bg-gradient-to-r from-[#2F1A0F] via-[#482A18] to-[#2F1A0F] border-t border-[#BD9463]/40 flex items-center justify-between px-3 select-none">
+                      <div className="h-7 sm:h-8 shrink-0 bg-gradient-to-r from-[#2F1A0F] via-[#482A18] to-[#2F1A0F] border-t border-[#BD9463]/40 flex items-center justify-between px-3 select-none">
                         {/* Código do Fotograma Inferior */}
                         <span className="font-mono text-[0.58rem] sm:text-[0.62rem] text-[#BD9463]/80 tracking-widest shrink-0">
                           {frameNum}A
