@@ -334,13 +334,13 @@ export default function Home() {
                   <span>RESERVAR MINHA DATA</span>
                 </a>
 
-                <a
+                {/*<a
                   href="#story"
                   className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#D7B78D]/45 bg-white/10 hover:bg-white/18 px-4 py-3 min-h-[44px] text-xs font-semibold uppercase tracking-[0.12em] text-[#E8D4BF] backdrop-blur-md transition-all active:scale-[0.98]"
                 >
                   <span>CONHECER O ESPAÇO</span>
                   <ArrowRight className="h-4 w-4" />
-                </a>
+                </a>*/}
               </div>
 
               {/* Legenda do Slide Ativo no Mobile */}
