@@ -322,7 +322,7 @@ export default function Home() {
                 2.500 m² de arquitetura clássica, alta gastronomia autoral e celebrações memoráveis na capital federal.
               </p>
 
-              {/* Botões Comerciais Facilmente Acessíveis (Touch Target >= 44px) */}
+              {/* Botão Comercial Facilmente Acessível (Touch Target >= 44px) */}
               <div className="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
                 <a
                   href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20reservar%20minha%20data%20e%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
@@ -333,14 +333,6 @@ export default function Home() {
                   <Calendar className="h-4 w-4 text-[#E8D4BF]" />
                   <span>RESERVAR MINHA DATA</span>
                 </a>
-
-                {/*<a
-                  href="#story"
-                  className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#D7B78D]/45 bg-white/10 hover:bg-white/18 px-4 py-3 min-h-[44px] text-xs font-semibold uppercase tracking-[0.12em] text-[#E8D4BF] backdrop-blur-md transition-all active:scale-[0.98]"
-                >
-                  <span>CONHECER O ESPAÇO</span>
-                  <ArrowRight className="h-4 w-4" />
-                </a>*/}
               </div>
 
               {/* Legenda do Slide Ativo no Mobile */}
@@ -451,7 +443,7 @@ export default function Home() {
                     O cenário dos momentos mais nobres e celebrações memoráveis da capital federal. 2.500 m² de arquitetura clássica, alta gastronomia autoral e acústica impecável.
                   </p>
 
-                  {/* Dupla de CTAs Refinados */}
+                  {/* CTA Principal */}
                   <div className="pt-0.5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                     <a
                       href="https://wa.me/5561974017544?text=Ol%C3%A1!%20Gostaria%20de%20reservar%20minha%20data%20e%20agendar%20uma%20visita%20VIP%20ao%20D%C3%BAnia%20City%20Hall."
@@ -461,14 +453,6 @@ export default function Home() {
                     >
                       <Calendar className="h-3.5 w-3.5 text-[#E8D4BF]" />
                       <span>RESERVAR MINHA DATA</span>
-                    </a>
-
-                    <a
-                      href="#story"
-                      className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#D7B78D]/45 bg-white/10 hover:bg-white/18 px-3.5 py-2 text-[0.68rem] sm:text-xs font-semibold uppercase tracking-[0.12em] text-[#E8D4BF] backdrop-blur-md transition-all duration-300 shadow-sm"
-                    >
-                      <span>CONHECER O ESPAÇO</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
                     </a>
                   </div>
 
