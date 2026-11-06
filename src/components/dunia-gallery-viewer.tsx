@@ -544,54 +544,45 @@ export default function DuniaGalleryViewer({
             setTimeout(() => setIsHovered(false), 2500)
           }}
         >
-          {/* CONTAINER DA PELÍCULA CONTÍNUA (UNIFICADO NO MESMO TOM #120B08, ENCAIXE E BORDAS 100% ALINHADAS AO ROLO) */}
-          <div className="relative flex items-center overflow-hidden rounded-2xl sm:rounded-[2rem] border border-[#BD9463]/40 bg-[#120B08] p-2 sm:p-3 lg:p-3.5 shadow-[0_25px_80px_rgba(0,0,0,0.85)]">
+          {/* CONTAINER DA PELÍCULA CONTÍNUA (ENCAIXE SUBPIXEL E BORDAS 100% INTEGRADAS AO CARRETEL 35MM) */}
+          <div className="relative flex items-center overflow-hidden rounded-2xl sm:rounded-[2rem] border border-[#BD9463]/40 bg-gradient-to-b from-[#180E08] via-[#120B08] to-[#0D0704] p-2.5 sm:p-4 lg:p-5 shadow-[0_25px_80px_rgba(0,0,0,0.85)] [--track-h:260px] sm:[--track-h:290px] md:[--track-h:310px] lg:[--track-h:330px]">
             
-            {/* 1. CARRETEL 3D DÚNIA INTEGRADO NA ORIGEM (BORDA SUPERIOR E INFERIOR RIGOROSAMENTE ALINHADAS ÀS IMAGENS) */}
-            <div className="hidden md:flex shrink-0 items-center justify-center pl-1 pr-2 relative z-20 select-none">
-              <div className="relative h-[260px] sm:h-[300px] md:h-[340px] lg:h-[370px] w-auto flex items-center justify-center">
-                <Image
-                  src="/images/dunia/dunia-film-canister.png"
-                  alt="Carretel de Filme Dúnia City Hall"
-                  width={185}
-                  height={370}
-                  priority
-                  className="h-full w-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.95)]"
-                />
-              </div>
+            {/* 1. CARRETEL 3D DÚNIA INTEGRADO NA ORIGEM (A LINGUETA SE CONECTA COM ALINHAMENTO MILIMÉTRICO À FITA) */}
+            <div
+              className="hidden md:flex shrink-0 relative z-20 select-none mr-[-26px] lg:mr-[-32px] pointer-events-none items-center justify-center"
+              style={{
+                height: "calc(var(--track-h) * 1.13066)",
+                width: "calc(var(--track-h) * 0.56533)",
+                transform: "translateY(calc(var(--track-h) * -0.09485))",
+              }}
+            >
+              <Image
+                src="/images/dunia/dunia-film-canister.png"
+                alt="Carretel de Filme Dúnia City Hall"
+                width={900}
+                height={1800}
+                priority
+                className="h-full w-full object-contain filter drop-shadow-[0_15px_35px_rgba(0,0,0,0.95)]"
+              />
             </div>
 
-            {/* 2. O CARROSSEL DE FITA CONTÍNUA (ALTURA E BORDAS MILIMETRICAMENTE EQUIVALENTES AO CARRETEL) */}
+            {/* 2. O CARROSSEL DE FITA CONTÍNUA (ALTURA E BORDAS RIGOROSAMENTE ALINHADAS AO CARRETEL) */}
             <div
               ref={filmTrackRef}
               onScroll={handleScroll}
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
-              className={`dunia-scrollbar flex-1 flex items-stretch h-[260px] sm:h-[300px] md:h-[340px] lg:h-[370px] overflow-x-auto bg-[#120B08] rounded-xl ${
+              className={`dunia-scrollbar flex-1 flex items-stretch overflow-x-auto bg-[#0E0704] rounded-xl ${
                 isDragging ? "cursor-grabbing" : "cursor-grab"
               }`}
               style={{
+                height: "var(--track-h)",
                 scrollSnapType: isAutoScrolling ? "none" : (!isDragging && isHovered ? "x mandatory" : "none"),
                 willChange: "scroll-position",
               }}
             >
-              {/* Líder de Película 35MM saindo direto do Carretel */}
-              <div className="shrink-0 w-6 sm:w-8 lg:w-10 h-full flex flex-col justify-between bg-gradient-to-r from-[#2B180E] to-[#140D0A] border-y border-[#BD9463]/40 border-r border-[#BD9463]/30 select-none">
-                <div className="h-7 sm:h-8 shrink-0 bg-[#2B180E] border-b border-[#BD9463]/40 flex items-center justify-center">
-                  <span className="h-2.5 w-3 rounded-[2px] bg-[#120B08] border border-[#BD9463]/70 shadow-[inset_0_1px_3px_rgba(0,0,0,0.9)]" />
-                </div>
-                <div className="flex-1 flex items-center justify-center">
-                  <span className="font-mono text-[0.52rem] uppercase tracking-widest text-[#BD9463]/75 -rotate-90 font-bold">
-                    START
-                  </span>
-                </div>
-                <div className="h-7 sm:h-8 shrink-0 bg-[#2B180E] border-t border-[#BD9463]/40 flex items-center justify-center">
-                  <span className="h-2.5 w-3 rounded-[2px] bg-[#120B08] border border-[#BD9463]/70 shadow-[inset_0_1px_3px_rgba(0,0,0,0.9)]" />
-                </div>
-              </div>
-
-              {/* FOTOGRAMAS CONTÍNUOS DA PELÍCULA */}
+              {/* FOTOGRAMAS CONTÍNUOS DA PELÍCULA (COMEÇA DIRETO NA LINGUETA DO CARRETEL) */}
               {[...filteredPhotos.slice(0, 30), ...filteredPhotos.slice(0, 30)].map((photo, index) => {
                 const originalIndex = index % Math.min(filteredPhotos.length, 30)
                 const frameNum = String((originalIndex % 999) + 1).padStart(3, "0")
@@ -609,39 +600,39 @@ export default function DuniaGalleryViewer({
                           setSelectedPhotoIndex(originalIndex)
                         }
                       }}
-                      className="group relative w-[270px] sm:w-[330px] md:w-[390px] lg:w-[440px] h-full shrink-0 cursor-pointer flex flex-col bg-[#140D0A] transition-all duration-300 hover:brightness-[1.03]"
+                      className="group relative w-[280px] sm:w-[340px] md:w-[400px] lg:w-[450px] h-full shrink-0 cursor-pointer flex flex-col bg-[#120905] transition-all duration-300 hover:brightness-[1.03]"
                       style={{ scrollSnapAlign: "start" }}
                     >
-                      {/* TRILHO SUPERIOR INTEGRADO COM PERFURAÇÕES QUE ROLAM COM A FITA */}
-                      <div className="h-7 sm:h-8 shrink-0 bg-gradient-to-r from-[#2F1A0F] via-[#482A18] to-[#2F1A0F] border-b border-[#BD9463]/40 flex items-center justify-between px-3 select-none">
+                      {/* TRILHO SUPERIOR INTEGRADO COM PERFURAÇÕES DOURADAS */}
+                      <div className="h-7 sm:h-8 shrink-0 bg-gradient-to-b from-[#4A2818] via-[#2F170C] to-[#1A0C06] border-t border-[#D7B78D]/90 border-b border-[#BD9463]/50 shadow-[0_1px_0_rgba(255,255,255,0.15)] flex items-center justify-between px-3 sm:px-3.5 select-none">
                         {/* Marcador do Quadro */}
                         <div className="flex items-center gap-1.5 shrink-0">
                           <span className="font-mono text-[0.62rem] sm:text-[0.68rem] font-bold text-[#BD9463] tracking-widest flex items-center gap-1">
                             <span>▶</span> {frameNum}
                           </span>
-                          <span className="text-[0.52rem] sm:text-[0.58rem] font-mono text-[#D7B78D]/60 uppercase tracking-widest hidden sm:inline">
+                          <span className="text-[0.52rem] sm:text-[0.58rem] font-mono text-[#D7B78D]/70 uppercase tracking-widest hidden sm:inline">
                             DÚNIA 35MM
                           </span>
                         </div>
 
                         {/* Furos de Perfuração (Sprocket Holes) */}
-                        <div className="flex items-center gap-2 sm:gap-2.5">
+                        <div className="flex items-center gap-1.5 sm:gap-2">
                           {Array.from({ length: 6 }).map((_, spIdx) => (
                             <span
                               key={spIdx}
-                              className="h-2.5 sm:h-3 w-3.5 sm:w-4 rounded-[2px] bg-[#0A0503] border border-[#BD9463]/70 shadow-[inset_0_1px_3px_rgba(0,0,0,0.95),0_0_5px_rgba(215,183,141,0.35)] shrink-0"
+                              className="h-2.5 sm:h-3 w-3.5 sm:w-4 rounded-[2.5px] bg-[#070403] border border-[#BD9463]/80 shadow-[inset_0_1.5px_3px_rgba(0,0,0,0.95),0_0_5px_rgba(215,183,141,0.35)] shrink-0"
                             />
                           ))}
                         </div>
 
                         {/* Marcação de Borda */}
-                        <span className="text-[0.52rem] font-mono text-[#D7B78D]/50 uppercase tracking-wider shrink-0">
+                        <span className="text-[0.52rem] sm:text-[0.58rem] font-mono text-[#BD9463]/75 uppercase tracking-wider shrink-0">
                           ISO 400
                         </span>
                       </div>
 
-                      {/* ÁREA ÚTIL: FOTOGRAFIA EM DESTAQUE COM ENCAIXE PERFEITO */}
-                      <div className="relative flex-1 w-full overflow-hidden bg-black">
+                      {/* ÁREA ÚTIL: FOTOGRAFIA EM DESTAQUE COM MOLDURA DOURADA */}
+                      <div className="relative flex-1 w-full overflow-hidden bg-black border-x border-[#BD9463]/30">
                         <Image
                           src={photo.src}
                           alt={photo.title}
@@ -652,14 +643,14 @@ export default function DuniaGalleryViewer({
                         />
 
                         {/* Gradiente Inferior para Alto Contraste da Legenda Integrada */}
-                        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+                        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
 
                         {/* Botão de Ampliação no Hover */}
                         <div className="absolute top-3 right-3 rounded-xl bg-black/60 p-2 text-white/90 opacity-0 backdrop-blur-md transition group-hover:opacity-100 shadow-md">
                           <Maximize2 className="h-4 w-4" />
                         </div>
 
-                        {/* Legenda Integrada sobre a Foto (Sem roubar espaço da área útil) */}
+                        {/* Legenda Integrada sobre a Foto */}
                         <div className="absolute bottom-2.5 inset-x-3 flex items-end justify-between gap-3 text-white">
                           <div className="space-y-0.5 truncate flex-1">
                             <span className="text-[0.62rem] sm:text-[0.66rem] font-bold uppercase tracking-[0.2em] text-[#BD9463] block truncate drop-shadow-sm">
@@ -686,37 +677,39 @@ export default function DuniaGalleryViewer({
                         </div>
                       </div>
 
-                      {/* TRILHO INFERIOR INTEGRADO COM PERFURAÇÕES QUE ROLAM COM A FITA */}
-                      <div className="h-7 sm:h-8 shrink-0 bg-gradient-to-r from-[#2F1A0F] via-[#482A18] to-[#2F1A0F] border-t border-[#BD9463]/40 flex items-center justify-between px-3 select-none">
+                      {/* TRILHO INFERIOR INTEGRADO COM PERFURAÇÕES */}
+                      <div className="h-7 sm:h-8 shrink-0 bg-gradient-to-b from-[#1A0C06] via-[#2F170C] to-[#4A2818] border-t border-[#BD9463]/50 border-b border-[#D7B78D]/90 shadow-[0_-1px_0_rgba(255,255,255,0.1)] flex items-center justify-between px-3 sm:px-3.5 select-none">
                         {/* Código do Fotograma Inferior */}
-                        <span className="font-mono text-[0.58rem] sm:text-[0.62rem] text-[#BD9463]/80 tracking-widest shrink-0">
+                        <span className="font-mono text-[0.58rem] sm:text-[0.64rem] font-semibold text-[#BD9463]/85 tracking-widest shrink-0">
                           {frameNum}A
                         </span>
 
                         {/* Furos de Perfuração Inferiores */}
-                        <div className="flex items-center gap-2 sm:gap-2.5">
+                        <div className="flex items-center gap-1.5 sm:gap-2">
                           {Array.from({ length: 6 }).map((_, spIdx) => (
                             <span
                               key={spIdx}
-                              className="h-2.5 sm:h-3 w-3.5 sm:w-4 rounded-[2px] bg-[#0A0503] border border-[#BD9463]/70 shadow-[inset_0_1px_3px_rgba(0,0,0,0.95),0_0_5px_rgba(215,183,141,0.35)] shrink-0"
+                              className="h-2.5 sm:h-3 w-3.5 sm:w-4 rounded-[2.5px] bg-[#070403] border border-[#BD9463]/80 shadow-[inset_0_1.5px_3px_rgba(0,0,0,0.95),0_0_5px_rgba(215,183,141,0.35)] shrink-0"
                             />
                           ))}
                         </div>
 
                         {/* Marca d'água de fita */}
-                        <span className="text-[0.52rem] font-mono text-[#D7B78D]/50 uppercase tracking-widest shrink-0 hidden sm:inline">
+                        <span className="text-[0.52rem] sm:text-[0.58rem] font-mono text-[#BD9463]/70 uppercase tracking-widest shrink-0 hidden sm:inline">
                           SAFETY FILM
                         </span>
                       </div>
                     </div>
 
                     {/* DIVISOR DE QUADRO 35MM (Separação contínua entre fotogramas) */}
-                    <div className="w-2.5 sm:w-3 bg-[#120B08] border-x border-[#BD9463]/30 shrink-0" />
+                    <div className="w-2.5 sm:w-3 bg-gradient-to-b from-[#351C0F] via-[#140D0A] to-[#351C0F] border-x border-[#BD9463]/30 shrink-0" />
                   </div>
                 )
               })}
             </div>
 
+            {/* Gradiente sutil à direita para finalização elegante do rolo */}
+            <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 sm:w-20 bg-gradient-to-l from-[#120B08] via-[#120B08]/70 to-transparent z-15" />
           </div>
 
           {/* 4. BARRA DE STATUS INFERIOR: [ARRASTE] · [PAGINAÇÃO 5 PONTOS] · [AMPLIAR] */}
